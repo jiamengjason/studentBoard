@@ -20,6 +20,8 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'application.extensions.*',
+		'application.enums.*',
+		'application.service.*',
 	),
     'modules'=>array(
 		'admini'=>array(
