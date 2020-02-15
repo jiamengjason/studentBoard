@@ -2,7 +2,7 @@
 ## StudentBoard
 
 ### 项目目录 
-1、admin 存放后端代码
+1、backend存放后端代码
 
 2、doc 存放文档说明文件
 
