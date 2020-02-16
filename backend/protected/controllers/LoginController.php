@@ -30,7 +30,7 @@ class LoginController extends FInterfaceBase
         ];
         foreach ($collectionFields as $fields){
             if (isset($_POST[$fields])){
-                $params[$fields] = $_POST[$fields];
+                $params[$fields] = trim($_POST[$fields]);
             }
         }
         if (!isset($params['role_id']) || empty($params['role_id'])){
@@ -57,10 +57,19 @@ class LoginController extends FInterfaceBase
         if ($params['password'] != $params['re_password']){
             $this->outputParamsError('密码不一致');
         }
-        //学生账号
-        $loginService = new LoginService();
-        $rs = $loginService->doRegister($params);
 
+        //判断手机号是否已经注册
+        $loginService = new LoginService();
+        if ($loginService->validateMobileUnique($params['mobile'])){
+            $this->outputParamsError('手机号已经注册');
+        }
+        //判断邮箱是否已经注册
+        if ($loginService->validateEmailUnique($params['email'])){
+            $this->outputParamsError('邮箱已经注册');
+        }
+
+        //去注册
+        $rs = $loginService->doRegister($params);
         if (true === $rs){
             $this->outputOk();
         }else {
@@ -81,4 +90,33 @@ class LoginController extends FInterfaceBase
         $this->outputOk('', ['valid_code'=>$validCode]);
     }
 
+
+    /**
+     * 登陆接口
+     */
+    public function actionDo(){
+        $mobile = trim($_POST['mobile']);
+        $password = trim($_POST['password']);
+
+        if (empty($mobile)){
+            $this->outputParamsError('请输入手机号或邮箱账号');
+        }
+        if (empty($password)){
+            $this->outputParamsError('请输入密码');
+        }
+
+        //去登陆
+        $loginService = new LoginService();
+        $rs = $loginService->doLogin($mobile, $password);
+        if (false === $rs){
+            $this->outputError('用户名或密码错误');
+        }
+        //登陆成功，去生成token
+        $rs = $loginService->createToken($rs);
+        if (false === $rs){
+            $this->outputError('登陆失败');
+        }else {
+            $this->outputOk('', $rs);
+        }
+    }
 }
