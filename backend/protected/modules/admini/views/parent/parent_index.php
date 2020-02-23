@@ -1,7 +1,7 @@
 <?php $this->renderPartial('/_include/header');?>
 
 <div id="contentHeader">
-  <h3>学生列表</h3>
+  <h3>家长列表</h3>
   <div class="searchArea">
     <ul class="action left" >
       <li><a href="<?php echo $this->createUrl('create')?>" class="actionBtn"><span>录入</span></a></li>
@@ -12,22 +12,18 @@
 <table class="content_list">
   <form method="post" action="" name="cpform">
     <tr class="tb_header">
-        <th width="80">学生ID</th>
-        <th width="">在读学校</th>
-        <th width="80">年级</th>
-        <th width="100">学生姓名</th>
-        <th width="100">学生手机号</th>
-        <th width="180">学生邮箱</th>
-        <th width="90">已验证手机号</th>
-        <th width="60">用户状态</th>
-        <th width="140">注册时间</th>
+        <th width="100">家长ID</th>
+        <th width="">家长姓名</th>
+        <th width="150">家长手机号</th>
+        <th width="280">家长邮箱</th>
+        <th width="100">已验证手机号</th>
+        <th width="100">用户状态</th>
+        <th width="160">注册时间</th>
         <th width="80">操作</th>
     </tr>
     <?php foreach ($datalist as $row):?>
     <tr class="tb_list">
         <td ><?php echo $row->id?></td>
-        <td ><?php echo $row->school_name?></td>
-        <td ><?php if (isset($gradeList[$row->grade])) echo $gradeList[$row->grade]?></td>
         <td ><?php echo $row->user_name?></td>
         <td ><?php echo $row->mobile?></td>
         <td ><?php echo $row->email?></td>
@@ -45,7 +41,7 @@
     </tr>
     <?php endforeach;?>
     <tr>
-        <td colspan="10">
+        <td colspan="8">
             <div class="cuspages right"><?php $this->widget('CLinkPager',array('pages'=>$pagebar));?></div>
         </td>
     </tr>
