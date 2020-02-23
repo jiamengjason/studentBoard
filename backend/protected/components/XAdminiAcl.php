@@ -61,18 +61,9 @@ class XAdminiAcl
             )
         ),
         '学生管理' => array(
-            'controller'=>'student', 'url'=>'admin/index', 'acl'=>'user','action'=>array(
-                array('name'=>'管理员列表','url'=>'admin/index','acl'=>'admin_index','list_acl'=>array(
-                    '录入'=>'admin_create', '编辑'=>'admin_update', '删除'=>'admin_delete'
-                )),
-                array('name'=>'管理员权限','url'=>'admin/group','acl'=>'admin_group','list_acl'=>array(
-                    '录入'=>'admin_group_create', '编辑'=>'admin_group_update', '删除'=>'admin_group_delete'
-                )),
-                array('name'=>'管理员日志','url'=>'logger/admin','acl'=>'admin_logger','list_acl'=>array(
-                    '删除'=>'admin_logger_delete'
-                )),
-                array('name'=>'留言反馈','url'=>'question/index','acl'=>'question_index','list_acl'=>array(
-                    '回复'=>'question_update', '删除'=>'question_delete'
+            'controller'=>'student', 'url'=>'student/index', 'acl'=>'user','action'=>array(
+                array('name'=>'学生列表','url'=>'student/index','acl'=>'student_index','list_acl'=>array(
+                    '录入'=>'student_create', '编辑'=>'student_update', '删除'=>'student_delete'
                 )),
             )
         ),

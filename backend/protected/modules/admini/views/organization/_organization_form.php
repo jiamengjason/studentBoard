@@ -56,6 +56,20 @@
     </tr>
     <?php endif?>
     <tr>
+        <td class="tb_title">机构身份证件：</td>
+    </tr>
+    <tr >
+        <td >
+            <?php
+            if (!empty($model->identity_img)){
+                echo '<img src="'.$model->identity_img.'" width="300" />';
+            }else {
+                echo '<img src="'.$this->_baseUrl.'/static/admin/images/default_head_img.jpg" width="300" />';
+            }
+            ?>
+        </td>
+    </tr>
+    <tr>
         <td class="tb_title">账号状态：</td>
     </tr>
     <tr >
