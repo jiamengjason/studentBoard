@@ -14,9 +14,9 @@ class OrganizationController extends XAdminiBase
     {
         parent::_acl(); 
 
-        //查询结构列表
-        $organizationService = new OrganizationService();
-        $result = $organizationService->adminGetOrganizationPageList();
+        //查询机构列表
+        $usersService = new UsersService();
+        $result = $usersService->adminGetUsersPageList(RoleGroupListEnums::$organizationRoleId);
         $this->render('organization_index', array ('datalist' => $result['list'] , 'pagebar' => $result['pages'] ));
     }
 
@@ -39,138 +39,36 @@ class OrganizationController extends XAdminiBase
                 $this->redirect(array ('index'));
             }
         }
-        $model->create_time = date('Y-m-d');
-        $model->last_login_time = date('Y-m-d');
+
         $this->render('organization_create', array ('model' => $model ));
     }
 
     /**
-     * 管理员编辑
-     *
-     * @param  $id
+     * 机构编辑
+     * @param $id
+     * @throws CHttpException
      */
-    public function actionUpdate ($id)
-    {
+    public function actionUpdate ($id){
         parent::_acl(); 
         $model = parent::_dataLoad(new Users(), $id);
         
-        if (isset($_POST['Admin'])) {
-            $password = $_POST['Admin']['password'];
-            if (empty($password)) 
-                $_POST['Admin']['password'] = $model->password;
-            else 
-                $_POST['Admin']['password'] = md5($password);
-            
-            $model->attributes = $_POST['Admin'];
+        if (isset($_POST['Users'])) {
+            $model->attributes = $_POST['Users'];
             
             if ($model->save()) {
-                AdminLogger::_create(array ('catalog' => 'update' , 'intro' => '更新管理员资料:' . $model->username )); 
-                $this->redirect(array ('index' ));
+                AdminLogger::_create(array ('catalog' => 'update' , 'intro' => '更新机构资料:' . $model->user_name ));
+                $this->redirect(array ('index'));
             }
         }
+
         $this->render('organization_update', array ('model' => $model ));
-    
-    }
-
-    /**
-     * 管理员组
-     *
-     */
-    public function actionGroup ()
-    {
-        parent::_acl(); 
-        $model = new AdminGroup();
-        $criteria = new CDbCriteria();
-        $criteria->order = 't.id DESC';
-        $count = $model->count($criteria);
-        $pages = new CPagination($count);
-        $pages->pageSize = 13;
-        $criteria->limit = $pages->pageSize;
-        $criteria->offset = $pages->currentPage * $pages->pageSize;
-        $result = $model->findAll($criteria);
-        $this->render('admin_group', array ('datalist' => $result , 'pagebar' => $pages ));
-    }
-
-    /**
-     * 管理组录入
-     *
-     */
-    public function actionGroupCreate ()
-    {
-        parent::_acl(); 
-        $model = new AdminGroup();
-        if (isset($_POST['AdminGroup'])) {
-            $model->attributes = $_POST['AdminGroup'];
-            $acl = Yii::app()->request->getPost('acl');
-            if (is_array($acl)) 
-                $model->acl = implode(',', array_unique($acl));
-             else 
-                $model->acl = 'administrator';
-            if ($model->save()) {
-                AdminLogger::_create(array ('catalog' => 'create' , 'intro' => '录入管理员组' . $model->group_name ));
-                $this->redirect(array ('group' ));
-            }
-        }
-        $this->render('group_create', array ('model' => $model ));
-    }
-
-    /**
-     * 管理员组编辑
-     *
-     * @param  $id
-     */
-    public function actionGroupUpdate ($id)
-    {
-        parent::_acl(); 
-        parent::_groupPrivate($id);
-        $data = parent::_dataLoad(new AdminGroup(), $id);
-        if (isset($_POST['AdminGroup'])) {
-            $data->attributes = $_POST['AdminGroup'];
-            $acl = Yii::app()->request->getParam('acl');
-            if (is_array($acl))
-                $data->acl = implode(',', array_unique($acl));
-            else 
-                $data->acl = 'administrator';
-            if ($data->save()) {
-                AdminLogger::_create(array ('catalog' => 'create' , 'intro' => '编辑管理员组' . $data->group_name ));
-                $this->redirect(array ('group' ));
-            }
-        }
-        
-        $this->render('group_update', array ('model' => $data ));
-    }
-
-    /**
-     * 修改密码
-     */
-    public function actionOwnerUpdate ()
-    {
-        $model = parent::_dataLoad(new Admin(), $this->_admini['userId']);
-        
-        if (isset($_POST['Admin'])) {
-            $password = $_POST['Admin']['password'];
-            if (empty($password))
-                $_POST['Admin']['password'] = $model->password;
-             else 
-                $_POST['Admin']['password'] = md5($password);
-            $model->attributes = $_POST['Admin'];
-            $model->password = empty($password) ? $model->password : md5($password);
-            if ($model->save()) {
-                AdminLogger::_create(array ('catalog' => 'update' , 'intro' => '修改密码:' . CHtml::encode($model->username))); //日志
-                XUtils::message('success', '修改完成', $this->createUrl('default/home'));
-            }
-        }
-        $this->render('owner_update', array ('model' => $model ));
-    
     }
 
     /**
      * 批量操作
      *
      */
-    public function actionBatch ()
-    {
-        
+    public function actionBatch (){
         if (XUtils::method() == 'GET') {
             $command = trim($_GET['command']);
             $ids = intval($_GET['id']);
@@ -182,25 +80,16 @@ class OrganizationController extends XAdminiBase
             XUtils::message('errorBack', '只支持POST,GET数据');
         }
         empty($ids) && XUtils::message('error', '未选择记录');
-        
+
         switch ($command) {
-            
-            case 'adminDelete':
+            case 'delete':
                 parent::_acl('admin_delete');
-                AdminLogger::_create(array ('catalog' => 'delete' , 'intro' => '删除管理员,ID:' . $ids ));
-                parent::_delete(new Admin(), $ids, array ('index' ));
-                break;
-            case 'groupDelete':
-                parent::_acl('admin_group_delete');
-                parent::_groupPrivate($ids);
-                AdminLogger::_create(array ('catalog' => 'delete' , 'intro' => '删除管理员用户组,ID:' . $ids ));
-                parent::_delete(new AdminGroup(), $ids, array ('group' ));
+                AdminLogger::_create(array ('catalog' => 'delete' , 'intro' => '删除机构,ID:' . $ids ));
+                parent::_delete(new Users(), $ids, array('index'));
                 break;
             default:
                 throw new CHttpException(404, '错误的操作类型:' . $command);
                 break;
         }
-    
     }
-
 }

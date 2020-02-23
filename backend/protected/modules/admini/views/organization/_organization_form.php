@@ -13,11 +13,9 @@
         <td class="tb_title">机构名称：</td>
     </tr>
     <tr>
-        <td ><?php if ($model->isNewRecord):?>
-        <?php echo $form->textField($model,'organization_name',array('size'=>50, 'class'=>'validate[required]')); ?>
-        <?php else:?>
-        <?php echo $model->organization_name?>
-        <?php endif?></td>
+        <td >
+            <?php echo $form->textField($model,'organization_name',array('size'=>50, 'class'=>'validate[required]')); ?>
+        </td>
     </tr>
     <tr>
         <td class="tb_title">机构简介：</td>
@@ -37,6 +35,7 @@
     <tr >
         <td ><?php echo $form->textField($model,'user_name',array('size'=>50, 'class'=>'validate[required]')); ?></td>
     </tr>
+    <?php if ($model->isNewRecord):?>
     <tr>
         <td class="tb_title">负责人手机号：</td>
     </tr>
@@ -55,6 +54,7 @@
     <tr >
         <td ><?php echo $form->textField($model,'password',array('size'=>50, 'class'=>'validate[required]', 'value'=>123456)); ?></td>
     </tr>
+    <?php endif?>
     <tr>
         <td class="tb_title">账号状态：</td>
     </tr>

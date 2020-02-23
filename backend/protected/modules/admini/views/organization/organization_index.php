@@ -17,7 +17,7 @@
         <th width="100">负责人姓名</th>
         <th width="100">负责人手机号</th>
         <th width="180">负责人邮箱</th>
-        <th width="90">是否验证手机号</th>
+        <th width="90">已验证手机号</th>
         <th width="60">用户状态</th>
         <th width="140">注册时间</th>
         <th width="80">操作</th>
@@ -33,7 +33,14 @@
         <td> <?php echo $row->mobile_vali == 1 ? '是' : '否'?></td>
         <td> <?php echo $row->status_is == 1 ? '正常' : '禁用'?></td>
         <td ><?php echo $row->create_time?></td>
-        <td ><a href="<?php echo  $this->createUrl('update',array('id'=>$row->id))?>"><img src="<?php echo $this->_baseUrl?>/static/admin/images/update.png" align="absmiddle" /></a>&nbsp;&nbsp;<a href="<?php echo  $this->createUrl('batch',array('command'=>'adminDelete', 'id'=>$row->id))?>" class="confirmSubmit"><img src="<?php echo $this->_baseUrl?>/static/admin/images/delete.png" align="absmiddle" /></a></td>
+        <td >
+            <a href="<?php echo  $this->createUrl('update',array('id'=>$row->id))?>">
+                <img src="<?php echo $this->_baseUrl?>/static/admin/images/update.png" align="absmiddle" />
+            </a>&nbsp;&nbsp;
+            <a href="<?php echo  $this->createUrl('batch',array('command'=>'delete', 'id'=>$row->id))?>" class="confirmSubmit">
+                <img src="<?php echo $this->_baseUrl?>/static/admin/images/delete.png" align="absmiddle" />
+            </a>
+        </td>
     </tr>
     <?php endforeach;?>
     <tr>

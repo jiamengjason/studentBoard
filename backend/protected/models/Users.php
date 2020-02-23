@@ -11,6 +11,7 @@
  */
 class Users extends XBaseModel
 {
+    public $organizationList;
 	
 	/**
 	 * @return string 相关的数据库表的名称
