@@ -28,7 +28,10 @@ class Users extends XBaseModel
         return array(
             array('role_id,user_name,mobile,email,password', 'required'),
             array('email', 'email'),
-            array('parent_id,role_id,user_name,mobile,email,mobile_vali,email_vali,password,real_name,school_name,grade,head_img,identity_img,student_card_img,organization_name,organization_desc,last_login_ip,last_login_time,login_count,status_is,create_time', 'safe'),
+            array('mobile,email', 'unique', 'on'=>'create'),
+            array('parent_id,role_id,user_name,mobile,email,mobile_vali,email_vali,password,real_name,school_name,grade,
+            head_img,identity_img,student_card_img,organization_name,organization_email,organization_desc,last_login_ip,
+            last_login_time,login_count,status_is,create_time', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
 //            array('id, post_id, user_id, nickname, email, content, status_is, status_answer, answer_content, client_ip, create_time', 'safe', 'on'=>'search'),
@@ -53,7 +56,9 @@ class Users extends XBaseModel
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
+			'id' => '用户ID',
+            'mobile' => '手机号',
+            'email' => '邮箱'
 		);
 	}
 
