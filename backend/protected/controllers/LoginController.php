@@ -110,6 +110,8 @@ class LoginController extends FInterfaceBase
         $rs = $loginService->doLogin($mobile, $password);
         if (false === $rs){
             $this->outputError('用户名或密码错误');
+        }else if ($rs->status_is == 0){
+            $this->outputError('用户已禁用');
         }
         //登陆成功，去生成token
         $rs = $loginService->createToken($rs);

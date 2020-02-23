@@ -30,7 +30,7 @@ class XAdminiAcl
         		array('name'=>'自定义设置','url'=>'config/custom','acl'=>'config_custom','list_acl'=>array()),
             )
         ),
-        '账户管理' => array(
+        '管理员' => array(
             'controller'=>'user', 'url'=>'admin/index', 'acl'=>'user','action'=>array(
                 array('name'=>'管理员列表','url'=>'admin/index','acl'=>'admin_index','list_acl'=>array(
                     '录入'=>'admin_create', '编辑'=>'admin_update', '删除'=>'admin_delete'
@@ -47,18 +47,9 @@ class XAdminiAcl
             )
         ),
         '机构管理' => array(
-            'controller'=>'organization', 'url'=>'admin/index', 'acl'=>'user','action'=>array(
-                array('name'=>'管理员列表','url'=>'admin/index','acl'=>'admin_index','list_acl'=>array(
-                    '录入'=>'admin_create', '编辑'=>'admin_update', '删除'=>'admin_delete'
-                )),
-                array('name'=>'管理员权限','url'=>'admin/group','acl'=>'admin_group','list_acl'=>array(
-                    '录入'=>'admin_group_create', '编辑'=>'admin_group_update', '删除'=>'admin_group_delete'
-                )),
-                array('name'=>'管理员日志','url'=>'logger/admin','acl'=>'admin_logger','list_acl'=>array(
-                    '删除'=>'admin_logger_delete'
-                )),
-                array('name'=>'留言反馈','url'=>'question/index','acl'=>'question_index','list_acl'=>array(
-                    '回复'=>'question_update', '删除'=>'question_delete'
+            'controller'=>'organization', 'url'=>'organization/index', 'acl'=>'user','action'=>array(
+                array('name'=>'机构列表','url'=>'organization/index','acl'=>'organization_index','list_acl'=>array(
+                    '录入'=>'organization_create', '编辑'=>'organization_update', '删除'=>'organization_delete'
                 )),
             )
         ),
