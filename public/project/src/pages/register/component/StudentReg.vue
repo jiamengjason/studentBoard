@@ -2,6 +2,7 @@
   <div class="form-page">
     <!-- 基本信息 -->
     <p class="title">基本信息</p>
+    <comRegBase />
     <el-form
       ref="ruleForm"
       :model="ruleForm"
@@ -10,8 +11,7 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <!-- 姓名 -->
-      <el-row :gutter="20">
+      <!-- <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="姓：" prop="surname">
             <el-input v-model="ruleForm.surname"></el-input>
@@ -23,7 +23,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- 密码 -->
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="设置密码：" prop="pwd">
@@ -36,7 +35,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- email -->
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="Email：" prop="eamil">
@@ -48,8 +46,8 @@
             <el-input v-model="ruleForm.phone"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <!-- 学校 手机-->
+      </el-row>-->
+
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="在读学校：" prop="school">
@@ -65,7 +63,7 @@
               class="avatar-uploader"
               action="https://jsonplaceholder.typicode.com/posts/"
               :show-file-list="false"
-              :on-success="handleAvatarSuccess"
+              :on-success="handleIdSuccess"
               :before-upload="beforeAvatarUpload"
             >
               <img v-if="imageId" :src="imageId" class="avatar" />
@@ -79,7 +77,7 @@
               class="avatar-uploader"
               action="https://jsonplaceholder.typicode.com/posts/"
               :show-file-list="false"
-              :on-success="handleAvatarSuccess"
+              :on-success="handleSchoolIdSuccess"
               :before-upload="beforeAvatarUpload"
             >
               <img v-if="imageSchoolId" :src="imageSchoolId" class="avatar" />
@@ -106,16 +104,12 @@
   </div>
 </template>
 <script>
+import comRegBase from "./RegBase.vue";
 export default {
+  components: { comRegBase },
   data() {
     return {
       ruleForm: {
-        surname: "",
-        name: "",
-        pwd: "",
-        truePwd: "",
-        eamil: "",
-        phone: "",
         school: "",
         imageId: "",
         imageSchoolId: "",
@@ -123,24 +117,32 @@ export default {
         vertifyMeg: ""
       },
       rules: {
-        surname: [{ required: true, message: "", trigger: "blur" }],
-        name: [{ required: true, message: "", trigger: "blur" }],
-        pwd: [
-          { required: true, message: "", trigger: "blur" },
-          { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
-        ],
-        truePwd: [
-          { required: true, message: "", trigger: "blur" },
-          { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
-        ],
-        eamil: [{ required: true, message: "", trigger: "blur" }],
-        phone: [{ required: true, message: "", trigger: "blur" }],
         school: [{ required: true, message: "", trigger: "blur" }],
         vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
       }
     };
   },
   methods: {
+    handleIdSuccess(res, file) {
+      this.imageId = URL.createObjectURL(file.raw);
+    },
+
+    handleSchoolIdSuccess(res, file) {
+      this.imageSchoolId = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG || !isPNG) {
+        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isPNG && isLt2M;
+    },
     //  完成注册
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
