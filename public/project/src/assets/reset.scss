@@ -1,0 +1,21 @@
+// @import "@/reset.scss";
+$orangeColor: #ff7001; //主题色
+/* form自定义 */
+.el-input__inner {
+  border: 1px solid #ccc;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 0;
+}
+.el-form-item__label {
+  color: #333;
+}
+/* button */
+.el-button--primary {
+  background-color: $orangeColor;
+  width: 300px;
+  height: 60px;
+  border-radius: 10px;
+  font-size: 28px;
+  border: none;
+}

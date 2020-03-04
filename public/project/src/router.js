@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import Home from "./pages/home/index";
 import Dashboard from "./pages/dashboard/index";
+import Register from "./pages/register/index";
 
 Vue.use(Router);
 
@@ -30,6 +31,13 @@ export default new Router({
           }
         }
       ]
+    },
+    {
+      path: "/register",
+      component: Register,
+      meta: {
+        title: "注册"
+      }
     },
     { path: "*", redirect: "/404", hidden: true }
   ]
