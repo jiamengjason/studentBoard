@@ -19,21 +19,19 @@ export default {
   },
   data() {
     return {
-      navList: ["学生", "老师", "家长", "机构"]
+      navList: ["学生", "家长", "老师", "机构"]
     };
   }
 };
 </script>
 <style lang="scss">
 .page-warp {
-  width: 100vh;
-  height: 100vh;
   background: #f5f5f5;
 }
 
 .register-page {
   width: 1400px;
-  height: 1001px;
+  height: 1000px;
   background: rgba(255, 255, 255, 1);
   margin: 20px auto 0;
 }

@@ -2,6 +2,7 @@
 $orangeColor: #ff7001; //主题色
 /* form自定义 */
 .el-input__inner {
+  max-width: 300px;
   border: 1px solid #ccc;
   height: 36px;
   line-height: 36px;
@@ -18,4 +19,15 @@ $orangeColor: #ff7001; //主题色
   border-radius: 10px;
   font-size: 28px;
   border: none;
+}
+.el-button--primary:hover {
+  background: $orangeColor;
+  border-color: $orangeColor;
+  color: #fff;
+}
+.el-form-item__label {
+  width: 110px;
+}
+.el-form-item__content {
+  margin-left: 110px;
 }
