@@ -10,7 +10,7 @@
     <!-- 姓名 -->
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="姓：" prop="surname">
+        <el-form-item label="姓：" prop="surname" :rules="rules.surname">
           <el-input v-model="ruleForm.surname"></el-input>
         </el-form-item>
       </el-col>
@@ -77,6 +77,8 @@ export default {
       }
     };
   },
+  watch: {},
+  mounted() {},
   methods: {}
 };
 </script>

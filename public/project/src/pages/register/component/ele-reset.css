@@ -19,10 +19,3 @@
   height: 150px;
   display: block;
 }
-/* input label */
-.el-form-item__label {
-  width: 110px;
-}
-.el-form-item__content {
-  margin-left: 110px;
-}

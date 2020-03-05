@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import comStudentReg from "./component/StudentReg";
+import comStudentReg from "./component/Student";
 
 export default {
   components: {
