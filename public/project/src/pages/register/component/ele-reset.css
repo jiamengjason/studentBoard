@@ -19,3 +19,8 @@
   height: 150px;
   display: block;
 }
+/* 验证码 */
+.vertify-code {
+  width: 150px;
+  margin-right: 20px;
+}

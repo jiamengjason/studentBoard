@@ -5,9 +5,9 @@
     <comRegBase ref="regBase" />
     <comStudentReg ref="studentReg" />
     <!-- 完成 -->
-    <p>
+    <p class="reg-submit-warp">
       <el-button type="primary" @click="submitForm">完成</el-button>
-      <span>已有账号？</span>
+      <span style="margin-left: 20px;">已有账号？</span>
       <span>去登录</span>
     </p>
   </div>
@@ -29,6 +29,7 @@ export default {
       // 获取到组件中的form
       const regBase = this.$refs.regBase.$refs.ruleForm;
       const studentReg = this.$refs.studentReg.$refs.ruleForm;
+      console.log(regBase.model, "regBase", studentReg);
       // 使用Promise.all去校验结果
       Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
         const validateResult = res.every(item => !!item);
@@ -51,7 +52,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./ele-reset.css";
-
+$orangeColor: #ff7001; //主题色
 .form-page {
   padding: 70px 60px;
 }
@@ -60,5 +61,16 @@ export default {
   margin-bottom: 20px;
   font-weight: 700;
   text-align: left;
+}
+.reg-submit-warp {
+  span {
+    font-size: 20px;
+  }
+  span:first-child {
+    color: #333;
+  }
+  span:last-child {
+    color: $orangeColor;
+  }
 }
 </style>

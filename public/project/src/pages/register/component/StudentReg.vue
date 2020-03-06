@@ -50,7 +50,8 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="手机验证码：" prop="vertifyMeg">
-          <el-input v-model="ruleForm.vertifyMeg"></el-input>
+          <el-input v-model="ruleForm.vertifyMeg" class="vertify-code"></el-input>
+          <el-button @click="getVertifyCode">{{ codeText }}</el-button>
         </el-form-item>
       </el-col>
     </el-row>
@@ -68,13 +69,26 @@ export default {
         checked: true,
         vertifyMeg: ""
       },
+      clicKCodeFlag: false,
+      num: 60,
+      timer: null,
       rules: {
         school: [{ required: true, message: "", trigger: "blur" }],
         vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
       }
     };
   },
-
+  computed: {
+    // secondTime() {
+    //   return this.num;
+    // },
+    codeText() {
+      if (this.clicKCodeFlag) {
+        return `${this.num}s后失效`;
+      }
+      return "获取验证码";
+    }
+  },
   methods: {
     handleIdSuccess(res, file) {
       this.ruleRegForm.imageId = URL.createObjectURL(file.raw);
@@ -95,6 +109,19 @@ export default {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isPNG && isLt2M;
+    },
+    // 获取验证码
+    getVertifyCode() {
+      this.clicKCodeFlag = true;
+      // this.cutDown();
+      this.timer = setInterval(this.cutDown, 1000);
+    },
+    cutDown() {
+      // console.log(1111, this.num, this.num--);
+      this.num--;
+      if (this.num <= 0) {
+        clearInterval(this.timer);
+      }
     }
   }
 };

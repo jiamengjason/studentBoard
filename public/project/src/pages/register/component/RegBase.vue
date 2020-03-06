@@ -52,6 +52,37 @@
 export default {
   name: "RegBase",
   data() {
+    // 手机号验证
+    let checkPhone = (rule, value, callback) => {
+      const phoneReg = /^1[3|4|5|6|7|8][0-9]{9}$/;
+      if (!value) {
+        return callback(new Error("手机号码不能为空"));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(+value)) {
+          callback(new Error("请输入数字值"));
+        } else {
+          if (phoneReg.test(value)) {
+            callback();
+          } else {
+            callback(new Error("手机号码格式不正确"));
+          }
+        }
+      }, 100);
+    };
+    // 确认密码验证
+    let checkPwd = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请确认您的密码"));
+      }
+      setTimeout(() => {
+        if (value === this.ruleForm.pwd) {
+          callback();
+        } else {
+          callback(new Error("两次输入的密码不一致"));
+        }
+      }, 100);
+    };
     return {
       ruleForm: {
         surname: "",
@@ -62,18 +93,18 @@ export default {
         phone: ""
       },
       rules: {
-        surname: [{ required: true, message: "", trigger: "blur" }],
-        name: [{ required: true, message: "", trigger: "blur" }],
+        surname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        name: [{ required: true, message: "请输入名", trigger: "blur" }],
         pwd: [
-          { required: true, message: "", trigger: "blur" },
+          { required: true, message: "请输入密码", trigger: "blur" },
           { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
         ],
-        truePwd: [
-          { required: true, message: "", trigger: "blur" },
-          { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
+        truePwd: [{ required: true, validator: checkPwd, trigger: "blur" }],
+        eamil: [
+          { required: true, message: "请输入Email", trigger: "blur" },
+          { type: "email", message: "请输入正确的Email", trigger: "blur" }
         ],
-        eamil: [{ required: true, message: "", trigger: "blur" }],
-        phone: [{ required: true, message: "", trigger: "blur" }]
+        phone: [{ required: true, validator: checkPhone, trigger: "blur" }]
       }
     };
   },
