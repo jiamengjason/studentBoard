@@ -51,7 +51,7 @@
       <el-col :span="8">
         <el-form-item label="手机验证码：" prop="vertifyMeg">
           <el-input v-model="ruleForm.vertifyMeg" class="vertify-code"></el-input>
-          <el-button @click="getVertifyCode">{{ codeText }}</el-button>
+          <el-button plain :disabled="clickCodeFlag" @click="getVertifyCode">{{ codeText }}</el-button>
         </el-form-item>
       </el-col>
     </el-row>
@@ -69,8 +69,8 @@ export default {
         checked: true,
         vertifyMeg: ""
       },
-      clicKCodeFlag: false,
-      num: 60,
+      clickCodeFlag: false,
+      num: 5,
       timer: null,
       rules: {
         school: [{ required: true, message: "", trigger: "blur" }],
@@ -79,11 +79,8 @@ export default {
     };
   },
   computed: {
-    // secondTime() {
-    //   return this.num;
-    // },
     codeText() {
-      if (this.clicKCodeFlag) {
+      if (this.clickCodeFlag) {
         return `${this.num}s后失效`;
       }
       return "获取验证码";
@@ -112,14 +109,14 @@ export default {
     },
     // 获取验证码
     getVertifyCode() {
-      this.clicKCodeFlag = true;
-      // this.cutDown();
+      this.clickCodeFlag = true;
       this.timer = setInterval(this.cutDown, 1000);
     },
     cutDown() {
-      // console.log(1111, this.num, this.num--);
       this.num--;
       if (this.num <= 0) {
+        this.num = 0;
+        this.clickCodeFlag = false;
         clearInterval(this.timer);
       }
     }
