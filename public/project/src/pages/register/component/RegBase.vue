@@ -10,13 +10,13 @@
     <!-- 姓名 -->
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="姓：" prop="surname" :rules="rules.surname">
-          <el-input v-model="ruleForm.surname"></el-input>
+        <el-form-item label="用户名：" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8" :offset="5">
-        <el-form-item label="名：" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="手机号码：" prop="phone">
+          <el-input v-model="ruleForm.phone" @input="updatePhone"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -34,21 +34,17 @@
       </el-col>
     </el-row>
     <!-- email -->
-    <el-row :gutter="20">
+    <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="Email：" prop="eamil">
           <el-input v-model="ruleForm.eamil"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8" :offset="5">
-        <el-form-item label="手机号码：" prop="phone">
-          <el-input v-model="ruleForm.phone"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
   </el-form>
 </template>
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "RegBase",
   data() {
@@ -93,8 +89,7 @@ export default {
         phone: ""
       },
       rules: {
-        surname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        name: [{ required: true, message: "请输入名", trigger: "blur" }],
+        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         pwd: [
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
@@ -108,9 +103,17 @@ export default {
       }
     };
   },
+  computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    ...mapMutations(["setMobile"]),
+    updatePhone(e) {
+      console.log(e, 11111);
+      this.setMobile(e);
+      // store.commit('setMobile', e.target.value)
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

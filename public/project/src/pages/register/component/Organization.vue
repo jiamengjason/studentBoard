@@ -2,8 +2,10 @@
   <div class="form-page">
     <!-- 基本信息 -->
     <p class="title">基本信息</p>
+    <comOrgBase />
+    <p class="title">负责人信息</p>
     <comRegBase ref="regBase" />
-    <comStudentReg ref="studentReg" />
+    <comOrgReg ref="orgReg" />
     <!-- 完成 -->
     <p class="reg-submit-warp">
       <el-button type="primary" @click="submitForm">完成</el-button>
@@ -14,11 +16,11 @@
 </template>
 <script>
 import comRegBase from "./RegBase.vue";
-import comStudentReg from "./StudentReg.vue";
+import comOrgReg from "./OrgReg.vue";
+import comOrgBase from "./OrgBase.vue";
 
 export default {
-  components: { comRegBase, comStudentReg },
-
+  components: { comRegBase, comOrgReg, comOrgBase },
   data() {
     return {};
   },
@@ -28,10 +30,10 @@ export default {
     submitForm() {
       // 获取到组件中的form
       const regBase = this.$refs.regBase.$refs.ruleForm;
-      const studentReg = this.$refs.studentReg.$refs.ruleForm;
-      console.log(regBase.model, "regBase", studentReg);
+      const orgReg = this.$refs.orgReg.$refs.ruleForm;
+      console.log(regBase.model, "regBase", orgReg);
       // 使用Promise.all去校验结果
-      Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
+      Promise.all([regBase, orgReg].map(this.getFormPromise)).then(res => {
         const validateResult = res.every(item => !!item);
         if (validateResult) {
           console.log("两个表单都校验通过");

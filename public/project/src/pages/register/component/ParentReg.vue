@@ -7,21 +7,6 @@
     label-width="110px"
     class="demo-ruleForm"
   >
-    <el-row :gutter="10" style="margin-top:-100px">
-      <el-col :span="8" :offset="5" class="school-spe-style">
-        <el-form-item label="在读学校：" prop="school">
-          <el-input v-model="ruleForm.school" class="vertify-code"></el-input>
-          <el-select v-model="eduValue" placeholder="请选择学历" class="education">
-            <el-option
-              v-for="item in eduOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
     <!-- 证件 -->
     <el-row :gutter="20">
       <el-col :span="8">
@@ -34,20 +19,6 @@
             :before-upload="beforeAvatarUpload"
           >
             <img v-if="ruleForm.imageId" :src="ruleForm.imageId" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8" :offset="5">
-        <el-form-item label="学生证：">
-          <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleSchoolIdSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img v-if="ruleForm.imageSchoolId" :src="ruleForm.imageSchoolId" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -72,28 +43,14 @@ export default {
   data() {
     return {
       ruleForm: {
-        school: "",
         imageId: "",
-        imageSchoolId: "",
         checked: true,
         vertifyMeg: ""
       },
-      eduOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      eduValue: "",
       clickCodeFlag: false,
       timerNum: 5,
       timer: null,
       rules: {
-        school: [{ required: true, message: "", trigger: "blur" }],
         vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
       }
     };
@@ -156,12 +113,5 @@ export default {
   margin-bottom: 20px;
   font-weight: 700;
   text-align: left;
-}
-/* 在读学校 */
-.school-spe-style .el-form-item__content {
-  display: flex;
-}
-.education {
-  width: 150px;
 }
 </style>

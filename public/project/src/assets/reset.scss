@@ -33,3 +33,7 @@ $orangeColor: #ff7001; //主题色
   color: $orangeColor;
   border-color: $orangeColor;
 }
+// form
+.el-form-item {
+  margin-bottom: 20px;
+}

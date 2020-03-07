@@ -7,13 +7,13 @@
     label-width="110px"
     class="demo-ruleForm"
   >
+    <!-- 机构 -->
     <el-row :gutter="10" style="margin-top:-100px">
-      <el-col :span="8" :offset="5" class="school-spe-style">
-        <el-form-item label="在读学校：" prop="school">
-          <el-input v-model="ruleForm.school" class="vertify-code"></el-input>
-          <el-select v-model="eduValue" placeholder="请选择学历" class="education">
+      <el-col :span="8" :offset="5">
+        <el-form-item label="所属机构：" prop="organization">
+          <el-select v-model="orgValue" placeholder="请选择机构" class="organization">
             <el-option
-              v-for="item in eduOptions"
+              v-for="item in orgOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -38,20 +38,6 @@
           </el-upload>
         </el-form-item>
       </el-col>
-      <el-col :span="8" :offset="5">
-        <el-form-item label="学生证：">
-          <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleSchoolIdSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img v-if="ruleForm.imageSchoolId" :src="ruleForm.imageSchoolId" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-      </el-col>
     </el-row>
     <!-- 验证信息 -->
     <p class="title">验证信息</p>
@@ -72,13 +58,11 @@ export default {
   data() {
     return {
       ruleForm: {
-        school: "",
         imageId: "",
-        imageSchoolId: "",
         checked: true,
         vertifyMeg: ""
       },
-      eduOptions: [
+      orgOptions: [
         {
           value: "选项1",
           label: "黄金糕"
@@ -88,12 +72,12 @@ export default {
           label: "双皮奶"
         }
       ],
-      eduValue: "",
+      orgValue: "",
       clickCodeFlag: false,
       timerNum: 5,
       timer: null,
       rules: {
-        school: [{ required: true, message: "", trigger: "blur" }],
+        organization: [{ required: true, message: "", trigger: "change" }],
         vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
       }
     };
@@ -157,11 +141,7 @@ export default {
   font-weight: 700;
   text-align: left;
 }
-/* 在读学校 */
-.school-spe-style .el-form-item__content {
-  display: flex;
-}
-.education {
-  width: 150px;
+.organization {
+  width: 300px;
 }
 </style>
