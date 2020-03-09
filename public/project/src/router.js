@@ -4,6 +4,7 @@ import Router from "vue-router";
 import Home from "./pages/home/index";
 import Dashboard from "./pages/dashboard/index";
 import Register from "./pages/register/index";
+import Login from "./pages/login/index";
 
 Vue.use(Router);
 
@@ -37,6 +38,13 @@ export default new Router({
       component: Register,
       meta: {
         title: "注册"
+      }
+    },
+    {
+      path: "/login",
+      component: Login,
+      meta: {
+        title: "登录"
       }
     },
     { path: "*", redirect: "/404", hidden: true }

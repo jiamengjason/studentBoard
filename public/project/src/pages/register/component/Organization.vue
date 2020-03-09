@@ -54,25 +54,5 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./ele-reset.css";
-$orangeColor: #ff7001; //主题色
-.form-page {
-  padding: 60px;
-}
-.title {
-  font-size: 22px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-align: left;
-}
-.reg-submit-warp {
-  span {
-    font-size: 20px;
-  }
-  span:first-child {
-    color: #333;
-  }
-  span:last-child {
-    color: $orangeColor;
-  }
-}
+@import "./base.scss";
 </style>
