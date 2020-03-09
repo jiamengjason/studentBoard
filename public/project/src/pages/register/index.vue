@@ -1,5 +1,6 @@
 <template>
   <div class="page-warp">
+    <comBreadcrumb />
     <div class="register-page">
       <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
         <el-tab-pane
@@ -9,6 +10,7 @@
           :name="item.key"
         >{{ item }}</el-tab-pane>
       </el-tabs>
+
       <comStudentReg v-if="activeName == 'student'" />
       <comParentReg v-if="activeName == 'parent'" />
       <comTeacherReg v-if="activeName == 'teacher'" />
@@ -17,12 +19,14 @@
   </div>
 </template>
 <script>
+import comBreadcrumb from "@/components/Breadcrumb";
 import comStudentReg from "./component/Student";
 import comTeacherReg from "./component/Teacher";
 import comParentReg from "./component/Parent";
 import comOrgReg from "./component/Organization";
 export default {
   components: {
+    comBreadcrumb,
     comStudentReg,
     comTeacherReg,
     comParentReg,
@@ -69,5 +73,6 @@ $orangeColor: #ff7001; //主题色
   height: 1000px;
   background: rgba(255, 255, 255, 1);
   margin: 20px auto 0;
+  padding-top: 30px;
 }
 </style>

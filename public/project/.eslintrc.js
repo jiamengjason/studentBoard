@@ -62,7 +62,7 @@ module.exports = {
     "no-param-reassign": 1,
     "func-names": 0,
     "no-console": 0, //可以使用console
-    "ue/singleline-html-element-content-newline": 0,
+    "vue/singleline-html-element-content-newline": 0,
     "vue/html-self-closing": 0,
     "vue/camelcase": 0,
     "vue/component-name-in-template-casing": [
