@@ -54,7 +54,6 @@ export default {
 };
 </script>
 <style lang="scss">
-$orangeColor: #ff7001; //主题色
 .page-warp {
   background: #f5f5f5;
 }
