@@ -94,6 +94,7 @@ export default {
 }
 .login-opa {
   font-size: 18px;
+  cursor: pointer;
   span:first-child {
     color: #999;
   }

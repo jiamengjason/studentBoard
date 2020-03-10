@@ -20,7 +20,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <!-- email -->
+    <!-- 机构简介 -->
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label="机构简介：">
