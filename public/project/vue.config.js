@@ -59,6 +59,7 @@ module.exports = {
     config.resolve.alias
       .set("@", resolve("src"))
       .set("assets", resolve("src/assets"))
+      .set("mixin", resolve("src/mixin"))
       .set("components", resolve("src/components"));
   }
 };

@@ -5,6 +5,7 @@ import Home from "./pages/home/index";
 import Dashboard from "./pages/dashboard/index";
 import Register from "./pages/register/index";
 import Login from "./pages/login/index";
+import Pwd from "./pages/password/index";
 
 Vue.use(Router);
 
@@ -45,6 +46,13 @@ export default new Router({
       component: Login,
       meta: {
         title: "登录"
+      }
+    },
+    {
+      path: "/password",
+      component: Pwd,
+      meta: {
+        title: "忘记密码"
       }
     },
     { path: "*", redirect: "/404", hidden: true }
