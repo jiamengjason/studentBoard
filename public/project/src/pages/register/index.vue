@@ -48,7 +48,6 @@ export default {
     handleClick(tab) {
       console.log(tab.name, tab);
       this.activeName = tab.name;
-      // console.log(tab, event, 111);
     }
   }
 };

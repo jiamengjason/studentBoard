@@ -11,16 +11,20 @@
         >{{ item }}</el-tab-pane>
       </el-tabs>
       <comMobile v-if="activeName == 'mobile'" />
+      <comEmail v-if="activeName == 'email'" />
     </div>
   </div>
 </template>
 <script>
 import comBreadcrumb from "@/components/Breadcrumb";
 import comMobile from "./component/MobilePwd";
+import comEmail from "./component/EmailPwd";
+
 export default {
   components: {
     comBreadcrumb,
-    comMobile
+    comMobile,
+    comEmail
   },
   data() {
     return {
