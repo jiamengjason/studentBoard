@@ -19,7 +19,7 @@
 </template>
 <script>
 import { homePage } from "@/mixin/home";
-
+import { apiLoginDoPost } from "@/apis/api";
 export default {
   mixins: [homePage],
 
@@ -31,11 +31,14 @@ export default {
   },
   methods: {
     toLoginFn() {
-      let params = {
-        input: this.loginInput,
-        pwd: this.loginPwd
-      };
       if (this.loginInput && this.loginPwd) {
+        let params = {
+          mobile: this.loginInput,
+          password: this.loginPwd
+        };
+        apiLoginDoPost(params).then(res => {
+          console.log(res, "res");
+        });
         console.log(params, "params");
       }
     }

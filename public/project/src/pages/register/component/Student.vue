@@ -31,10 +31,23 @@ export default {
       const studentReg = this.$refs.studentReg.$refs.ruleForm;
       console.log(regBase.model, "regBase", studentReg);
       // 使用Promise.all去校验结果
+      let params = {
+        role_id: 1,
+        user_name: regBase.model.name,
+        mobile: regBase.model.phone,
+        password: regBase.model.pwd,
+        re_password: regBase.model.truePwd,
+        email: regBase.model.eamil,
+        school_name: studentReg.model.school,
+        grade: "grade"
+      };
       Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
         const validateResult = res.every(item => !!item);
         if (validateResult) {
           console.log("两个表单都校验通过");
+          apiRegisterPost(params).then(res => {
+            consoel.log(1111, res);
+          });
         } else {
           console.log("两个表单未校验通过");
         }

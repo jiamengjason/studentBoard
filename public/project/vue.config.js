@@ -60,6 +60,7 @@ module.exports = {
       .set("@", resolve("src"))
       .set("assets", resolve("src/assets"))
       .set("mixin", resolve("src/mixin"))
+      .set("apis", resolve("src/apis"))
       .set("components", resolve("src/components"));
   }
 };

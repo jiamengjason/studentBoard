@@ -9,8 +9,7 @@
 export default {
   props: {
     breadList: {
-      type: Array,
-      default: []
+      type: Array
     }
   }
 };

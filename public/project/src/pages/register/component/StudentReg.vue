@@ -11,7 +11,7 @@
       <el-col :span="8" :offset="5" class="school-spe-style">
         <el-form-item label="在读学校：" prop="school">
           <el-input v-model="ruleForm.school" class="vertify-code"></el-input>
-          <el-select v-model="eduValue" placeholder="请选择学历" class="education">
+          <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="education">
             <el-option
               v-for="item in eduOptions"
               :key="item.value"
@@ -76,7 +76,8 @@ export default {
         imageId: "",
         imageSchoolId: "",
         checked: true,
-        vertifyMeg: ""
+        vertifyMeg: "",
+        eduValue: ""
       },
       eduOptions: [
         {
@@ -88,7 +89,7 @@ export default {
           label: "双皮奶"
         }
       ],
-      eduValue: "",
+
       clickCodeFlag: false,
       timerNum: 5,
       timer: null,

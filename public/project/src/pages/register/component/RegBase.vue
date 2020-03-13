@@ -81,7 +81,6 @@ export default {
     };
     return {
       ruleForm: {
-        surname: "",
         name: "",
         pwd: "",
         truePwd: "",
