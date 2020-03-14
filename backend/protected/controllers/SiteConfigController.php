@@ -19,4 +19,21 @@ class SiteConfigController extends FInterfaceBase
 
         $this->outputOk('', $config);
     }
+
+    /**
+     * 所有机构列表
+     */
+    public function actionGetOrganizationList(){
+        $return = [];
+        $organizationService = new OrganizationService();
+        $organizationList = $organizationService->getAllOrganizationUsers();
+        foreach ($organizationList as $item){
+            $return[] = [
+                'id' => $item->id,
+                'organizationName' => $item->organization_name
+            ];
+        }
+
+        $this->outputOk('', $return);
+    }
 }

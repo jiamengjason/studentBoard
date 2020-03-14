@@ -21,6 +21,7 @@ class LoginService
         'parent_id',        //所属机构
         'organization_name',//机构名称
         'organization_desc',//机构简介
+        'parent_id',        //父类Id
     ];
 
     /**
@@ -30,13 +31,17 @@ class LoginService
      */
     public function doRegister($params){
         $save = [];
+        if (isset($params['p_id'])){//父类ID
+            $params['parent_id'] = $params['p_id'];
+        }
+        if (isset($params['password'])){
+            $params['password'] = md5($params['password']);
+        }
+
         foreach ($this->saveFields as $field){
             if (isset($params[$field])){
                 $save[$field] = $params[$field];
             }
-        }
-        if (isset($save['password'])){
-            $save['password'] = md5($save['password']);
         }
         $save['status_is'] = 1;
 

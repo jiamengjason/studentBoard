@@ -27,6 +27,7 @@ class LoginController extends FInterfaceBase
             'organization_name',//机构名称
             'organization_desc',//机构简介
             'valid_code',       //手机验证码
+            'p_id',  //父类id
         ];
         foreach ($collectionFields as $fields){
             if (isset($_POST[$fields])){
@@ -71,7 +72,7 @@ class LoginController extends FInterfaceBase
         //去注册
         $rs = $loginService->doRegister($params);
         if (true === $rs){
-            $this->outputOk();
+            $this->outputOk('', $rs);
         }else {
             $this->outputError();
         }
