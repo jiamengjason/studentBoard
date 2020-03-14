@@ -33,7 +33,7 @@
 <script>
 import { mapMutations } from "vuex";
 export default {
-  name: "RegBase",
+  name: "OrgBase",
   data() {
     return {
       ruleForm: {

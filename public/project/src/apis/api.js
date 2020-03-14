@@ -4,6 +4,9 @@ import request from "./request";
 export const apiLoginDoPost = params => request.post(`login/do`, params);
 // 注册
 export const apiRegisterPost = params => request.post(`login/register`, params);
+// 根据手机号获取手机号验证码
+export const apigetValidCodePost = params =>
+  request.post(`login/getValidCode`, params);
 
 // get
 export const apiGet = params => {

@@ -8,10 +8,10 @@
     class="demo-ruleForm"
   >
     <!-- 机构 -->
-    <el-row :gutter="10" style="margin-top:-100px">
+    <el-row :gutter="10" style="margin-top:-120px">
       <el-col :span="8" :offset="5">
         <el-form-item label="所属机构：" prop="organization">
-          <el-select v-model="orgValue" placeholder="请选择机构" class="organization">
+          <el-select v-model="ruleForm.orgValue" placeholder="请选择机构" class="organization">
             <el-option
               v-for="item in orgOptions"
               :key="item.value"
@@ -60,7 +60,8 @@ export default {
       ruleForm: {
         imageId: "",
         checked: true,
-        vertifyMeg: ""
+        vertifyMeg: "",
+        orgValue: ""
       },
       orgOptions: [
         {
@@ -72,7 +73,6 @@ export default {
           label: "双皮奶"
         }
       ],
-      orgValue: "",
       clickCodeFlag: false,
       timerNum: 5,
       timer: null,
@@ -103,17 +103,15 @@ export default {
       this.ruleRegForm.imageSchoolId = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG || !isPNG) {
+      if (["image/jpeg", "image/png", "image/jpg"].indexOf(file.type) < 0) {
         this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      return isJPG && isPNG && isLt2M;
+      return isLt2M;
     },
     // 获取验证码
     getVertifyCode() {
@@ -142,6 +140,6 @@ export default {
   text-align: left;
 }
 .organization {
-  width: 300px;
+  width: 270px;
 }
 </style>

@@ -15,6 +15,7 @@
 <script>
 import comRegBase from "./RegBase.vue";
 import comStudentReg from "./StudentReg.vue";
+import { apiRegisterPost } from "@/apis/api";
 
 export default {
   components: { comRegBase, comStudentReg },
@@ -39,8 +40,12 @@ export default {
         re_password: regBase.model.truePwd,
         email: regBase.model.eamil,
         school_name: studentReg.model.school,
-        grade: "grade"
+        grade: studentReg.model.eduValue,
+        valid_code: studentReg.model.vertifyMeg,
+        identity_img: studentReg.model.imageId,
+        student_card_img: studentReg.model.imageSchoolId
       };
+      console.log(params, "params");
       Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
         const validateResult = res.every(item => !!item);
         if (validateResult) {

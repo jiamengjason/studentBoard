@@ -68,6 +68,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { apigetValidCodePost } from "@/apis/api";
 export default {
   data() {
     return {
@@ -120,23 +121,24 @@ export default {
       this.ruleRegForm.imageSchoolId = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG || !isPNG) {
+      if (["image/jpeg", "image/png", "image/jpg"].indexOf(file.type) < 0) {
         this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      return isJPG && isPNG && isLt2M;
+      return isLt2M;
     },
     // 获取验证码
     getVertifyCode() {
       if (this.mobile) {
-        this.clickCodeFlag = true;
-        this.timer = setInterval(this.cutDown, 1000);
+        apigetValidCodePost({ mobile: this.mobile }).then(res => {
+          consoel.log(1111, res);
+          this.clickCodeFlag = true;
+          this.timer = setInterval(this.cutDown, 1000);
+        });
       }
     },
     cutDown() {
