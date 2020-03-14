@@ -12,12 +12,12 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+@import "./assets/reset.scss";
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  // font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Source Han Sans CN";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 60px;
-  color: #2c3e50;
 }
 </style>

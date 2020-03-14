@@ -1,0 +1,57 @@
+/* 上传样式 */
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #ccc;
+  width: 300px;
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+}
+.avatar {
+  width: 300px;
+  height: 150px;
+  display: block;
+}
+/* 验证码 */
+.vertify-code {
+  width: 150px;
+  margin-right: 20px;
+}
+/* 选项卡 */
+.el-tab-pane {
+  display: none;
+}
+.el-tabs__item.is-active {
+  color: #ff7001;
+  font-size: 22px;
+  font-weight: 700;
+}
+.el-tabs__item {
+  font-size: 22px;
+  font-weight: 700;
+}
+.el-tabs__active-bar {
+  background-color: #ff7001;
+}
+.el-tabs__item:hover {
+  color: #ff7001;
+}
+.el-input__inner:focus {
+  border-color: #999;
+}
+/* checkbox */
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #606266;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #ff7001;
+  border-color: #ff7001;
+}

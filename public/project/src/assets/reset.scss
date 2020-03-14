@@ -1,0 +1,39 @@
+@import "./base.scss";
+$orangeColor: #ff7001; //主题色
+/* form自定义 */
+.el-input__inner {
+  max-width: 300px;
+  border: 1px solid #ccc;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 0;
+}
+.el-form-item__label {
+  color: #333;
+}
+/* button */
+.el-button--primary {
+  background-color: $orangeColor;
+  width: 300px;
+  height: 60px;
+  border-radius: 10px;
+  font-size: 28px;
+  border: none;
+}
+.el-button.is-plain:focus,
+.el-button.is-plain:hover,
+.el-button:focus,
+.el-button:hover {
+  color: $orangeColor;
+  border-color: $orangeColor;
+  background-color: $orangeColor;
+  color: #fff;
+}
+.el-button:active {
+  color: $orangeColor;
+  border-color: $orangeColor;
+}
+// form
+.el-form-item {
+  margin-bottom: 20px;
+}

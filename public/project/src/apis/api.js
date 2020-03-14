@@ -1,7 +1,10 @@
 import request from "./request";
 
-//post
-export const apiPost = params => request.post(`/token`, params);
+//登录
+export const apiLoginDoPost = params => request.post(`login/do`, params);
+// 注册
+export const apiRegisterPost = params => request.post(`login/register`, params);
+
 // get
 export const apiGet = params => {
   return request.get(

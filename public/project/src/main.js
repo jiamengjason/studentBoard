@@ -7,6 +7,9 @@ import router from "./router";
 import "lodash";
 Vue.config.productionTip = false;
 
+const Bus = new Vue();
+Vue.prototype.$bus = Bus;
+
 // element-ui
 Vue.use(ElementUI);
 new Vue({

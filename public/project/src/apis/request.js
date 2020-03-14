@@ -1,15 +1,17 @@
 import Vue from "vue";
 import axios from "axios";
-import { isDevEnv, getApiPrefix, getApiHttp } from "@/utils/env";
-import { apiError } from "@/utils/log";
+// import { isDevEnv, getApiPrefix, getApiHttp } from "@/utils/env";
+// import { apiError } from "@/utils/log";
 
-const apiPrefix = getApiPrefix();
-const apiHttp = getApiHttp();
+// const apiPrefix = getApiPrefix();
+// const apiHttp = getApiHttp();
 // axios 的封装处理-
-let baseURL = `${apiHttp}://${apiPrefix}student-board.com`;
-if (isDevEnv()) {
-  baseURL = "/v1";
-}
+// let baseURL = `${apiHttp}://${apiPrefix}studentboard.com/index.php?r=`;
+let baseURL = "http://dev.studentboard.com/index.php?r=";
+
+// if (isDevEnv()) {
+//   baseURL = "/v1";
+// }
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 50000;
@@ -34,13 +36,13 @@ axios.interceptors.response.use(
     return response;
   },
   err => {
-    const res = err.response;
-    const option = {
-      status: res.status,
-      url: res.config.url,
-      params: res.config.params
-    };
-    apiError("ApiError", option);
+    // const res = err.response;
+    // const option = {
+    //   status: res.status,
+    //   url: res.config.url,
+    //   params: res.config.params
+    // };
+    // apiError("ApiError", option);
     return Promise.reject(err);
   }
 );
