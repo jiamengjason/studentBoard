@@ -19,6 +19,7 @@ class FInterfaceBase extends Controller
     protected $_seoTitle;
     protected $_seoKeywords;
     protected $_seoDescription;
+    protected $_roleGroupList;
 
     /**
 	 * 初始化
@@ -37,6 +38,7 @@ class FInterfaceBase extends Controller
         $this->_seoTitle = $this->_conf['seo_title'];
         $this->_seoKeywords = $this->_conf['seo_keywords'];
         $this->_seoDescription = $this->_conf['seo_description'];
+        $this->_roleGroupList = RoleGroupListConfig::getRoleIdList();
         if($this->_conf['site_status'] == 'close')
             self::_closed();
     }
