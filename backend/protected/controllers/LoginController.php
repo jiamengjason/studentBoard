@@ -133,4 +133,28 @@ class LoginController extends FInterfaceBase
             $this->outputOk('', $rs);
         }
     }
+
+    /**
+     * 找回密码-验证手机验证码
+     */
+    public function actionValidateMobile(){
+        $mobile = trim($_GET['mobile']);
+        $validateCode = trim($_GET['validate_code']);
+
+        if (empty($mobile)){
+            $this->outputParamsError('请输入手机号');
+        }
+        if (empty($validateCode)){
+            $this->outputParamsError('请输入验证码');
+        }
+
+        //去登陆
+        $validateCodeService = new ValidateCodeService();
+        $rs = $validateCodeService->validateByValidate($mobile, $validateCode);
+        if ($rs){
+            $this->outputOk('验证码正确');
+        }else {
+            $this->outputError('验证码错误');
+        }
+    }
 }
