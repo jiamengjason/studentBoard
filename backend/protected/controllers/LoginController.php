@@ -68,6 +68,11 @@ class LoginController extends FInterfaceBase
         if ($loginService->validateEmailUnique($params['email'])){
             $this->outputParamsError('邮箱已经注册');
         }
+        //判断验证码是否
+        $validateCodeService = new ValidateCodeService();
+        if ($validateCodeService->validateByValidate($params['mobile'], $params['valid_code']) == false){
+            $this->outputParamsError('验证码错误');
+        }
 
         //去注册
         $rs = $loginService->doRegister($params);
@@ -87,8 +92,15 @@ class LoginController extends FInterfaceBase
             $this->outputError('手机号格式错误');
         }
 
-        $validCode = '389210';
-        $this->outputOk('', ['valid_code'=>$validCode]);
+        $validateCodeService = new ValidateCodeService();
+        $code = $validateCodeService->getCodeByMobile($mobile);
+        //获取失败
+        if (false === $code){
+            $this->outputError('获取验证码失败，请重试');
+        }
+
+        //成功返回验证码
+        $this->outputOk('', ['valid_code'=>$code]);
     }
 
 
