@@ -6,7 +6,6 @@ class LoginService
     private $tokenLifeTime = 3600;
 
 
-
     //可以保持的字段
     private $saveFields = [
         'role_id',          //账户类型
@@ -147,5 +146,49 @@ class LoginService
         $return['user_id'] = $userId;
 
         return $return;
+    }
+
+    /**
+     * 判断用户是否存在
+     * @param $mobile
+     * @return bool
+     */
+    public function isUserExsit($mobile){
+        $usersModel = new Users();
+        $rs = $usersModel->find('mobile=:mobile or email=:email', ['mobile'=>$mobile, 'email'=>$mobile]);
+        if (empty($rs)){
+            return false;
+        }else {
+            return $rs;
+        }
+    }
+
+    /**
+     * 根据手机号重设密码
+     * @param $mobile
+     * @param $password
+     * @return bool
+     */
+    public function resetPasswordByMobile($mobile, $password){
+        $password = md5($password);
+        $usersModel = new Users();
+        $usersInfo = $usersModel->find('mobile=:mobile', ['mobile'=>$mobile]);
+        if (empty($usersInfo)){
+            return '用户不存在';
+        }
+
+        $pk = $usersInfo['id'];
+        $attributes = [
+            'password' => $password
+        ];
+        $bool = $usersModel->updateByPk($pk, $attributes);
+        if ($bool){
+            return true;
+        }else {
+            if ($usersInfo['password'] == $password){
+                return '密码不能与上一次重复';
+            }
+        }
+        return false;
     }
 }

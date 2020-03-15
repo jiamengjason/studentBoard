@@ -135,11 +135,13 @@ class LoginController extends FInterfaceBase
     }
 
     /**
-     * 找回密码-验证手机验证码
+     * 通过手机号找回密码
      */
-    public function actionValidateMobile(){
-        $mobile = trim($_GET['mobile']);
-        $validateCode = trim($_GET['validate_code']);
+    public function actionResetPwByMobile(){
+        $mobile = trim($_POST['mobile']);
+        $validateCode = trim($_POST['validate_code']);
+        $newPassword = trim($_POST['new_password']);
+        $rePassword = trim($_POST['re_password']);
 
         if (empty($mobile)){
             $this->outputParamsError('请输入手机号');
@@ -147,14 +149,27 @@ class LoginController extends FInterfaceBase
         if (empty($validateCode)){
             $this->outputParamsError('请输入验证码');
         }
-
-        //去登陆
+        //用户是否存在
+        $loginService = new LoginService();
+        if (false === $loginService->isUserExsit($mobile)){
+            $this->outputError('无效的手机号');
+        }
+        //验证码是否正确
         $validateCodeService = new ValidateCodeService();
         $rs = $validateCodeService->validateByValidate($mobile, $validateCode);
-        if ($rs){
-            $this->outputOk('验证码正确');
-        }else {
+        if (false == $rs){
             $this->outputError('验证码错误');
+        }
+        //重复密码是否相等
+        if ($newPassword != $rePassword){
+            $this->outputError('密码不一致');
+        }
+
+        $bool = $loginService->resetPasswordByMobile($mobile, $newPassword);
+        if (true === $bool){
+            $this->outputOk('密码设置成功');
+        }else {
+            $this->outputError($bool);
         }
     }
 }
