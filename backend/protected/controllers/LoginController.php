@@ -152,7 +152,7 @@ class LoginController extends FInterfaceBase
         //用户是否存在
         $loginService = new LoginService();
         if (false === $loginService->isUserExsit($mobile)){
-            $this->outputError('无效的手机号');
+            $this->outputError('手机号未注册');
         }
         //验证码是否正确
         $validateCodeService = new ValidateCodeService();
@@ -165,7 +165,71 @@ class LoginController extends FInterfaceBase
             $this->outputError('密码不一致');
         }
 
-        $bool = $loginService->resetPasswordByMobile($mobile, $newPassword);
+        $bool = $loginService->resetPasswordByMobileOrEmail($mobile, $newPassword);
+        if (true === $bool){
+            $this->outputOk('密码设置成功');
+        }else {
+            $this->outputError($bool);
+        }
+    }
+
+    /**
+     * 获取邮箱验证码
+     */
+    public function actionGetValidCodeByEmail(){
+        $email = $_POST['email']; //邮箱
+        if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
+            $this->outputError('无效的Email格式');
+        }
+        //用户是否存在
+        $loginService = new LoginService();
+        if (false === $loginService->isUserExsit($email)){
+            $this->outputError('邮箱未注册');
+        }
+
+        //获取验证码
+        $validateCodeService = new ValidateCodeService();
+        $code = $validateCodeService->getCodeByEmail($email);
+        if (false === $code){
+            $this->outputError('获取验证码失败，请重试');
+        }
+
+        //成功返回验证码
+        $this->outputOk('已经向您的邮箱：'.$email.'成功发送验证码，请查收');
+    }
+
+    /**
+     * 通过邮箱找回密码
+     */
+    public function actionResetPwByEmail(){
+        $email = trim($_POST['email']);
+        $validateCode = trim($_POST['validate_code']);
+        $newPassword = trim($_POST['new_password']);
+        $rePassword = trim($_POST['re_password']);
+
+        if (empty($email)){
+            $this->outputParamsError('请输入邮箱');
+        }
+        if (empty($validateCode)){
+            $this->outputParamsError('请输入验证码');
+        }
+        //用户是否存在
+        $loginService = new LoginService();
+        if (false === $loginService->isUserExsit($email)){
+            $this->outputError('邮箱未注册');
+        }
+        //验证码是否正确
+        $validateCodeService = new ValidateCodeService();
+        $rs = $validateCodeService->validateByValidate($email, $validateCode);
+        if (false == $rs){
+            $this->outputError('验证码错误');
+        }
+        //重复密码是否相等
+        if ($newPassword != $rePassword){
+            $this->outputError('密码不一致');
+        }
+
+        $bool = $loginService->resetPasswordByMobileOrEmail($email, $newPassword);
         if (true === $bool){
             $this->outputOk('密码设置成功');
         }else {

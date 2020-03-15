@@ -169,10 +169,10 @@ class LoginService
      * @param $password
      * @return bool
      */
-    public function resetPasswordByMobile($mobile, $password){
+    public function resetPasswordByMobileOrEmail($mobile, $password){
         $password = md5($password);
         $usersModel = new Users();
-        $usersInfo = $usersModel->find('mobile=:mobile', ['mobile'=>$mobile]);
+        $usersInfo = $usersModel->find('mobile=:mobile or email=:email', ['mobile'=>$mobile, 'email'=>$mobile]);
         if (empty($usersInfo)){
             return '用户不存在';
         }
