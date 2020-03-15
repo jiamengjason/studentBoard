@@ -50,9 +50,9 @@ class ValidateCodeService
         }
 
         $validateCodeModel = new ValidateCode();
-        $rs = $validateCodeModel->find('validate=:validate and validate_code=:validate_code',
-            ['validate'=>$validate, 'validate_code'=>$validateCode]);
-        if (!empty($rs)){
+        $sql = "select * from sb_validate_code where validate='$validate' order by id desc limit 1";
+        $rs = $validateCodeModel->findBySql($sql);
+        if (!empty($rs) && $rs['validate_code'] == $validateCode){
             $bool = true;
         }
 

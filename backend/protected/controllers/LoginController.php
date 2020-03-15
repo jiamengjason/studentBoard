@@ -86,7 +86,7 @@ class LoginController extends FInterfaceBase
     /**
      * 获取手机验证码
      */
-    public function actionGetValidCode(){
+    public function actionGetValidCodeByMobile(){
         $mobile = $_POST['mobile']; //手机号
         if (empty($mobile) || strlen($mobile) != 11){
             $this->outputError('手机号格式错误');
@@ -102,7 +102,6 @@ class LoginController extends FInterfaceBase
         //成功返回验证码
         $this->outputOk('', ['valid_code'=>$code]);
     }
-
 
     /**
      * 登陆接口
