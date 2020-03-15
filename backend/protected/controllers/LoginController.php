@@ -189,7 +189,7 @@ class LoginController extends FInterfaceBase
 
         //获取验证码
         $validateCodeService = new ValidateCodeService();
-        $code = $validateCodeService->getCodeByEmail($email);
+        $code = $validateCodeService->getCodeByEmail($email, $this->_conf['admin_email']);
         if (false === $code){
             $this->outputError('获取验证码失败，请重试');
         }

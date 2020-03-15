@@ -12,7 +12,7 @@ require_once 'phpMailer/src/Exception.php';
  */
 class XMailer{
     private $phpMailer;
-    public $from = 'jiameng_jason@163.com';
+    public $from = '';
     private $_preSubject = '[系统消息]';
 
     public function __construct()

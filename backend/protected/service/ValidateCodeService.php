@@ -67,9 +67,11 @@ class ValidateCodeService
     /**
      * 获取邮箱验证码
      * @param $email
+     * @param $fromEmail
      * @return bool|string
+     * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function getCodeByEmail($email){
+    public function getCodeByEmail($email, $fromEmail){
         if (empty($email)){
             return false;
         }
@@ -93,6 +95,7 @@ class ValidateCodeService
 
         //发送邮件
         $xMailer = new XMailer();
+        $xMailer->from = $fromEmail;
         $send = $xMailer->sendMailForValidateCode($email, $code);
 
         if ($bool && $send){
