@@ -11,6 +11,9 @@ class UploadFileController extends FInterfaceBase
         if (XUtils::method() != 'POST'){
             $this->outputError('请求错误');
         }
+        if (empty($_FILES['file']) || empty($_FILES['file']['tmp_name'])){
+            $this->outputError('请选择文件');
+        }
 
         $file = XUpload::upload($_FILES['file']);
         if (!is_array($file)){
