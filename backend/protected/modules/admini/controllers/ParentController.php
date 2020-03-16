@@ -15,7 +15,7 @@ class ParentController extends XAdminiBase
 
         //查询家长列表
         $usersService = new UsersService();
-        $result = $usersService->adminGetUsersPageList(RoleGroupListEnums::$parentRoleId);
+        $result = $usersService->adminGetUsersPageList(RoleGroupListConfig::$parentRoleId);
 
         $gradeList = CommonEnums::getGradeIdList();
 
@@ -32,7 +32,7 @@ class ParentController extends XAdminiBase
         $model = new Users('create');
         if (isset($_POST['Users'])) {
             $model->attributes = $_POST['Users'];
-            $model->setAttribute('role_id', RoleGroupListEnums::$parentRoleId);
+            $model->setAttribute('role_id', RoleGroupListConfig::$parentRoleId);
             $model->setAttribute('password', md5($_POST['Users']['password']));
             $model->setAttribute('create_time', CommonEnums::getNowDateTime());
             $id = $model->save();

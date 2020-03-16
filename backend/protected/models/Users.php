@@ -32,7 +32,8 @@ class Users extends XBaseModel
             array('email', 'email'),
             array('mobile,email', 'unique', 'on'=>'create'),
             array('parent_id,role_id,user_name,mobile,email,mobile_vali,email_vali,password,real_name,school_name,grade,
-            head_img,identity_img,student_card_img,organization_name,organization_email,organization_desc,last_login_ip,
+            head_img,identity_img,student_card_img,organization_name,organization_email,organization_desc,organization_yewu,
+            organization_phone,organization_www,last_login_ip,
             last_login_time,login_count,status_is,create_time', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

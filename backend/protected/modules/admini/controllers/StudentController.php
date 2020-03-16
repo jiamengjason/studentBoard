@@ -15,7 +15,7 @@ class StudentController extends XAdminiBase
 
         //查询学生列表
         $usersService = new UsersService();
-        $result = $usersService->adminGetUsersPageList(RoleGroupListEnums::$studentRoleId);
+        $result = $usersService->adminGetUsersPageList(RoleGroupListConfig::$studentRoleId);
 
         $gradeList = CommonEnums::getGradeIdList();
 
@@ -32,7 +32,7 @@ class StudentController extends XAdminiBase
         $model = new Users('create');
         if (isset($_POST['Users'])) {
             $model->attributes = $_POST['Users'];
-            $model->setAttribute('role_id', RoleGroupListEnums::$studentRoleId);
+            $model->setAttribute('role_id', RoleGroupListConfig::$studentRoleId);
             $model->setAttribute('password', md5($_POST['Users']['password']));
             $model->setAttribute('create_time', CommonEnums::getNowDateTime());
             $id = $model->save();

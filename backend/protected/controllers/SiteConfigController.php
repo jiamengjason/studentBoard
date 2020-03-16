@@ -11,11 +11,12 @@ class SiteConfigController extends FInterfaceBase
         $config = [];
 
         //角色分组配置信息
-        $config['roleList'] = $this->_roleGroupList;
-        $config['seoTitle'] = $this->_seoTitle;
-        $config['seoDesc'] = $this->_seoDescription;
-        $config['seoKeywords'] = $this->_seoKeywords;
+        $config['role_list'] = $this->_roleGroupList;
+        $config['seo_title'] = $this->_seoTitle;
+        $config['seo_desc'] = $this->_seoDescription;
+        $config['seo_keywords'] = $this->_seoKeywords;
         $config['config'] = $this->_conf;
+        $config['grade_list'] = $this->_gradeList;
 
         $this->outputOk('', $config);
     }
@@ -30,7 +31,7 @@ class SiteConfigController extends FInterfaceBase
         foreach ($organizationList as $item){
             $return[] = [
                 'id' => $item->id,
-                'organizationName' => $item->organization_name
+                'organization_name' => $item->organization_name
             ];
         }
 
