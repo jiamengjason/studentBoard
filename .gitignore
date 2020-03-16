@@ -1,0 +1,7 @@
+./backend/protected/runtime/
+./public/.DS_Store
+.idea
+./backend/assets/
+./backend/protected/extensions/.DS_Store
+./backend/protected/extensions/phpMailer/.DS_Store
+./backend/uploads/
