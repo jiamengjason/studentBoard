@@ -16,7 +16,7 @@ class OrganizationController extends XAdminiBase
 
         //查询机构列表
         $usersService = new UsersService();
-        $result = $usersService->adminGetUsersPageList(RoleGroupListEnums::$organizationRoleId);
+        $result = $usersService->adminGetUsersPageList(RoleGroupListConfig::$organizationRoleId);
         $this->render('organization_index', array ('datalist' => $result['list'] , 'pagebar' => $result['pages'] ));
     }
 
@@ -30,7 +30,7 @@ class OrganizationController extends XAdminiBase
         $model = new Users('create');
         if (isset($_POST['Users'])) {
             $model->attributes = $_POST['Users'];
-            $model->setAttribute('role_id', RoleGroupListEnums::$organizationRoleId);
+            $model->setAttribute('role_id', RoleGroupListConfig::$organizationRoleId);
             $model->setAttribute('password', md5($_POST['Users']['password']));
             $model->setAttribute('create_time', CommonEnums::getNowDateTime());
             $id = $model->save();

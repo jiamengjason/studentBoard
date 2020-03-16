@@ -36,11 +36,11 @@ class UploadFileController extends FInterfaceBase
         }
 
         $fileInfo = [
-            'savePath'=>$file['savepath'],
-            'fileName'=>$file['pathname'],
-            'fileExt' =>$file['extension'],
-            'saveName'=>$file['savename'],
-            'fileSize'=>$file['size']
+            'doc_path'=>$file['savepath'],
+            'file_path'=>$file['pathname'],
+            'file_ext' =>$file['extension'],
+            'file_name'=>$file['savename'],
+            'file_size'=>$file['size']
         ];
 
         $this->outputOk('', $fileInfo);

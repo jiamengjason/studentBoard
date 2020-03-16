@@ -8,7 +8,7 @@ class OrganizationService
      */
     public function getAllOrganizationUsers(){
         $conditions = [
-            'role_id' => RoleGroupListEnums::$organizationRoleId,
+            'role_id' => RoleGroupListConfig::$organizationRoleId,
             'status_is' => 1
         ];
         $usersService = new UsersService();

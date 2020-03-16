@@ -20,6 +20,7 @@ class FInterfaceBase extends Controller
     protected $_seoKeywords;
     protected $_seoDescription;
     protected $_roleGroupList;
+    protected $_gradeList;
 
     /**
 	 * 初始化
@@ -39,6 +40,8 @@ class FInterfaceBase extends Controller
         $this->_seoKeywords = $this->_conf['seo_keywords'];
         $this->_seoDescription = $this->_conf['seo_description'];
         $this->_roleGroupList = RoleGroupListConfig::getRoleIdList();
+        $this->_gradeList = RoleGroupListConfig::getGradeList();
+        $this->_gets = Yii::app()->request;
         if($this->_conf['site_status'] == 'close')
             self::_closed();
     }
