@@ -23,16 +23,19 @@ export default new Router({
     {
       path: "/",
       component: Home,
-      redirect: "/dashboard",
-      children: [
-        {
-          path: "dashboard",
-          component: Dashboard,
-          meta: {
-            title: "首页"
-          }
-        }
-      ]
+      meta: {
+        title: "首页"
+      }
+      // redirect: "/dashboard",
+      // children: [
+      //   {
+      //     path: "dashboard",
+      //     component: Dashboard,
+      //     meta: {
+      //       title: "首页"
+      //     }
+      //   }
+      // ]
     },
     {
       path: "/register",
