@@ -25,12 +25,13 @@
     <!-- 证件 -->
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="身份证：">
+        <el-form-item ref="uploadpic" label="身份证：">
           <el-upload
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
             :on-success="handleIdSuccess"
+            :on-change="imageChange"
             :before-upload="beforeAvatarUpload"
           >
             <img v-if="ruleForm.imageId" :src="ruleForm.imageId" class="avatar" />
@@ -75,11 +76,14 @@ export default {
       ruleForm: {
         school: "",
         imageId: "",
-        imageSchoolId: "",
+        imageSchoolId: "https://www.baidu.com/img/bd_logo1.png",
         checked: true,
         vertifyMeg: "",
         eduValue: ""
       },
+      haspic: false, // 默认没有传图片
+      images: [],
+      dialogVisible: false,
       eduOptions: [
         {
           value: "选项1",
@@ -113,6 +117,9 @@ export default {
   },
   created() {},
   methods: {
+    imageChange(file, fileList, name) {
+      console.log(file, fileList, name);
+    },
     handleIdSuccess(res, file) {
       this.ruleRegForm.imageId = URL.createObjectURL(file.raw);
     },
@@ -166,5 +173,8 @@ export default {
 }
 .education {
   width: 150px;
+}
+.disabled .el-upload--picture-card {
+  display: none;
 }
 </style>

@@ -54,6 +54,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { apigetOrganizationList } from "@/apis/api";
+
 export default {
   data() {
     return {
@@ -93,7 +95,13 @@ export default {
       mobile: "getMobile"
     })
   },
-  created() {},
+  created() {
+    // 获取机构列表
+    apigetOrganizationList().then(res => {
+      console.log(res);
+      // this.orgOptions = res.data.list
+    });
+  },
   methods: {
     handleIdSuccess(res, file) {
       this.ruleRegForm.imageId = URL.createObjectURL(file.raw);

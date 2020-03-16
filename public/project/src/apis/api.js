@@ -7,7 +7,10 @@ export const apiRegisterPost = params => request.post(`login/register`, params);
 // 根据手机号获取手机号验证码
 export const apigetValidCodePost = params =>
   request.post(`login/getValidCode`, params);
-
+// 获取所有的机构列表
+export const apigetOrganizationList = () => {
+  return request.get(`siteConfig/getOrganizationList`);
+};
 // get
 export const apiGet = params => {
   return request.get(
