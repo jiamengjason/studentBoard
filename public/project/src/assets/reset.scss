@@ -8,6 +8,26 @@ $orangeColor: #ff7001; //主题色
   line-height: 36px;
   border-radius: 0;
 }
+
+.st-search {
+  .el-input__inner{
+    height:50px;
+    line-height: 50px;
+    max-width: 100%;
+    box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 25px;
+    opacity:0.8;
+    font-family:Source Han Sans CN;
+    color:rgba(153,153,153,1);
+  }
+  .el-input__icon{
+    width: 52px;
+    line-height: 50px;
+  }
+  .el-icon-search:before{
+    font-size: 22px;
+  }
+}
 .el-form-item__label {
   color: #333;
 }
