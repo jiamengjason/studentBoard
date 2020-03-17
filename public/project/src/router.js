@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/index";
 import Register from "./pages/register/index";
 import Login from "./pages/login/index";
 import Pwd from "./pages/password/index";
+import Personal from "./pages/personal/index";
 
 Vue.use(Router);
 
@@ -56,6 +57,13 @@ export default new Router({
       component: Pwd,
       meta: {
         title: "忘记密码"
+      }
+    },
+    {
+      path: "/personal",
+      component: Personal,
+      meta: {
+        title: "个人中心"
       }
     },
     { path: "*", redirect: "/404", hidden: true }
