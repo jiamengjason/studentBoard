@@ -67,24 +67,24 @@ class UsersService
         $userModel = new Users();
         $userInfo = $userModel->findByPk($uid);
         if (!empty($userInfo)) {
-            $data['uid'] = $userInfo['id'];
-            $data['parent_id'] = $userInfo['parent_id'];
-            $data['role_id'] = $userInfo['role_id'];
-            $data['user_name'] = $userInfo['user_name'];
+            $data['userId'] = $userInfo['id'];
+            $data['parentId'] = $userInfo['parent_id'];
+            $data['roleId'] = $userInfo['role_id'];
+            $data['userName'] = $userInfo['user_name'];
             $data['mobile'] = $userInfo['mobile'];
             $data['email'] = $userInfo['email'];
-            $data['real_name'] = $userInfo['real_name'];
-            $data['school_name'] = $userInfo['school_name'];
+            $data['realName'] = $userInfo['real_name'];
+            $data['schoolName'] = $userInfo['school_name'];
             $data['grade'] = $userInfo['grade'];
-            $data['head_img'] = $userInfo['head_img'];
-            $data['identity_img'] = $userInfo['identity_img'];
-            $data['student_card_img'] = $userInfo['student_card_img'];
-            $data['organization_name'] = $userInfo['organization_name'];
-            $data['organization_email'] = $userInfo['organization_email'];
-            $data['organization_desc'] = $userInfo['organization_desc'];
-            $data['organization_yewu'] = $userInfo['organization_yewu'];
-            $data['organization_phone'] = $userInfo['organization_phone'];
-            $data['organization_www'] = $userInfo['organization_www'];
+            $data['headImg'] = $userInfo['head_img'];
+            $data['identityImg'] = $userInfo['identity_img'];
+            $data['studentCardImg'] = $userInfo['student_card_img'];
+            $data['organizationName'] = $userInfo['organization_name'];
+            $data['organizationEmail'] = $userInfo['organization_email'];
+            $data['organizationDesc'] = $userInfo['organization_desc'];
+            $data['organizationYewu'] = $userInfo['organization_yewu'];
+            $data['organizationPhone'] = $userInfo['organization_phone'];
+            $data['organizationWww'] = $userInfo['organization_www'];
         }
 
         return $data;

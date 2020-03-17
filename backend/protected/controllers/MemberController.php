@@ -7,7 +7,7 @@ class MemberController extends FSessionInterfaceBase
      */
     public function actionInfo()
     {
-        $userId = $this->_gets->getParam('user_id');
+        $userId = $this->_gets->getParam('userId');
         $usersService = new UsersService();
         $userInfo = $usersService->getUserInfoByUid($userId);
 

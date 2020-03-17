@@ -12,7 +12,7 @@ class FSessionInterfaceBase extends FInterfaceBase
 
         //教研用户token是否正确
         $token = $this->_gets->getParam('token');
-        $userId = $this->_gets->getParam('user_id');
+        $userId = $this->_gets->getParam('userId');
         if (empty($userId) || empty($token)){
             $this->outputError('请重新登陆');
         }
