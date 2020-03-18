@@ -1,7 +1,6 @@
 <template>
   <div class="student-personal">
     <TopTitle :text="text" />
-    <!-- <div class="student-base-info"> -->
     <el-row :gutter="20" class="student-base-info">
       <el-col :span="6">
         <div class="grid-content-first">
@@ -37,11 +36,6 @@
           </el-row>
           <!-- 在读学校 -->
           <el-row :gutter="20">
-            <!-- <el-col :span="8">
-              <el-form-item label="在读学校：" prop="school">
-                <el-input v-model="ruleForm.school"></el-input>
-              </el-form-item>
-            </el-col>-->
             <el-col :span="8" class="school-spe-style">
               <el-form-item label="在读学校：" prop="school">
                 <el-input v-model="ruleForm.school"></el-input>
@@ -72,14 +66,17 @@
         </el-form>
       </el-col>
     </el-row>
-    <!-- </div> -->
+    <PersonBase />
   </div>
 </template>
 <script>
 import TopTitle from "./TopTitle.vue";
+import PersonBase from "./PersonalBase.vue";
+
 export default {
   components: {
-    TopTitle
+    TopTitle,
+    PersonBase
   },
   data() {
     return {
@@ -116,7 +113,6 @@ export default {
 </script>
 <style lang="scss">
 @import "@/assets/base.scss";
-// @import "../index.scss";
 
 .student-personal {
   margin-top: 40px;
