@@ -128,10 +128,10 @@ class UsersService
     }
 
     //【个人中心】修改用户绑定信息
-    public function updateUserUnionInfo($userId, $data){
+    public function updateUserUnionInfo($userInfo, $data){
         $rs = null;
 
-        $userInfo = Users::model()->findByPk($userId);
+        $userId = $userInfo['id'];
         $type = $data['type'];
         switch ($type){
             case 1: //修改密码

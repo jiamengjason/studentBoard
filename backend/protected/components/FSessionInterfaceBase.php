@@ -5,6 +5,7 @@ class FSessionInterfaceBase extends FInterfaceBase
     protected $userId;
     protected $token;
     protected $isLogin = false;
+    protected $userInfo;
 
     /**
 	 * 初始化
@@ -30,6 +31,11 @@ class FSessionInterfaceBase extends FInterfaceBase
         $this->isLogin = true;
         $this->userId = $userId;
         $this->token = $token;
+        $this->userInfo = Users::model()->findByPk($this->userId);
+        //判断用户是否禁用
+        if ($this->userInfo['status_is'] == 0){
+            $this->outputSessionInvalid();
+        }
     }
 
     /**

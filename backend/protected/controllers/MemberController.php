@@ -19,9 +19,6 @@ class MemberController extends FSessionInterfaceBase
      */
     public function actionUpdate()
     {
-        if (false == $this->isLogin){
-            $this->outputSessionInvalid();
-        }
         //编辑用户信息
         $usersService = new UsersService();
         $bool = $usersService->updateUserInfo($this->userId, $this->_gets);
@@ -36,9 +33,6 @@ class MemberController extends FSessionInterfaceBase
      * 【个人中心】修改用户绑定信息
      */
     public function actionUpdateUnion(){
-        if (false == $this->isLogin){
-            $this->outputSessionInvalid();
-        }
         //开始校验
         $data = [];
         $data['type'] = $this->_gets->getParam('type');
@@ -77,7 +71,7 @@ class MemberController extends FSessionInterfaceBase
 
         //编辑用户信息
         $usersService = new UsersService();
-        $bool = $usersService->updateUserUnionInfo($this->userId, $data);
+        $bool = $usersService->updateUserUnionInfo($this->userInfo, $data);
 
         if (true === $bool){
             $this->outputOk();
