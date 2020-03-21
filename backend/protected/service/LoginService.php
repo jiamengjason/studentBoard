@@ -34,7 +34,7 @@ class LoginService
             $params['parent_id'] = $params['p_id'];
         }
         if (isset($params['password'])){
-            $params['password'] = md5($params['password']);
+            $params['password'] = CommonEnums::md5Password($params['password']);
         }
 
         foreach ($this->saveFields as $field){

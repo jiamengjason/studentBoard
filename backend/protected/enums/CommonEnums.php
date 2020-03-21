@@ -37,4 +37,13 @@ class CommonEnums
             13 => '高三',
         ];
     }
+
+    /**
+     * 加密密码
+     * @param $password
+     * @return string
+     */
+    public static function md5Password($password){
+        return md5($password);
+    }
 }

@@ -123,10 +123,69 @@ class UsersService
             return false;
         }
 
-        $bool = Users::model()->updateByPk($userId, $data);
-        if ($bool){
-            return true;
+        Users::model()->updateByPk($userId, $data);
+        return true;
+    }
+
+    //【个人中心】修改用户绑定信息
+    public function updateUserUnionInfo($userId, $data){
+        $rs = null;
+
+        $userInfo = Users::model()->findByPk($userId);
+        $type = $data['type'];
+        switch ($type){
+            case 1: //修改密码
+                //判断原密码是否正确
+                if (CommonEnums::md5Password($data['oldPassword']) != $userInfo['password']){
+                    $rs = '原密码错误';
+                    return $rs;
+                }
+                $save = [
+                    'password' => CommonEnums::md5Password($data['newPassword'])
+                ];
+                $bool = Users::model()->updateByPk($userId, $save);
+                if ($bool){
+                    $rs = true;
+                }else {
+                    $rs = '密码修改失败，请重试';
+                }
+                break;
+            case 2: //修改邮箱
+                $validateCodeService = new ValidateCodeService();
+                $bool = $validateCodeService->validateByValidate($userInfo['email'], $data['validCode']);
+                if ($bool == true){
+                    $save = [
+                        'email' => $data['newEmail']
+                    ];
+                    $bool = Users::model()->updateByPk($userId, $save);
+                    if ($bool){
+                        $rs = true;
+                    }else {
+                        $rs = '邮箱修改失败，请重试';
+                    }
+                }else{
+                    $rs = '校验码错误';
+                }
+                break;
+            case 3: //修改手机
+                $validateCodeService = new ValidateCodeService();
+                $bool = $validateCodeService->validateByValidate($userInfo['mobile'], $data['validCode']);
+                if ($bool == true){
+                    $save = [
+                        'mobile' => $data['newMobile']
+                    ];
+                    $bool = Users::model()->updateByPk($userId, $save);
+                    if ($bool){
+                        $rs = true;
+                    }else {
+                        $rs = '手机号修改失败，请重试';
+                    }
+                }else{
+                    $rs = '校验码错误';
+                }
+                break;
         }
-        return false;
+
+        return $rs;
     }
 }
