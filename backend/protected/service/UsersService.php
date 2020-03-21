@@ -89,4 +89,44 @@ class UsersService
 
         return $data;
     }
+
+    /**
+     * 保存用户个人信息
+     * @param $userId
+     * @param $_getsObj
+     * @return bool|int
+     */
+    public function updateUserInfo($userId, $_getsObj){
+        $saveFields = [
+            'userName'          => 'user_name',
+            'realName'          => 'real_name',
+            'schoolName'        => 'school_name',
+            'grade'             => 'grade',
+            'headImg'           => 'head_img',
+            'identityImg'       => 'identity_img',
+            'studentCardImg'    => 'student_card_img',
+            'organizationName'  => 'organization_name',
+            'organizationEmail' => 'organization_email',
+            'organizationDesc'  => 'organization_desc',
+            'organizationYewu'  => 'organization_yewu',
+            'organizationPhone' => 'organization_phone',
+            'organizationWww'   => 'organization_www'
+        ];
+
+        $data = [];
+        foreach ($saveFields as $inputField => $saveField){
+            if (!empty($_getsObj->getParam($inputField))){
+                $data[$saveField] = $_getsObj->getParam($inputField);
+            }
+        }
+        if (empty($data)){
+            return false;
+        }
+
+        $bool = Users::model()->updateByPk($userId, $data);
+        if ($bool){
+            return true;
+        }
+        return false;
+    }
 }

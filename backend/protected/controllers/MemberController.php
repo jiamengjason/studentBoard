@@ -7,11 +7,25 @@ class MemberController extends FSessionInterfaceBase
      */
     public function actionInfo()
     {
-        $userId = $this->_gets->getParam('userId');
+        //查询用户信息
         $usersService = new UsersService();
-        $userInfo = $usersService->getUserInfoByUid($userId);
+        $userInfo = $usersService->getUserInfoByUid($this->userId);
 
         $this->outputOk('', $userInfo);
     }
 
+    /**
+     * 更新用户信息
+     */
+    public function actionUpdate()
+    {
+        if (false == $this->isLogin){
+            $this->outputSessionInvalid();
+        }
+        //编辑用户信息
+        $usersService = new UsersService();
+        $usersService->updateUserInfo($this->userId, $this->_gets);
+
+        $this->outputOk();
+    }
 }

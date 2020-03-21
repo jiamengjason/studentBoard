@@ -2,6 +2,10 @@
 
 class FSessionInterfaceBase extends FInterfaceBase
 {
+    protected $userId;
+    protected $token;
+    protected $isLogin = false;
+
     /**
 	 * 初始化
 	 * @see CController::init()
@@ -19,8 +23,19 @@ class FSessionInterfaceBase extends FInterfaceBase
         //验证token是否失效
         $tokenService = new TokenService();
         if (false == $tokenService->tokenIsEffective($userId, $token)){
-            $this->outputError('登陆信息已失效，请重新登陆');
+            $this->outputSessionInvalid();
         }
 
+        //当前登录用户信息
+        $this->isLogin = true;
+        $this->userId = $userId;
+        $this->token = $token;
+    }
+
+    /**
+     * 登陆信息已失效，请重新登陆
+     */
+    public function outputSessionInvalid(){
+        $this->outputError('登陆信息已失效，请重新登陆');
     }
 }
