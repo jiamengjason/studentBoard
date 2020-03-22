@@ -6,12 +6,24 @@
       </el-col>
       <el-col :span="11">
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1">首页</el-menu-item>
-          <el-menu-item index="2">著名机构</el-menu-item>
-          <el-menu-item index="3">知名教师</el-menu-item>
-          <el-menu-item index="4">课外活动</el-menu-item>
-          <el-menu-item index="5">留学圈</el-menu-item>
-          <el-menu-item index="6">关于我们</el-menu-item>
+          <el-menu-item index="1">
+            <router-link to="/">首页</router-link>
+          </el-menu-item>
+          <el-menu-item index="2">
+            <router-link to="organization">著名机构</router-link>
+          </el-menu-item>
+          <el-menu-item index="3">
+            <router-link to="teachers">知名教师</router-link>
+          </el-menu-item>
+          <el-menu-item index="4">
+            <router-link to="activity">课外活动</router-link>
+          </el-menu-item>
+          <el-menu-item index="5">
+            <router-link to="studyCircle">留学圈</router-link>
+          </el-menu-item>
+          <el-menu-item index="6">
+            <router-link to="aboutUs">关于我们</router-link>
+          </el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="6">
@@ -38,7 +50,29 @@ export default {
       activeIndex: '1'
     };
   },
+  mounted(){
+    this.getCurrtActive()
+  },
   methods: {
+    getCurrtActive(){
+      console.info('this.route', this.$route)
+      // 著名机构
+      if(this.$route.name == 'organization'){
+        this.activeIndex = '2'
+      }else if(this.$route.name == 'teachers'){
+        // 知名教师
+        this.activeIndex = '3'
+      }else if(this.$route.name == 'activity'){
+        // 课外活动
+        this.activeIndex = '4'
+      }else if(this.$route.name == 'studyCircle'){
+        // 留学圈
+        this.activeIndex = '5'
+      }else if(this.$route.name == 'aboutUs'){
+        // 关于我们
+        this.activeIndex = '6'
+      }
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     }
@@ -69,6 +103,7 @@ export default {
   }
   .el-menu--horizontal>.el-menu-item.is-active{
     color: #ff7001;
+    border-bottom: 2px solid #ff7001;
   }
   .el-menu{
     background:none;
