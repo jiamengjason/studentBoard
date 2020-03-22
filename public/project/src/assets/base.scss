@@ -1,4 +1,5 @@
 $orangeColor: #ff7001; //主题色
+$mainBg:#f7f7f7; //背景颜色
 
 // 公共样式
 *{
@@ -26,4 +27,8 @@ li{
 // container
 .st-container{
     width: 1400px;
+}
+
+.mainBg{
+    background-color: $mainBg;
 }

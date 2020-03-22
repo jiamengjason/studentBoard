@@ -87,6 +87,7 @@ export default {
   line-height: 80px;
   // background: #000000;
   background: #FFFFFF;
+  box-shadow:0px 1px 5px 0px rgba(4,0,0,0.2);
   // opacity: 0.8;
 	position: fixed;
 	top: 0;
