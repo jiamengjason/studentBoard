@@ -18,27 +18,32 @@
           :name="item.key"
         >{{ item }}</el-tab-pane>
       </el-tabs>
-      <StudentPersonal />
-      <!-- <div class="test"></div> -->
+      <StudentPersonal v-if="role ===1 " :active-name="activeName" />
+      <TeacherPersonal v-if="role ===2 " />
     </div>
   </div>
 </template>
 <script>
 import StudentPersonal from "./component/StudentPersonal";
+import TeacherPersonal from "./component/TeacherPersonal";
 
+import { PERSONAL_NAV_LIST } from "@/constants/index";
 export default {
-  components: { StudentPersonal },
+  components: {
+    StudentPersonal,
+    TeacherPersonal
+  },
   data() {
     return {
-      activeName: "student",
+      activeName: "student1",
       stretch: true,
-      navList: [
-        { name: "个人中心", key: "student" },
-        { name: "参加活动", key: "parent" },
-        { name: "我的评价", key: "teacher" },
-        { name: "我的评价2", key: "organization" }
-      ]
+      role: 1 // 1 student 2 teacher 3 parent 4 organization
     };
+  },
+  computed: {
+    navList() {
+      return PERSONAL_NAV_LIST[this.role];
+    }
   },
   methods: {
     handleClick(tab) {
