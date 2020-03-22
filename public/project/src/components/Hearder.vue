@@ -112,6 +112,9 @@ export default {
       font-size:20px;
       font-weight:400;
       color:rgba(51,51,51,1);
+      a{
+        display: inline-block;
+      }
     }
   }
 
