@@ -19,25 +19,28 @@
         >{{ item }}</el-tab-pane>
       </el-tabs>
       <StudentPersonal v-if="role ===1 " :active-name="activeName" />
-      <TeacherPersonal v-if="role ===2 " />
+      <TeacherPersonal v-if="role ===2 " :active-name="activeName" />
+      <OrgPersonal v-if="role ===4 " :active-name="activeName" />
     </div>
   </div>
 </template>
 <script>
 import StudentPersonal from "./component/StudentPersonal";
 import TeacherPersonal from "./component/TeacherPersonal";
+import OrgPersonal from "./component/OrgPersonal";
 
 import { PERSONAL_NAV_LIST } from "@/constants/index";
 export default {
   components: {
     StudentPersonal,
-    TeacherPersonal
+    TeacherPersonal,
+    OrgPersonal
   },
   data() {
     return {
       activeName: "student1",
       stretch: true,
-      role: 1 // 1 student 2 teacher 3 parent 4 organization
+      role: 4 // 1 student 2 teacher 3 parent 4 organization
     };
   },
   computed: {
