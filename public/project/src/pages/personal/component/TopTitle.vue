@@ -18,7 +18,8 @@ export default {
 @import "@/assets/base.scss";
 
 .top-title-warp {
-  width: 1400px;
+  width: 100%;
+  max-width: 1400px;
   height: 100px;
   background: #fff;
   line-height: 100px;

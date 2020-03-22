@@ -56,9 +56,10 @@ export default {
 // 顶部样式
 .personal-top-com {
   width: 100%;
+  max-width: 1400px;
   height: 426px;
-  border: 1px solid red;
   background: #fff;
+  margin: 0 auto;
   .top-img {
     position: relative;
     width: 100%;
@@ -81,7 +82,7 @@ export default {
       color: rgba(51, 51, 51, 1);
     }
     .top-mobile {
-      margin-top: -20px;
+      margin-top: 20px;
       font-size: 22px;
       color: rgba(102, 102, 102, 1);
     }
@@ -100,7 +101,8 @@ export default {
   border-bottom: 1px solid #ccc;
 }
 .personal-page {
-  width: 1400px;
+  width: 100%;
+  max-width: 1400px;
   height: 1000px;
   margin: 6px auto 0;
   .el-tabs__header {

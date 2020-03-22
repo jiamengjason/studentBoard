@@ -118,10 +118,11 @@ export default {
   margin-top: 40px;
   .student-base-info {
     width: 100%;
+    max-width: 1400px;
     height: 317px;
     background: #fff;
     padding: 50px;
-    margin: 0;
+    margin: 0 !important;
   }
   .grid-content-first {
     border: 1px solid #d3dce6;
@@ -136,6 +137,7 @@ export default {
     .content-first-desc {
       font-size: 12px;
       color: rgba(153, 153, 153, 1);
+      margin: 12px 0;
     }
     .content-first-btn {
       width: 110px;
