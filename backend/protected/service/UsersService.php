@@ -67,26 +67,125 @@ class UsersService
         $userModel = new Users();
         $userInfo = $userModel->findByPk($uid);
         if (!empty($userInfo)) {
-            $data['uid'] = $userInfo['id'];
-            $data['parent_id'] = $userInfo['parent_id'];
-            $data['role_id'] = $userInfo['role_id'];
-            $data['user_name'] = $userInfo['user_name'];
+            $data['userId'] = $userInfo['id'];
+            $data['parentId'] = $userInfo['parent_id'];
+            $data['roleId'] = $userInfo['role_id'];
+            $data['userName'] = $userInfo['user_name'];
             $data['mobile'] = $userInfo['mobile'];
             $data['email'] = $userInfo['email'];
-            $data['real_name'] = $userInfo['real_name'];
-            $data['school_name'] = $userInfo['school_name'];
+            $data['realName'] = $userInfo['real_name'];
+            $data['schoolName'] = $userInfo['school_name'];
             $data['grade'] = $userInfo['grade'];
-            $data['head_img'] = $userInfo['head_img'];
-            $data['identity_img'] = $userInfo['identity_img'];
-            $data['student_card_img'] = $userInfo['student_card_img'];
-            $data['organization_name'] = $userInfo['organization_name'];
-            $data['organization_email'] = $userInfo['organization_email'];
-            $data['organization_desc'] = $userInfo['organization_desc'];
-            $data['organization_yewu'] = $userInfo['organization_yewu'];
-            $data['organization_phone'] = $userInfo['organization_phone'];
-            $data['organization_www'] = $userInfo['organization_www'];
+            $data['headImg'] = $userInfo['head_img'];
+            $data['identityImg'] = $userInfo['identity_img'];
+            $data['studentCardImg'] = $userInfo['student_card_img'];
+            $data['organizationName'] = $userInfo['organization_name'];
+            $data['organizationEmail'] = $userInfo['organization_email'];
+            $data['organizationDesc'] = $userInfo['organization_desc'];
+            $data['organizationYewu'] = $userInfo['organization_yewu'];
+            $data['organizationPhone'] = $userInfo['organization_phone'];
+            $data['organizationWww'] = $userInfo['organization_www'];
         }
 
         return $data;
+    }
+
+    /**
+     * 保存用户个人信息
+     * @param $userId
+     * @param $_getsObj
+     * @return bool|int
+     */
+    public function updateUserInfo($userId, $_getsObj){
+        $saveFields = [
+            'userName'          => 'user_name',
+            'realName'          => 'real_name',
+            'schoolName'        => 'school_name',
+            'grade'             => 'grade',
+            'headImg'           => 'head_img',
+            'identityImg'       => 'identity_img',
+            'studentCardImg'    => 'student_card_img',
+            'organizationName'  => 'organization_name',
+            'organizationEmail' => 'organization_email',
+            'organizationDesc'  => 'organization_desc',
+            'organizationYewu'  => 'organization_yewu',
+            'organizationPhone' => 'organization_phone',
+            'organizationWww'   => 'organization_www'
+        ];
+
+        $data = [];
+        foreach ($saveFields as $inputField => $saveField){
+            if (!empty($_getsObj->getParam($inputField))){
+                $data[$saveField] = $_getsObj->getParam($inputField);
+            }
+        }
+        if (empty($data)){
+            return false;
+        }
+
+        Users::model()->updateByPk($userId, $data);
+        return true;
+    }
+
+    //【个人中心】修改用户绑定信息
+    public function updateUserUnionInfo($userInfo, $data){
+        $rs = null;
+
+        $userId = $userInfo['id'];
+        $type = $data['type'];
+        switch ($type){
+            case 1: //修改密码
+                //判断原密码是否正确
+                if (CommonEnums::md5Password($data['oldPassword']) != $userInfo['password']){
+                    $rs = '原密码错误';
+                    return $rs;
+                }
+                $save = [
+                    'password' => CommonEnums::md5Password($data['newPassword'])
+                ];
+                $bool = Users::model()->updateByPk($userId, $save);
+                if ($bool){
+                    $rs = true;
+                }else {
+                    $rs = '密码修改失败，请重试';
+                }
+                break;
+            case 2: //修改邮箱
+                $validateCodeService = new ValidateCodeService();
+                $bool = $validateCodeService->validateByValidate($userInfo['email'], $data['validCode']);
+                if ($bool == true){
+                    $save = [
+                        'email' => $data['newEmail']
+                    ];
+                    $bool = Users::model()->updateByPk($userId, $save);
+                    if ($bool){
+                        $rs = true;
+                    }else {
+                        $rs = '邮箱修改失败，请重试';
+                    }
+                }else{
+                    $rs = '校验码错误';
+                }
+                break;
+            case 3: //修改手机
+                $validateCodeService = new ValidateCodeService();
+                $bool = $validateCodeService->validateByValidate($userInfo['mobile'], $data['validCode']);
+                if ($bool == true){
+                    $save = [
+                        'mobile' => $data['newMobile']
+                    ];
+                    $bool = Users::model()->updateByPk($userId, $save);
+                    if ($bool){
+                        $rs = true;
+                    }else {
+                        $rs = '手机号修改失败，请重试';
+                    }
+                }else{
+                    $rs = '校验码错误';
+                }
+                break;
+        }
+
+        return $rs;
     }
 }

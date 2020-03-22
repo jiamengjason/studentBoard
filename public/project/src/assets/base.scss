@@ -1,34 +1,51 @@
 $orangeColor: #ff7001; //主题色
 $mainBg:#f7f7f7; //背景颜色
+// 超出  $line  行隐藏
 
+@mixin ignore($line: 1) {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 // 公共样式
-*{
-    margin: 0;
-    padding: 0;
-    -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;
-    &:before,&:after{
-        -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  &:before,
+  &:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
 }
-body,html{
-    width: 100%;
-    max-width: 100%;
-    font-size: 12px;
-    word-break:break-all;
+body,
+html {
+  width: 100%;
+  max-width: 100%;
+  font-size: 12px;
+  word-break: break-all;
 }
-a,input,textarea,select{
-    outline: none;
-    text-decoration: none;
+a,
+input,
+textarea,
+select {
+  outline: none;
+  text-decoration: none;
 }
-li{
-    list-style: none;
+li {
+  list-style: none;
 }
 
 // container
 .st-container{
     width: 1400px;
 }
-
 .mainBg{
     background-color: $mainBg;
 }
+
