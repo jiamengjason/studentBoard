@@ -2,9 +2,9 @@
   <div class="layout">
     <Hearder></Hearder>
     
-		<div id="dowebok">
+    <div id="dowebok">
       <!-- 首屏 -->
-			<div class="section">
+      <div class="section">
         <div class="section-con firstPage">
           <div class="st-banner">
             <!-- 搜索 -->
@@ -12,7 +12,8 @@
               <el-input
                 placeholder="请输入内容"
                 suffix-icon="el-icon-search"
-                v-model="search">
+                :model="search"
+              >
               </el-input>
               <!-- <el-input placeholder="请输入内容">
                 <el-button slot="append" icon="el-icon-search"></el-button>
@@ -22,7 +23,7 @@
             <!-- nav -->
             <div class="st-nav">
               <el-row>
-                <el-col :span="8"  class="st-nav-jigou">
+                <el-col :span="8" class="st-nav-jigou">
                   <router-link to="/">&emsp;&emsp;著名机构</router-link>
                 </el-col>
                 <el-col :span="8" class="st-nav-jiaoshi">
@@ -35,10 +36,10 @@
             </div>
           </div>
         </div>
-			</div>
+      </div>
       
       <!-- 第二屏 -->
-			<div class="section">
+      <div class="section">
         <div class="section-con secondPage">
           <div class="st-column-tit">著名机构</div> 
           <div class="st-column-con">
@@ -133,11 +134,11 @@
             <router-link to="/">点击查看更多</router-link>
           </div> 
         </div>
-			</div>
+      </div>
 
       <!-- 第三屏 -->
-			<div class="section">
-				<div class="section-con thirdPage">
+      <div class="section">
+        <div class="section-con thirdPage">
           <div class="st-column-tit">知名教师</div> 
           <div class="st-column-con">
             <el-row :gutter="20">
@@ -231,11 +232,11 @@
             <router-link to="/">点击查看更多</router-link>
           </div> 
         </div>
-			</div>
-
+      </div>
+      
       <!-- 第四屏 -->
-			<div class="section">
-				<div class="section-con fourthPage">
+      <div class="section">
+        <div class="section-con fourthPage">
           <div class="st-column-tit">课外活动</div>
           <div class="st-column-con">
             <el-row :gutter="20">
@@ -275,14 +276,14 @@
 
           <Footer class="homefooter"></Footer>   
         </div>
-			</div>
-		</div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
-
+// import fullPage from "../assets/home.js"
 export default {
   name: "Home",
   components: {
@@ -295,8 +296,16 @@ export default {
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    this.dowebok()
+  },
+  methods: {
+    dowebok() {
+      console.info('11111')
+      window.fullpage()
+      // this.$router.go(0)
+    }
+  }
 };
 </script>
 

@@ -1,4 +1,4 @@
-$(function() {
+window.fullpage = function () {
 	// one start ----->
 	$('#dowebok').fullpage({
 		navigation: true,
@@ -12,7 +12,6 @@ $(function() {
 		sectionsColor: ['#ffffff', '#F8F6F9', '#ffffff', '#F8F6F9'],
 		scrollingSpeed: 1000,
 		afterLoad: function(anchorLink, index) {
-
 			if (index == 1) {
 				
 			}
@@ -25,4 +24,4 @@ $(function() {
 		}
 
 	});
-});
+}

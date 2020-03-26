@@ -7,22 +7,22 @@
       <el-col :span="11">
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
           <el-menu-item index="1">
-            <router-link to="/">首页</router-link>
+            <router-link :to="{name: 'home'}">首页</router-link>
           </el-menu-item>
           <el-menu-item index="2">
-            <router-link to="organization">著名机构</router-link>
+            <router-link :to="{name: 'organization'}">著名机构</router-link>
           </el-menu-item>
           <el-menu-item index="3">
-            <router-link to="teachers">知名教师</router-link>
+            <router-link :to="{name: 'teachers'}">知名教师</router-link>
           </el-menu-item>
           <el-menu-item index="4">
-            <router-link to="activity">课外活动</router-link>
+            <router-link :to="{name: 'activity'}">课外活动</router-link>
           </el-menu-item>
           <el-menu-item index="5">
-            <router-link to="studyCircle">留学圈</router-link>
+            <router-link :to="{name: 'studyCircle'}">留学圈</router-link>
           </el-menu-item>
           <el-menu-item index="6">
-            <router-link to="aboutUs">关于我们</router-link>
+            <router-link :to="{name: 'aboutUs'}">关于我们</router-link>
           </el-menu-item>
         </el-menu>
       </el-col>

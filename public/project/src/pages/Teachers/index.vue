@@ -4,27 +4,27 @@
     <SearchBar></SearchBar>
     <div class="organization-list">
       <el-row :gutter="20">
-          <el-col v-for="i in count" :key="i" :span="6" class="sort">
-            <div class="jigou-item">
-              <div class="img">
-                <img src="/img/home/jiaoshi.jpg" alt="">
-              </div>
-              <div class="con">
-                <p>
-                  <span class="leftlabel">评分：</span>
-                  <span class="sore">4.7</span>
-                </p>
-                <p class="kcclass">
-                  <span class="leftlabel">机构：</span>
-                  <span>进入教育机构</span>
-                </p>
-                <p>
-                  <span class="leftlabel">团队：</span>
-                  <span>老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感...</span>
-                </p>
-              </div>
+        <el-col v-for="i in count" :key="i" :span="6" class="sort">
+          <div class="jigou-item">
+            <div class="img">
+              <img src="/img/home/jiaoshi.jpg" alt="">
             </div>
-          </el-col>
+            <div class="con">
+              <p>
+                <span class="leftlabel">评分：</span>
+                <span class="sore">4.7</span>
+              </p>
+              <p class="kcclass">
+                <span class="leftlabel">机构：</span>
+                <span>进入教育机构</span>
+              </p>
+              <p>
+                <span class="leftlabel">团队：</span>
+                <span>老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感...</span>
+              </p>
+            </div>
+          </div>
+        </el-col>
       </el-row>
     </div>
     <Footer class="homefooter"></Footer> 

@@ -4,20 +4,20 @@
     <SearchBar></SearchBar>
     <div class="organization-list">
       <el-row :gutter="20">
-          <el-col v-for="i in count" :key="i" :span="12">
-            <div class="huodong-item">
-              <div class="img">
-                <img src="/img/home/huodong.jpg" alt="">
-              </div>
-              <div class="con">
-                <p class="tit">
-                  基础插画公开课
-                  <span class="ing">进行中</span>
-                </p>
-                <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
-              </div>
+        <el-col v-for="i in count" :key="i" :span="12">
+          <div class="huodong-item">
+            <div class="img">
+              <img src="/img/home/huodong.jpg" alt="">
             </div>
-          </el-col>
+            <div class="con">
+              <p class="tit">
+                基础插画公开课
+                <span class="ing">进行中</span>
+              </p>
+              <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
+            </div>
+          </div>
+        </el-col>
       </el-row>
     </div>
     <Footer class="homefooter"></Footer> 

@@ -1,22 +1,23 @@
 <template>
-    <div class="searchBar">
-        <div class="searchBarcon">
-            <el-row>
-                <el-col :span="8" class="sort">
-                    <span class="hover">综合排序</span>
-                    <span class="icon">评价升序</span>
-                    <span class="icon">评价降序</span>
-                </el-col>
-                <el-col :span="16" class="st-search">
-                    <el-input
-                        placeholder="请输入内容"
-                        suffix-icon="el-icon-search"
-                        v-model="search">
-                    </el-input>
-                </el-col>
-            </el-row>
-        </div>
+  <div class="searchBar">
+    <div class="searchBarcon">
+      <el-row>
+        <el-col :span="8" class="sort">
+          <span class="hover">综合排序</span>
+          <span class="icon">评价升序</span>
+          <span class="icon">评价降序</span>
+        </el-col>
+        <el-col :span="16" class="st-search">
+          <el-input
+            placeholder="请输入内容"
+            suffix-icon="el-icon-search"
+            :model="search"
+          >
+          </el-input>
+        </el-col>
+      </el-row>
     </div>
+  </div>
 </template>
 
 <script>

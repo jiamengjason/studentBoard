@@ -7,7 +7,7 @@ import Teachers from "./pages/Teachers/index"
 import Activity from "./pages/Activity/index"
 import StudyCircle from "./pages/StudyCircle/index"
 import AboutUs from "./pages/AboutUs/index"
-import Dashboard from "./pages/dashboard/index";
+// import Dashboard from "./pages/dashboard/index";
 import Register from "./pages/register/index";
 import Login from "./pages/login/index";
 import Pwd from "./pages/password/index";
@@ -15,7 +15,7 @@ import Personal from "./pages/personal/index";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   // base: process.env.BASE_URL,
   routes: [
@@ -109,3 +109,16 @@ export default new Router({
     { path: "*", redirect: "/404", hidden: true }
   ]
 });
+
+router.afterEach((to, from) =>{
+  console.info('to-----', to)
+  console.info('from-----', from)
+  console.info('-----------------------')
+  if(to.name == 'home' && from.name != 'home' && from.name){
+    // window.location.reload();
+  }else{
+    document.body.style.overflow = "auto";
+  }
+})
+
+export default router
