@@ -39,8 +39,9 @@ class TeachersController extends FInterfaceBase
         //返回数据
         $data = [
             'teacher_id' => $teacherId,
-            'avgScore' => $avgScore,
-            'user_name' => $userInfo['userName'],
+            'avg_score' => $avgScore,
+            'teacher_name' => $userInfo['userName'],
+            'head_img' => $userInfo['headImg'],
             'organization_id' => $userInfo['parentId'],
             'organization_name' => isset($organizationList[$userInfo['parentId']]) ? $organizationList[$userInfo['parentId']]['organization_name'] : '',
             'organization_yewu' => isset($organizationList[$userInfo['parentId']]) ? $organizationList[$userInfo['parentId']]['organization_yewu'] : '',

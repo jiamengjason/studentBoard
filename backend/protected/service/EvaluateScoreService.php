@@ -4,7 +4,7 @@ class EvaluateScoreService
 {
 
     /**
-     * 根据老师id查询评价平均值
+     * 根据uid查询评价平均值
      * @param $userId
      * @return string
      */

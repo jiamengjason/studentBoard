@@ -76,7 +76,7 @@ class UsersService
             $data['realName'] = $userInfo['real_name'];
             $data['schoolName'] = $userInfo['school_name'];
             $data['grade'] = $userInfo['grade'];
-            $data['headImg'] = $userInfo['head_img'];
+            $data['headImg'] = empty($userInfo['head_img']) ? '' : $userInfo['head_img'];
             $data['identityImg'] = $userInfo['identity_img'];
             $data['studentCardImg'] = $userInfo['student_card_img'];
             $data['organizationName'] = $userInfo['organization_name'];
