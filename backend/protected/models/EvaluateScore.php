@@ -21,8 +21,8 @@ class EvaluateScore extends XBaseModel
 	public function rules()
 	{
         return array(
-            array('evaluated_uid,user_id,score,is_recommend,tags,comment', 'required'),
-            array('evaluated_uid,user_id,score,is_recommend,tags,comment,give_like,give_dislike', 'safe'),
+            array('evaluated_uid,evaluated_role_id,user_id,score,is_recommend,tags,comment', 'required'),
+            array('evaluated_uid,evaluated_role_id,user_id,score,is_recommend,tags,comment,give_like,give_dislike', 'safe'),
         );
 	}
 
