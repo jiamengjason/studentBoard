@@ -62,4 +62,21 @@ class OrganizationsController extends FSessionInterfaceBase
 
         $this->outputOk('', $rs);
     }
+
+    /**
+     * 【个人中心】【学生-家长】参加的活动列表
+     */
+    public function actionMyActive()
+    {
+        $params = [];
+        $params['page'] = $this->_gets->getParam('page');
+        $params['pageSize'] = $this->_gets->getParam('pageSize');
+        $params['user_id'] = $this->userId;
+
+        //查询用户信息
+        $activeService = new ActiveService();
+        $rs = $activeService->getMyActiveList($params);
+
+        $this->outputOk('', $rs);
+    }
 }
