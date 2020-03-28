@@ -45,4 +45,21 @@ class OrganizationsController extends FSessionInterfaceBase
         }
     }
 
+
+    /**
+     * 【个人中心】【机构】活动列表
+     */
+    public function actionIndex()
+    {
+        $params = [];
+        $params['page'] = $this->_gets->getParam('page');
+        $params['pageSize'] = $this->_gets->getParam('pageSize');
+        $params['user_id'] = $this->userId;
+
+        //查询用户信息
+        $activeService = new ActiveService();
+        $rs = $activeService->getActiveListByParams($params);
+
+        $this->outputOk('', $rs);
+    }
 }
