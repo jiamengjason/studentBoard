@@ -16,7 +16,7 @@
               </p>
               <p class="kcclass">
                 <span class="leftlabel">课程：</span>
-                <span>电商类别{i}</span>
+                <span>电商类别</span>
               </p>
               <p>
                 <span class="leftlabel">团队：</span>
