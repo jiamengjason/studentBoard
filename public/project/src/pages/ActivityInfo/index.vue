@@ -1,11 +1,19 @@
 <template>
-  <div class="layout mainBg">
+  <div class="layout mainBg mt80">
     <Hearder></Hearder>
-    <SearchBar></SearchBar>
-    <div class="organization-list">
-      <el-row :gutter="20">
-        <el-col v-for="i in count" :key="i" :span="12">
-          <router-link :to="{name: 'activityinfo'}">
+    <!-- 面包屑 -->
+    <div class="st-container">
+      <div class="st-breadcrumb">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>知名机构</el-breadcrumb-item>
+          <el-breadcrumb-item>机构详细</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="organization-list">
+        <el-row :gutter="20">
+          <el-col v-for="i in 2" :key="i" :span="12">
             <div class="huodong-item">
               <div class="img">
                 <img src="/img/home/huodong.jpg" alt="">
@@ -18,9 +26,9 @@
                 <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
               </div>
             </div>
-          </router-link>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+      </div>
     </div>
     <Footer class="homefooter"></Footer> 
   </div>
@@ -28,19 +36,15 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
-import SearchBar from "../../components/SearchBar";
 
 export default {
   name: "Home",
   components: {
     Hearder,
-    Footer,
-    SearchBar
+    Footer
   },
   data() {
     return {
-      search:'',
-      count:12
     };
   },
   computed: {},

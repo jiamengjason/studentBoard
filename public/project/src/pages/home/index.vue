@@ -70,7 +70,7 @@
             </el-row>
           </div>
           <div class="st-column-more">
-            <router-link to="/">点击查看更多</router-link>
+            <router-link :to="{name: 'organization'}">点击查看更多</router-link>
           </div> 
         </div>
       </div>
@@ -107,7 +107,7 @@
             </el-row>
           </div>
           <div class="st-column-more">
-            <router-link to="/">点击查看更多</router-link>
+            <router-link :to="{name: 'teachers'}">点击查看更多</router-link>
           </div> 
         </div>
       </div>
@@ -118,38 +118,26 @@
           <div class="st-column-tit">课外活动</div>
           <div class="st-column-con">
             <el-row :gutter="20">
-              <el-col :span="12">
-                <div class="huodong-item">
-                  <div class="img">
-                    <img src="/img/home/huodong.jpg" alt="">
+              <router-link :to="{name: 'activityinfo'}">
+                <el-col v-for="i in 2" :key="i" :span="12">
+                  <div class="huodong-item">
+                    <div class="img">
+                      <img src="/img/home/huodong.jpg" alt="">
+                    </div>
+                    <div class="con">
+                      <p class="tit">
+                        基础插画公开课
+                        <span class="ing">进行中</span>
+                      </p>
+                      <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
+                    </div>
                   </div>
-                  <div class="con">
-                    <p class="tit">
-                      基础插画公开课
-                      <span class="ing">进行中</span>
-                    </p>
-                    <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div class="huodong-item">
-                  <div class="img">
-                    <img src="/img/home/huodong.jpg" alt="">
-                  </div>
-                  <div class="con">
-                    <p class="tit">
-                      基础插画公开课
-                      <span class="end">已结束</span>
-                    </p>
-                    <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
-                  </div>
-                </div>
-              </el-col>
+                </el-col>
+              </router-link>
             </el-row>
           </div>
           <div class="st-column-more">
-            <router-link to="/">点击查看更多</router-link>
+            <router-link :to="{name: 'activity'}">点击查看更多</router-link>
           </div> 
 
           <Footer class="homefooter"></Footer>   

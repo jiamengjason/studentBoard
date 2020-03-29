@@ -7,6 +7,7 @@ import OrganizationInfo from "./pages/organizationinfo/index"
 import Teachers from "./pages/Teachers/index"
 import TeachersInfo from "./pages/TeachersInfo/index"
 import Activity from "./pages/Activity/index"
+import ActivityInfo from "./pages/ActivityInfo/index"
 import StudyCircle from "./pages/StudyCircle/index"
 import AboutUs from "./pages/AboutUs/index"
 // import Dashboard from "./pages/dashboard/index";
@@ -79,6 +80,13 @@ const router = new Router({
       component: Activity,
       meta: {
         title: "课外活动"
+      }
+    }, {
+      path: "/activityinfo",
+      name: 'activityinfo',
+      component: ActivityInfo,
+      meta: {
+        title: "课外活动_详情"
       }
     }, {
       path: "/studyCircle",
