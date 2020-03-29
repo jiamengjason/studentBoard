@@ -17,6 +17,7 @@ class SiteConfigController extends FInterfaceBase
         $config['seo_keywords'] = $this->_seoKeywords;
         $config['config'] = $this->_conf;
         $config['grade_list'] = $this->_gradeList;
+        $config['score_list'] = $this->_scoreList;
 
         $this->outputOk('', $config);
     }

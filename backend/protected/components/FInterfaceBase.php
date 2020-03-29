@@ -21,6 +21,7 @@ class FInterfaceBase extends Controller
     protected $_seoDescription;
     protected $_roleGroupList;
     protected $_gradeList;
+    protected $_scoreList;
 
     /**
 	 * 初始化
@@ -41,6 +42,7 @@ class FInterfaceBase extends Controller
         $this->_seoDescription = $this->_conf['seo_description'];
         $this->_roleGroupList = RoleGroupListConfig::getRoleIdList();
         $this->_gradeList = RoleGroupListConfig::getGradeList();
+        $this->_scoreList = RoleGroupListConfig::getScoreList();
         $this->_gets = Yii::app()->request;
         if($this->_conf['site_status'] == 'close')
             self::_closed();

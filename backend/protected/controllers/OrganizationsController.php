@@ -1,48 +1,45 @@
 <?php
-
-class OrganizationsController extends FSessionInterfaceBase
+/**
+ * 机构
+ * Class OrganizationsController
+ */
+class OrganizationsController extends FInterfaceBase
 {
-
     /**
-     * 【个人中心】【机构】发布活动
+     * 【著名机构】机构详情
      */
-    public function actionPublish()
-    {
-        $active = [];
-        if (empty($this->_gets->getParam('title_img'))){
-            $this->outputParamsError('请上传活动图片');
+    public function actionInfo(){
+        $organizationId = $this->_gets->getParam('organization_id');
+        if (empty($organizationId)){
+            $this->outputParamsError();
         }
-        if (empty($this->_gets->getParam('title'))){
-            $this->outputParamsError('请填写活动标题');
+        $usersService = new UsersService();
+        $userInfo = $usersService->getUserInfoByUid($organizationId);
+        if (empty($userInfo)){
+            $this->outputParamsError();
         }
-        if (empty($this->_gets->getParam('start_time'))){
-            $this->outputParamsError('请填写活动开始时间');
+        if ($userInfo['roleId'] != RoleGroupListConfig::$organizationRoleId){
+            $this->outputParamsError();
         }
-        if (empty($this->_gets->getParam('end_time'))){
-            $this->outputParamsError('请填写活动结束时间');
-        }
-        if (empty($this->_gets->getParam('desc'))){
-            $this->outputParamsError('请填写活动简介');
-        }
-        if (empty($this->_gets->getParam('addr'))){
-            $this->outputParamsError('请填写活动地址');
-        }
-        $active['title_img'] = $this->_gets->getParam('title_img');
-        $active['title'] = $this->_gets->getParam('title');
-        $active['start_time'] = $this->_gets->getParam('start_time');
-        $active['end_time'] = $this->_gets->getParam('end_time');
-        $active['desc'] = $this->_gets->getParam('desc');
-        $active['addr'] = $this->_gets->getParam('addr');
 
-        //查询用户信息
-        $organizationService = new OrganizationService();
-        $bool = $organizationService->publishActive($this->userInfo, $active);
+        //查询机构评价得分
+        $evaluateScoreService = new EvaluateScoreService();
+        $avgScore = $evaluateScoreService->findAvgScoreByUid($organizationId);
 
-        if (true === $bool){
-            $this->outputOk();
-        }else {
-            $this->outputError($bool);
-        }
+        //返回数据
+        $data = [
+            'organization_id' => $organizationId,
+            'avg_score' => $avgScore,
+            'head_img' => $userInfo['headImg'],
+            'organization_name' => $userInfo['organizationName'],
+            'organization_email' => $userInfo['organizationEmail'],
+            'organization_desc' => $userInfo['organizationDesc'],
+            'organization_yewu' => $userInfo['organizationYewu'],
+            'organization_phone' => $userInfo['organizationPhone'],
+            'organization_www' => $userInfo['organizationWww'],
+        ];
+
+        $this->outputOk('', $data);
     }
 
 }

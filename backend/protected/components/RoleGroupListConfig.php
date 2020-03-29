@@ -56,4 +56,18 @@ class RoleGroupListConfig
             16 => '大学四年级',
         ];
     }
+
+    /**
+     * 教师/机构评价得分
+     * @return array
+     */
+    public static function getScoreList(){
+        return [
+            1,
+            2,
+            3,
+            4,
+            5
+        ];
+    }
 }
