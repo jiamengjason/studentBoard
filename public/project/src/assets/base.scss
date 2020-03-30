@@ -44,8 +44,12 @@ li {
 // container
 .st-container{
     width: 1400px;
+    margin: 0 auto;
 }
 .mainBg{
     background-color: $mainBg;
+}
+.mt80{
+  margin-top: 80px;
 }
 

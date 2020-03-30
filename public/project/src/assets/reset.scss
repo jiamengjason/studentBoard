@@ -9,6 +9,13 @@ $orangeColor: #ff7001; //主题色
   border-radius: 0;
 }
 
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+  background: $orangeColor;
+}
+.el-pagination.is-background .el-pager li:not(.disabled):hover{
+  color: $orangeColor;
+}
+
 .st-search {
   .el-input__inner{
     height:50px;
@@ -56,4 +63,8 @@ $orangeColor: #ff7001; //主题色
 // form
 .el-form-item {
   margin-bottom: 20px;
+}
+
+.st-page{
+  padding: 40px 0;
 }
