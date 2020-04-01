@@ -30,9 +30,10 @@
         <div class="login-status">
           <el-row>
             <el-col :span="7">
-              <router-link to="/register">注册</router-link> 
-               | 
-              <router-link to="/login">登录</router-link></el-col>
+              <router-link to="/register">注册</router-link>
+              |
+              <router-link to="/login">登录</router-link>
+            </el-col>
             <el-col :span="7"><span class="gray">中</span>/EN</el-col>
             <el-col :offset="4"></el-col>
           </el-row>
@@ -57,12 +58,12 @@ export default {
     getCurrtActive(){
       console.info('this.route', this.$route)
       // 著名机构
-      if(this.$route.name == 'organization'){
+      if(this.$route.name == 'organization' || this.$route.name == 'organizationinfo'){
         this.activeIndex = '2'
-      }else if(this.$route.name == 'teachers'){
+      }else if(this.$route.name == 'teachers' || this.$route.name == 'teachersinfo'){
         // 知名教师
         this.activeIndex = '3'
-      }else if(this.$route.name == 'activity'){
+      }else if(this.$route.name == 'activity' || this.$route.name == 'activityinfo'){
         // 课外活动
         this.activeIndex = '4'
       }else if(this.$route.name == 'studyCircle'){

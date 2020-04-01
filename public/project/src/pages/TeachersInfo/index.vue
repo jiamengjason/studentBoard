@@ -27,7 +27,9 @@
                 金融教育机构
               </el-col>
               <el-col :span="6">
-                <button>评价老师</button>
+                <router-link class="orgvaluation-a" :to="{name: 'teachervaluation'}">
+                  评价老师
+                </router-link>
               </el-col>
             </el-row>
             <div class="mess-tit">

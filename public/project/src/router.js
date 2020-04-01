@@ -4,8 +4,10 @@ import Router from "vue-router";
 import Home from "./pages/home/index";
 import Organization from "./pages/organization/index"
 import OrganizationInfo from "./pages/organizationinfo/index"
+import OrganizationValuation from "./pages/OrganizationValuation/index"
 import Teachers from "./pages/Teachers/index"
 import TeachersInfo from "./pages/TeachersInfo/index"
+import TeacherValuation from "./pages/TeacherValuation/index"
 import Activity from "./pages/Activity/index"
 import ActivityInfo from "./pages/ActivityInfo/index"
 import StudyCircle from "./pages/StudyCircle/index"
@@ -54,6 +56,13 @@ const router = new Router({
         title: "知名机构"
       }
     }, {
+      path: "/orgvaluation",
+      name: 'orgvaluation',
+      component: OrganizationValuation,
+      meta: {
+        title: "知名机构_评价"
+      }
+    }, {
       path: "/organizationinfo",
       name: 'organizationinfo',
       component: OrganizationInfo,
@@ -75,6 +84,13 @@ const router = new Router({
         title: "知名教师_详情"
       }
     }, {
+      path: "/teachervaluation",
+      name: 'teachervaluation',
+      component: TeacherValuation,
+      meta: {
+        title: "知名教师_评价"
+      }
+    },{
       path: "/activity",
       name: 'activity',
       component: Activity,

@@ -21,6 +21,12 @@
           </router-link>
         </el-col>
       </el-row>
+
+      <!-- 分页 -->
+      <div class="st-page">
+        <el-pagination background layout="prev, pager, next" :total="1000">
+        </el-pagination>
+      </div>
     </div>
     <Footer class="homefooter"></Footer> 
   </div>

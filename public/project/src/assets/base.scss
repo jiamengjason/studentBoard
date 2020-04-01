@@ -53,3 +53,47 @@ li {
   margin-top: 80px;
 }
 
+.st-message-zan{
+  text-align: right;
+  height: 20px;
+  line-height: 20px;
+  .time{
+    font-size:12px;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+    float: left;
+  }
+  .zan,.cai{
+    font-size:14px;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+    position: relative;
+    margin-left: 40px;
+    padding-left: 22px;
+    display: inline-block;
+    cursor: pointer;
+    &::before{
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 16px;
+      height: 100%;
+    }
+  }
+  .zan{
+    &::before{
+      background: url(/img/zan.png) no-repeat 0 center;
+    }
+  }
+  .cai{
+    &::before{
+      background: url(/img/cai.png) no-repeat 0 center;
+    }
+  }
+}
+
+// 面包屑
+.st-breadcrumb{
+  padding: 20px 0;
+}

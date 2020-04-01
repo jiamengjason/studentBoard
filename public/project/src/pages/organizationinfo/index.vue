@@ -30,7 +30,9 @@
                 <span class="label">网址：</span>shipin.com
               </el-col>
               <el-col :span="6">
-                <button>评价视频教育机构</button>
+                <router-link class="orgvaluation-a" :to="{name: 'orgvaluation'}">
+                  评价机构
+                </router-link>
               </el-col>
             </el-row>
             <div class="mess-tit">
@@ -130,10 +132,6 @@ export default {
 .organization-info{
   width: 1400px;
   margin:  80px auto 50px auto;
-  // 面包屑
-  .st-breadcrumb{
-    padding: 20px 0;
-  }
   
   // 公共部分-----------start
   // 分数
@@ -154,39 +152,6 @@ export default {
     color:rgba(153,153,153,1);
   }
 
-  .st-message-zan{
-    text-align: right;
-    height: 20px;
-    line-height: 20px;
-    .zan,.cai{
-      font-size:14px;
-      font-weight:400;
-      color:rgba(153,153,153,1);
-      position: relative;
-      margin-left: 40px;
-      padding-left: 22px;
-      display: inline-block;
-      cursor: pointer;
-      &::before{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 16px;
-        height: 100%;
-      }
-    }
-    .zan{
-      &::before{
-        background: url(/img/zan.png) no-repeat 0 center;
-      }
-    }
-    .cai{
-      &::before{
-        background: url(/img/cai.png) no-repeat 0 center;
-      }
-    }
-  }
   // 公共部分----------end
 
   .st-org-con{
@@ -233,10 +198,12 @@ export default {
           color:rgba(153,153,153,1);
           line-height:30px;
         }
-        button{
+        .orgvaluation-a{
+          display: block;
+          text-align: center;
           float: right;
-          width:210px;
           height:40px;
+          padding: 0 40px;
           border: none;
           line-height: 40px;
           background:rgba(255,112,1,1);
@@ -244,6 +211,7 @@ export default {
           font-size:22px;
           font-weight:400;
           color:rgba(255,255,255,1);
+          cursor: pointer;
         }
       }
     }
