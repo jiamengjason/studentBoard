@@ -1,84 +1,68 @@
 <template>
   <div class="student-personal">
-    <TopTitle :text="text" />
-    <el-row :gutter="20" class="student-base-info">
-      <el-col :span="6">
-        <div class="grid-content-first">
-          <img src alt />
-          <p class="content-first-desc">
-            支持jpg、png格式的图片
-            <br />文件须小于1M
-          </p>
-          <p class="content-first-btn">上传头像</p>
-        </div>
-      </el-col>
-      <el-col :span="18">
-        <el-form
-          ref="ruleForm"
-          :model="ruleForm"
-          status-icon
-          :rules="rules"
-          label-width="100px"
-          class="personal-ruleForm"
-        >
-          <!-- 姓名 -->
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item label="用户名：" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8" :offset="5">
-              <el-form-item label="Email：" prop="eamil">
-                <el-input v-model="ruleForm.eamil"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <!-- 在读学校 -->
-          <el-row :gutter="20">
-            <el-col :span="8" class="school-spe-style">
-              <el-form-item label="在读学校：" prop="school">
-                <el-input v-model="ruleForm.school"></el-input>
-                <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="education">
-                  <el-option
-                    v-for="item in eduOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8" :offset="5">
-              <el-form-item label="手机号码：" prop="mobile">
-                <el-input v-model="ruleForm.mobile"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <!-- 身份证 -->
-          <el-row :gutter="10">
-            <el-col :span="8">
-              <el-form-item label="身份证：">
-                <el-input v-model="ruleForm.school"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <!-- 保存 -->
-          <p class="personal-top-save-btn">保存</p>
-        </el-form>
-      </el-col>
-    </el-row>
-    <PersonBase />
+    <template v-if="activeName == 'teacher1'">
+      <TopTitle :text="text" />
+      <el-row :gutter="20" class="student-base-info">
+        <el-col :span="6">
+          <div class="grid-content-first">
+            <img src alt />
+            <p class="content-first-desc">
+              支持jpg、png格式的图片
+              <br />文件须小于1M
+            </p>
+            <p class="content-first-btn">上传头像</p>
+          </div>
+        </el-col>
+        <el-col :span="18">
+          <el-form
+            ref="ruleForm"
+            :model="ruleForm"
+            status-icon
+            :rules="rules"
+            label-width="100px"
+            class="personal-ruleForm"
+          >
+            <!-- 姓名 -->
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item label="用户名：" prop="userName">
+                  <el-input v-model="ruleForm.userName"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" :offset="5">
+                <el-form-item label="Email：" prop="eamil">
+                  <el-input v-model="ruleForm.eamil"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 身份证 -->
+            <el-row :gutter="10">
+              <el-col :span="8">
+                <el-form-item label="身份证：">
+                  <el-input v-model="ruleForm.identityImg"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 保存 -->
+            <p class="personal-top-save-btn">保存</p>
+          </el-form>
+        </el-col>
+      </el-row>
+      <PersonBase />
+    </template>
+    <PersonalActivity v-if="activeName == 'teacher2'" />
   </div>
 </template>
 <script>
 import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
+import PersonalActivity from "./PersonalActivity.vue";
 
 export default {
   components: {
     TopTitle,
-    PersonBase
+    PersonBase,
+    PersonalActivity
   },
   data() {
     return {

@@ -1,6 +1,6 @@
 <template>
   <div class="student-personal">
-    <template v-if="activeName == 'student1'">
+    <template v-if="activeName == 'parent1'">
       <TopTitle :text="text" />
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
@@ -35,40 +35,11 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- 在读学校 -->
-            <el-row :gutter="20">
-              <el-col :span="8" class="school-spe-style">
-                <el-form-item label="在读学校：" prop="school">
-                  <el-input v-model="ruleForm.school"></el-input>
-                  <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="education">
-                    <el-option
-                      v-for="item in eduOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8" :offset="5">
-                <el-form-item label="手机号码：" prop="mobile">
-                  <el-input v-model="ruleForm.mobile"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
             <!-- 身份证 -->
             <el-row :gutter="10">
               <el-col :span="8">
                 <el-form-item label="身份证：">
                   <el-input v-model="ruleForm.identityImg"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <!-- 身份证 -->
-            <el-row :gutter="10">
-              <el-col :span="8">
-                <el-form-item label="学生证：">
-                  <el-input v-model="ruleForm.studentCardImg"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -79,8 +50,8 @@
       </el-row>
       <PersonBase />
     </template>
-    <PersonalActivity v-if="activeName == 'student2'" />
-    <Comment v-if="activeName == 'student4'" />
+    <PersonalActivity v-if="activeName == 'parent2'" />
+    <Comment v-if="activeName == 'parent4'" />
   </div>
 </template>
 <script>

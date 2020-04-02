@@ -80,18 +80,21 @@
       <PersonBase />
     </template>
     <OrgActivity v-if="activeName == 'organization2'" />
+    <OrgRelease v-if="activeName == 'organization2'" />
   </div>
 </template>
 <script>
 import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import OrgActivity from "./OrgActivity.vue";
+import OrgRelease from "./OrgRelease.vue";
 
 export default {
   components: {
     TopTitle,
     PersonBase,
-    OrgActivity
+    OrgActivity,
+    OrgRelease
   },
   props: {
     activeName: String

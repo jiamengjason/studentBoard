@@ -16,10 +16,13 @@
           :key="index"
           :label="item.name"
           :name="item.key"
-        >{{ item }}</el-tab-pane>
+        >
+          {{ item }}
+        </el-tab-pane>
       </el-tabs>
       <StudentPersonal v-if="role ===1 " :active-name="activeName" />
       <TeacherPersonal v-if="role ===2 " :active-name="activeName" />
+      <StudentPersonal v-if="role ===3 " :active-name="activeName" />
       <OrgPersonal v-if="role ===4 " :active-name="activeName" />
     </div>
   </div>
@@ -40,7 +43,7 @@ export default {
     return {
       activeName: "student1",
       stretch: true,
-      role: 4 // 1 student 2 teacher 3 parent 4 organization
+      role: 1 // 1 student 2 teacher 3 parent 4 organization
     };
   },
   computed: {
