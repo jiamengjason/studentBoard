@@ -1,6 +1,6 @@
 <template>
-  <div class="student-personal">
-    <template v-if="activeName == 'student1'">
+  <div class="org-personal">
+    <template v-if="activeName == 'organization1'">
       <TopTitle :text="text" />
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
@@ -22,53 +22,51 @@
             label-width="100px"
             class="personal-ruleForm"
           >
-            <!-- 姓名 -->
+            <!-- 机构名称、简介 -->
             <el-row :gutter="20">
               <el-col :span="8">
-                <el-form-item label="用户名：" prop="userName">
-                  <el-input v-model="ruleForm.userName"></el-input>
+                <el-form-item label="名称：" prop="organizationName">
+                  <el-input v-model="ruleForm.organizationName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="Email：" prop="eamil">
-                  <el-input v-model="ruleForm.eamil"></el-input>
+                <el-form-item label="简介：" prop="organizationDesc">
+                  <el-input v-model="ruleForm.organizationDesc" type="textarea" class="org-desc"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- 在读学校 -->
+            <!-- 手机号码 -->
+            <el-row :gutter="10">
+              <el-col :span="8" style="margin-top:-50px;">
+                <el-form-item label="手机号码：" class="text-left">
+                  {{ ruleForm.organizationPhone }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 业务、官网 -->
             <el-row :gutter="20">
-              <el-col :span="8" class="school-spe-style">
-                <el-form-item label="在读学校：" prop="school">
-                  <el-input v-model="ruleForm.school"></el-input>
-                  <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="education">
-                    <el-option
-                      v-for="item in eduOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
+              <el-col :span="8">
+                <el-form-item label="业务：" prop="organizationYewu">
+                  <el-input v-model="ruleForm.organizationYewu"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="手机号码：" prop="mobile">
-                  <el-input v-model="ruleForm.mobile"></el-input>
+                <el-form-item label="官网：" prop="organizationWww">
+                  <el-input v-model="ruleForm.organizationWww"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 身份证 -->
-            <el-row :gutter="10">
+            <el-row :gutter="20">
               <el-col :span="8">
-                <el-form-item label="身份证：">
-                  <el-input v-model="ruleForm.identityImg"></el-input>
+                <el-form-item label="Email：" class="text-left">
+                  {{ ruleForm.organizationEmail }}
                 </el-form-item>
               </el-col>
-            </el-row>
-            <!-- 身份证 -->
-            <el-row :gutter="10">
-              <el-col :span="8">
-                <el-form-item label="学生证：">
-                  <el-input v-model="ruleForm.studentCardImg"></el-input>
+              <el-col :span="8" :offset="5">
+                <el-form-item label="身份证：" class="text-left">
+                  <span>已上传</span>
+                  <span>未上传</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -80,7 +78,7 @@
       <PersonBase />
     </template>
     <OrgActivity v-if="activeName == 'organization2'" />
-    <OrgRelease v-if="activeName == 'organization2'" />
+    <OrgRelease v-if="activeName == 'organization3'" />
   </div>
 </template>
 <script>
@@ -103,34 +101,21 @@ export default {
     return {
       text: "基本信息",
       ruleForm: {
-        userName: "",
-        eamil: "",
-        mobile: "",
-        school: "",
-        eduValue: "",
-        identityImg: "",
-        studentCardImg: ""
+        organizationName:"" ,
+        organizationEmail:"organizationEmail" ,
+        organizationDesc:"" ,
+        organizationYewu: "",
+        organizationPhone: "organizationPhone",
+        organizationWww: ""
       },
-      eduOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
+    
       rules: {
-        userName: [
-          { required: true, message: "请输入用户名", trigger: "blur" }
+        organizationName: [
+          { required: true, message: "请输入机构名称", trigger: "blur" }
         ],
-        eamil: [
-          { required: true, message: "请输入Email", trigger: "blur" },
-          { type: "email", message: "请输入正确的Email", trigger: "blur" }
-        ],
-        mobile: [{ required: true, message: "请输入手机号", trigger: "blur" }],
-        school: [{ required: true, message: "请输入学校", trigger: "blur" }]
+        organizationDesc: [{ required: true, message: "请输入简介", trigger: "blur" }],
+        organizationYewu: [{ required: true, message: "请输入业务", trigger: "blur" }],
+        organizationWww: [{ required: true, message: "请输入官网地址", trigger: "blur" }] 
       }
     };
   },
@@ -142,15 +127,22 @@ export default {
 <style lang="scss">
 @import "@/assets/base.scss";
 
-.student-personal {
+.org-personal {
   margin-top: 40px;
   .student-base-info {
     width: 100%;
     max-width: 1400px;
-    // height: 317px;
     background: #fff;
     padding: 50px;
     margin: 0 !important;
+  }
+  .org-desc{
+    width: 300px;
+    height: 110px;
+    .el-textarea__inner{
+      resize:none;
+      padding: 20px;
+    }
   }
   .grid-content-first {
     img {
@@ -183,26 +175,21 @@ export default {
     .el-input__inner {
       width: 300px;
     }
-    .school-spe-style .el-input__inner {
-      width: 150px;
-    }
-    .education {
-      .el-input__inner {
-        width: 130px;
-      }
-      margin-left: 20px;
-    }
+  }
+  .text-left{
+    text-align: left;
   }
   .personal-top-save-btn {
     width: 300px;
     height: 40px;
-    background: rgba(255, 112, 1, 1);
+    background: orangeColor;
     border-radius: 5px;
     font-size: 20px;
     color: #fff;
     text-align: center;
     line-height: 40px;
     margin-left: 100px;
+    cursor: pointer;
   }
 }
 </style>

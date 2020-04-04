@@ -30,8 +30,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="Email：" prop="eamil">
-                  <el-input v-model="ruleForm.eamil"></el-input>
+                <el-form-item label="Email：" class="text-left">
+                  {{ ruleForm.email }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -51,24 +51,26 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="手机号码：" prop="mobile">
-                  <el-input v-model="ruleForm.mobile"></el-input>
+                <el-form-item label="手机号码：" class="text-left">
+                  {{ ruleForm.mobile }}
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 身份证 -->
             <el-row :gutter="10">
               <el-col :span="8">
-                <el-form-item label="身份证：">
-                  <el-input v-model="ruleForm.identityImg"></el-input>
+                <el-form-item label="身份证：" class="text-left">
+                  <span class="upload-state">已上传</span>
+                  <span class="upload-state">未上传</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 身份证 -->
             <el-row :gutter="10">
               <el-col :span="8">
-                <el-form-item label="学生证：">
-                  <el-input v-model="ruleForm.studentCardImg"></el-input>
+                <el-form-item label="学生证：" class="text-left">
+                  <span class="upload-state">已上传</span>
+                  <span class="upload-state">未上传</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -104,8 +106,8 @@ export default {
       text: "基本信息",
       ruleForm: {
         userName: "",
-        eamil: "",
-        mobile: "",
+        mobile:"mobile",
+        email:"mobile",
         school: "",
         eduValue: "",
         identityImg: "",
@@ -125,11 +127,6 @@ export default {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" }
         ],
-        eamil: [
-          { required: true, message: "请输入Email", trigger: "blur" },
-          { type: "email", message: "请输入正确的Email", trigger: "blur" }
-        ],
-        mobile: [{ required: true, message: "请输入手机号", trigger: "blur" }],
         school: [{ required: true, message: "请输入学校", trigger: "blur" }]
       }
     };
@@ -192,6 +189,12 @@ export default {
       }
       margin-left: 20px;
     }
+  }
+  .text-left{
+    text-align: left;
+  }
+  .upload-state{
+    margin-right:20rpx
   }
   .personal-top-save-btn {
     width: 300px;
