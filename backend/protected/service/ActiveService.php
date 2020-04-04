@@ -3,18 +3,36 @@
 class ActiveService
 {
     /**
-     * 查询机构下的活动列表
+     * 查询活动列表
      * @param $params
      * @return array
      */
     public function getActiveListByParams($params){
-        $userId = $params['user_id'];
-        $pageSize = !isset($params['pageSize']) ? CommonEnums::$pageSizeOfAdmin : $params['pageSize'];
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
 
         $activeModel = new Active();
         $criteria = new CDbCriteria();
         $criteria->order = 't.end_time DESC';
-        $criteria->condition = 'user_id = ' . $userId. ' and status_is = 1';
+        if (!empty($params)){
+            $condition = '1 ';
+            foreach ($params as $field=>$v){
+                if (empty($v)){
+                    continue;
+                }
+                if ($field == 'user_id'){//查询机构下的活动列表
+                    $condition .= ' and user_id = ' . $v . ' and status_is = 1';
+                }elseif($field == 'title'){//根据活动名称模糊搜索
+                    $condition .= ' and title like \'%' . trim($v) . '%\'';
+                }elseif($field == 'type' && $v == 1){//活动预告
+                    $condition .= ' and start_time >\'' . date('Y-m-d H:i:s').'\'';
+                }elseif($field == 'type' && $v == 2){//活动进行中
+                    $condition .= ' and start_time <\'' . date('Y-m-d H:i:s').'\' and end_time >\'' . date('Y-m-d H:i:s').'\'';
+                }elseif($field == 'type' && $v == 3){//已结束
+                    $condition .= ' and end_time <\'' . date('Y-m-d H:i:s').'\'';
+                }
+            }
+            $criteria->condition = $condition;
+        }
         $count = $activeModel->count($criteria);
         $pages = new CPagination($count);
         $pages->pageSize = $pageSize;
@@ -26,6 +44,7 @@ class ActiveService
         $time = time();
         foreach ($list as $item){
             $data[] = [
+                'active_id' => $item['id'],
                 'title' => $item['title'],
                 'title_img' => $item['title_img'],
                 'desc' => $item['desc'],
@@ -37,7 +56,7 @@ class ActiveService
             ];
         }
 
-        return ['list'=>$data, 'pageCount'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'pageSize'=>$pages->getPageSize()];
+        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 
     /**
@@ -47,7 +66,7 @@ class ActiveService
      */
     public function getMyActiveList($params){
         $userId = $params['user_id'];
-        $pageSize = !isset($params['pageSize']) ? CommonEnums::$pageSizeOfAdmin : $params['pageSize'];
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
 
         $activeUserModel = new ActiveUser();
         $criteria = new CDbCriteria();
@@ -77,6 +96,57 @@ class ActiveService
             ];
         }
 
-        return ['list'=>$data, 'pageCount'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'pageSize'=>$pages->getPageSize()];
+        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
+    }
+
+
+    /**
+     * 【课外活动】活动详情
+     * @param $id
+     * @param bool $userId
+     * @return array|bool
+     */
+    public function getActiveInfoById($id, $userId=false){
+        $activeInfo = Active::model()->findByPk($id);
+        if (empty($activeInfo) || empty($activeInfo->getAttributes())){
+            return false;
+        }
+
+        $data = $activeInfo->getAttributes();
+        if ($userId){
+            $attributes = [
+                'active_id' => $id,
+                'user_id' => $userId
+            ];
+            $activeUserInfo = ActiveUser::model()->findByAttributes($attributes);
+            if (!empty($activeUserInfo) && !empty($activeUserInfo->getAttributes())){
+                $data['is_attend'] = 1;
+            }else {
+                $data['is_attend'] = 0;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * 【课外活动】活动详情页面-报名活动
+     * @param $params
+     * @return bool
+     */
+    public function attendActive($params){
+        $activeUserModel = new ActiveUser();
+        $activeUserModel->setAttributes($params);
+        return $activeUserModel->save();
+    }
+
+    /**
+     * 判断用户是否已经报名了当前活动
+     * @param $userId
+     * @param $activeId
+     * @return CActiveRecord
+     */
+    public function isUserAttendActive($userId, $activeId){
+        return ActiveUser::model()->findByAttributes(['user_id'=>$userId, 'active_id'=>$activeId]);
     }
 }

@@ -16,7 +16,7 @@
       </el-col>
       <el-col :span="8" :offset="5">
         <el-form-item label="验证码：" prop="vertifyMeg">
-          <el-input v-model="ruleForm.vertifyMeg" class="vertify-code"></el-input>
+          <el-input v-model="ruleForm.vertifyMeg" class="vertify-code-pwd"></el-input>
           <el-button plain :disabled="clickCodeFlag" @click="getVertifyCode">{{ codeText }}</el-button>
         </el-form-item>
       </el-col>
@@ -24,13 +24,13 @@
     <!-- 密码 -->
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="新密码：" prop="name">
-          <el-input v-model="ruleForm.newPwd"></el-input>
+        <el-form-item label="新密码：" prop="newPwd">
+          <el-input v-model="ruleForm.newPwd" show-password></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8" :offset="5">
-        <el-form-item label="确认密码：" prop="vertifyMeg">
-          <el-input v-model="ruleForm.verNewPwd"></el-input>
+        <el-form-item label="确认密码：" prop="verNewPwd">
+          <el-input v-model="ruleForm.verNewPwd" show-password></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -41,11 +41,23 @@
 export default {
   name: "RegBase",
   data() {
+    // 确认密码验证
+    let checkPwd = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请确认您的密码"));
+      }
+      setTimeout(() => {
+        if (value === this.ruleForm.newPwd) {
+          callback();
+        } else {
+          callback(new Error("两次输入的密码不一致"));
+        }
+      }, 100);
+    };
     return {
       ruleForm: {
         mobile: "",
         vertifyMeg: "",
-
         newPwd: "",
         verNewPwd: ""
       },
@@ -54,7 +66,10 @@ export default {
       timer: null,
       rules: {
         mobile: [{ required: true, message: "请输入手机号", trigger: "blur" }],
-        vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
+        vertifyMeg: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+        newPwd:[{ required: true, message: "请输入新密码", trigger: "blur" }],
+        verNewPwd: [{ required: true, validator: checkPwd, trigger: "blur" }]
+
       }
     };
   },
@@ -87,13 +102,19 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../register/component/ele-reset.css";
 .demo-ruleForm {
   padding: 0 60px;
   margin-top: 60px;
 }
+.vertify-code-pwd{
+  width: 124px;
+  margin-right: 20px;
+  margin-left:-40px;
+}
 .be-sure {
+  cursor: pointer;
   width: 300px;
   height: 60px;
   background: rgba(255, 112, 1, 1);

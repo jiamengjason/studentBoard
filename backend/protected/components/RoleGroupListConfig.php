@@ -70,4 +70,18 @@ class RoleGroupListConfig
             5
         ];
     }
+
+    /**
+     * 标签列表
+     * @return array
+     */
+    public static function getTagsList(){
+        return [
+            '认真负责',
+            '谦虚',
+            '可爱',
+            '教学质量过硬',
+            '讲的细心',
+        ];
+    }
 }

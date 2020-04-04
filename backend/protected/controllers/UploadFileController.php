@@ -8,9 +8,10 @@ class UploadFileController extends FInterfaceBase
      */
     public function actionIndex()
     {
-        if (XUtils::method() != 'POST'){
-            $this->outputError('请求错误');
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
         }
+
         if (empty($_FILES['file']) || empty($_FILES['file']['tmp_name'])){
             $this->outputError('请选择文件');
         }

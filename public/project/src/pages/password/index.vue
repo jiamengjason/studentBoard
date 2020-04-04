@@ -1,27 +1,35 @@
 <template>
   <div class="page-warp">
-    <comBreadcrumb />
-    <div class="register-page">
+    <Hearder />
+    <comBreadcrumb class="bread-crumb" :bread-list="breadList" />
+    <div class="password-page">
       <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
         <el-tab-pane
           v-for="(item,index) in navList"
           :key="index"
           :label="item.name"
           :name="item.key"
-        >{{ item }}</el-tab-pane>
+        >
+          {{ item }}
+        </el-tab-pane>
       </el-tabs>
       <comMobile v-if="activeName == 'mobile'" />
       <comEmail v-if="activeName == 'email'" />
     </div>
+    <Footer />
   </div>
 </template>
 <script>
+import Hearder from "@/components/Hearder";
+import Footer from "@/components/Footer";
 import comBreadcrumb from "@/components/Breadcrumb";
 import comMobile from "./component/MobilePwd";
 import comEmail from "./component/EmailPwd";
 
 export default {
   components: {
+     Hearder,
+    Footer,
     comBreadcrumb,
     comMobile,
     comEmail
@@ -36,17 +44,33 @@ export default {
       ]
     };
   },
+  computed: {
+    breadList(){
+      if(this.activeName == 'mobile'){
+      return ['忘记密码','手机验证']
+      }
+      return ['忘记密码','邮箱验证']
+    }
+  },
   methods: {
     handleClick(tab) {
-      console.log(tab.name, tab);
       this.activeName = tab.name;
     }
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .page-warp {
   background: #f5f5f5;
+}
+.password-page {
+  width: 1400px;
+  background: rgba(255, 255, 255, 1);
+  margin: 20px auto 140px;
+  padding: 30px 0 110px;
+}
+.bread-crumb{
+  margin:80px auto 0;
 }
 .tab-warp {
   .grid-content {
@@ -58,11 +82,6 @@ export default {
   padding-bottom: 30px;
   border-bottom: 1px solid #ccc;
 }
-.register-page {
-  width: 1400px;
-  height: 1000px;
-  background: rgba(255, 255, 255, 1);
-  margin: 20px auto 0;
-  padding-top: 30px;
-}
+
+
 </style>

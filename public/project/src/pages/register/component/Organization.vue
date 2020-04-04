@@ -8,7 +8,7 @@
     <comOrgReg ref="orgReg" />
     <!-- 完成 -->
     <p class="reg-submit-warp">
-      <el-button type="primary" @click="submitForm">完成</el-button>
+      <el-button type="primary" @click="submitForm">完成注册</el-button>
       <span style="margin-left: 20px;">已有账号？</span>
       <span>去登录</span>
     </p>
@@ -37,13 +37,13 @@ export default {
       let params = {
         role_id: 1,
         organization_name: orgBase.model.name,
-        organization_email: orgBase.model.eamil,
+        organization_email: orgBase.model.email,
         organization_desc: orgBase.model.orgIntro,
         user_name: regBase.model.name,
         mobile: regBase.model.phone,
         password: regBase.model.pwd,
         re_password: regBase.model.truePwd,
-        email: regBase.model.eamil,
+        email: regBase.model.email,
         valid_code: studentReg.model.vertifyMeg,
         identity_img: studentReg.model.imageId
       };

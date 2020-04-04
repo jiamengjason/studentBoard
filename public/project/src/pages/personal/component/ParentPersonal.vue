@@ -30,16 +30,23 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="Email：" prop="eamil">
-                  <el-input v-model="ruleForm.eamil"></el-input>
+                <el-form-item label="Email：" class="text-left">
+                  {{ ruleForm.eamil }}
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 身份证 -->
-            <el-row :gutter="10">
+            <el-row :gutter="20">
               <el-col :span="8">
-                <el-form-item label="身份证：">
-                  <el-input v-model="ruleForm.identityImg"></el-input>
+                <el-form-item label="手机号码：" class="text-left">
+                  {{ ruleForm.mobile }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" :offset="5">
+                <el-form-item label="身份证：" class="text-left">
+                  <span class="upload-state">已上传</span>
+                  <span class="upload-state">未上传</span>
+                  <!-- <el-input v-model="ruleForm.identityImg"></el-input> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -51,6 +58,7 @@
       <PersonBase />
     </template>
     <PersonalActivity v-if="activeName == 'parent2'" />
+    <ComActivity v-if="activeName == 'parent3'" :act-list="actList" />
     <Comment v-if="activeName == 'parent4'" />
   </div>
 </template>
@@ -59,49 +67,34 @@ import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import PersonalActivity from "./PersonalActivity.vue";
 import Comment from "./Comment.vue";
+import ComActivity from "@/components/Activity";
+
 
 export default {
   components: {
     TopTitle,
     PersonBase,
     PersonalActivity,
-    Comment
+    Comment,
+    ComActivity
   },
   props: {
     activeName: String
   },
   data() {
     return {
+      actList:[1,2,3,4,5,6],
       text: "基本信息",
       ruleForm: {
         userName: "",
-        eamil: "",
-        mobile: "",
-        school: "",
-        eduValue: "",
+        eamil: "eamil",
+        mobile: "mobile",
         identityImg: "",
-        studentCardImg: ""
       },
-      eduOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
       rules: {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" }
-        ],
-        eamil: [
-          { required: true, message: "请输入Email", trigger: "blur" },
-          { type: "email", message: "请输入正确的Email", trigger: "blur" }
-        ],
-        mobile: [{ required: true, message: "请输入手机号", trigger: "blur" }],
-        school: [{ required: true, message: "请输入学校", trigger: "blur" }]
+        ]
       }
     };
   },
@@ -163,6 +156,12 @@ export default {
       }
       margin-left: 20px;
     }
+  }
+  .text-left{
+    text-align: left;
+  }
+  .upload-state{
+    margin-right:20rpx
   }
   .personal-top-save-btn {
     width: 300px;

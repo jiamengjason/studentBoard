@@ -110,7 +110,8 @@ class UsersService
             'organizationDesc'  => 'organization_desc',
             'organizationYewu'  => 'organization_yewu',
             'organizationPhone' => 'organization_phone',
-            'organizationWww'   => 'organization_www'
+            'organizationWww'   => 'organization_www',
+            'parentId'          => 'parent_id'
         ];
 
         $data = [];

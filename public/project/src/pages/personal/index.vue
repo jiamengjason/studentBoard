@@ -1,5 +1,6 @@
 <template>
   <div class="page-warp">
+    <Hearder />
     <div class="personal-top-com">
       <div class="top-img">
         <div class="personal-top-info">
@@ -22,34 +23,41 @@
       </el-tabs>
       <StudentPersonal v-if="role ===1 " :active-name="activeName" />
       <TeacherPersonal v-if="role ===2 " :active-name="activeName" />
-      <StudentPersonal v-if="role ===3 " :active-name="activeName" />
+      <ParentPersonal v-if="role ===3 " :active-name="activeName" />
       <OrgPersonal v-if="role ===4 " :active-name="activeName" />
     </div>
+    <Footer />
   </div>
 </template>
 <script>
+import Hearder from "@/components/Hearder";
+import Footer from "@/components/Footer";
 import StudentPersonal from "./component/StudentPersonal";
 import TeacherPersonal from "./component/TeacherPersonal";
+import ParentPersonal from "./component/ParentPersonal";
 import OrgPersonal from "./component/OrgPersonal";
 
 import { PERSONAL_NAV_LIST } from "@/constants/index";
 export default {
   components: {
+    Hearder,
+    Footer,
     StudentPersonal,
     TeacherPersonal,
+    ParentPersonal,
     OrgPersonal
   },
   data() {
     return {
-      activeName: "student1",
       stretch: true,
-      role: 1 // 1 student 2 teacher 3 parent 4 organization
+      role: 1, // 1 student 2 teacher 3 parent 4 organization
+      activeName:PERSONAL_NAV_LIST[1][0].key,
     };
   },
   computed: {
     navList() {
       return PERSONAL_NAV_LIST[this.role];
-    }
+    },
   },
   methods: {
     handleClick(tab) {
@@ -67,10 +75,10 @@ export default {
 // 顶部样式
 .personal-top-com {
   width: 100%;
-  max-width: 1400px;
+  // max-width: 1400px;
   height: 426px;
   background: #fff;
-  margin: 0 auto;
+  margin: 80px auto 0;
   .top-img {
     position: relative;
     width: 100%;
@@ -93,7 +101,7 @@ export default {
       color: rgba(51, 51, 51, 1);
     }
     .top-mobile {
-      margin-top: 20px;
+      margin-top: 6px;
       font-size: 22px;
       color: rgba(102, 102, 102, 1);
     }
@@ -114,8 +122,8 @@ export default {
 .personal-page {
   width: 100%;
   max-width: 1400px;
-  height: 1000px;
-  margin: 6px auto 0;
+  // height: 1000px;
+  margin: 6px auto 140px;
   .el-tabs__header {
     margin-bottom: 0;
   }

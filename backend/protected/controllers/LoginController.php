@@ -10,6 +10,10 @@ class LoginController extends FInterfaceBase
      * 注册账号
      */
     public function actionRegister (){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $params = [];
         //$_POST
         $collectionFields = [
@@ -87,6 +91,10 @@ class LoginController extends FInterfaceBase
      * 获取手机验证码
      */
     public function actionGetValidCodeByMobile(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $mobile = $_POST['mobile']; //手机号
         if (empty($mobile) || strlen($mobile) != 11){
             $this->outputError('手机号格式错误');
@@ -107,6 +115,10 @@ class LoginController extends FInterfaceBase
      * 登陆接口
      */
     public function actionDo(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $mobile = trim($_POST['mobile']);
         $password = trim($_POST['password']);
 
@@ -138,6 +150,10 @@ class LoginController extends FInterfaceBase
      * 通过手机号找回密码
      */
     public function actionResetPwByMobile(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $mobile = trim($_POST['mobile']);
         $validateCode = trim($_POST['validate_code']);
         $newPassword = trim($_POST['new_password']);
@@ -177,6 +193,10 @@ class LoginController extends FInterfaceBase
      * 获取邮箱验证码
      */
     public function actionGetValidCodeByEmail(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $email = $_POST['email']; //邮箱
         if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
             $this->outputError('无效的Email格式');
@@ -202,6 +222,10 @@ class LoginController extends FInterfaceBase
      * 通过邮箱找回密码
      */
     public function actionResetPwByEmail(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $email = trim($_POST['email']);
         $validateCode = trim($_POST['validate_code']);
         $newPassword = trim($_POST['new_password']);

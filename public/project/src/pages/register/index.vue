@@ -1,6 +1,7 @@
 <template>
   <div class="page-warp">
-    <comBreadcrumb />
+    <Hearder />
+    <comBreadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
       <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
         <el-tab-pane
@@ -8,7 +9,9 @@
           :key="index"
           :label="item.name"
           :name="item.key"
-        >{{ item }}</el-tab-pane>
+        >
+          {{ item }}
+        </el-tab-pane>
       </el-tabs>
 
       <comStudentReg v-if="activeName == 'student'" />
@@ -16,9 +19,12 @@
       <comTeacherReg v-if="activeName == 'teacher'" />
       <comOrgReg v-if="activeName == 'organization'" />
     </div>
+    <Footer />
   </div>
 </template>
 <script>
+import Hearder from "@/components/Hearder";
+import Footer from "@/components/Footer";
 import comBreadcrumb from "@/components/Breadcrumb";
 import comStudentReg from "./component/Student";
 import comTeacherReg from "./component/Teacher";
@@ -26,6 +32,8 @@ import comParentReg from "./component/Parent";
 import comOrgReg from "./component/Organization";
 export default {
   components: {
+    Hearder,
+    Footer,
     comBreadcrumb,
     comStudentReg,
     comTeacherReg,
@@ -44,9 +52,22 @@ export default {
       ]
     };
   },
+  computed: {
+    breadList(){
+      if(this.activeName == 'parent'){
+      return ['个人注册','家长']
+
+      }else if(this.activeName == 'teacher'){
+      return ['个人注册','老师']
+
+      }else if(this.activeName == 'organization'){
+      return ['个人注册','机构']
+      }
+      return ['个人注册','学生']
+    }
+  },
   methods: {
     handleClick(tab) {
-      console.log(tab.name, tab);
       this.activeName = tab.name;
     }
   }
@@ -55,6 +76,9 @@ export default {
 <style lang="scss" scoped>
 .page-warp {
   background: #f5f5f5;
+}
+.bread-crumb{
+  margin:80px auto 0;
 }
 .tab-warp {
   .grid-content {
@@ -68,9 +92,8 @@ export default {
 }
 .register-page {
   width: 1400px;
-  height: 1000px;
   background: rgba(255, 255, 255, 1);
-  margin: 20px auto 0;
+  margin: 20px auto 140px;
   padding-top: 30px;
 }
 </style>

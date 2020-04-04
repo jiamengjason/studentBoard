@@ -103,4 +103,12 @@ class FInterfaceBase extends Controller
         $msg = empty($msg) ? ErrorCodeEnums::getMsgByCode($code) : $msg;
         return $this->outputJson($code, $msg, $data);
     }
+
+    /**
+     * 判断是否Post请求
+     * @return mixed
+     */
+    public function isPostRequest(){
+        return $this->_gets->isPostRequest;
+    }
 }

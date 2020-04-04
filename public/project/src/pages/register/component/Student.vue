@@ -6,7 +6,7 @@
     <comStudentReg ref="studentReg" />
     <!-- 完成 -->
     <p class="reg-submit-warp">
-      <el-button type="primary" @click="submitForm">完成</el-button>
+      <el-button type="primary" @click="submitForm">完成注册</el-button>
       <span style="margin-left: 20px;">已有账号？</span>
       <span>去登录</span>
     </p>
@@ -38,7 +38,7 @@ export default {
         mobile: regBase.model.phone,
         password: regBase.model.pwd,
         re_password: regBase.model.truePwd,
-        email: regBase.model.eamil,
+        email: regBase.model.email,
         school_name: studentReg.model.school,
         grade: studentReg.model.eduValue,
         valid_code: studentReg.model.vertifyMeg,
