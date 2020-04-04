@@ -6,14 +6,14 @@ export const PERSONAL_NAV_LIST = {
     { name: "我的评论", key: "student4" }
   ],
   2: [
+    { name: "个人中心", key: "teacher1" },
+    { name: "参加活动", key: "teacher2" }
+  ],
+  3: [
     { name: "个人中心", key: "parent1" },
     { name: "参加活动", key: "parent2" },
     { name: "我的评价", key: "parent3" },
     { name: "我的评论-jia", key: "parent4" }
-  ],
-  3: [
-    { name: "个人中心", key: "teacher1" },
-    { name: "参加活动", key: "teacher2" }
   ],
   4: [
     { name: "个人中心", key: "organization1" },

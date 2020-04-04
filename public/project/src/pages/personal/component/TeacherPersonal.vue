@@ -1,5 +1,5 @@
 <template>
-  <div class="student-personal">
+  <div class="teacher-personal">
     <template v-if="activeName == 'teacher1'">
       <TopTitle :text="text" />
       <el-row :gutter="20" class="student-base-info">
@@ -30,16 +30,37 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="Email：" prop="eamil">
-                  <el-input v-model="ruleForm.eamil"></el-input>
+                <el-form-item label="Email：" class="text-left">
+                  {{ ruleForm.email }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 机构、手机号 -->
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item label="机构：" prop="orgValue">
+                  <el-select v-model="ruleForm.orgValue" placeholder="请选择机构" class="education">
+                    <el-option
+                      v-for="item in orgOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" :offset="5">
+                <el-form-item label="手机号：" class="text-left">
+                  {{ ruleForm.mobile }}
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 身份证 -->
             <el-row :gutter="10">
               <el-col :span="8">
-                <el-form-item label="身份证：">
-                  <el-input v-model="ruleForm.identityImg"></el-input>
+                <el-form-item label="身份证：" class="text-left">
+                  <span>已上传</span>
+                  <span>未上传</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -64,17 +85,20 @@ export default {
     PersonBase,
     PersonalActivity
   },
+  props: {
+    activeName: String
+  },
   data() {
     return {
       text: "基本信息",
       ruleForm: {
-        name: "",
-        eamil: "",
-        mobile: "",
-        school: "",
-        eduValue: ""
+        userName: "",
+        email: "email",
+        mobile: "email",
+        orgValue: "",
+        identityImg:""
       },
-      eduOptions: [
+      orgOptions: [
         {
           value: "选项1",
           label: "黄金糕"
@@ -85,13 +109,8 @@ export default {
         }
       ],
       rules: {
-        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        eamil: [
-          { required: true, message: "请输入Email", trigger: "blur" },
-          { type: "email", message: "请输入正确的Email", trigger: "blur" }
-        ],
-        mobile: [{ required: true, message: "请输入手机号", trigger: "blur" }],
-        school: [{ required: true, message: "请输入学校", trigger: "blur" }]
+        userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        orgValue: [{ required: true, message: "请选择机构", trigger: "blur" }]
       }
     };
   }
@@ -100,7 +119,7 @@ export default {
 <style lang="scss">
 @import "@/assets/base.scss";
 
-.student-personal {
+.teacher-personal {
   margin-top: 40px;
   .student-base-info {
     width: 100%;
@@ -145,11 +164,14 @@ export default {
       width: 150px;
     }
     .education {
+      width: 300px;
       .el-input__inner {
-        width: 130px;
+        width: 300px;
       }
-      margin-left: 20px;
     }
+  }
+  .text-left {
+    text-align: left;
   }
   .personal-top-save-btn {
     width: 300px;
