@@ -1,5 +1,6 @@
 <template>
   <div class="page-warp">
+    <Hearder />
     <div class="personal-top-com">
       <div class="top-img">
         <div class="personal-top-info">
@@ -25,9 +26,12 @@
       <ParentPersonal v-if="role ===3 " :active-name="activeName" />
       <OrgPersonal v-if="role ===4 " :active-name="activeName" />
     </div>
+    <Footer />
   </div>
 </template>
 <script>
+import Hearder from "@/components/Hearder";
+import Footer from "@/components/Footer";
 import StudentPersonal from "./component/StudentPersonal";
 import TeacherPersonal from "./component/TeacherPersonal";
 import ParentPersonal from "./component/ParentPersonal";
@@ -36,6 +40,8 @@ import OrgPersonal from "./component/OrgPersonal";
 import { PERSONAL_NAV_LIST } from "@/constants/index";
 export default {
   components: {
+    Hearder,
+    Footer,
     StudentPersonal,
     TeacherPersonal,
     ParentPersonal,

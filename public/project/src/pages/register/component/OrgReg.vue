@@ -8,10 +8,10 @@
     class="demo-ruleForm"
   >
     <!-- 机构 -->
-    <el-row :gutter="10" style="margin-top:-100px">
+    <el-row :gutter="10" style="margin-top:-118px">
       <el-col :span="8" :offset="5">
         <el-form-item label="所属机构：" prop="organization">
-          <el-select v-model="orgValue" placeholder="请选择机构" class="organization">
+          <el-select v-model="ruleForm.orgValue" placeholder="请选择机构" class="organization">
             <el-option
               v-for="item in orgOptions"
               :key="item.value"
@@ -49,7 +49,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-checkbox v-model="ruleForm.checked">本人已阅并同意本站注册的要求内容</el-checkbox>
+    <el-checkbox v-model="ruleForm.checked" class="check-agree">本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>
 </template>
 <script>
@@ -97,10 +97,10 @@ export default {
   },
   created() {
     // 获取机构列表
-    apigetOrganizationList().then(res => {
-      console.log(res);
-      // this.orgOptions = res.data.list
-    });
+    // apigetOrganizationList().then(res => {
+    //   console.log(res);
+    //   this.orgOptions = res.data.list
+    // });
   },
   methods: {
     handleIdSuccess(res, file) {
@@ -139,14 +139,8 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./ele-reset.css";
-.title {
-  font-size: 22px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-align: left;
-}
 .organization {
   width: 300px;
 }

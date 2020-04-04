@@ -44,13 +44,14 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../register/component/ele-reset.css";
 .demo-ruleForm {
   padding: 0 60px;
   margin-top: 60px;
 }
 .be-sure {
+  cursor: pointer;
   width: 300px;
   height: 60px;
   background: rgba(255, 112, 1, 1);

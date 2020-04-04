@@ -1,7 +1,6 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>当前位置</el-breadcrumb-item>
     <el-breadcrumb-item v-for="(item,index) in breadList" :key="index">{{ item }}</el-breadcrumb-item>
   </el-breadcrumb>
 </template>

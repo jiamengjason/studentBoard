@@ -5,13 +5,13 @@
     status-icon
     :rules="rules"
     label-width="110px"
-    class="demo-ruleForm"
+    class="student-ruleForm demo-ruleForm"
   >
-    <el-row :gutter="10" style="margin-top:-100px">
+    <el-row :gutter="10" style="margin-top:-118px">
       <el-col :span="8" :offset="5" class="school-spe-style">
         <el-form-item label="在读学校：" prop="school">
           <el-input v-model="ruleForm.school" class="vertify-code"></el-input>
-          <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="education">
+          <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="reg-education">
             <el-option
               v-for="item in eduOptions"
               :key="item.value"
@@ -64,7 +64,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-checkbox v-model="ruleForm.checked">本人已阅并同意本站注册的要求内容</el-checkbox>
+    <el-checkbox v-model="ruleForm.checked" class="check-agree">本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>
 </template>
 <script>
@@ -161,20 +161,16 @@ export default {
 </script>
 <style lang="scss">
 @import "./ele-reset.css";
-.title {
-  font-size: 22px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-align: left;
-}
-/* 在读学校 */
-.school-spe-style .el-form-item__content {
-  display: flex;
-}
-.education {
-  width: 150px;
-}
-.disabled .el-upload--picture-card {
-  display: none;
+.student-ruleForm{
+  /* 在读学校 */
+  .school-spe-style .el-form-item__content {
+    display: flex;
+  }
+  .reg-education {
+    width: 150px;
+  }
+  .disabled .el-upload--picture-card {
+    display: none;
+  }
 }
 </style>

@@ -49,7 +49,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-checkbox v-model="ruleForm.checked">本人已阅并同意本站注册的要求内容</el-checkbox>
+    <el-checkbox v-model="ruleForm.checked" class="check-agree">本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>
 </template>
 <script>
@@ -131,14 +131,8 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./ele-reset.css";
-.title {
-  font-size: 22px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-align: left;
-}
 .organization {
   width: 270px;
 }
