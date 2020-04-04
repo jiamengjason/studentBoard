@@ -8,13 +8,22 @@ class ActiveService
      * @return array
      */
     public function getActiveListByParams($params){
-        $userId = $params['user_id'];
-        $pageSize = !isset($params['pageSize']) ? CommonEnums::$pageSizeOfAdmin : $params['pageSize'];
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
 
         $activeModel = new Active();
         $criteria = new CDbCriteria();
         $criteria->order = 't.end_time DESC';
-        $criteria->condition = 'user_id = ' . $userId. ' and status_is = 1';
+        if (!empty($params)){
+            $condition = '1 ';
+            foreach ($params as $field=>$v){
+                if ($field == 'user_id'){
+                    $condition .= ' and user_id = ' . $v . ' and status_is = 1';
+                }elseif($field == 'title'){
+                    $condition .= ' and title like \'%' . trim($v) . '%\'';
+                }
+            }
+            $criteria->condition = $condition;
+        }
         $count = $activeModel->count($criteria);
         $pages = new CPagination($count);
         $pages->pageSize = $pageSize;
@@ -37,7 +46,7 @@ class ActiveService
             ];
         }
 
-        return ['list'=>$data, 'pageCount'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'pageSize'=>$pages->getPageSize()];
+        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 
     /**
@@ -47,7 +56,7 @@ class ActiveService
      */
     public function getMyActiveList($params){
         $userId = $params['user_id'];
-        $pageSize = !isset($params['pageSize']) ? CommonEnums::$pageSizeOfAdmin : $params['pageSize'];
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
 
         $activeUserModel = new ActiveUser();
         $criteria = new CDbCriteria();
@@ -77,6 +86,6 @@ class ActiveService
             ];
         }
 
-        return ['list'=>$data, 'pageCount'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'pageSize'=>$pages->getPageSize()];
+        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 }

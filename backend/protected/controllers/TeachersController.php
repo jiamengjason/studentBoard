@@ -85,7 +85,7 @@ class TeachersController extends FInterfaceBase
     public function actionCommentList(){
         $params['teacherId'] = $this->_gets->getParam('teacher_id');
         $params['page'] = $this->_gets->getParam('page');
-        $params['pageSize'] = $this->_gets->getParam('pageSize');
+        $params['page_size'] = $this->_gets->getParam('page_size');
         if (empty($params['teacherId'])){
             $this->outputParamsError();
         }

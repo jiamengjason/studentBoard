@@ -124,7 +124,7 @@ order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
      * @return array
      */
     public function findEvaluateScoreListById($params){
-        $pageSize = !isset($params['pageSize']) ? CommonEnums::$pageSizeOfAdmin : $params['pageSize'];
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
 
         $evaluateScoreModel = new EvaluateScore();
         $criteria = new CDbCriteria();
@@ -154,7 +154,7 @@ order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
             ];
         }
 
-        return ['list'=>$data, 'pageCount'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'pageSize'=>$pages->getPageSize()];
+        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 
     /**

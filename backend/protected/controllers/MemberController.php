@@ -130,7 +130,7 @@ class MemberController extends FSessionInterfaceBase
     {
         $params = [];
         $params['page'] = $this->_gets->getParam('page');
-        $params['pageSize'] = $this->_gets->getParam('pageSize');
+        $params['page_size'] = $this->_gets->getParam('page_size');
         $params['user_id'] = $this->userId;
 
         //查询用户信息
@@ -147,7 +147,7 @@ class MemberController extends FSessionInterfaceBase
     {
         $params = [];
         $params['page'] = $this->_gets->getParam('page');
-        $params['pageSize'] = $this->_gets->getParam('pageSize');
+        $params['page_size'] = $this->_gets->getParam('page_size');
         $params['user_id'] = $this->userId;
 
         //查询参加的活动列表
