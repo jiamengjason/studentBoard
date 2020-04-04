@@ -36,8 +36,59 @@ class EvaluateScoreService
         $teacherList = [];
 
         //查询用户评价平均分
-        $sql = 'select evaluated_uid,round(avg(score),1) as score from sb_evaluate_score where evaluated_uid !='.$userId.
-            ' and evaluated_role_id = '.RoleGroupListConfig::$teacherRoleId.' group by evaluated_uid having score <= '.$avgScore.' order by evaluated_uid desc limit '.$limit;
+        $sql = 'select * from ('.
+            'select evaluated_uid,round(avg(score),1) as score from sb_evaluate_score where evaluated_uid !='.$userId.
+            ' and evaluated_role_id = '.RoleGroupListConfig::$teacherRoleId.' group by evaluated_uid having score <= '.$avgScore.' limit '.$limit.
+            ') as tmp order by tmp.score desc,tmp.evaluated_uid desc';
+        $evaluateScoreModel = new EvaluateScore();
+        $data = $evaluateScoreModel->findAllBySql($sql);
+        if (!empty($data)){
+            foreach ($data as $item){
+                $teacherList[] = [
+                    'teacher_id' => $item['evaluated_uid'],
+                    'score' => $item['score']
+                ];
+            }
+            //批量查询老师信息
+            $where = 'id in ('.implode(',', array_column($teacherList, 'teacher_id')).')';
+            $userService = new UsersService();
+            $userList = $userService->getAllUsersByCondition($where, 'id,role_id,user_name,head_img');
+            if (!empty($userList)){
+                $userMap = [];
+                foreach ($userList as $userItem){
+                    $userMap[$userItem['id']] = $userItem;
+                }
+                foreach ($teacherList as $key=>$item){
+                    $teacherList[$key]['role_id'] = isset($userMap[$item['teacher_id']]) ? $userMap[$item['teacher_id']]['role_id'] : '';
+                    $teacherList[$key]['user_name'] = isset($userMap[$item['teacher_id']]) ? $userMap[$item['teacher_id']]['user_name'] : '';
+                    $teacherList[$key]['head_img'] = isset($userMap[$item['teacher_id']]) ? $userMap[$item['teacher_id']]['head_img'] : '';
+                }
+            }
+        }
+
+        return $teacherList;
+    }
+
+    /**
+     * 根据机构id查询名师团队
+     * @param $userId
+     * @param $limit
+     * @return array
+     */
+    public function findTeacherListOfOrganizationByOid($userId, $limit=10){
+        $teacherList = [];
+
+        //查询机构下的老师按照评分排序
+        $sql = 'select * from (
+select 
+	ANY_VALUE(e.evaluated_uid) evaluated_uid, ANY_VALUE(u.user_name) user_name, ANY_VALUE(head_img) head_img, round(avg(score),1) as score, count(e.id) enum
+from sb_users u 
+left join sb_evaluate_score e on u.id = e.evaluated_uid
+where u.parent_id = '.$userId.'
+group by e.evaluated_uid having score > 0 limit '.$limit.'
+) as tmp
+order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
+';
         $evaluateScoreModel = new EvaluateScore();
         $data = $evaluateScoreModel->findAllBySql($sql);
         if (!empty($data)){

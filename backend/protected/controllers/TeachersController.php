@@ -34,8 +34,6 @@ class TeachersController extends FInterfaceBase
         $organizationList = $usersService->getAllUsersByCondition($where, $select);
         $organizationList = array_column($organizationList, null, 'id');
 
-
-
         //返回数据
         $data = [
             'teacher_id' => $teacherId,

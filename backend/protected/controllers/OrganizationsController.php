@@ -42,4 +42,29 @@ class OrganizationsController extends FInterfaceBase
         $this->outputOk('', $data);
     }
 
+    /**
+     * 【著名机构】机构详情-名师团队
+     */
+    public function actionFamousTeacher(){
+        $organizationId = $this->_gets->getParam('organization_id');
+        $limit = $this->_gets->getParam('limit');
+        $limit = $limit ? $limit : 0;
+        if (empty($organizationId)){
+            $this->outputParamsError();
+        }
+        $usersService = new UsersService();
+        $userInfo = $usersService->getUserInfoByUid($organizationId);
+        if (empty($userInfo)){
+            $this->outputParamsError();
+        }
+        if ($userInfo['roleId'] != RoleGroupListConfig::$organizationRoleId){
+            $this->outputParamsError();
+        }
+
+        //根据机构id查询名师团队
+        $evaluateScoreService = new EvaluateScoreService();
+        $organizationList = $evaluateScoreService->findTeacherListOfOrganizationByOid($organizationId, $limit);
+
+        $this->outputOk('', $organizationList);
+    }
 }
