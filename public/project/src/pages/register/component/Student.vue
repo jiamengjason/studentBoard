@@ -38,7 +38,7 @@ export default {
         mobile: regBase.model.phone,
         password: regBase.model.pwd,
         re_password: regBase.model.truePwd,
-        email: regBase.model.eamil,
+        email: regBase.model.email,
         school_name: studentReg.model.school,
         grade: studentReg.model.eduValue,
         valid_code: studentReg.model.vertifyMeg,

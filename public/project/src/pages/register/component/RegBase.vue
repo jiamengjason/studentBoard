@@ -36,8 +36,8 @@
     <!-- email -->
     <el-row :gutter="10">
       <el-col :span="8">
-        <el-form-item label="Email：" prop="eamil">
-          <el-input v-model="ruleForm.eamil"></el-input>
+        <el-form-item label="Email：" prop="email">
+          <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -84,7 +84,7 @@ export default {
         name: "",
         pwd: "",
         truePwd: "",
-        eamil: "",
+        email: "",
         phone: ""
       },
       rules: {
@@ -94,7 +94,7 @@ export default {
           { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
         ],
         truePwd: [{ required: true, validator: checkPwd, trigger: "blur" }],
-        eamil: [
+        email: [
           { required: true, message: "请输入Email", trigger: "blur" },
           { type: "email", message: "请输入正确的Email", trigger: "blur" }
         ],

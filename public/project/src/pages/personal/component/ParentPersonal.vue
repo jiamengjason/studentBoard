@@ -58,6 +58,7 @@
       <PersonBase />
     </template>
     <PersonalActivity v-if="activeName == 'parent2'" />
+    <ComActivity v-if="activeName == 'parent3'" :act-list="actList" />
     <Comment v-if="activeName == 'parent4'" />
   </div>
 </template>
@@ -66,19 +67,23 @@ import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import PersonalActivity from "./PersonalActivity.vue";
 import Comment from "./Comment.vue";
+import ComActivity from "@/components/Activity";
+
 
 export default {
   components: {
     TopTitle,
     PersonBase,
     PersonalActivity,
-    Comment
+    Comment,
+    ComActivity
   },
   props: {
     activeName: String
   },
   data() {
     return {
+      actList:[1,2,3,4,5,6],
       text: "基本信息",
       ruleForm: {
         userName: "",

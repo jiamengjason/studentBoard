@@ -49,10 +49,9 @@ export default {
   },
   data() {
     return {
-      // activeName: "parent1",
       stretch: true,
-      role: 4, // 1 student 2 teacher 3 parent 4 organization
-      activeName:PERSONAL_NAV_LIST[4][0].key,
+      role: 1, // 1 student 2 teacher 3 parent 4 organization
+      activeName:PERSONAL_NAV_LIST[1][0].key,
     };
   },
   computed: {
@@ -76,10 +75,10 @@ export default {
 // 顶部样式
 .personal-top-com {
   width: 100%;
-  max-width: 1400px;
+  // max-width: 1400px;
   height: 426px;
   background: #fff;
-  margin: 0 auto;
+  margin: 80px auto 0;
   .top-img {
     position: relative;
     width: 100%;
@@ -102,7 +101,7 @@ export default {
       color: rgba(51, 51, 51, 1);
     }
     .top-mobile {
-      margin-top: 20px;
+      margin-top: 6px;
       font-size: 22px;
       color: rgba(102, 102, 102, 1);
     }
@@ -123,8 +122,8 @@ export default {
 .personal-page {
   width: 100%;
   max-width: 1400px;
-  height: 1000px;
-  margin: 6px auto 0;
+  // height: 1000px;
+  margin: 6px auto 140px;
   .el-tabs__header {
     margin-bottom: 0;
   }

@@ -29,7 +29,7 @@
                   <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8" :offset="5">
+              <el-col :span="8" :offset="4">
                 <el-form-item label="Email：" class="text-left">
                   {{ ruleForm.email }}
                 </el-form-item>
@@ -50,24 +50,21 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8" :offset="5">
+              <el-col :span="8" :offset="4">
                 <el-form-item label="手机号码：" class="text-left">
                   {{ ruleForm.mobile }}
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- 身份证 -->
-            <el-row :gutter="10">
+            <!-- 身份证 学生证 -->
+            <el-row :gutter="20">
               <el-col :span="8">
                 <el-form-item label="身份证：" class="text-left">
                   <span class="upload-state">已上传</span>
                   <span class="upload-state">未上传</span>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <!-- 身份证 -->
-            <el-row :gutter="10">
-              <el-col :span="8">
+              <el-col :span="8" :offset="4">
                 <el-form-item label="学生证：" class="text-left">
                   <span class="upload-state">已上传</span>
                   <span class="upload-state">未上传</span>
@@ -82,20 +79,23 @@
       <PersonBase />
     </template>
     <PersonalActivity v-if="activeName == 'student2'" />
+    <ComActivity v-if="activeName == 'student3'" :act-list="actList" />
     <Comment v-if="activeName == 'student4'" />
   </div>
 </template>
 <script>
-import TopTitle from "./TopTitle.vue";
-import PersonBase from "./PersonalBase.vue";
-import PersonalActivity from "./PersonalActivity.vue";
-import Comment from "./Comment.vue";
+import TopTitle from "./TopTitle";
+import PersonBase from "./PersonalBase";
+import PersonalActivity from "./PersonalActivity";
+import Comment from "./Comment";
+import ComActivity from "@/components/Activity";
 
 export default {
   components: {
     TopTitle,
     PersonBase,
     PersonalActivity,
+    ComActivity,
     Comment
   },
   props: {
@@ -103,6 +103,7 @@ export default {
   },
   data() {
     return {
+      actList:[1,23,4,5,6],
       text: "基本信息",
       ruleForm: {
         userName: "",
@@ -136,9 +137,9 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
 @import "@/assets/base.scss";
-
+@import "../../register/component/ele-reset.css";
 .student-personal {
   margin-top: 40px;
   .student-base-info {
@@ -174,6 +175,10 @@ export default {
       text-align: center;
       margin: 0 auto;
     }
+  }
+  /* 在读学校 */
+  .school-spe-style .el-form-item__content {
+    display: flex;
   }
   .personal-ruleForm {
     margin: 0;

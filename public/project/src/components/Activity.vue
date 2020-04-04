@@ -12,11 +12,11 @@
           </p>
           <p class="kcclass">
             <span class="leftlabel">机构：</span>
-            <span>进入教育机构</span>
+            <span class="right-org">进入教育机构</span>
           </p>
           <p>
             <span class="leftlabel">团队：</span>
-            <span>老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感...</span>
+            <span class="right-team">老师讲的特别棒，感觉自己进步很大...</span>
           </p>
         </div>
       </div>
@@ -29,7 +29,7 @@ export default {
     actList:{
       type:Array,
       default(){
-        return 5
+        return [1,2,34,5,5]
       }
     }
   },
@@ -41,45 +41,56 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  organization-list{
-  width: 1400px;
-  margin:  0 auto 50px auto;
-  .jigou-item{
+@import "@/assets/base.scss";
+
+.jigou-item{
+  background:rgba(255,255,255,1);
+  border-radius:10px;
+  box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  height: 432px;
+  // 图片
+  .img{
+    width:334px;
+    height:252px;
+    img{
+      border-radius:10px 10px 0px 0px;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  } 
+  .con{
     background:rgba(255,255,255,1);
-    border-radius:10px;
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
-    // 图片
-    .img{
-      width:334px;
-      height:252px;
-      img{
-        border-radius:10px 10px 0px 0px;
-        max-width: 100%;
-        max-height: 100%;
+    padding: 20px;
+    border-radius:0px 0px 10px 10px;
+    p{
+      text-align: left;
+      line-height: 28px;
+      display: flex;
+      span{
+        font-size:18px;
+        font-weight:400;
+        color:#333333;
       }
-    } 
-    .con{
-      background:rgba(255,255,255,1);
-      padding: 20px;
-      border-radius:0px 0px 10px 10px;
-      p{
-        text-align: left;
-        line-height: 28px;
-        span{
-          font-size:18px;
-          font-weight:400;
-          color:#333333;
-        }
-        .leftlabel{
-          color: #666666;
-        }
-        .sore{
-          color:#ff7001;
-          font-size: 26px;
-        }
+      .leftlabel{
+        color: #666666;
+        width: 60px;
+      }
+      .right-org{
+        flex: 1;
+        @include ignore();
+      }
+      .right-team{
+        flex: 1;
+        @include ignore(3);
+      }
+      
+      .sore{
+        color:$orangeColor;
+        font-size: 26px;
       }
     }
   }
 }
+
 </style>
