@@ -18,6 +18,7 @@ class SiteConfigController extends FInterfaceBase
         $config['config'] = $this->_conf;
         $config['grade_list'] = $this->_gradeList;
         $config['score_list'] = $this->_scoreList;
+        $config['tags'] = RoleGroupListConfig::getTagsList();
 
         $this->outputOk('', $config);
     }
