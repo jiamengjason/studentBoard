@@ -156,4 +156,19 @@ order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
 
         return ['list'=>$data, 'pageCount'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'pageSize'=>$pages->getPageSize()];
     }
+
+    /**
+     * 家长/学生提交评价
+     * @param $params
+     * @return bool
+     */
+    public function comment($params){
+        if (empty($params)){
+            return false;
+        }
+
+        $commentModel = new EvaluateScore();
+        $commentModel->setAttributes($params);
+        return $commentModel->save();
+    }
 }

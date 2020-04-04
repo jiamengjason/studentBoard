@@ -111,7 +111,7 @@ class MemberController extends FSessionInterfaceBase
         $active['desc'] = $this->_gets->getParam('desc');
         $active['addr'] = $this->_gets->getParam('addr');
 
-        //查询用户信息
+        //发布活动
         $organizationService = new OrganizationService();
         $bool = $organizationService->publishActive($this->userInfo, $active);
 
@@ -150,10 +150,65 @@ class MemberController extends FSessionInterfaceBase
         $params['pageSize'] = $this->_gets->getParam('pageSize');
         $params['user_id'] = $this->userId;
 
-        //查询用户信息
+        //查询参加的活动列表
         $activeService = new ActiveService();
         $rs = $activeService->getMyActiveList($params);
 
         $this->outputOk('', $rs);
+    }
+
+    /**
+     * 【机构-教师】评价页面接口
+     */
+    public function actionEvaluate(){
+        $params = [];
+        $params['score'] = $this->_gets->getParam('score');
+        $params['is_recommend'] = $this->_gets->getParam('is_recommend');
+        $params['tags'] = $this->_gets->getParam('tags');
+        $params['comment'] = $this->_gets->getParam('comment');
+        $params['evaluated_uid'] = $this->_gets->getParam('evaluated_uid');
+        $params['user_id'] = $this->userId;
+        if (empty($params['score'])){
+            $this->outputParamsError('请选择教学质量');
+        }
+        if (empty($params['is_recommend'])){
+            $this->outputParamsError('请选择是否会推荐给别的学生');
+        }
+        if (empty($params['tags'])){
+            $this->outputParamsError('请选择教标签');
+        }
+        if (empty($params['comment'])){
+            $this->outputParamsError('请输入评论详细');
+        }
+        if (empty($params['evaluated_uid'])){
+            $this->outputParamsError('请选择要评价的教师/机构');
+        }
+        if (!in_array($params['score'], RoleGroupListConfig::getScoreList())){
+            $this->outputParamsError('选择的评分有误呦~');
+        }
+        //只能学生和家长进行评价
+        if (!in_array($this->userInfo['role_id'], [RoleGroupListConfig::$parentRoleId, RoleGroupListConfig::$studentRoleId])){
+            $this->outputParamsError('只能学生/家长才能评价呦~');
+        }
+
+        //查询要评价的用户信息
+        $usersService = new UsersService();
+        $userInfo = $usersService->getUserInfoByUid($params['evaluated_uid']);
+        if (empty($userInfo)){
+            $this->outputParamsError('请选择要评价的教师/机构');
+        }
+        if (!in_array($userInfo['roleId'], [RoleGroupListConfig::$organizationRoleId, RoleGroupListConfig::$teacherRoleId])){
+            $this->outputParamsError('只能对教师/机构评价呦~');
+        }
+        $params['evaluated_role_id'] = $userInfo['roleId'];
+
+        //提交评价
+        $commonService = new EvaluateScoreService();
+        $bool = $commonService->comment($params);
+        if ($bool){
+            $this->outputOk('提交成功', $bool);
+        }else {
+            $this->outputError('提交失败', $bool);
+        }
     }
 }
