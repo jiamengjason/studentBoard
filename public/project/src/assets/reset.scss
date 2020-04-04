@@ -68,3 +68,74 @@ $orangeColor: #ff7001; //主题色
 .st-page{
   padding: 40px 0;
 }
+
+
+// el-checkbox-group
+.el-checkbox-group{
+  line-height: 32px;
+  .el-checkbox-button{
+    .el-checkbox-button__inner{
+      margin: 5px 20px 10px 0;
+      height:32px;
+      line-height: 32px;
+      padding: 0 20px;
+      border: none;
+      background:rgba(204,204,204,1);
+      border-radius:5px;
+      color: #ffffff;
+      &:hover{
+        color: $orangeColor;
+      }
+    }
+  }
+  .is-checked{
+    .el-checkbox-button__inner{
+      background: $orangeColor;
+      &:hover{
+        color: #ffffff;
+      }
+    }
+  }
+  
+}
+
+// el-radio-group
+.el-radio-group{
+  .el-radio-button{
+    .el-radio-button__inner{
+      margin: 5px 20px 10px 0;
+      height:32px;
+      line-height: 32px;
+      padding: 0 20px;
+      border: none;
+      background:rgba(204,204,204,1);
+      border-radius:5px;
+      color: #ffffff;
+      &:hover{
+        color: $orangeColor;
+      }
+    }
+    
+  }
+  .is-active{
+    .el-radio-button__inner{
+      background: $orangeColor;
+      &:hover{
+        color: #ffffff;
+      }
+    }
+  }
+}
+.valuation-r{
+  .el-form{
+    .el-form-item__label,
+    .el-checkbox-button__inner,
+    .el-radio-button__inner,
+    .el-rate__icon,
+    .el-rate__text,
+    .el-textarea,
+    .el-form-item__content{
+      font-size: 18px;
+    }
+  }
+}
