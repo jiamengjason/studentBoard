@@ -128,4 +128,25 @@ class ActiveService
 
         return $data;
     }
+
+    /**
+     * 【课外活动】活动详情页面-报名活动
+     * @param $params
+     * @return bool
+     */
+    public function attendActive($params){
+        $activeUserModel = new ActiveUser();
+        $activeUserModel->setAttributes($params);
+        return $activeUserModel->save();
+    }
+
+    /**
+     * 判断用户是否已经报名了当前活动
+     * @param $userId
+     * @param $activeId
+     * @return CActiveRecord
+     */
+    public function isUserAttendActive($userId, $activeId){
+        return ActiveUser::model()->findByAttributes(['user_id'=>$userId, 'active_id'=>$activeId]);
+    }
 }

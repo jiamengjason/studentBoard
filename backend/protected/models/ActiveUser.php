@@ -21,8 +21,8 @@ class ActiveUser extends XBaseModel
 	public function rules()
 	{
         return array(
-            array('user_id,active_id,create_time', 'required'),
-            array('user_id,active_id,create_time', 'safe'),
+            array('user_id,active_id,num,t_type', 'required'),
+            array('user_id,active_id,num,t_type', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
 //            array('id, post_id, user_id, nickname, email, content, status_is, status_answer, answer_content, client_ip, create_time', 'safe', 'on'=>'search'),

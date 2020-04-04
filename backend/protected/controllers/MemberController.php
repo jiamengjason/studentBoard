@@ -7,6 +7,10 @@ class MemberController extends FSessionInterfaceBase
      */
     public function actionInfo()
     {
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         //查询用户信息
         $usersService = new UsersService();
         $userInfo = $usersService->getUserInfoByUid($this->userId);
@@ -19,6 +23,10 @@ class MemberController extends FSessionInterfaceBase
      */
     public function actionUpdate()
     {
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         //编辑用户信息
         $usersService = new UsersService();
         $bool = $usersService->updateUserInfo($this->userId, $this->_gets);
@@ -33,6 +41,10 @@ class MemberController extends FSessionInterfaceBase
      * 【个人中心】修改用户绑定信息
      */
     public function actionUpdateUnion(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         //开始校验
         $data = [];
         $data['type'] = $this->_gets->getParam('type');
@@ -83,8 +95,11 @@ class MemberController extends FSessionInterfaceBase
     /**
      * 【个人中心】【机构】发布活动
      */
-    public function actionPublish()
-    {
+    public function actionPublish(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $active = [];
         if (empty($this->_gets->getParam('title_img'))){
             $this->outputParamsError('请上传活动图片');
@@ -161,6 +176,10 @@ class MemberController extends FSessionInterfaceBase
      * 【机构-教师】评价页面接口
      */
     public function actionEvaluate(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
         $params = [];
         $params['score'] = $this->_gets->getParam('score');
         $params['is_recommend'] = $this->_gets->getParam('is_recommend');
@@ -209,6 +228,53 @@ class MemberController extends FSessionInterfaceBase
             $this->outputOk('提交成功', $bool);
         }else {
             $this->outputError('提交失败', $bool);
+        }
+    }
+
+    /**
+     * 【课外活动】活动详情页面-报名活动
+     */
+    public function actionAttendActive(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
+        $activeId = $this->_gets->getParam('active_id');
+        $num = $this->_gets->getParam('num');
+        $tType = $this->_gets->getParam('t_type');
+        $userId = $this->userId;
+        if (empty($activeId)){
+            $this->outputParamsError('该活动不存在呦~');
+        }
+        if (empty($num)){
+            $this->outputParamsError('请输入报名人数');
+        }
+        if (empty($tType) || !in_array($tType, [1, 2])){
+            $this->outputParamsError('请选择活动题型方式');
+        }
+        $params = [
+            'active_id' => $activeId,
+            'user_id' => $userId,
+            'num' => $num,
+            't_type' => $tType
+        ];
+
+        //查询报名的活动是否存在
+        $activeService = new ActiveService();
+        if (empty($activeService->getActiveInfoById($activeId))){
+            $this->outputParamsError('该活动不存在呦~');
+        }
+        //查询用户是否已经报名活动
+        if (!empty($activeService->isUserAttendActive($userId, $activeId))){
+            $this->outputParamsError('已经报名该活动了呦~');
+        }
+
+        //报名活动
+        $data = $activeService->attendActive($params);
+        if ($data){
+            $this->outputOk('报名成功');
+        }else {
+            $this->outputError('报名失败');
         }
     }
 }
