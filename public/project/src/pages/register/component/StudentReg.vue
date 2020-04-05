@@ -27,12 +27,12 @@
       <el-col :span="8">
         <el-form-item ref="uploadpic" label="身份证：">
           <el-upload
+            action="''"
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            accept="image/jpeg,image/png,image/jpg"
             :show-file-list="false"
-            :on-success="handleIdSuccess"
+            :http-request="uploadIdentityImg"
             :on-change="imageChange"
-            :before-upload="beforeAvatarUpload"
           >
             <img v-if="ruleForm.imageId" :src="ruleForm.imageId" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -42,11 +42,12 @@
       <el-col :span="8" :offset="5">
         <el-form-item label="学生证：">
           <el-upload
+            action="''"
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            accept="image/jpeg,image/png,image/jpg"
             :show-file-list="false"
-            :on-success="handleSchoolIdSuccess"
-            :before-upload="beforeAvatarUpload"
+            :http-request="uploadStudentCardImg"
+            :on-change="imageChange"
           >
             <img v-if="ruleForm.imageSchoolId" :src="ruleForm.imageSchoolId" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -64,23 +65,25 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-checkbox v-model="ruleForm.checked" class="check-agree">本人已阅并同意本站注册的要求内容</el-checkbox>
+    <el-checkbox v-model="ruleForm.checked" class="check-agree">{{ ruleForm.imageId+'111' }}本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { apigetValidCodePost } from "@/apis/api";
+import { Message } from 'element-ui';
+import { apiGetSiteConfig,apiGetValidCodePost,apiPostUploadFile } from "@/apis/api";
 export default {
   data() {
     return {
       ruleForm: {
         school: "",
         imageId: "",
-        imageSchoolId: "https://www.baidu.com/img/bd_logo1.png",
+        imageSchoolId: "",
         checked: true,
         vertifyMeg: "",
         eduValue: ""
       },
+      checkImg:true,
       haspic: false, // 默认没有传图片
       images: [],
       dialogVisible: false,
@@ -115,28 +118,55 @@ export default {
       mobile: "getMobile"
     })
   },
-  created() {},
+  created() {
+    this.getSiteConfig()
+  },
   methods: {
-    imageChange(file, fileList, name) {
-      console.log(file, fileList, name);
+    getSiteConfig(){
+      apiGetSiteConfig().then(res => {
+        console.log(res,'res')
+      })
     },
-    handleIdSuccess(res, file) {
-      this.ruleRegForm.imageId = URL.createObjectURL(file.raw);
-    },
-
-    handleSchoolIdSuccess(res, file) {
-      this.ruleRegForm.imageSchoolId = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
+    imageChange(file) { 
       const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (["image/jpeg", "image/png", "image/jpg"].indexOf(file.type) < 0) {
-        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
-      }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
+        alert("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      } 
+    },
+    uploadIdentityImg(event) {
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      const config = {
+        headers: {'Content-Type': 'multipart/form-data'}
       }
-      return isLt2M;
+     if(this.checkImg){
+       // 上传身份证
+      apiPostUploadFile(param, config).then(res => {
+        if (res.data.code == 200) {
+          this.ruleForm.imageId = res.data.data.file_path    
+        }
+      })
+     }
+    },
+    uploadStudentCardImg(event) {
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      const config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }
+     if(this.checkImg){
+       // 上传学生证
+      apiPostUploadFile(param, config).then(res => {
+        if (res.data.code == 200) {
+          this.ruleRegForm.imageSchoolId = res.data.data.file_path ;
+         
+        }
+      })
+     }
     },
     // 获取验证码
     getVertifyCode() {

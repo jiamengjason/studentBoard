@@ -145,7 +145,6 @@ export default {
   .student-base-info {
     width: 100%;
     max-width: 1400px;
-    // height: 317px;
     background: #fff;
     padding: 50px;
     margin: 0 !important;

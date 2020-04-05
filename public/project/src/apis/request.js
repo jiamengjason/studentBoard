@@ -7,10 +7,10 @@ import axios from "axios";
 // const apiHttp = getApiHttp();
 // axios 的封装处理-
 // let baseURL = `${apiHttp}://${apiPrefix}studentboard.com/index.php?r=`;
-let baseURL = "http://dev.studentboard.com/index.php?r=";
+// let baseURL = process.env.VUE_APP_BASE_API
 
 // if (isDevEnv()) {
-//   baseURL = "/v1";
+  let baseURL = "/v1";
 // }
 
 axios.defaults.withCredentials = true;
@@ -76,9 +76,9 @@ const get = (url, params = {}) => {
  * @returns {Promise}
  */
 
-const post = (url, data = {}) => {
+const post = (url, data = {},config = {}) => {
   return new Promise((resolve, reject) => {
-    axios.post(url, data).then(
+    axios.post(url, data,config).then(
       response => {
         resolve(response);
       },
