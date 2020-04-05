@@ -17,7 +17,6 @@ class ActiveController extends FInterfaceBase
         $activeService = new ActiveService();
         $data = $activeService->getActiveListByParams($params);
 
-
         $this->outputOk('', $data);
     }
 
