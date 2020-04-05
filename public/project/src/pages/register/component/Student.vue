@@ -16,6 +16,7 @@
 import comRegBase from "./RegBase.vue";
 import comStudentReg from "./StudentReg.vue";
 import { apiRegisterPost } from "@/apis/api";
+import { ROLE_LIST } from "@/constants/index"
 
 export default {
   components: { comRegBase, comStudentReg },
@@ -33,7 +34,7 @@ export default {
       console.log(regBase.model, "regBase", studentReg);
       // 使用Promise.all去校验结果
       let params = {
-        role_id: 1,
+        role_id: 3,
         user_name: regBase.model.name,
         mobile: regBase.model.phone,
         password: regBase.model.pwd,
@@ -46,6 +47,7 @@ export default {
         student_card_img: studentReg.model.imageSchoolId
       };
       console.log(params, "params");
+      return false
       Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
         const validateResult = res.every(item => !!item);
         if (validateResult) {

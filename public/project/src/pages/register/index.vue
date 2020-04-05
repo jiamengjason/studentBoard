@@ -1,5 +1,5 @@
 <template>
-  <div class="page-warp">
+  <div class="">
     <Hearder />
     <comBreadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
@@ -7,17 +7,17 @@
         <el-tab-pane
           v-for="(item,index) in navList"
           :key="index"
-          :label="item.name"
-          :name="item.key"
+          :label="item.lable"
+          :name="item.name"
         >
           {{ item }}
         </el-tab-pane>
       </el-tabs>
 
+      <comOrgReg v-if="activeName == 'organization'" />
+      <comTeacherReg v-if="activeName == 'teacher'" />
       <comStudentReg v-if="activeName == 'student'" />
       <comParentReg v-if="activeName == 'parent'" />
-      <comTeacherReg v-if="activeName == 'teacher'" />
-      <comOrgReg v-if="activeName == 'organization'" />
     </div>
     <Footer />
   </div>
@@ -30,6 +30,8 @@ import comStudentReg from "./component/Student";
 import comTeacherReg from "./component/Teacher";
 import comParentReg from "./component/Parent";
 import comOrgReg from "./component/Organization";
+import { ROLE_LIST } from "@/constants/index"
+
 export default {
   components: {
     Hearder,
@@ -41,15 +43,11 @@ export default {
     comOrgReg
   },
   data() {
+    console.log(ROLE_LIST,'ROLE_LIST')
     return {
-      activeName: "student",
+      activeName: 'student',
       stretch: true,
-      navList: [
-        { name: "学生", key: "student" },
-        { name: "家长", key: "parent" },
-        { name: "老师", key: "teacher" },
-        { name: "机构", key: "organization" }
-      ]
+      navList: ROLE_LIST
     };
   },
   computed: {

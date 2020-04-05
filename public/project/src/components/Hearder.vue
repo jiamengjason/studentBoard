@@ -92,7 +92,7 @@ export default {
   // opacity: 0.8;
 	position: fixed;
 	top: 0;
-	z-index: 10000;
+	z-index: 9;
   
   
   .el-menu.el-menu--horizontal{
