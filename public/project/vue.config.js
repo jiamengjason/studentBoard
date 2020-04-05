@@ -12,7 +12,7 @@ module.exports = {
     proxy: {
       "/v1": {
         // 代理api
-        target: "http://api.com/v1", // 服务器api地址-
+        target: "http://118.190.25.177", // 服务器api地址-
         changeOrigin: true, // 是否跨域
         ws: true, // proxy websockets
         pathRewrite: {

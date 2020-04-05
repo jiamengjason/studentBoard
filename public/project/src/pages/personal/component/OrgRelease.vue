@@ -3,12 +3,22 @@
     <el-row :gutter="20" class="org-inner">
       <el-col :span="8">
         <div class="grid-content-img">
-          <img src alt />
+          <el-upload
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :show-file-list="false"
+            :on-success="handleIdSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="ruleForm.imageId" :src="ruleForm.imageId" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+          <!-- <img src alt /> -->
           <p class="content-first-desc">
             支持jpg、png格式的图片
             <br />文件须小于1M
           </p>
-          <p class="content-first-btn">上传</p>
+          <!-- <p class="content-first-btn">上传</p> -->
         </div>
       </el-col>
       <el-col :span="16">
@@ -22,7 +32,7 @@
         >
           <!-- 机构名称、简介 -->
           <el-row :gutter="20">
-            <el-col :span="10">
+            <el-col :span="8">
               <el-form-item label="名称：" prop="title">
                 <el-input v-model="ruleForm.title"></el-input>
               </el-form-item>
@@ -34,22 +44,22 @@
             </el-col>
           </el-row>         
           <el-row :gutter="10">
-            <el-col :span="10" style="margin-top:-50px;">
+            <el-col :span="8" style="margin-top:-250px;">
               <el-form-item label="开始时间：" prop="startTime">
                 <el-input v-model="ruleForm.startTime"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
-            <el-col :span="10">
+            <el-col :span="8" style="margin-top:-180px;">
               <el-form-item label="结束时间：" prop="endTime">
                 <el-input v-model="ruleForm.endTime"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
-            <el-col :span="10">
-              <el-form-item label="地址：" prop="addr">
+            <el-col :span="8">
+              <el-form-item label="地址：" prop="addr" style="margin-top:-110px;">
                 <el-input v-model="ruleForm.addr"></el-input>
               </el-form-item>
             </el-col>
@@ -89,7 +99,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/assets/base.scss";
 .org-release{
    margin-top: 40px;
