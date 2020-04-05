@@ -5,7 +5,7 @@
     status-icon
     :rules="rules"
     label-width="110px"
-    class="student-ruleForm demo-ruleForm"
+    class="demo-ruleForm"
   >
     <el-row :gutter="10" style="margin-top:-118px">
       <el-col :span="8" :offset="5" class="school-spe-style">
@@ -161,7 +161,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./ele-reset.css";
-.student-ruleForm{
+
   /* 在读学校 */
   .school-spe-style .el-form-item__content {
     display: flex;
@@ -169,8 +169,8 @@ export default {
   .reg-education {
     width: 150px;
   }
-  .disabled .el-upload--picture-card {
-    display: none;
-  }
-}
+  // .disabled .el-upload--picture-card {
+  //   display: none;
+  // }
+
 </style>

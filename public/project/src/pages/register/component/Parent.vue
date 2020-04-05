@@ -36,7 +36,7 @@ export default {
         mobile: regBase.model.phone,
         password: regBase.model.pwd,
         re_password: regBase.model.truePwd,
-        email: regBase.model.eamil,
+        email: regBase.model.email,
         valid_code: parentReg.model.vertifyMeg,
         identity_img: parentReg.model.imageId
       };

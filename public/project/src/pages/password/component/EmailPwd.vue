@@ -27,7 +27,10 @@ export default {
         email: ""
       },
       rules: {
-        email: [{ required: true, message: "请输入邮箱地址", trigger: "blur" }]
+        email: [
+          { required: true, message: "请输入Email", trigger: "blur" },
+          { type: "email", message: "请输入正确的Email", trigger: "blur" }
+        ],
       }
     };
   },

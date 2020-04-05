@@ -15,8 +15,8 @@
         </el-form-item>
       </el-col>
       <el-col :span="8" :offset="5">
-        <el-form-item label="Email：" prop="eamil">
-          <el-input v-model="ruleForm.eamil"></el-input>
+        <el-form-item label="Email：" prop="email">
+          <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -38,12 +38,12 @@ export default {
     return {
       ruleForm: {
         name: "",
-        eamil: "",
+        email: "",
         orgIntro: ""
       },
       rules: {
         name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        eamil: [
+        email: [
           { required: true, message: "请输入Email", trigger: "blur" },
           { type: "email", message: "请输入正确的Email", trigger: "blur" }
         ]
@@ -68,6 +68,7 @@ export default {
   .el-textarea__inner {
     width: 300px;
     height: 150px;
+    resize: none;
   }
   .el-textarea__inner:focus {
     border-color: #999;
