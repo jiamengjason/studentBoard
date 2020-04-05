@@ -46,19 +46,20 @@ export default {
         identity_img: studentReg.model.imageId,
         student_card_img: studentReg.model.imageSchoolId
       };
-      console.log(params, "params");
+      console.log(params, "params", studentReg.model.checked, 111);
       return false
-      Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
-        const validateResult = res.every(item => !!item);
-        if (validateResult) {
-          console.log("两个表单都校验通过");
-          apiRegisterPost(params).then(res => {
-            consoel.log(1111, res);
-          });
-        } else {
-          console.log("两个表单未校验通过");
-        }
-      });
+      if(studentReg.model.checked){
+        Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
+          const validateResult = res.every(item => !!item);
+          if (validateResult) {
+            apiRegisterPost(params).then(res => {
+              consoel.log(1111, res);
+            });
+          } else {
+            this.$message.error("注册信息不完整");
+          }
+        });
+      }
     },
     getFormPromise(form) {
       return new Promise(resolve => {
