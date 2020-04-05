@@ -65,20 +65,20 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-checkbox v-model="ruleForm.checked" class="check-agree">{{ ruleForm.imageId }}本人已阅并同意本站注册的要求内容</el-checkbox>
+    <el-checkbox v-model="ruleForm.checked" class="check-agree">{{ ruleForm.imageId+'111' }}本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { Message } from 'element-ui';
-import { apigetValidCodePost,apiPostUploadFile } from "@/apis/api";
+import { apiGetSiteConfig,apiGetValidCodePost,apiPostUploadFile } from "@/apis/api";
 export default {
   data() {
     return {
       ruleForm: {
         school: "",
         imageId: "",
-        imageSchoolId: "https://www.baidu.com/img/bd_logo1.png",
+        imageSchoolId: "",
         checked: true,
         vertifyMeg: "",
         eduValue: ""
@@ -118,8 +118,15 @@ export default {
       mobile: "getMobile"
     })
   },
-  created() {},
+  created() {
+    this.getSiteConfig()
+  },
   methods: {
+    getSiteConfig(){
+      apiGetSiteConfig().then(res => {
+        console.log(res,'res')
+      })
+    },
     imageChange(file) { 
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
@@ -135,19 +142,15 @@ export default {
       const config = {
         headers: {'Content-Type': 'multipart/form-data'}
       }
-      console.log(this.checkImg,'handleIdSuccess')
      if(this.checkImg){
        // 上传身份证
       apiPostUploadFile(param, config).then(res => {
-        console.log(res, 'response')
         if (res.data.code == 200) {
-          console.log(1111)
-          this.ruleForm.imageId = res.data.file_path          
+          this.ruleForm.imageId = res.data.data.file_path    
         }
       })
      }
     },
-
     uploadStudentCardImg(event) {
       const file = event.file
       const param = new FormData() // 创建form对象
@@ -158,8 +161,8 @@ export default {
      if(this.checkImg){
        // 上传学生证
       apiPostUploadFile(param, config).then(res => {
-        if (res.data.status == 200) {
-          this.ruleRegForm.imageSchoolId = res.data.file_path  ;
+        if (res.data.code == 200) {
+          this.ruleRegForm.imageSchoolId = res.data.data.file_path ;
          
         }
       })
