@@ -41,7 +41,7 @@ class UploadFileController extends FInterfaceBase
 
         $fileInfo = [
             'doc_path'=>$file['savepath'],
-            'file_path'=>$file['pathname'],
+            'file_path'=>'/'.$file['pathname'],
             'file_ext' =>$file['extension'],
             'file_name'=>$file['savename'],
             'file_size'=>$file['size']
