@@ -38,6 +38,10 @@ export const apiResetUserInfo = params => {
 export const apiResetUserUpdate = params => {
   return request.post(`${defaultPath}member/update`,params);
 };
+// 修改用户绑定信息
+export const apiResetUpdateUnion = params => {
+  return request.post(`${defaultPath}member/updateUnion`,params);
+};
 // get
 export const apiGet = params => {
   return request.get(

@@ -47,12 +47,12 @@
             <!-- 在读学校 -->
             <el-row :gutter="20">
               <el-col :span="8" class="school-spe-style">
-                <el-form-item label="在读学校：" prop="school">
-                  <el-input v-model="ruleForm.school"></el-input>
-                  <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="education">
+                <el-form-item label="在读学校：" prop="schoolName">
+                  <el-input v-model="ruleForm.schoolName"></el-input>
+                  <el-select v-model="ruleForm.grade" placeholder="请选择学历" class="education">
                     <el-option
-                      v-for="item in eduOptions"
-                      :key="item.value"
+                      v-for="(item,index) in eduOptions"
+                      :key="index"
                       :label="item.label"
                       :value="item.value"
                     ></el-option>
@@ -145,10 +145,10 @@ export default {
       text: "基本信息",
       ruleForm: {
         userName: "",
-        mobile:"mobile",
-        email:"mobile",
-        school: "",
-        eduValue: "",
+        mobile:"",
+        email:"",
+        schoolName: "",
+        grade: "",
         headImg:"",
         identityImg: "https://www.baidu.com/img/bd_logo1.png",
         studentCardImg: ""
@@ -160,13 +160,13 @@ export default {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" }
         ],
-        school: [{ required: true, message: "请输入学校", trigger: "blur" }]
+        schoolName: [{ required: true, message: "请输入学校", trigger: "blur" }]
       }
     };
   },
   created() {
+    this.getUserInfo();
     this.getSiteConfig();
-    console.log(this.activeName, "activeName");
   },
   methods:{
     // 获取网站配置
@@ -174,6 +174,23 @@ export default {
       apiGetSiteConfig().then(res => {
         if (res.data.code == 200) {
           this.eduOptions = res.data.data.grade_list;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    // 获取个人信息
+    getUserInfo(){
+      let params = {
+        userId:'19',
+        token:'77e0a3ce658692e1a105774ccddf8ac0'
+      }
+      apiResetUserInfo(params).then(res=>{
+        if (res.data.code == 200) {
+          console.log(res.data.data,'res.data.data;')
+            this.ruleForm = res.data.data;
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
     },
