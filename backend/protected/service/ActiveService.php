@@ -56,7 +56,7 @@ class ActiveService
             ];
         }
 
-        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
+        return ['list'=>$data, 'total_num' => $count,'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 
     /**

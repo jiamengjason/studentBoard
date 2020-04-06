@@ -154,7 +154,7 @@ order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
             ];
         }
 
-        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
+        return ['list'=>$data, 'total_num'=>$count, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 
     /**
