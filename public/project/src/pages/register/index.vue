@@ -62,10 +62,8 @@ export default {
 
       }else if(this.activeName == 'organization'){
       return ['个人注册','机构']
-      }else if(this.activeName == 'student'){
-      return ['个人注册','学生']
       }
-      return ['个人注册','']
+      return ['个人注册','学生']
     }
   },
   methods: {
