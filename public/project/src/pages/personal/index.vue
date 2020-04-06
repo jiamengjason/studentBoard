@@ -50,8 +50,8 @@ export default {
   data() {
     return {
       stretch: true,
-      role: 1, // 1 student 2 teacher 3 parent 4 organization
-      activeName:PERSONAL_NAV_LIST[1][0].key,
+      role: 3, // 1 organization  2 teacher 3 student 4 parent
+      activeName:PERSONAL_NAV_LIST[3][0].key,
     };
   },
   computed: {
