@@ -7,14 +7,14 @@
     label-width="110px"
     class="demo-ruleForm"
   >
-    <el-row :gutter="10" style="margin-top:-118px">
-      <el-col :span="8" :offset="5" class="school-spe-style">
+    <el-row :gutter="10">
+      <el-col :span="8" class="school-spe-style">
         <el-form-item label="在读学校：" prop="school">
           <el-input v-model="ruleForm.school" class="vertify-code"></el-input>
           <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="reg-education">
             <el-option
-              v-for="item in eduOptions"
-              :key="item.value"
+              v-for="(item,index) in eduOptions"
+              :key="index"
               :label="item.label"
               :value="item.value"
             ></el-option>
@@ -65,12 +65,11 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-checkbox v-model="ruleForm.checked" class="check-agree">{{ ruleForm.imageId+'111' }}本人已阅并同意本站注册的要求内容</el-checkbox>
+    <el-checkbox v-model="ruleForm.checked" class="check-agree">本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { Message } from 'element-ui';
 import { apiGetSiteConfig,apiGetValidCodePost,apiPostUploadFile } from "@/apis/api";
 export default {
   data() {
@@ -83,34 +82,22 @@ export default {
         vertifyMeg: "",
         eduValue: ""
       },
-      checkImg:true,
-      haspic: false, // 默认没有传图片
-      images: [],
+      checkImg:true, //验证图片size
       dialogVisible: false,
-      eduOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-
-      clickCodeFlag: false,
+      eduOptions: [],
+      clickCodeFlag: false, //获取验证码
       timerNum: 5,
       timer: null,
       rules: {
-        school: [{ required: true, message: "", trigger: "blur" }],
-        vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
+        school: [{ required: true, message: "请输入学校", trigger: "blur" }],
+        vertifyMeg: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       }
     };
   },
   computed: {
     codeText() {
       if (this.clickCodeFlag) {
-        return `${this.num}s后失效`;
+        return `${this.timerNum}s后失效`;
       }
       return "获取验证码";
     },
@@ -121,20 +108,27 @@ export default {
   created() {
     this.getSiteConfig()
   },
+  beforeDestroy() {
+    clearInterval(this.timer);   
+  },
   methods: {
+    // 获取网站配置
     getSiteConfig(){
       apiGetSiteConfig().then(res => {
         console.log(res,'res')
+        if (res.data.code == 200) {
+          this.eduOptions = res.data.data.grade_list;
+        }
       })
     },
     imageChange(file) { 
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
-        alert("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片大小不能超过 2MB!");
         this.checkImg = false
       } 
     },
+     // 上传身份证
     uploadIdentityImg(event) {
       const file = event.file
       const param = new FormData() // 创建form对象
@@ -143,14 +137,16 @@ export default {
         headers: {'Content-Type': 'multipart/form-data'}
       }
      if(this.checkImg){
-       // 上传身份证
       apiPostUploadFile(param, config).then(res => {
         if (res.data.code == 200) {
           this.ruleForm.imageId = res.data.data.file_path    
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
      }
     },
+    // 上传学生证
     uploadStudentCardImg(event) {
       const file = event.file
       const param = new FormData() // 创建form对象
@@ -159,11 +155,11 @@ export default {
         headers: {'Content-Type': 'multipart/form-data'}
       }
      if(this.checkImg){
-       // 上传学生证
       apiPostUploadFile(param, config).then(res => {
         if (res.data.code == 200) {
           this.ruleRegForm.imageSchoolId = res.data.data.file_path ;
-         
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
      }
@@ -171,16 +167,20 @@ export default {
     // 获取验证码
     getVertifyCode() {
       if (this.mobile) {
-        apigetValidCodePost({ mobile: this.mobile }).then(res => {
-          consoel.log(1111, res);
-          this.clickCodeFlag = true;
-          this.timer = setInterval(this.cutDown, 1000);
+        apiGetValidCodePost({ mobile: this.mobile }).then(res => {
+          if (res.data.code == 200) {
+            this.clickCodeFlag = true;
+            this.timer = setInterval(this.cutDown, 1000);
+          }else{
+            this.$message.error(res.data.msg);
+          }
         });
       }
     },
+    // 倒计时
     cutDown() {
       this.timerNum--;
-      if (this.timerNum <= 0) {
+      if (this.timerNum === 0) {
         this.timerNum = 0;
         this.clickCodeFlag = false;
         clearInterval(this.timer);

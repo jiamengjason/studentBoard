@@ -99,7 +99,10 @@ export default {
     Comment
   },
   props: {
-    activeName: String
+    activeName: String,
+    default(){
+      return 'student1'
+    }
   },
   data() {
     return {

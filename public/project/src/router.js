@@ -14,6 +14,7 @@ import StudyCircle from "./pages/StudyCircle/index"
 import AboutUs from "./pages/AboutUs/index"
 // import Dashboard from "./pages/dashboard/index";
 import Register from "./pages/register/index";
+import RegisterSuccess from "./pages/register-success/index";
 import Login from "./pages/login/index";
 import Pwd from "./pages/password/index";
 import Personal from "./pages/personal/index";
@@ -126,6 +127,13 @@ const router = new Router({
       }
     },
     {
+      path: "/register-success",
+      component: RegisterSuccess,
+      meta: {
+        title: "注册成功"
+      }
+    },
+    {
       path: "/login",
       component: Login,
       meta: {
@@ -151,9 +159,6 @@ const router = new Router({
 });
 
 router.afterEach((to, from) =>{
-  console.info('to-----', to)
-  console.info('from-----', from)
-  console.info('-----------------------')
   if(to.name == 'home' && from.name != 'home' && from.name){
     // window.location.reload();
   }else{

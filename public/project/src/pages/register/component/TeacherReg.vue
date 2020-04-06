@@ -8,13 +8,13 @@
     class="demo-ruleForm"
   >
     <!-- 机构 -->
-    <el-row :gutter="10" style="margin-top:-120px">
-      <el-col :span="8" :offset="5">
+    <el-row :gutter="10">
+      <el-col :span="8">
         <el-form-item label="所属机构：" prop="organization">
           <el-select v-model="ruleForm.orgValue" placeholder="请选择机构" class="organization">
             <el-option
-              v-for="item in orgOptions"
-              :key="item.value"
+              v-for="(item,index) in orgOptions"
+              :key="index"
               :label="item.label"
               :value="item.value"
             ></el-option>
@@ -27,11 +27,12 @@
       <el-col :span="8">
         <el-form-item label="身份证：">
           <el-upload
+            action="''"
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            accept="image/jpeg,image/png,image/jpg"
             :show-file-list="false"
-            :on-success="handleIdSuccess"
-            :before-upload="beforeAvatarUpload"
+            :http-request="uploadIdentityImg"
+            :on-change="imageChange"
           >
             <img v-if="ruleForm.imageId" :src="ruleForm.imageId" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -54,6 +55,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { apiGetOrganizationList,apiGetValidCodePost,apiPostUploadFile } from "@/apis/api";
+
 export default {
   data() {
     return {
@@ -63,29 +66,21 @@ export default {
         vertifyMeg: "",
         orgValue: ""
       },
-      orgOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
+      orgOptions: [],
       clickCodeFlag: false,
+      checkImg:true, //验证图片size
       timerNum: 5,
       timer: null,
       rules: {
-        organization: [{ required: true, message: "", trigger: "change" }],
-        vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
+        organization: [{ required: true, message: "请选择机构", trigger: "change" }],
+        vertifyMeg: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       }
     };
   },
   computed: {
     codeText() {
       if (this.clickCodeFlag) {
-        return `${this.num}s后失效`;
+        return `${this.timerNum}s后失效`;
       }
       return "获取验证码";
     },
@@ -93,31 +88,59 @@ export default {
       mobile: "getMobile"
     })
   },
-  created() {},
+  created() {
+    this.getOrganizationList()
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);   
+  },
   methods: {
-    handleIdSuccess(res, file) {
-      this.ruleRegForm.imageId = URL.createObjectURL(file.raw);
+    // 获取机构列表
+    getOrganizationList(){
+      apiGetOrganizationList().then(res => {
+        if (res.data.code == 200) {
+          this.orgOptions = res.data.data;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
     },
-
-    handleSchoolIdSuccess(res, file) {
-      this.ruleRegForm.imageSchoolId = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
+    imageChange(file) { 
       const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (["image/jpeg", "image/png", "image/jpg"].indexOf(file.type) < 0) {
-        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
-      }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      } 
+    },
+     // 上传身份证
+    uploadIdentityImg(event) {
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      const config = {
+        headers: {'Content-Type': 'multipart/form-data'}
       }
-      return isLt2M;
+     if(this.checkImg){
+      apiPostUploadFile(param, config).then(res => {
+        if (res.data.code == 200) {
+          this.ruleForm.imageId = res.data.data.file_path    
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+     }
     },
     // 获取验证码
     getVertifyCode() {
       if (this.mobile) {
-        this.clickCodeFlag = true;
-        this.timer = setInterval(this.cutDown, 1000);
+       apiGetValidCodePost({ mobile: this.mobile }).then(res => {
+          if (res.data.code == 200) {
+            this.clickCodeFlag = true;
+            this.timer = setInterval(this.cutDown, 1000);
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        });
       }
     },
     cutDown() {
@@ -134,6 +157,6 @@ export default {
 <style lang="scss" scoped>
 @import "./ele-reset.css";
 .organization {
-  width: 270px;
+  width: 300px;
 }
 </style>

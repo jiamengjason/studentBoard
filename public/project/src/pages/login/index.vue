@@ -37,9 +37,16 @@ export default {
           password: this.loginPwd
         };
         apiLoginDoPost(params).then(res => {
-          console.log(res, "res");
+         if(res.data.code == 200){
+            this.$message.success("登录成功");
+            this.toHomePageFn()
+          }else{
+            this.$message.error(res.data.msg);
+          }
         });
-        console.log(params, "params");
+      }else{
+        this.$message.error('请输入手机号/邮箱或者密码');
+
       }
     }
   }
@@ -64,7 +71,6 @@ export default {
 .login-desc {
   font-size: 26px;
   color: #999;
-  margin-top: -20px;
   margin-bottom: 90px;
 }
 // 登录输入
@@ -89,11 +95,12 @@ export default {
   background: $orangeColor;
   box-shadow: 0px 4px 15px 0px rgba(255, 112, 1, 0.4);
   border-radius: 40px;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   color: #fff;
   font-size: 34px;
   text-align: center;
   line-height: 80px;
+  cursor: pointer;
 }
 .login-opa {
   font-size: 18px;

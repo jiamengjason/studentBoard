@@ -19,8 +19,16 @@ export const apiPostUploadFile = (params,config) => {
   return request.post(`${defaultPath}uploadFile/index`,params,config);
 };
 // 获取所有的机构列表
-export const apigetOrganizationList = () => {
+export const apiGetOrganizationList = () => {
   return request.get(`${defaultPath}siteConfig/getOrganizationList`);
+};
+// 通过手机号重设密码
+export const apiResetPwByMobile = params => {
+  return request.post(`${defaultPath}login/resetPwByMobile`,params);
+};
+// 通过邮箱重设密码
+export const apiResetPwByEmail = params => {
+  return request.post(`${defaultPath}login/resetPwByEmail`,params);
 };
 // get
 export const apiGet = params => {

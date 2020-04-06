@@ -1,23 +1,23 @@
 <template>
   <div class="page-warp">
     <Hearder />
-    <comBreadcrumb class="bread-crumb" :bread-list="breadList" />
+    <Breadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
       <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
         <el-tab-pane
           v-for="(item,index) in navList"
           :key="index"
-          :label="item.name"
-          :name="item.key"
+          :label="item.lable"
+          :name="item.name"
         >
           {{ item }}
         </el-tab-pane>
       </el-tabs>
 
-      <comStudentReg v-if="activeName == 'student'" />
-      <comParentReg v-if="activeName == 'parent'" />
-      <comTeacherReg v-if="activeName == 'teacher'" />
-      <comOrgReg v-if="activeName == 'organization'" />
+      <OrgReg v-if="activeName == 'organization'" />
+      <TeacherReg v-if="activeName == 'teacher'" />
+      <StudentReg v-if="activeName == 'student'" />
+      <ParentReg v-if="activeName == 'parent'" />     
     </div>
     <Footer />
   </div>
@@ -25,31 +25,31 @@
 <script>
 import Hearder from "@/components/Hearder";
 import Footer from "@/components/Footer";
-import comBreadcrumb from "@/components/Breadcrumb";
-import comStudentReg from "./component/Student";
-import comTeacherReg from "./component/Teacher";
-import comParentReg from "./component/Parent";
-import comOrgReg from "./component/Organization";
+import Breadcrumb from "@/components/Breadcrumb";
+import StudentReg from "./component/Student";
+import TeacherReg from "./component/Teacher";
+import ParentReg from "./component/Parent";
+import OrgReg from "./component/Organization";
+
+
+import { ROLE_LIST } from "@/constants/index"
+
 export default {
   components: {
     Hearder,
     Footer,
-    comBreadcrumb,
-    comStudentReg,
-    comTeacherReg,
-    comParentReg,
-    comOrgReg
+    Breadcrumb,
+    StudentReg,
+    TeacherReg,
+    ParentReg,
+    OrgReg
   },
   data() {
+    console.log(ROLE_LIST,'ROLE_LIST')
     return {
-      activeName: "student",
+      activeName: 'student',
       stretch: true,
-      navList: [
-        { name: "学生", key: "student" },
-        { name: "家长", key: "parent" },
-        { name: "老师", key: "teacher" },
-        { name: "机构", key: "organization" }
-      ]
+      navList: ROLE_LIST
     };
   },
   computed: {

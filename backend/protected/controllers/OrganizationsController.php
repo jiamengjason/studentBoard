@@ -6,9 +6,28 @@
 class OrganizationsController extends FInterfaceBase
 {
     /**
+     * 【著名机构】列表页面
+     */
+    public function actionIndex(){
+        $params = [];
+        $params['page'] = $this->_gets->getParam('page');
+        $params['page_size'] = $this->_gets->getParam('page_size');
+        $params['organization_name'] = $this->_gets->getParam('organization_name');
+        $params['score_sort'] = $this->_gets->getParam('score_sort');   //0默认1预告2进行中3已结束
+        if (!empty($params['score_sort']) && !in_array($params['score_sort'], ['desc', 'asc'])){
+            $this->outputOk();
+        }
+
+        $organizationService = new OrganizationService();
+        $data = $organizationService->getOrganizationListByParams($params);
+
+        $this->outputOk('', $data);
+    }
+
+    /**
      * 【著名机构】机构详情
      */
-    public function actionInfo(){
+    public function actionDetail(){
         $organizationId = $this->_gets->getParam('organization_id');
         if (empty($organizationId)){
             $this->outputParamsError();

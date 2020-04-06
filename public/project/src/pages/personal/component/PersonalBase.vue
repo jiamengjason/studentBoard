@@ -157,7 +157,7 @@ export default {
   computed: {
     codeText() {
       if (this.clickCodeFlag) {
-        return `${this.num}s后失效`;
+        return `${this.timerNum}s后失效`;
       }
       return "获取验证码";
     }
