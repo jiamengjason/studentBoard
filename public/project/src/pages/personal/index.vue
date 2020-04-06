@@ -21,10 +21,10 @@
           {{ item }}
         </el-tab-pane>
       </el-tabs>
-      <StudentPersonal v-if="role ===1 " :active-name="activeName" />
+      <StudentPersonal v-if="role ===3 " :active-name="activeName" />
       <TeacherPersonal v-if="role ===2 " :active-name="activeName" />
-      <ParentPersonal v-if="role ===3 " :active-name="activeName" />
-      <OrgPersonal v-if="role ===4 " :active-name="activeName" />
+      <ParentPersonal v-if="role ===4 " :active-name="activeName" />
+      <OrgPersonal v-if="role ===1 " :active-name="activeName" />
     </div>
     <Footer />
   </div>
@@ -36,8 +36,8 @@ import StudentPersonal from "./component/StudentPersonal";
 import TeacherPersonal from "./component/TeacherPersonal";
 import ParentPersonal from "./component/ParentPersonal";
 import OrgPersonal from "./component/OrgPersonal";
-
 import { PERSONAL_NAV_LIST } from "@/constants/index";
+
 export default {
   components: {
     Hearder,
@@ -50,8 +50,8 @@ export default {
   data() {
     return {
       stretch: true,
-      role: 4, // 1 student 2 teacher 3 parent 4 organization
-      activeName:PERSONAL_NAV_LIST[4][0].key,
+      role: 1, // 1 student 2 teacher 3 parent 4 organization
+      activeName:PERSONAL_NAV_LIST[1][0].key,
     };
   },
   computed: {
