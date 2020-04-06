@@ -32,8 +32,8 @@ class SiteConfigController extends FInterfaceBase
         $organizationList = $organizationService->getAllOrganizationUsers();
         foreach ($organizationList as $item){
             $return[] = [
-                'id' => $item->id,
-                'organization_name' => $item->organization_name
+                'value' => $item->id,
+                'label' => $item->organization_name
             ];
         }
 
