@@ -146,6 +146,7 @@ order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
                 'user_id' => $item['user_id'],
                 'user_name' => $item->users()->user_name,
                 'head_img' => $item->users()->head_img,
+                'role_id' => $item->users()->role_id,
                 'score' => $item['score'],
                 'give_like' => $item['give_like'],
                 'give_dislike' => $item['give_dislike'],
