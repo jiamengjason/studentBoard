@@ -5,7 +5,7 @@
     <div class="organization-list">
       <el-row :gutter="20">
         <el-col v-for="i in count" :key="i" :span="6" class="sort">
-          <router-link :to="{name: 'organizationinfo'}">
+          <router-link :to="{name: 'organizationinfo', query:{organization_id: '3'}}">
             <div class="jigou-item">
               <div class="img">
                 <img src="/img/home/jigou.jpg" alt="">

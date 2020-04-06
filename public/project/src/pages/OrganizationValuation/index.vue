@@ -25,7 +25,8 @@
                   v-model="sizeForm.value"
                   :texts="['1分', '2分', '3分', '4分', '5分']"
                   :colors="['#F7BA2A', '#FF9900', '#FF7001']"
-                  show-text>
+                  show-text
+                >
                 </el-rate>
               </div>
             </el-form-item>
@@ -55,7 +56,7 @@
             </el-form-item>
             <!-- 详细评轮 -->
             <el-form-item label="详细评论">
-              <el-input type="textarea" :autosize="{minRows: 6, maxRows: 8}" v-model="sizeForm.desc"></el-input>
+              <el-input v-model="sizeForm.desc" type="textarea" :autosize="{minRows: 6, maxRows: 8}"></el-input>
             </el-form-item>
           </el-form>
 

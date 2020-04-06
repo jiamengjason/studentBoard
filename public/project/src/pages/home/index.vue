@@ -45,7 +45,7 @@
           <div class="st-column-con">
             <el-row :gutter="20">
               <el-col v-for="i in 4" :key="i" :span="6">
-                <router-link :to="{name: 'organizationinfo'}">
+                <router-link :to="{name: 'organizationinfo', query:{organization_id: '3'}}">
                   <div class="jigou-item">
                     <div class="img">
                       <img src="/img/home/jigou.jpg" alt="">
@@ -82,7 +82,7 @@
           <div class="st-column-con">
             <el-row :gutter="20">
               <el-col v-for="i in 4" :key="i" :span="6">
-                <router-link :to="{name: 'teachersinfo'}">
+                <router-link :to="{name: 'teachersinfo', query: {teacher_id: 17}}">
                   <div class="jigou-item">
                     <div class="img">
                       <img src="/img/home/jiaoshi.jpg" alt="">

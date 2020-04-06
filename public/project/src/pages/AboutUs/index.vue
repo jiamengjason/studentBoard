@@ -16,8 +16,7 @@
           <div class="st-about-con">
             <p class="tit">关于学汇网</p>
             <p>学汇网（www.xuehuiwang.cn）隶属于北京某某某有限公司，汇聚全国众多知名教师和著名机构，打造便捷的一站式学习平台。</p>
-            <p>解决国内各类学习参差不齐问题的设计网站。 抱着高端优质学习的宗旨，让每一个学生都能
-            够学到好知识学的起好知识。</p>
+            <p>解决国内各类学习参差不齐问题的设计网站。 抱着高端优质学习的宗旨，让每一个学生都能够学到好知识学的起好知识。</p>
             <p>网站目前已有四千多学习类目，目前网站已包含绘画、金融、销售、管理等学科。</p>
           </div>
           <div style="clear:both"></div>
@@ -27,18 +26,16 @@
         <div class="st-tit">团队介绍</div> 
         <div class="st-team">
           <el-row :gutter="20">
-          <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-        </el-row>
+            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+          </el-row>
         </div>
 
         <!-- 免责声明 -->
         <div class="st-tit">免责声明</div> 
         <div class="st-Liability">
-          <p>studentboard由北京陟遐科技控股集团有限公司运营，涉及具体产品服务的，将由有资质的服务商提供。如果用户（“用户”或“您”）
-  在本网站访问、预定或使用studentboard的产品或服务（以上统称为“服务”），便视为用户接受了以下免责说明，请您仔细阅读以下
-  内容。如果您不同意以下任何内容，请立刻停止访问/使用本网站所提供的相关服务。</p>
+          <p>studentboard由北京陟遐科技控股集团有限公司运营，涉及具体产品服务的，将由有资质的服务商提供。如果用户（“用户”或“您”）在本网站访问、预定或使用studentboard的产品或服务（以上统称为“服务”），便视为用户接受了以下免责说明，请您仔细阅读以下内容。如果您不同意以下任何内容，请立刻停止访问/使用本网站所提供的相关服务。</p>
         </div>
       </div>
     </div>

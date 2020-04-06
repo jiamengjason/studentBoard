@@ -15,16 +15,21 @@
       <div class="st-org-con">
         <div class="part-1">
           <div class="avatar">
-            <img src="/img/home/jiaoshi.jpg" alt="">
+            <el-image
+              style="width: 210px; height: 210px"
+              :src="teacherInfo.head_img ? teacherInfo.head_img : '/img/avatar_teacher.png'"
+              fit="contain"
+            >
+            </el-image>
           </div>
           <div class="con">
             <el-row :gutter="20">
               <el-col :span="6">
-                <span class="name">胡伟</span>
-                <span class="font1">4.7</span><span class="font2">/5</span>
+                <span class="name">{{ teacherInfo.teacher_name }} </span>
+                <span class="font1"> {{ teacherInfo.avg_score ? teacherInfo.avg_score : 0 }}</span><span class="font2">/5</span>
               </el-col>
               <el-col :span="12">
-                金融教育机构
+                {{ teacherInfo.organization_name ? teacherInfo.organization_name : '暂未加入机构' }}
               </el-col>
               <el-col :span="6">
                 <router-link class="orgvaluation-a" :to="{name: 'teachervaluation'}">
@@ -51,12 +56,31 @@
         <div class="part-2">
           <div class="tit">相似老师</div>
           <div class="teacher-list">
-            <div v-for="i in 8" :key="i" class="teacher-item">
+            <!-- 有数据 -->
+            <div v-for="v in similarTeacher" :key="v.teacher_id" :if="similarTeacher.length > 0" class="teacher-item">
               <div class="img">
-                <img src="/img/home/jiaoshi.jpg" alt="">
+                <el-image
+                  style="width: 120; height: 120px"
+                  :src="v.head_img ? v.head_img : '/img/avatar_teacher.png'"
+                  fit="contain"
+                ></el-image>
               </div>
               <div class="name">
-                胡伟<span class="font1">4.7</span><span class="font2">/5</span>
+                {{ v.teacher_name }}<span class="font1">{{ v.avg_score ? v.avg_score : 0 }}</span><span class="font2">/5</span>
+              </div>
+            </div>
+            <!-- 无数据 -->
+            <div :if="similarTeacher.length == 0" class="teacher-item">
+              <div class="img">
+                <el-image
+                  style="width: 120px; height: 120px"
+                  src="/img/avatar_teacher.png"
+                  fit="contain"
+                >
+                </el-image>
+              </div>
+              <div class="name">
+                <span class="font2">暂无</span>
               </div>
             </div>
             <div style="clear:both"></div>
@@ -106,6 +130,7 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
+import { apigetTeachersInfo,apiGetSimilarTeacher } from "@/apis/api_st";
 
 export default {
   name: "Home",
@@ -116,12 +141,41 @@ export default {
   data() {
     return {
       search:'',
-      count:12
+      // 老师详情
+      teacherInfo: {},
+      // 相似老师
+      similarTeacher: []
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    // 获取教师详细信息
+    this.getInfo()
+    // 获取相似教师
+    this.getFamousTeacher()
+  },
+  methods: {
+    getInfo(){
+      // 获取教师详细信息
+      apigetTeachersInfo({'teacher_id': this.$route.query.teacher_id}).then(res => {
+        if(res.data.code==200){
+          this.teacherInfo = res.data.data
+        }else{
+          this.teacherInfo = {}
+        }
+      })
+    },
+    getFamousTeacher(){
+      // 获取相似教师
+      apiGetSimilarTeacher({'teacher_id': this.$route.query.teacher_id}).then(res => {
+        if(res.data.code==200){
+          this.similarTeacher = res.data.data
+        }else{
+          this.similarTeacher = []
+        }
+      })
+    }
+  }
 };
 </script>
 
@@ -232,10 +286,12 @@ export default {
           color:rgba(153,153,153,1);
           line-height:30px;
         }
-        button{
+        .orgvaluation-a{
+          display: block;
+          text-align: center;
           float: right;
-          width:210px;
           height:40px;
+          padding: 0 40px;
           border: none;
           line-height: 40px;
           background:rgba(255,112,1,1);

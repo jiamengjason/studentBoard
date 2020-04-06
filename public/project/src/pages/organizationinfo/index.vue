@@ -15,19 +15,24 @@
       <div class="st-org-con">
         <div class="part-1">
           <div class="avatar">
-            <img src="/img/home/jigou.jpg" alt="">
+            <el-image
+              style="width: 210px; height: 210px"
+              :src="orgInfo.head_img ? orgInfo.head_img : '/img/avatar_jigou.png'"
+              fit="contain"
+            >
+            </el-image>
           </div>
           <div class="con">
             <el-row :gutter="20">
               <el-col :span="6">
-                <span class="name">视频教育机构</span>
-                <span class="font1">4.7</span><span class="font2">/5</span>
+                <span class="name">{{ orgInfo.organization_name }} </span>
+                <span class="font1"> {{ orgInfo.avg_score ? orgInfo.avg_score : '0' }}</span><span class="font2">/5</span>
               </el-col>
               <el-col :span="6">
-                <span class="label">课程：</span>C4D/3Dmax
+                <span class="label">业务：</span>{{ orgInfo.organization_yewu ? orgInfo.organization_yewu : '未填写' }}
               </el-col>
               <el-col :span="6">
-                <span class="label">网址：</span>shipin.com
+                <span class="label">网址：</span>{{ orgInfo.organization_www ? orgInfo.organization_www : '未填写' }}
               </el-col>
               <el-col :span="6">
                 <router-link class="orgvaluation-a" :to="{name: 'orgvaluation'}">
@@ -54,12 +59,32 @@
         <div class="part-2">
           <div class="tit">名师团队</div>
           <div class="teacher-list">
-            <div v-for="i in 8" :key="i" class="teacher-item">
+            <!-- 有数据 -->
+            <div v-for="v in famousTeacher" :key="v.teacher_id" :if="famousTeacher.length == 0" class="teacher-item">
               <div class="img">
-                <img src="/img/home/jiaoshi.jpg" alt="">
+                <el-image
+                  style="width: 120; height: 120px"
+                  :src="v.head_img ? v.head_img : '/img/avatar_teacher.png'"
+                  fit="contain"
+                >
+                </el-image>
               </div>
               <div class="name">
-                胡伟<span class="font1">4.7</span><span class="font2">/5</span>
+                {{ v.user_name }}<span class="font1">{{ v.score ? v.score : '0' }}</span><span class="font2">/5</span>
+              </div>
+            </div>
+            <!-- 无数据 -->
+            <div :if="famousTeacher.length == 0" class="teacher-item">
+              <div class="img">
+                <el-image
+                  style="width: 120px; height: 120px"
+                  src="/img/avatar_teacher.png"
+                  fit="contain"
+                >
+                </el-image>
+              </div>
+              <div class="name">
+                <span class="font2">暂无</span>
               </div>
             </div>
             <div style="clear:both"></div>
@@ -109,6 +134,8 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
+import { apiGetOrganizationInfo, apiGetFamousTeacher } from "@/apis/api_st";
+
 
 export default {
   name: "Home",
@@ -119,12 +146,42 @@ export default {
   data() {
     return {
       search:'',
-      count:12
+      count:12,
+      orgInfo: {},
+      famousTeacher: []
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    // 获取机构详细信息
+    this.getInfo()
+    // 获取机构名师团队
+    this.getFamousTeacher()
+  },
+  methods: {
+    getInfo(){
+      // 获取机构详细信息
+      apiGetOrganizationInfo({'organization_id': this.$route.query.organization_id}).then(res => {
+        console.info('res', res)
+        if(res.data.code==200){
+          this.orgInfo = res.data.data
+        }else{
+          this.orgInfo = {}
+        }
+      })
+    },
+    getFamousTeacher(){
+      // 获取机构名师团队
+      apiGetFamousTeacher({'organization_id': this.$route.query.organization_id}).then(res => {
+        console.info('res', res)
+        if(res.data.code==200){
+          this.famousTeacher = res.data.data
+        }else{
+          this.famousTeacher = []
+        }
+      })
+    }
+  }
 };
 </script>
 
@@ -165,9 +222,13 @@ export default {
         float: left;
         overflow: hidden;
         border-radius:10px;
+        text-align: center;
+        display: flex;
+        align-items: center;
         img{
           // max-width: 100%;
           max-height: 100%;
+          align-items: center;
         }
       }
       .con{
@@ -211,7 +272,6 @@ export default {
           font-size:22px;
           font-weight:400;
           color:rgba(255,255,255,1);
-          cursor: pointer;
         }
       }
     }

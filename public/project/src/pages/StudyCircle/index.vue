@@ -1,6 +1,7 @@
 <template>
-  <div class="layout">
+  <div class="layout mainBg">
     <Hearder></Hearder>
+    <div style="height:40px"></div>
     <div class="st-container mt80">
       <!-- banner -->
       <div class="banner">
@@ -9,12 +10,12 @@
 
       <div class="q-list">
         <div class="q-tit">
-          <router-link>全部</router-link>
-          <router-link>热门问题</router-link>
-          <router-link>提个问题</router-link>
-          <router-link>回答问题</router-link>
+          <router-link class="hover" :to="{name: 'studyCircle'}">全部</router-link>
+          <router-link :to="{name: 'studyCircle'}">热门问题</router-link>
+          <router-link :to="{name: 'studyCircle'}">提个问题</router-link>
+          <router-link :to="{name: 'studyCircle'}">回答问题</router-link>
         </div>
-        <div class="q-item">
+        <div v-for="i in 4" :key="i" class="q-item">
           <p>Q：我想问个问题，不知道谁可以回答一下,我想问个问题，不知道谁可以回答一下,我想问个问题，不知道谁可以回答一下？</p>
           <p>A：我可以回答你，你想问什么,我可以回答你，你想问什么,我可以回答你，你想问什么,我可以回答你，你想问什么</p>
           <div class="st-message-zan">
@@ -23,6 +24,11 @@
             <span class="cai">2</span>
           </div>
         </div>
+      </div>
+      <!-- 分页 -->
+      <div class="st-page">
+        <el-pagination background layout="prev, pager, next" :total="1000">
+        </el-pagination>
       </div>
     </div> 
     
@@ -51,9 +57,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.q-tit{
+  border-bottom: 1px solid #cccccc;
+  font-size:24px;
+  font-weight:400;
+  color:rgba(51,51,51,1);
+  height: 78px;
+  line-height: 78px;
+  a{
+    padding: 0 40px;
+    color:rgba(51,51,51,1);
+    &:hover{
+      color:rgba(255,112,1,1);
+    }
+    &.hover{
+      color:rgba(255,112,1,1);
+    }
+  }
+}
 .q-list{
   text-align: left;
-  margin-top: 40px;
+  margin: 40px 0 140px 0;
   background: #ffffff;
 
   .q-item{
@@ -63,6 +87,9 @@ export default {
     font-weight:400;
     color:rgba(51,51,51,1);
     border-bottom: 1px solid #cccccc;
+    .st-message-zan{
+      margin-top: 20px;
+    }
   }
 }
 </style>
