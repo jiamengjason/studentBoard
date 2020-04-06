@@ -164,6 +164,7 @@ export default {
     margin-right:20rpx
   }
   .personal-top-save-btn {
+    cursor: pointer;
     width: 300px;
     height: 40px;
     background: rgba(255, 112, 1, 1);

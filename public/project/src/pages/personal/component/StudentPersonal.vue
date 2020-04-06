@@ -5,12 +5,21 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img src alt />
+            <img :src="ruleForm.identityImg" />
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
             </p>
-            <p class="content-first-btn">上传头像</p>
+            <el-upload
+              action="''"
+              class="content-first-btn"
+              accept="image/jpeg,image/png,image/jpg"
+              :show-file-list="false"
+              :http-request="uploadHeadImg"
+              :on-change="imageChange"
+            >
+              <span class="content-first-btn">选取文件</span>
+            </el-upload>
           </div>
         </el-col>
         <el-col :span="18">
@@ -60,14 +69,34 @@
             <el-row :gutter="20">
               <el-col :span="8">
                 <el-form-item label="身份证：" class="text-left">
-                  <span class="upload-state">已上传</span>
-                  <span class="upload-state">未上传</span>
+                  <span v-if="ruleForm.identityImg" class="upload-state">已上传</span>
+                  <span v-else class="upload-state">未上传</span>
+                  <el-upload             
+                    action="''"
+                    class="add-info-img-btn"
+                    accept="image/jpeg,image/png,image/jpg"
+                    :show-file-list="false"
+                    :http-request="uploadIdentityImg"
+                    :on-change="imageChange"
+                  >
+                    <span>选取文件</span>
+                  </el-upload>
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="4">
                 <el-form-item label="学生证：" class="text-left">
-                  <span class="upload-state">已上传</span>
-                  <span class="upload-state">未上传</span>
+                  <span v-if="ruleForm.studentCardImg" class="upload-state">已上传</span>
+                  <span v-else class="upload-state">未上传</span>
+                  <el-upload             
+                    action="''"
+                    class="add-info-img-btn"
+                    accept="image/jpeg,image/png,image/jpg"
+                    :show-file-list="false"
+                    :http-request="uploadSchoolImg"
+                    :on-change="imageChange"
+                  >
+                    <span>选取文件</span>
+                  </el-upload>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -89,6 +118,12 @@ import PersonBase from "./PersonalBase";
 import PersonalActivity from "./PersonalActivity";
 import Comment from "./Comment";
 import ComActivity from "@/components/Activity";
+import { 
+  apiGetSiteConfig,
+  apiResetUserInfo,
+  apiResetUserUpdate,
+  apiPostUploadFile 
+} from "@/apis/api";
 
 export default {
   components: {
@@ -114,19 +149,13 @@ export default {
         email:"mobile",
         school: "",
         eduValue: "",
-        identityImg: "",
+        headImg:"",
+        identityImg: "https://www.baidu.com/img/bd_logo1.png",
         studentCardImg: ""
       },
-      eduOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
+      checkImg:true,
+      eduOptions: [],
+      uploadConfig:{},
       rules: {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" }
@@ -136,7 +165,75 @@ export default {
     };
   },
   created() {
+    this.getSiteConfig();
     console.log(this.activeName, "activeName");
+  },
+  methods:{
+    // 获取网站配置
+    getSiteConfig(){
+      apiGetSiteConfig().then(res => {
+        if (res.data.code == 200) {
+          this.eduOptions = res.data.data.grade_list;
+        }
+      })
+    },
+    imageChange(file) { 
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      }else{
+        this.checkImg = true
+      } 
+    },
+    // 上传共有的方法
+    uplaodFn(event){
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      this.uploadConfig = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }
+    },
+    // 上传头像
+    uploadHeadImg(){
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.headImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+     // 上传身份证
+    uploadIdentityImg(event) {
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.identityImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+    // 上传学生证
+    uploadSchoolImg(){
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.studentCardImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    }
   }
 };
 </script>
@@ -178,6 +275,16 @@ export default {
       margin: 0 auto;
     }
   }
+  .add-info-img-btn{
+    width: 120px;
+    height: 36px;
+     background: $orangeColor;
+    border-radius: 4px;
+    line-height: 36px;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+  }
   /* 在读学校 */
   .school-spe-style .el-form-item__content {
     display: flex;
@@ -199,11 +306,18 @@ export default {
   }
   .text-left{
     text-align: left;
+    .el-form-item__content{
+      display: flex;
+    }
+    .upload-state{
+      margin-right:10px;
+      width: 50px;
+    }
   }
-  .upload-state{
-    margin-right:20rpx
-  }
+ 
   .personal-top-save-btn {
+    cursor: pointer;
+    cursor: pointer;
     width: 300px;
     height: 40px;
     background: rgba(255, 112, 1, 1);
