@@ -118,6 +118,8 @@ export default {
         console.log(res,'res')
         if (res.data.code == 200) {
           this.eduOptions = res.data.data.grade_list;
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
     },

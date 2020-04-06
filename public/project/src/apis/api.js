@@ -30,6 +30,18 @@ export const apiResetPwByMobile = params => {
 export const apiResetPwByEmail = params => {
   return request.post(`${defaultPath}login/resetPwByEmail`,params);
 };
+// 获取个人信息
+export const apiResetUserInfo = params => {
+  return request.post(`${defaultPath}member/info`,params);
+};
+// 修改用户基本信息
+export const apiResetUserUpdate = params => {
+  return request.post(`${defaultPath}member/update`,params);
+};
+// 修改用户绑定信息
+export const apiResetUpdateUnion = params => {
+  return request.post(`${defaultPath}member/updateUnion`,params);
+};
 // get
 export const apiGet = params => {
   return request.get(

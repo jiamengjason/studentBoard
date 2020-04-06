@@ -34,7 +34,7 @@ class EvaluateScore extends XBaseModel
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
         return array(
-            'users'=>array(self::BELONGS_TO, 'Users', 'user_id', 'alias'=>'user_id', 'select'=>'user_name,head_img'),
+            'users'=>array(self::BELONGS_TO, 'Users', 'user_id', 'alias'=>'user_id', 'select'=>'user_name,role_id,head_img'),
         );
 	}
 

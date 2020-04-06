@@ -37,7 +37,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <p class="personal-save-btn">保存</p>
+            <p class="personal-save-btn" @click="updateUnionPwd">保存</p>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="修改邮箱">
@@ -55,11 +55,12 @@
                   <el-input v-model="ruleEmail.newEmail"></el-input>
                 </el-form-item>
                 <el-form-item label="验证码：" prop="validCode">
-                  <el-input v-model="ruleEmail.validCode"></el-input>
+                  <el-input v-model="ruleEmail.validCode" class="vertify-code"></el-input>
+                  <el-button plain :disabled="clickCodeFlag" @click="getEmailVertifyCode">{{ codeText }}</el-button>
                 </el-form-item>
               </el-col>
             </el-row>
-            <p class="personal-save-btn">保存</p>
+            <p class="personal-save-btn" @click="updateUnionEmail">保存</p>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="修改手机号">
@@ -82,7 +83,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <p class="personal-save-btn">保存</p>
+            <p class="personal-save-btn" @click="updateUnionMobile">保存</p>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -91,6 +92,7 @@
 </template>
 <script>
 import TopTitle from "./TopTitle.vue";
+import { apiResetUpdateUnion,apigetValidEmailPost,apiGetValidCodePost } from "@/apis/api";
 export default {
   components: {
     TopTitle
@@ -128,7 +130,7 @@ export default {
       },
       ruleMobile: {
         newMobile: "",
-        vertifyMeg: ""
+        validCode: ""
       },
       clickCodeFlag: false,
       timerNum: 5,
@@ -166,10 +168,34 @@ export default {
     // 获取验证码
     getVertifyCode() {
       if (this.ruleMobile.newMobile) {
-        this.clickCodeFlag = true;
-        this.timer = setInterval(this.cutDown, 1000);
+        apiGetValidCodePost({ mobile: this.ruleMobile.newMobile }).then(res => {
+          if (res.data.code == 200) {
+            this.clickCodeFlag = true;
+            this.timer = setInterval(this.cutDown, 1000);
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        });
+      }else{
+        this.$message.error("请输入的手机号码");
       }
     },
+    // 获取邮箱验证码
+    getEmailVertifyCode(){
+      if (this.ruleEmail.newEmail) {
+        apigetValidEmailPost({ email: this.ruleEmail.newEmail }).then(res => {
+          if (res.data.code == 200) {
+            this.clickCodeFlag = true;
+            this.timer = setInterval(this.cutDown, 1000);
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        });
+      }else{
+        this.$message.error("请输入的邮箱");
+      }
+    },
+    // 倒计时
     cutDown() {
       this.timerNum--;
       if (this.timerNum <= 0) {
@@ -177,6 +203,49 @@ export default {
         this.clickCodeFlag = false;
         clearInterval(this.timer);
       }
+    },
+    modifyRequest(params){
+      apiResetUpdateUnion(params).then(res=>{
+        if (res.data.code == 200) {
+          this.$message.success('修改成功');
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    // 保存密码
+    updateUnionPwd(){
+      let params = {
+        userId: '19',  //手机号
+        token:'77e0a3ce658692e1a105774ccddf8ac0',
+        type: 1,  //1修改密码 2修改邮箱 3修改手机号
+        oldPassword: this.ruleForm.oldPassword,
+        newPassword: this.ruleForm.newPassword,
+        rePassword: this.ruleForm.rePassword
+      }
+      this.modifyRequest(params)
+    },
+    // 保存邮箱
+    updateUnionEmail(){
+      let params = {
+        userId: '19',  //手机号
+        token:'77e0a3ce658692e1a105774ccddf8ac0',
+        type: 2,  //1修改密码 2修改邮箱 3修改手机号
+        newEmail: this.ruleEmail.oldPassword,
+        validCode: this.ruleEmail.newPassword
+      }
+      this.modifyRequest(params)
+    },
+    // 保存手机号
+    updateUnionMobile(){
+      let params = {
+        userId: '19',  //手机号
+        token:'77e0a3ce658692e1a105774ccddf8ac0',
+        type: 3,  //1修改密码 2修改邮箱 3修改手机号
+        newMobile: this.ruleMobile.oldPassword,
+        validCode: this.ruleMobile.newPassword
+      }
+      this.modifyRequest(params)
     }
   }
 };
