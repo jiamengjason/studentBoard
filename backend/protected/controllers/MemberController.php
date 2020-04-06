@@ -29,7 +29,7 @@ class MemberController extends FSessionInterfaceBase
 
         //编辑用户信息
         $usersService = new UsersService();
-        $bool = $usersService->updateUserInfo($this->userId, $this->_gets);
+        $bool = $usersService->updateUserInfo($this->userId, $this->_requestParams);
 
         if (false == $bool){
             $this->outputParamsError();
@@ -47,12 +47,12 @@ class MemberController extends FSessionInterfaceBase
 
         //开始校验
         $data = [];
-        $data['type'] = $this->_gets->getParam('type');
+        $data['type'] = isset($this->_requestParams['type']) ? $this->_requestParams['type'] : '';
         switch ($data['type']){
             case 1:
-                $data['oldPassword'] = $this->_gets->getParam('oldPassword');
-                $data['newPassword'] = $this->_gets->getParam('newPassword');
-                $data['rePassword'] = $this->_gets->getParam('rePassword');
+                $data['oldPassword'] = isset($this->_requestParams['oldPassword']) ? $this->_requestParams['oldPassword'] : '';
+                $data['newPassword'] = isset($this->_requestParams['newPassword']) ? $this->_requestParams['newPassword'] : '';
+                $data['rePassword'] = isset($this->_requestParams['rePassword']) ? $this->_requestParams['rePassword'] : '';
                 if (empty($data['oldPassword']) || empty($data['newPassword']) || empty($data['rePassword'] )){
                     $this->outputParamsError();
                 }
@@ -64,15 +64,15 @@ class MemberController extends FSessionInterfaceBase
                 }
                 break;
             case 2:
-                $data['newEmail'] = $this->_gets->getParam('newEmail');
-                $data['validCode'] = $this->_gets->getParam('validCode');
+                $data['newEmail'] = isset($this->_requestParams['newEmail']) ? $this->_requestParams['newEmail'] : '';
+                $data['validCode'] = isset($this->_requestParams['validCode']) ? $this->_requestParams['validCode'] : '';
                 if (empty($data['newEmail']) || empty($data['validCode'])){
                     $this->outputParamsError();
                 }
                 break;
             case 3:
-                $data['newMobile'] = $this->_gets->getParam('newMobile');
-                $data['validCode'] = $this->_gets->getParam('validCode');
+                $data['newMobile'] = isset($this->_requestParams['newMobile']) ? $this->_requestParams['newMobile'] : '';
+                $data['validCode'] = isset($this->_requestParams['validCode']) ? $this->_requestParams['validCode'] : '';
                 if (empty($data['newMobile']) || empty($data['validCode'])){
                     $this->outputParamsError();
                 }
@@ -101,30 +101,31 @@ class MemberController extends FSessionInterfaceBase
         }
 
         $active = [];
-        if (empty($this->_gets->getParam('title_img'))){
+        $active['title_img'] = isset($this->_requestParams['title_img']) ? $this->_requestParams['title_img'] : '';
+        $active['title'] = isset($this->_requestParams['title']) ? $this->_requestParams['title'] : '';
+        $active['start_time'] = isset($this->_requestParams['start_time']) ? $this->_requestParams['start_time'] : '';
+        $active['end_time'] = isset($this->_requestParams['end_time']) ? $this->_requestParams['end_time'] : '';
+        $active['desc'] = isset($this->_requestParams['desc']) ? $this->_requestParams['desc'] : '';
+        $active['addr'] = isset($this->_requestParams['addr']) ? $this->_requestParams['addr'] : '';
+
+        if (empty($active['title_img'])){
             $this->outputParamsError('请上传活动图片');
         }
-        if (empty($this->_gets->getParam('title'))){
+        if (empty($active['title'])){
             $this->outputParamsError('请填写活动标题');
         }
-        if (empty($this->_gets->getParam('start_time'))){
+        if (empty($active['start_time'])){
             $this->outputParamsError('请填写活动开始时间');
         }
-        if (empty($this->_gets->getParam('end_time'))){
+        if (empty($active['end_time'])){
             $this->outputParamsError('请填写活动结束时间');
         }
-        if (empty($this->_gets->getParam('desc'))){
+        if (empty($active['desc'])){
             $this->outputParamsError('请填写活动简介');
         }
-        if (empty($this->_gets->getParam('addr'))){
+        if (empty($active['addr'])){
             $this->outputParamsError('请填写活动地址');
         }
-        $active['title_img'] = $this->_gets->getParam('title_img');
-        $active['title'] = $this->_gets->getParam('title');
-        $active['start_time'] = $this->_gets->getParam('start_time');
-        $active['end_time'] = $this->_gets->getParam('end_time');
-        $active['desc'] = $this->_gets->getParam('desc');
-        $active['addr'] = $this->_gets->getParam('addr');
 
         //发布活动
         $organizationService = new OrganizationService();
@@ -181,11 +182,11 @@ class MemberController extends FSessionInterfaceBase
         }
 
         $params = [];
-        $params['score'] = $this->_gets->getParam('score');
-        $params['is_recommend'] = $this->_gets->getParam('is_recommend');
-        $params['tags'] = $this->_gets->getParam('tags');
-        $params['comment'] = $this->_gets->getParam('comment');
-        $params['evaluated_uid'] = $this->_gets->getParam('evaluated_uid');
+        $params['score'] = isset($this->_requestParams['score']) ? $this->_requestParams['score'] : '';
+        $params['is_recommend'] = isset($this->_requestParams['is_recommend']) ? $this->_requestParams['is_recommend'] : '';
+        $params['tags'] = isset($this->_requestParams['tags']) ? $this->_requestParams['tags'] : '';
+        $params['comment'] = isset($this->_requestParams['comment']) ? $this->_requestParams['comment'] : '';
+        $params['evaluated_uid'] = isset($this->_requestParams['evaluated_uid']) ? $this->_requestParams['evaluated_uid'] : '';
         $params['user_id'] = $this->userId;
         if (empty($params['score'])){
             $this->outputParamsError('请选择教学质量');
@@ -239,9 +240,9 @@ class MemberController extends FSessionInterfaceBase
             $this->outputParamsError();
         }
 
-        $activeId = $this->_gets->getParam('active_id');
-        $num = $this->_gets->getParam('num');
-        $tType = $this->_gets->getParam('t_type');
+        $activeId = isset($this->_requestParams['active_id']) ? $this->_requestParams['active_id'] : '';
+        $num = isset($this->_requestParams['num']) ? $this->_requestParams['num'] : '';
+        $tType = isset($this->_requestParams['t_type']) ? $this->_requestParams['t_type'] : '';
         $userId = $this->userId;
         if (empty($activeId)){
             $this->outputParamsError('该活动不存在呦~');

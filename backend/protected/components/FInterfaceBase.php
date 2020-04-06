@@ -22,6 +22,7 @@ class FInterfaceBase extends Controller
     protected $_roleGroupList;
     protected $_gradeList;
     protected $_scoreList;
+    public $_requestParams;
 
     /**
 	 * 初始化
@@ -46,6 +47,12 @@ class FInterfaceBase extends Controller
         $this->_gets = Yii::app()->request;
         if($this->_conf['site_status'] == 'close')
             self::_closed();
+
+        //接收参数
+        $params = file_get_contents( "php://input");
+        if ($params){
+            $this->_requestParams = json_decode($params, true);
+        }
     }
 
     /**

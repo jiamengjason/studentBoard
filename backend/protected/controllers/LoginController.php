@@ -34,8 +34,8 @@ class LoginController extends FInterfaceBase
             'p_id',  //父类id
         ];
         foreach ($collectionFields as $fields){
-            if (isset($_POST[$fields])){
-                $params[$fields] = trim($_POST[$fields]);
+            if (isset($this->_requestParams[$fields])){
+                $params[$fields] = trim($this->_requestParams[$fields]);
             }
         }
         if (!isset($params['role_id']) || empty($params['role_id'])){
@@ -95,7 +95,7 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $mobile = $_POST['mobile']; //手机号
+        $mobile = isset($this->_requestParams['mobile']) ? $this->_requestParams['mobile'] : ''; //手机号
         if (empty($mobile) || strlen($mobile) != 11){
             $this->outputError('手机号格式错误');
         }
@@ -119,8 +119,8 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $mobile = trim($_POST['mobile']);
-        $password = trim($_POST['password']);
+        $mobile = isset($this->_requestParams['mobile']) ? $this->_requestParams['mobile'] : '';
+        $password = isset($this->_requestParams['password']) ? $this->_requestParams['password'] : '';
 
         if (empty($mobile)){
             $this->outputParamsError('请输入手机号或邮箱账号');
@@ -154,11 +154,10 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $mobile = trim($_POST['mobile']);
-        $validateCode = trim($_POST['validate_code']);
-        $newPassword = trim($_POST['new_password']);
-        $rePassword = trim($_POST['re_password']);
-
+        $mobile = isset($this->_requestParams['mobile']) ? $this->_requestParams['mobile'] : '';
+        $validateCode = isset($this->_requestParams['validate_code']) ? $this->_requestParams['validate_code'] : '';
+        $newPassword = isset($this->_requestParams['new_password']) ? $this->_requestParams['new_password'] : '';
+        $rePassword = isset($this->_requestParams['re_password']) ? $this->_requestParams['re_password'] : '';
         if (empty($mobile)){
             $this->outputParamsError('请输入手机号');
         }
@@ -197,7 +196,7 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $email = $_POST['email']; //邮箱
+        $email = isset($this->_requestParams['email']) ? $this->_requestParams['email'] : '';
         if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
             $this->outputError('无效的Email格式');
         }
@@ -226,10 +225,10 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $email = trim($_POST['email']);
-        $validateCode = trim($_POST['validate_code']);
-        $newPassword = trim($_POST['new_password']);
-        $rePassword = trim($_POST['re_password']);
+        $email = isset($this->_requestParams['email']) ? $this->_requestParams['email'] : '';
+        $validateCode = isset($this->_requestParams['validate_code']) ? $this->_requestParams['validate_code'] : '';
+        $newPassword = isset($this->_requestParams['new_password']) ? $this->_requestParams['new_password'] : '';
+        $rePassword = isset($this->_requestParams['re_password']) ? $this->_requestParams['re_password'] : '';
 
         if (empty($email)){
             $this->outputParamsError('请输入邮箱');
