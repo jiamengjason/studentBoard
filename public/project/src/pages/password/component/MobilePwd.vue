@@ -9,9 +9,14 @@
   >
     <!-- 手机号 -->
     <el-row :gutter="20">
-      <el-col :span="8">
+      <el-col v-if="pwdType === 'mobile'" :span="8">
         <el-form-item label="手机号码：" prop="mobile">
           <el-input v-model="ruleForm.mobile"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col v-else :span="8">
+        <el-form-item label="Email：" prop="email">
+          <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8" :offset="5">
@@ -34,13 +39,42 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <p class="be-sure">确认</p>
+    <p class="be-sure" @click="pwdForget">确认</p>
   </el-form>
 </template>
 <script>
+import { apiResetPwByMobile,apiGetValidCodePost,apiResetPwByEmail } from "@/apis/api";
+import { homePage } from "@/mixin/home";
+
 export default {
-  name: "RegBase",
+  mixins: [homePage],
+  props:{
+    pwdType:{
+      type:String,   // 1是手机，2是邮件
+      default(){
+        return 'mobile'
+      }
+    }
+  },
   data() {
+    // 手机号验证
+    let checkPhone = (rule, value, callback) => {
+      const phoneReg = /^1[3|4|5|6|7|8][0-9]{9}$/;
+      if (!value) {
+        return callback(new Error("手机号码不能为空"));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(+value)) {
+          callback(new Error("请输入数字值"));
+        } else {
+          if (phoneReg.test(value)) {
+            callback();
+          } else {
+            callback(new Error("手机号码格式不正确"));
+          }
+        }
+      }, 100);
+    };
     // 确认密码验证
     let checkPwd = (rule, value, callback) => {
       if (!value) {
@@ -57,6 +91,7 @@ export default {
     return {
       ruleForm: {
         mobile: "",
+        email: "",
         vertifyMeg: "",
         newPwd: "",
         verNewPwd: ""
@@ -65,30 +100,47 @@ export default {
       timerNum: 5,
       timer: null,
       rules: {
-        mobile: [{ required: true, message: "请输入手机号", trigger: "blur" }],
+        mobile: [{ required: true, validator: checkPhone, trigger: "blur" }],
         vertifyMeg: [{ required: true, message: "请输入验证码", trigger: "blur" }],
-        newPwd:[{ required: true, message: "请输入新密码", trigger: "blur" }],
-        verNewPwd: [{ required: true, validator: checkPwd, trigger: "blur" }]
-
+        newPwd:[
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
+        ],
+        verNewPwd: [{ required: true, validator: checkPwd, trigger: "blur" }],
+        email: [
+          { required: true, message: "请输入Email", trigger: "blur" },
+          { type: "email", message: "请输入正确的Email", trigger: "blur" }
+        ],
       }
     };
   },
   computed: {
     codeText() {
       if (this.clickCodeFlag) {
-        return `${this.num}s后失效`;
+        return `${this.timerNum}s后失效`;
       }
       return "获取验证码";
     }
   },
-  watch: {},
-  mounted() {},
+  beforeDestroy() {
+    clearInterval(this.timer);
+
+  },
   methods: {
     // 获取验证码
     getVertifyCode() {
-      if (this.mobile) {
-        this.clickCodeFlag = true;
-        this.timer = setInterval(this.cutDown, 1000);
+      if (this.ruleForm.mobile || this.ruleForm.email) {
+        let params = {
+          mobile: this.pwdType === 'mobile' ? this.ruleForm.mobile : this.ruleForm.email
+        }
+        apiGetValidCodePost(params).then(res => {
+          if (res.data.code == 200) {
+            this.clickCodeFlag = true;
+            this.timer = setInterval(this.cutDown, 1000);
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        });
       }
     },
     cutDown() {
@@ -98,6 +150,55 @@ export default {
         this.clickCodeFlag = false;
         clearInterval(this.timer);
       }
+    },
+    sendMobileData(){
+      let params = {
+        mobile: this.ruleForm.mobile,  //手机号
+        validate_code:this.ruleForm.vertifyMeg, 
+        new_password: this.ruleForm.newPwd,  //新密码
+        re_password: this.ruleForm.verNewPwd  
+      }
+       apiResetPwByMobile(params).then(res => {
+        if(res.data.code == 200){
+          this.successPath = 2 // 2代表是修改成功
+          this.$message.success("修改成功");
+          this.toRegisterSuccessPageFn()
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
+    sendEmailData(){
+      let params = {
+        email: this.ruleForm.email,  //手机号
+        validate_code:this.ruleForm.vertifyMeg, 
+        new_password: this.ruleForm.newPwd,  //新密码
+        re_password: this.ruleForm.verNewPwd  
+      }
+      apiResetPwByEmail(params).then(res => {
+        if(res.data.code == 200){
+          this.successPath = 2 // 2代表是修改成功
+          this.$message.success("修改成功");
+          this.toRegisterSuccessPageFn()
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      });
+      
+    },
+    // 修改密码
+    pwdForget(){
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          if(this.pwdType === 'mobile'){
+            this.sendMobileData()
+          }else{
+            this.sendEmailData()
+          }
+        } else {
+          this.$message.error("输入信息不完整");
+        }
+      });
     }
   }
 };

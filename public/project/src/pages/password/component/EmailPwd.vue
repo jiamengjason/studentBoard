@@ -19,8 +19,12 @@
   </el-form>
 </template>
 <script>
+import { apiResetPwByEmail } from "@/apis/api";
+import { homePage } from "@/mixin/home";
+
 export default {
   name: "RegBase",
+  mixins: [homePage],
   data() {
     return {
       ruleForm: {
@@ -35,13 +39,24 @@ export default {
     };
   },
   computed: {},
+
   watch: {},
   mounted() {},
   methods: {
     // 发送邮箱
     sendEmail() {
       if (this.email) {
-        console.log(this.email);
+      apiResetPwByEmail({email:this.ruleForm.email}).then(res => {
+          if(res.data.code == 200){
+            this.successPath = 2 // 2代表是修改成功
+            this.$message.success("修改成功");
+            this.toRegisterSuccessPageFn()
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        });
+      } else {
+        this.$message.error("请输入邮箱");
       }
     }
   }

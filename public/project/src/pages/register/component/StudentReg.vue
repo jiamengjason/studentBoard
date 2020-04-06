@@ -179,21 +179,6 @@ export default {
     },
     // 倒计时
     cutDown() {
-
-      // if (!this.canClick) return
-      // this.canClick = false
-      // this.countDownTimer = setInterval(() => {
-      //   this.countDownTime--
-      //   this.sendEmailText = `${this.countDownTime}秒后重试`
-      //   // 倒计时结束时
-      //   if (this.countDownTime == 0) {
-      //     clearInterval(this.countDownTimer)
-      //     this.countDownTime = 60
-      //     this.sendEmailText = '重新获取'
-      //     this.canClick = true
-      //   }
-      // }, 1000)
-    
       this.timerNum--;
       if (this.timerNum === 0) {
         this.timerNum = 0;

@@ -1,6 +1,8 @@
 export const homePage = {
   data() {
-    return {};
+    return {
+      successPath:1
+    };
   },
   methods: {
     // 忘记密码
@@ -13,7 +15,12 @@ export const homePage = {
     },
     // 注册成功
     toRegisterSuccessPageFn(){
-      this.$router.push("/register-success");
+      this.$router.push({
+        path:"/register-success",
+        query: {
+          id: this.successPath
+        }
+      });
     },
     // 去首页
     toHomePageFn() {

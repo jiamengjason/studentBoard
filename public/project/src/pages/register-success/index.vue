@@ -3,7 +3,7 @@
     <Hearder />
     <Breadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
-      <p class="reg-success-title">注册已成功</p>
+      <p class="reg-success-title">{{ text }}已成功</p>
       <p class="reg-success-tologin">
         <span>返回首页？</span>
         <span @click="toLoginPageFn">去登录</span>
@@ -26,10 +26,25 @@ export default {
   },
   mixins: [homePage],
   data(){
-    return {
-      breadList:['个人注册']
+    return {}
+  },
+  computed: {
+    text(){
+      if(this.$route.query.id ===2){
+        return "修改"
+      }
+      return "注册"
+    },
+    breadList(){
+      if(this.$route.query.id ===2){
+        return ['忘记密码']
+      }
+      return ['个人注册']
     }
-  }
+  },
+  created() {
+    console.log(this.$route.query.id)
+  },
 };
 </script>
 <style lang="scss" scoped>
