@@ -53,14 +53,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {
-    ...mapMutations(["setMobile"]),
-    updatePhone(e) {
-      console.log(e, 11111);
-      this.setMobile(e);
-      // store.commit('setMobile', e.target.value)
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">

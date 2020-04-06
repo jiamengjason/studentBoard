@@ -1,7 +1,7 @@
 <template>
-  <div class="">
+  <div class="page-warp">
     <Hearder />
-    <comBreadcrumb class="bread-crumb" :bread-list="breadList" />
+    <Breadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
       <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
         <el-tab-pane
@@ -14,10 +14,10 @@
         </el-tab-pane>
       </el-tabs>
 
-      <comOrgReg v-if="activeName == 'organization'" />
-      <comTeacherReg v-if="activeName == 'teacher'" />
-      <comStudentReg v-if="activeName == 'student'" />
-      <comParentReg v-if="activeName == 'parent'" />
+      <OrgReg v-if="activeName == 'organization'" />
+      <TeacherReg v-if="activeName == 'teacher'" />
+      <StudentReg v-if="activeName == 'student'" />
+      <ParentReg v-if="activeName == 'parent'" />     
     </div>
     <Footer />
   </div>
@@ -25,22 +25,24 @@
 <script>
 import Hearder from "@/components/Hearder";
 import Footer from "@/components/Footer";
-import comBreadcrumb from "@/components/Breadcrumb";
-import comStudentReg from "./component/Student";
-import comTeacherReg from "./component/Teacher";
-import comParentReg from "./component/Parent";
-import comOrgReg from "./component/Organization";
+import Breadcrumb from "@/components/Breadcrumb";
+import StudentReg from "./component/Student";
+import TeacherReg from "./component/Teacher";
+import ParentReg from "./component/Parent";
+import OrgReg from "./component/Organization";
+
+
 import { ROLE_LIST } from "@/constants/index"
 
 export default {
   components: {
     Hearder,
     Footer,
-    comBreadcrumb,
-    comStudentReg,
-    comTeacherReg,
-    comParentReg,
-    comOrgReg
+    Breadcrumb,
+    StudentReg,
+    TeacherReg,
+    ParentReg,
+    OrgReg
   },
   data() {
     console.log(ROLE_LIST,'ROLE_LIST')
@@ -60,8 +62,10 @@ export default {
 
       }else if(this.activeName == 'organization'){
       return ['个人注册','机构']
-      }
+      }else if(this.activeName == 'student'){
       return ['个人注册','学生']
+      }
+      return ['个人注册','']
     }
   },
   methods: {

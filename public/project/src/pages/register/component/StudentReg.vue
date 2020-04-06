@@ -7,8 +7,8 @@
     label-width="110px"
     class="demo-ruleForm"
   >
-    <el-row :gutter="10" style="margin-top:-118px">
-      <el-col :span="8" :offset="5" class="school-spe-style">
+    <el-row :gutter="10">
+      <el-col :span="8" class="school-spe-style">
         <el-form-item label="在读学校：" prop="school">
           <el-input v-model="ruleForm.school" class="vertify-code"></el-input>
           <el-select v-model="ruleForm.eduValue" placeholder="请选择学历" class="reg-education">
@@ -82,22 +82,22 @@ export default {
         vertifyMeg: "",
         eduValue: ""
       },
-      checkImg:true, //验证图片大小
+      checkImg:true, //验证图片size
       dialogVisible: false,
       eduOptions: [],
       clickCodeFlag: false, //获取验证码
       timerNum: 5,
       timer: null,
       rules: {
-        school: [{ required: true, message: "", trigger: "blur" }],
-        vertifyMeg: [{ required: true, message: "", trigger: "blur" }]
+        school: [{ required: true, message: "请输入学校", trigger: "blur" }],
+        vertifyMeg: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       }
     };
   },
   computed: {
     codeText() {
       if (this.clickCodeFlag) {
-        return `${this.num}s后失效`;
+        return `${this.timerNum}s后失效`;
       }
       return "获取验证码";
     },
@@ -108,9 +108,12 @@ export default {
   created() {
     this.getSiteConfig()
   },
+  beforeDestroy() {
+    clearInterval(this.timer);   
+  },
   methods: {
+    // 获取网站配置
     getSiteConfig(){
-      // 获取网站配置
       apiGetSiteConfig().then(res => {
         console.log(res,'res')
         if (res.data.code == 200) {
@@ -137,6 +140,8 @@ export default {
       apiPostUploadFile(param, config).then(res => {
         if (res.data.code == 200) {
           this.ruleForm.imageId = res.data.data.file_path    
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
      }
@@ -153,6 +158,8 @@ export default {
       apiPostUploadFile(param, config).then(res => {
         if (res.data.code == 200) {
           this.ruleRegForm.imageSchoolId = res.data.data.file_path ;
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
      }
@@ -164,6 +171,8 @@ export default {
           if (res.data.code == 200) {
             this.clickCodeFlag = true;
             this.timer = setInterval(this.cutDown, 1000);
+          }else{
+            this.$message.error(res.data.msg);
           }
         });
       }

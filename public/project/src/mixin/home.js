@@ -11,6 +11,10 @@ export const homePage = {
     toRegPageFn() {
       this.$router.push("/register");
     },
+    // 注册成功
+    toRegisterSuccessPageFn(){
+      this.$router.push("/register-success");
+    },
     // 去首页
     toHomePageFn() {
       this.$router.push("/");

@@ -10,7 +10,7 @@
     <p class="reg-submit-warp">
       <el-button type="primary" @click="submitForm">完成注册</el-button>
       <span style="margin-left: 20px;">已有账号？</span>
-      <span>去登录</span>
+      <span @click="toLoginPageFn">去登录</span>
     </p>
   </div>
 </template>
@@ -19,13 +19,14 @@ import comRegBase from "./RegBase.vue";
 import comOrgReg from "./OrgReg.vue";
 import comOrgBase from "./OrgBase.vue";
 import { apiRegisterPost } from "@/apis/api";
+import { homePage } from "@/mixin/home";
 
 export default {
   components: { comRegBase, comOrgReg, comOrgBase },
+  mixins: [homePage],
   data() {
     return {};
   },
-
   methods: {
     //  完成注册
     submitForm() {
@@ -49,19 +50,27 @@ export default {
       };
       console.log(params, "params");
       // 使用Promise.all去校验结果
-      Promise.all([orgBase, regBase, orgReg].map(this.getFormPromise)).then(
-        res => {
-          const validateResult = res.every(item => !!item);
-          if (validateResult) {
-            console.log("三个表单都校验通过");
-            apiRegisterPost(params).then(res => {
-              consoel.log(1111, res);
+      if(orgReg.model.checked){
+        Promise.all([orgBase, regBase, orgReg].map(this.getFormPromise)).then(
+          res => {
+            const validateResult = res.every(item => !!item);
+            if (validateResult) {
+              console.log("三个表单都校验通过");
+              apiRegisterPost(params).then(res => {
+              if(res.data.code == 200){
+                this.$message.success("注册成功");
+                this.toRegisterSuccessPageFn()
+              }else{
+                this.$message.error(res.data.msg);
+              }
             });
-          } else {
-            console.log("三个表单未校验通过");
+            } else {
+              this.$message.error("注册信息不完整");
+
+            }
           }
-        }
-      );
+        );
+      }
     },
     getFormPromise(form) {
       return new Promise(resolve => {

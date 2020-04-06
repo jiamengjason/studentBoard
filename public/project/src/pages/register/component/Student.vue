@@ -8,7 +8,7 @@
     <p class="reg-submit-warp">
       <el-button type="primary" @click="submitForm">完成注册</el-button>
       <span style="margin-left: 20px;">已有账号？</span>
-      <span>去登录</span>
+      <span @click="toLoginPageFn">去登录</span>
     </p>
   </div>
 </template>
@@ -16,11 +16,11 @@
 import comRegBase from "./RegBase.vue";
 import comStudentReg from "./StudentReg.vue";
 import { apiRegisterPost } from "@/apis/api";
-import { ROLE_LIST } from "@/constants/index"
+import { homePage } from "@/mixin/home";
 
 export default {
   components: { comRegBase, comStudentReg },
-
+  mixins: [homePage],
   data() {
     return {};
   },
@@ -47,13 +47,17 @@ export default {
         student_card_img: studentReg.model.imageSchoolId
       };
       console.log(params, "params", studentReg.model.checked, 111);
-      return false
       if(studentReg.model.checked){
         Promise.all([regBase, studentReg].map(this.getFormPromise)).then(res => {
           const validateResult = res.every(item => !!item);
           if (validateResult) {
             apiRegisterPost(params).then(res => {
-              consoel.log(1111, res);
+              if(res.data.code == 200){
+                this.$message.success("注册成功");
+                this.toRegisterSuccessPageFn()
+              }else{
+                this.$message.error(res.data.msg);
+              }
             });
           } else {
             this.$message.error("注册信息不完整");

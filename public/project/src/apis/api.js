@@ -19,7 +19,7 @@ export const apiPostUploadFile = (params,config) => {
   return request.post(`${defaultPath}uploadFile/index`,params,config);
 };
 // 获取所有的机构列表
-export const apigetOrganizationList = () => {
+export const apiGetOrganizationList = () => {
   return request.get(`${defaultPath}siteConfig/getOrganizationList`);
 };
 // get
