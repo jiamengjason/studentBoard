@@ -43,7 +43,7 @@
   </el-form>
 </template>
 <script>
-import { apiResetPwByMobile,apiGetValidCodePost,apiResetPwByEmail } from "@/apis/api";
+import { apiResetPwByMobile,apiGetValidCodePost,apiResetPwByEmail,apigetValidEmailPost } from "@/apis/api";
 import { homePage } from "@/mixin/home";
 
 export default {
@@ -127,20 +127,40 @@ export default {
 
   },
   methods: {
+    mobileVaildCode(mobile){
+      let params = {
+        mobile: mobile 
+      }
+      apiGetValidCodePost(params).then(res => {
+        if (res.data.code == 200) {
+          this.clickCodeFlag = true;
+          this.timer = setInterval(this.cutDown, 1000);
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
+    emailVaildCode(email){
+      let params = {
+        email: email 
+      }
+      apigetValidEmailPost(params).then(res => {
+        if (res.data.code == 200) {
+          this.clickCodeFlag = true;
+          this.timer = setInterval(this.cutDown, 1000);
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
     // 获取验证码
     getVertifyCode() {
       if (this.ruleForm.mobile || this.ruleForm.email) {
-        let params = {
-          mobile: this.pwdType === 'mobile' ? this.ruleForm.mobile : this.ruleForm.email
+        if(this.pwdType === 'mobile'){
+          this.mobileVaildCode(this.ruleForm.mobile)
+        }else{
+          this.emailVaildCode(this.ruleForm.email)
         }
-        apiGetValidCodePost(params).then(res => {
-          if (res.data.code == 200) {
-            this.clickCodeFlag = true;
-            this.timer = setInterval(this.cutDown, 1000);
-          }else{
-            this.$message.error(res.data.msg);
-          }
-        });
       }
     },
     cutDown() {
