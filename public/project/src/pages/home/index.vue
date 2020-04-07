@@ -118,7 +118,7 @@
           <div class="st-column-tit">课外活动</div>
           <div class="st-column-con">
             <el-row :gutter="20">
-              <router-link :to="{name: 'activityinfo', query: { 'active_id': v.active_id }}">
+              <router-link :to="{name: 'activityinfo', query: { 'active_id': 5 }}">
                 <el-col v-for="i in 2" :key="i" :span="12">
                   <div class="huodong-item">
                     <div class="img">

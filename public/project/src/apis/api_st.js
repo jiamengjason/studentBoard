@@ -14,6 +14,10 @@ export const apiGetOrganizationInfo = params => {
 export const apiGetFamousTeacher = params => {
     return request.get(`${defaultPath}organizations/famousTeacher&organization_id=${params.organization_id}`);
 };
+// 评价机构
+export const apiDoValuate = params => {
+  return request.post(`${defaultPath}member/evaluate`,params);
+};
 // ----------------------------------机构相关---------------------------------------
 
 
