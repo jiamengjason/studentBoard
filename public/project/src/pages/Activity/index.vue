@@ -3,7 +3,7 @@
     <Hearder></Hearder>
     <SearchBar search-type="active"></SearchBar>
     <div class="organization-list">
-      <el-row :gutter="20" v-if="activeList.length > 0">
+      <el-row v-if="activeList.length > 0" :gutter="20">
         <el-col v-for="(v, i) in activeList" :key="i" :span="12">
           <router-link :to="{ name: 'activityinfo', query: { 'active_id': v.active_id }}">
             <div class="huodong-item">
@@ -20,23 +20,24 @@
               </div>
               <div class="con">
                 <p class="tit">
-                  {{v.title}}
-                  <span class="ing" v-if="v.status == 1">进行中</span>
-                  <span class="end" v-if="v.status == 2">未开始</span>
-                  <span class="end" v-if="v.status == 3">已结束</span>
+                  {{ v.title }}
+                  <span v-if="v.status == 1" class="ing">进行中</span>
+                  <span v-if="v.status == 2" class="end">未开始</span>
+                  <span v-if="v.status == 3" class="end">已结束</span>
                 </p>
-                <p class="desc">简介：{{v.desc}}</p>
+                <p class="desc">简介：{{ v.desc }}</p>
               </div>
             </div>
           </router-link>
         </el-col>
       </el-row>
 
-      <div class="nullCon" v-if="activeList.length == 0">暂无活动内容</div> 
+      <div v-if="activeList.length == 0" class="nullCon">暂无活动内容</div> 
 
       <!-- 分页 -->
-      <div class="st-page" v-if="activeList.length > 0">
-        <el-pagination background
+      <div v-if="activeList.length > 0" class="st-page">
+        <el-pagination 
+          background
           :page-size="pageConfig.page_size"
           :current-page.sync="pageConfig.page"
           layout="prev, pager, next"

@@ -101,7 +101,7 @@
               </el-col>
             </el-row>
             <!-- 保存 -->
-            <p class="personal-top-save-btn">保存</p>
+            <p class="personal-top-save-btn" @click="updateUserInfo">保存</p>
           </el-form>
         </el-col>
       </el-row>
@@ -120,7 +120,7 @@ import Comment from "./Comment";
 import ComActivity from "@/components/Activity";
 import { 
   apiGetSiteConfig,
-  apiResetUserInfo,
+  apiGetUserInfo,
   apiResetUserUpdate,
   apiPostUploadFile 
 } from "@/apis/api";
@@ -185,7 +185,7 @@ export default {
         userId:'19',
         token:'77e0a3ce658692e1a105774ccddf8ac0'
       }
-      apiResetUserInfo(params).then(res=>{
+      apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {
           console.log(res.data.data,'res.data.data;')
             this.ruleForm = res.data.data;
@@ -251,6 +251,27 @@ export default {
         })
       }
     }
+  },
+  updateUserInfo(){
+    let param = {
+      userId: localStorage.getItem('board_user_id'),
+      token: localStorage.getItem('board_token'),
+      userName: this.ruleForm.userName,
+      mobile: this.ruleForm.mobile,
+      email: this.ruleForm.email,
+      schoolName: this.ruleForm.schoolName,
+      grade: this.ruleForm.grade,
+      headImg: this.ruleForm.headImg,
+      identityImg: this.ruleForm.identityImg,
+      studentCardImg: this.ruleForm.studentCardImg
+    }
+    apiResetUserUpdate(params).then(res=>{
+    if (res.data.code == 200) {
+      this.$message.success('修改成功');
+    }else{
+      this.$message.error(res.data.msg);
+    }
+  })
   }
 };
 </script>

@@ -31,7 +31,7 @@ export const apiResetPwByEmail = params => {
   return request.post(`${defaultPath}login/resetPwByEmail`,params);
 };
 // 获取个人信息
-export const apiResetUserInfo = params => {
+export const apiGetUserInfo = params => {
   return request.post(`${defaultPath}member/info`,params);
 };
 // 修改用户基本信息
