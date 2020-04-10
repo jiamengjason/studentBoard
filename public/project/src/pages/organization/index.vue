@@ -41,6 +41,7 @@
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
 import SearchBar from "../../components/SearchBar";
+import { apiGetOrganizationList } from "@/apis/api_st";
 
 export default {
   name: "Home",
@@ -52,12 +53,37 @@ export default {
   data() {
     return {
       search:'',
-      count:12
+      count:12,
+      pageCon: {
+        page: 1,
+        page_size: 20
+      },
+      score_sort: ''
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    // 获取机构列表
+    this.getList()
+  },
+  methods: {
+    getList(){
+      // 获取机构列表
+      apiGetOrganizationList({
+        'organization_id': this.$route.query.organization_id,
+        'page': this.pageCon.page,
+        'page_size': this.pageCon.page_size,
+        'score_sort': this.score_sort
+      }).then(res => {
+        // console.info('res', res)
+        if(res.data.code==200){
+          this.orgInfo = res.data.data
+        }else{
+          this.orgInfo = {}
+        }
+      })
+    }
+  }
 };
 </script>
 

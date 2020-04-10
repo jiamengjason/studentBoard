@@ -35,7 +35,7 @@
                 <span class="label">网址：</span>{{ orgInfo.organization_www ? orgInfo.organization_www : '未填写' }}
               </el-col>
               <el-col :span="6">
-                <router-link class="orgvaluation-a" :to="{name: 'orgvaluation'}">
+                <router-link class="orgvaluation-a" :to="{name: 'orgvaluation', query: {evaluated_uid: orgInfo.organization_id, head_img: orgInfo.head_img}}">
                   评价机构
                 </router-link>
               </el-col>

@@ -13,7 +13,16 @@
       </div>
       <!-- banner -->
       <div class="st-activity-banner">
-        <img src="/img/banner_activity.jpg" alt="">
+        <!-- <img src="/img/banner_activity.jpg" alt=""> -->
+        <el-image
+          style="width: 1400px; height: 500px"
+          :src="activityInfo.head_img ? activityInfo.head_img : ''"
+          fit="contain"
+        >
+          <div slot="error" class="el-image__error">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image>
       </div>
 
       <!-- 机构详情 -->
@@ -23,15 +32,21 @@
         </div>
         <div class="inner-r">
           <div class="tit">
-            <span>【基础插画公开课】</span>
+            <span>【{{ activityInfo.title }}】</span>
             <span class="jigou">绘画教育机构</span>
-            <span class="time">2020-03-15  12:00-15:00</span>
+            <span class="time">{{ activityInfo.create_time }}</span>
           </div>
           <div class="address">
-            地址：北京市东城区王府井某某街道某某大厦会议室
+            活动地址：{{ activityInfo.addr }}
+          </div>
+          <div class="address">
+            开始时间：{{ activityInfo.start_time }}
+          </div>
+          <div class="address">
+            结束时间：{{ activityInfo.end_time }}
           </div>
           <div class="desc">
-            “创美”课程不但着眼于美术、手工等艺术感觉，更注重培养孩子思维能力与学科知识，在兴趣和审美中，以主题形式贯   穿各学科知识，
+            {{ activityInfo.desc }}
           </div>
           <div class="apply">
             <button>报名</button>
@@ -72,6 +87,8 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
+import { apiGetActiveInfo } from "@/apis/api_st";
+
 
 export default {
   name: "Home",
@@ -81,11 +98,26 @@ export default {
   },
   data() {
     return {
+      activityInfo: {}
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    this.getActiveInfo()
+  },
+  methods: {
+    getActiveInfo(){
+      apiGetActiveInfo({active_id: this.$route.query.active_id}).then( res => {
+        if(res.data.code==200){
+          this.activityInfo = res.data.data
+          // if(this.activityInfo.start_time) this.activityInfo.start_time = this.activityInfo.start_time.substring(0, 10)
+          // if(this.activityInfo.end_time) this.activityInfo.end_time = this.activityInfo.end_time.substring(0, 10)
+        }else{
+          this.activityInfo = {}
+        }
+      })
+    }
+  }
 };
 </script>
 
@@ -195,7 +227,7 @@ export default {
       color:rgba(51,51,51,1);
       .jigou,
       .time{
-        font-size: 26px;
+        font-size: 20px;
         color:rgba(102,102,102,1);
       }
       .time{

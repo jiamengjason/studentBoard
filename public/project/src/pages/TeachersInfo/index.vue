@@ -95,22 +95,30 @@
         </div>
 
         <div class="st-message-list">
-          <div v-for="i in 12" :key="i" class="st-message-item">
+          <div v-if="commentList.length == 0" class="nullCon">
+            暂无评论内容
+          </div>
+          <div v-for="(v, i) in commentList" :key="i" :if="commentList.length > 0" class="st-message-item">
             <!-- 头像 -->
             <div class="avatar">
-              <img src="/img/avatar.jpg" alt="">
+              <el-image
+                style="width: 80px; height: 80px"
+                :src="v.head_img ? v.head_img : '/img/avatar_student.png'"
+                fit="contain"
+              >
+              </el-image>
             </div>
 
             <!-- 评论内容 -->
             <div class="con">
               <div class="username">
-                霉霉
-                <span class="time">2020-03-15</span>  
+                {{ v.user_name }}
+                <span class="time">{{ v.create_time }}</span>  
               </div>
-              老师治学严谨，要求严格，能深入了解学生的学习和生活状况，循循善诱，平易近人;注意启发和调动学生的积极性，课堂气氛较为活跃;上课例题丰富，不厌其烦，细心讲解，使学生有所收获;半数认真工整，批改作业认真及时并注意讲解学生易犯错误;最重要的是，段老师能虚心并广泛听取学生的意见和反馈信息，做到及时修正和调整自己的教学。总之，段老师是一个不可多得的好教师。
+              {{ v.comment ? v.comment : '内容为空' }}
               <div class="st-message-zan">
-                <span class="zan">10</span>  
-                <span class="cai">2</span>  
+                <span class="zan">{{ v.give_like ? v.give_like : 0 }}</span>  
+                <span class="cai">{{ v.give_dislike ? v.give_dislike : 0 }}</span>  
               </div> 
             </div>
             <div style="clear:both"></div>
@@ -118,7 +126,7 @@
         </div>
 
         <!-- 分页 -->
-        <div class="st-page">
+        <div v-if="commentList.length > 0" class="st-page">
           <el-pagination background layout="prev, pager, next" :total="1000">
           </el-pagination>
         </div>
@@ -130,7 +138,7 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
-import { apigetTeachersInfo,apiGetSimilarTeacher } from "@/apis/api_st";
+import { apigetTeachersInfo, apiGetSimilarTeacher, apiGetCommentList } from "@/apis/api_st";
 
 export default {
   name: "Home",
@@ -144,7 +152,9 @@ export default {
       // 老师详情
       teacherInfo: {},
       // 相似老师
-      similarTeacher: []
+      similarTeacher: [],
+      // 全部评论
+      commentList: []
     };
   },
   computed: {},
@@ -153,6 +163,8 @@ export default {
     this.getInfo()
     // 获取相似教师
     this.getFamousTeacher()
+    // 获取全部评论
+    this.getCommentList()
   },
   methods: {
     getInfo(){
@@ -172,6 +184,16 @@ export default {
           this.similarTeacher = res.data.data
         }else{
           this.similarTeacher = []
+        }
+      })
+    },
+    getCommentList(){
+      // 获取全部评论
+      apiGetCommentList({'teacher_id': this.$route.query.teacher_id}).then(res => {
+        if(res.data.code==200){
+          this.commentList = res.data.data.list
+        }else{
+          this.commentList = []
         }
       })
     }

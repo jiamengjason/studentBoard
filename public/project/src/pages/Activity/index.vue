@@ -1,30 +1,47 @@
 <template>
   <div class="layout mainBg">
     <Hearder></Hearder>
-    <SearchBar></SearchBar>
+    <SearchBar search-type="active"></SearchBar>
     <div class="organization-list">
-      <el-row :gutter="20">
-        <el-col v-for="i in count" :key="i" :span="12">
-          <router-link :to="{name: 'activityinfo'}">
+      <el-row :gutter="20" v-if="activeList.length > 0">
+        <el-col v-for="(v, i) in activeList" :key="i" :span="12">
+          <router-link :to="{ name: 'activityinfo', query: { 'active_id': v.active_id }}">
             <div class="huodong-item">
               <div class="img">
-                <img src="/img/home/huodong.jpg" alt="">
+                <el-image
+                  style="width: 690px; height: 229px"
+                  :src="v.head_img ? v.head_img : ''"
+                  fit="contain"
+                >
+                  <div slot="error" class="el-image__error">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
               </div>
               <div class="con">
                 <p class="tit">
-                  基础插画公开课
-                  <span class="ing">进行中</span>
+                  {{v.title}}
+                  <span class="ing" v-if="v.status == 1">进行中</span>
+                  <span class="end" v-if="v.status == 2">未开始</span>
+                  <span class="end" v-if="v.status == 3">已结束</span>
                 </p>
-                <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
+                <p class="desc">简介：{{v.desc}}</p>
               </div>
             </div>
           </router-link>
         </el-col>
       </el-row>
 
+      <div class="nullCon" v-if="activeList.length == 0">暂无活动内容</div> 
+
       <!-- 分页 -->
-      <div class="st-page">
-        <el-pagination background layout="prev, pager, next" :total="1000">
+      <div class="st-page" v-if="activeList.length > 0">
+        <el-pagination background
+          :page-size="pageConfig.page_size"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.total_num"
+        >
         </el-pagination>
       </div>
     </div>
@@ -35,6 +52,7 @@
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
 import SearchBar from "../../components/SearchBar";
+import { apiGetActiveList } from "@/apis/api_st";
 
 export default {
   name: "Home",
@@ -45,13 +63,52 @@ export default {
   },
   data() {
     return {
-      search:'',
-      count:12
+      count:12,
+      title: '',
+      activeList: [],
+      pageConfig:{
+        page: 1,
+        page_size: 20,
+        total_num: 0
+      },
+      type: ''
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    // 获取活动列表
+    this.getActiveList()
+  },
+  methods: {
+    goSearch(value){
+      this.title = value
+      this.getActiveList()
+    },
+    changeSearchType(value){
+      this.type = value
+      console.info('父组件value=====', this.type)
+      if(value || value == 0){
+        this.getActiveList()
+      }
+    },
+    // 获取活动列表
+    getActiveList(){
+      apiGetActiveList({
+        'title': this.title,
+        'page': this.pageConfig.page,
+        'page_size': this.pageConfig.page_size,
+        'type': this.type
+      }).then( res => {
+        if(res.data.code==200){
+          this.activeList = res.data.data.list
+          // 总条数
+          this.pageConfig.total_num = parseInt(res.data.data.total_num)
+        }else{
+          this.activeList = {}
+        }
+      })
+    }
+  }
 };
 </script>
 
@@ -72,6 +129,9 @@ export default {
         border-radius:10px 10px 0px 0px;
         max-width: 100%;
         max-height: 100%;
+      }
+      .el-icon-picture-outline:before{
+        font-size: 80px;
       }
     } 
     .con{
