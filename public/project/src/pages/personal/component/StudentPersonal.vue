@@ -253,7 +253,7 @@ export default {
     }
   },
   updateUserInfo(){
-    let param = {
+    let params = {
       userId: localStorage.getItem('board_user_id'),
       token: localStorage.getItem('board_token'),
       userName: this.ruleForm.userName,
@@ -266,12 +266,12 @@ export default {
       studentCardImg: this.ruleForm.studentCardImg
     }
     apiResetUserUpdate(params).then(res=>{
-    if (res.data.code == 200) {
-      this.$message.success('修改成功');
-    }else{
-      this.$message.error(res.data.msg);
-    }
-  })
+      if (res.data.code == 200) {
+        this.$message.success('修改成功');
+      }else{
+        this.$message.error(res.data.msg);
+      }
+    })
   }
 };
 </script>
