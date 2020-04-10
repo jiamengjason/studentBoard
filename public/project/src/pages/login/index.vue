@@ -39,6 +39,9 @@ export default {
         apiLoginDoPost(params).then(res => {
          if(res.data.code == 200){
             this.$message.success("登录成功");
+            localStorage.setItem('board_token', res.data.data.token)
+            localStorage.setItem('board_user_id', res.data.data.user_id)
+            localStorage.setItem('board_role_id', res.data.data.role_id)
             this.toHomePageFn()
           }else{
             this.$message.error(res.data.msg);
