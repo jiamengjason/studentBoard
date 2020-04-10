@@ -42,9 +42,13 @@ export const apiResetUserUpdate = params => {
 export const apiResetUpdateUnion = params => {
   return request.post(`${defaultPath}member/updateUnion`,params);
 };
-// 参加的活动列表
+// 参加的活动列表【老师、学生、家长】
 export const apiGetMyActiveList = () => {
   return request.get(`${defaultPath}member/myActive`);
+};
+// 机构的活动列表
+export const apiGetOrgActiveList = () => {
+  return request.get(`${defaultPath}member/activeList`);
 };
 // get
 export const apiGet = params => {
