@@ -5,12 +5,21 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img src alt />
+            <img :src="ruleForm.identityImg" />
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
             </p>
-            <p class="content-first-btn">上传头像</p>
+            <el-upload
+              action="''"
+              class="content-first-btn"
+              accept="image/jpeg,image/png,image/jpg"
+              :show-file-list="false"
+              :http-request="uploadHeadImg"
+              :on-change="imageChange"
+            >
+              <span class="content-first-btn">选取文件</span>
+            </el-upload>
           </div>
         </el-col>
         <el-col :span="18">
@@ -38,8 +47,8 @@
             <!-- 机构、手机号 -->
             <el-row :gutter="20">
               <el-col :span="8">
-                <el-form-item label="机构：" prop="orgValue">
-                  <el-select v-model="ruleForm.orgValue" placeholder="请选择机构" class="education">
+                <el-form-item label="机构：" prop="parentId">
+                  <el-select v-model="ruleForm.parentId" placeholder="请选择机构" class="education">
                     <el-option
                       v-for="item in orgOptions"
                       :key="item.value"
@@ -59,8 +68,18 @@
             <el-row :gutter="10">
               <el-col :span="8">
                 <el-form-item label="身份证：" class="text-left">
-                  <span>已上传</span>
-                  <span>未上传</span>
+                  <span v-if="ruleForm.identityImg" class="upload-state">已上传</span>
+                  <span v-else class="upload-state">未上传</span>
+                  <el-upload             
+                    action="''"
+                    class="add-info-img-btn"
+                    accept="image/jpeg,image/png,image/jpg"
+                    :show-file-list="false"
+                    :http-request="uploadIdentityImg"
+                    :on-change="imageChange"
+                  >
+                    <span>选取文件</span>
+                  </el-upload>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -78,6 +97,12 @@
 import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import PersonalActivity from "./PersonalActivity.vue";
+import { 
+  apiGetOrganizationList,
+  apiGetUserInfo,
+  apiResetUserUpdate,
+  apiPostUploadFile 
+} from "@/apis/api";
 
 export default {
   components: {
@@ -92,28 +117,116 @@ export default {
     return {
       text: "基本信息",
       ruleForm: {
+        headImg:"",
         userName: "",
         email: "email",
         mobile: "email",
-        orgValue: "",
+        parentId: "",
         identityImg:""
       },
-      orgOptions: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
+      orgOptions: [],
       rules: {
         userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        orgValue: [{ required: true, message: "请选择机构", trigger: "blur" }]
+        parentId: [{ required: true, message: "请选择机构", trigger: "blur" }]
       }
     };
+  },
+  created() {
+    this.getUserInfo();
+    this.getOrganizationList();
+  },
+  methods:{
+    // 获取网站配置
+    getOrganizationList(){
+      apiGetOrganizationList().then(res => {
+        if (res.data.code == 200) {
+          this.orgOptions = res.data.data;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    // 获取个人信息
+    getUserInfo(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+      }
+      apiGetUserInfo(params).then(res=>{
+        if (res.data.code == 200) {
+          console.log(res.data.data,'res.data.data;')
+            this.ruleForm = res.data.data;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    imageChange(file) { 
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      }else{
+        this.checkImg = true
+      } 
+    },
+    // 上传共有的方法
+    uplaodFn(event){
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      this.uploadConfig = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }
+    },
+    // 上传头像
+    uploadHeadImg(){
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.headImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+     // 上传身份证
+    uploadIdentityImg(event) {
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.identityImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+    // 更新个人中心的数据
+    updateUserInfo(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        userName: this.ruleForm.userName,
+        mobile: this.ruleForm.mobile,
+        email: this.ruleForm.email,
+        parentId: this.ruleForm.parentId,
+        headImg: this.ruleForm.headImg,
+        identityImg: this.ruleForm.identityImg
+      }
+      apiResetUserUpdate(params).then(res=>{
+        if (res.data.code == 200) {
+          this.$message.success('修改成功');
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    }
   }
+
 };
 </script>
 <style lang="scss">

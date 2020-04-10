@@ -186,24 +186,25 @@ export default {
         })
       }
     },
+    // 更新个人中心的数据
     updateUserInfo(){
-    let params = {
-      userId: localStorage.getItem('board_user_id'),
-      token: localStorage.getItem('board_token'),
-      userName: this.ruleForm.userName,
-      mobile: this.ruleForm.mobile,
-      email: this.ruleForm.email,
-      headImg: this.ruleForm.headImg,
-      identityImg: this.ruleForm.identityImg,
-    }
-    apiResetUserUpdate(params).then(res=>{
-      if (res.data.code == 200) {
-        this.$message.success('修改成功');
-      }else{
-        this.$message.error(res.data.msg);
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        userName: this.ruleForm.userName,
+        mobile: this.ruleForm.mobile,
+        email: this.ruleForm.email,
+        headImg: this.ruleForm.headImg,
+        identityImg: this.ruleForm.identityImg,
       }
-    })
-  }
+      apiResetUserUpdate(params).then(res=>{
+        if (res.data.code == 200) {
+          this.$message.success('修改成功');
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    }
   }
 };
 </script>
