@@ -1,26 +1,88 @@
 <template>
   <div class="personal-activety-list">
-    <div class="activity-item">
-      <img src="https://www.baidu.com/img/bd_logo1.png" alt />
+    <div v-for="(item,index) in list" :key="index" class="activity-item">
+      <img :src="item.title_img" alt />
       <div class="activity-item-bottom">
         <div class="title-status">
-          <p class="title">高考冲刺</p>
-          <p>进行中</p>
+          <p class="title">{{ item.title }}</p>
+          <p>{{ state(item.status) }}</p>
         </div>
-        <p class="desc">desc</p>
+        <p class="desc">{{ item.desc }}</p>
       </div>
     </div>
-    <div class="activity-item"></div>
-    <div class="activity-item"></div>
-    <div class="activity-item"></div>
+    <!-- 分页 -->
+    <div v-if="activeList.length > 0" class="st-page">
+      <el-pagination 
+        background
+        :page-size="pageConfig.pageSize"
+        :current-page.sync="pageConfig.page"
+        layout="prev, pager, next"
+        :total="pageConfig.totalNum"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
-export default {};
+import { apiGetMyActiveList } from "@/apis/api";
+export default {
+  data(){
+    return {
+      activeList:[
+        {
+          title: "123123",
+          title_img: "https://www.baidu.com/img/bd_logo1.png",
+          desc: "5",
+          addr: "6",
+          start_time: "2020-03-20 00:00:00",  //活动开始时间
+          end_time: "2020-03-30 00:00:00",    //活动结束时间
+          attend_tim: "2020-03-31 12:12:03",  //学生参加时间  
+          status: 1  //活动是否开始：1进行中 2未开始 3已过期
+        }
+      ],
+      pageConfig:{
+        page: 1,
+        pageSize: 20,
+        totalNum: 0
+      }
+    }
+  },
+  computed: {
+    state(status){
+      if( status === 1 ){
+        return '进行中'
+      }else if( status === 2 ){
+        return '未开始'
+      }else if( status === 3){
+        return '已过期'
+      }
+      return ''
+    }
+  },
+  created(){
+    this.getMyActive()
+  },
+  methods:{
+    getMyActive(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        page: this.pageConfig.page,
+        page_size: this.pageConfig.pageSize
+      }
+      apiGetMyActiveList(params).then(res=>{
+        if (res.data.code == 200) {
+          this.activeList = res.data.data.list;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 @import "@/assets/base.scss";
-
 .personal-activety-list {
   display: flex;
   display: -webkit-flex;
