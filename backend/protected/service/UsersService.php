@@ -153,6 +153,10 @@ class UsersService
                 }
                 break;
             case 2: //修改邮箱
+                $loginService = new LoginService();
+                if (true === $loginService->isUserExsit($userInfo['email'])){
+                    return '新的邮箱账号已被注册~';
+                }
                 $validateCodeService = new ValidateCodeService();
                 $bool = $validateCodeService->validateByValidate($userInfo['email'], $data['validCode']);
                 if ($bool == true){
@@ -170,6 +174,10 @@ class UsersService
                 }
                 break;
             case 3: //修改手机
+                $loginService = new LoginService();
+                if (true === $loginService->isUserExsit($userInfo['email'])){
+                    return '新的手机账号已被注册~';
+                }
                 $validateCodeService = new ValidateCodeService();
                 $bool = $validateCodeService->validateByValidate($userInfo['mobile'], $data['validCode']);
                 if ($bool == true){

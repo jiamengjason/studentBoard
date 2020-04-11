@@ -66,11 +66,11 @@ class LoginController extends FInterfaceBase
         //判断手机号是否已经注册
         $loginService = new LoginService();
         if ($loginService->validateMobileUnique($params['mobile'])){
-            $this->outputParamsError('手机号已经注册');
+            $this->outputParamsError('手机号已经被注册');
         }
         //判断邮箱是否已经注册
         if ($loginService->validateEmailUnique($params['email'])){
-            $this->outputParamsError('邮箱已经注册');
+            $this->outputParamsError('邮箱已经被注册');
         }
         //判断验证码是否
         $validateCodeService = new ValidateCodeService();
@@ -168,7 +168,7 @@ class LoginController extends FInterfaceBase
         //用户是否存在
         $loginService = new LoginService();
         if (false === $loginService->isUserExsit($mobile)){
-            $this->outputError('手机号未注册');
+            $this->outputError('该手机号未被注册~');
         }
         //验证码是否正确
         $validateCodeService = new ValidateCodeService();
@@ -201,12 +201,6 @@ class LoginController extends FInterfaceBase
         if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
             $this->outputError('无效的Email格式');
         }
-        //用户是否存在
-        $loginService = new LoginService();
-        if (false === $loginService->isUserExsit($email)){
-            $this->outputError('该邮箱已经被注册~');
-        }
-
         //获取验证码
         $validateCodeService = new ValidateCodeService();
         $code = $validateCodeService->getCodeByEmail($email, $this->_conf['admin_email']);
@@ -240,7 +234,7 @@ class LoginController extends FInterfaceBase
         //用户是否存在
         $loginService = new LoginService();
         if (false === $loginService->isUserExsit($email)){
-            $this->outputError('邮箱未注册');
+            $this->outputError('该邮箱未被注册~');
         }
         //验证码是否正确
         $validateCodeService = new ValidateCodeService();
