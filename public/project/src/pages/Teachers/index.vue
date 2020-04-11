@@ -4,24 +4,30 @@
     <SearchBar></SearchBar>
     <div class="organization-list">
       <el-row :gutter="20">
-        <el-col v-for="i in count" :key="i" :span="6" class="sort">
-          <router-link :to="{name: 'teachersinfo', query: {teacher_id: 17}}">
+        <el-col v-for="(v, i) in teaList" :key="i" :span="6" class="sort">
+          <router-link :to="{name: 'teachersinfo', query: {teacher_id: v.user_id}}">
             <div class="jigou-item">
               <div class="img">
-                <img src="/img/home/jiaoshi.jpg" alt="">
+                <!-- <img src="/img/home/jiaoshi.jpg" alt=""> -->
+                <el-image
+                  style="width: 335px; height: 252px"
+                  :src="v.head_img ? v.head_img : '/img/avatar_teacher.png'"
+                  fit="contain"
+                >
+                </el-image>
               </div>
               <div class="con">
                 <p>
                   <span class="leftlabel">评分：</span>
-                  <span class="sore">4.7</span>
-                </p>
-                <p class="kcclass">
-                  <span class="leftlabel">机构：</span>
-                  <span>进入教育机构</span>
+                  <span class="sore">{{v.score}}</span>
                 </p>
                 <p>
-                  <span class="leftlabel">团队：</span>
-                  <span>老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感...</span>
+                  <span class="leftlabel">姓名：</span>
+                  <span>{{v.user_name}}</span>
+                </p>
+                <p class="kcclass">
+                  <span class="leftlabel">所属机构：</span>
+                  <span>{{v.organization_name || '暂未加入机构'}}</span>
                 </p>
               </div>
             </div>
@@ -30,8 +36,14 @@
       </el-row>
 
       <!-- 分页 -->
-      <div class="st-page">
-        <el-pagination background layout="prev, pager, next" :total="1000">
+      <div v-if="teaList.length > 0" class="st-page">
+        <el-pagination 
+          background
+          :page-size="pageConfig.page_size"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.total_num"
+        >
         </el-pagination>
       </div>
     </div>
@@ -42,6 +54,7 @@
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
 import SearchBar from "../../components/SearchBar";
+import { apiGetTeachersList } from "@/apis/api_st";
 
 export default {
   name: "Home",
@@ -53,12 +66,42 @@ export default {
   data() {
     return {
       search:'',
-      count:12
+      teaList: [],
+      pageConfig: {
+        page: 1,
+        page_size: 20,
+        total_num: 0
+      }
     };
   },
   computed: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    // 获取教师列表
+    this.getList()
+  },
+  methods: {
+    getList(){
+      // 获取教师列表
+      apiGetTeachersList({
+        'page': this.pageConfig.page,
+        'page_size': this.pageConfig.page_size,
+        'score_sort': this.score_sort
+      }).then(res => {
+        // console.info('res', res)
+        if(res.data.code==200){
+          this.teaList = res.data.data.list
+          // 总条数
+          this.pageConfig.total_num = parseInt(res.data.data.total_num)
+        }else{
+          this.teaList = []
+        }
+      })
+    },
+    changeSearchType(value){
+      this.type = value
+      console.info('父组件value=====', this.type)
+    }
+  }
 };
 </script>
 
@@ -75,6 +118,7 @@ export default {
     .img{
       width:335px;
       height:252px;
+      background: #cccccc;
       img{
         border-radius:10px 10px 0px 0px;
         max-width: 100%;

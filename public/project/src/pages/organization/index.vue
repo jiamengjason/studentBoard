@@ -4,24 +4,30 @@
     <SearchBar></SearchBar>
     <div class="organization-list">
       <el-row :gutter="20">
-        <el-col v-for="i in count" :key="i" :span="6" class="sort">
+        <el-col v-for="(v, i) in orgList" :key="i" :span="6" class="sort">
           <router-link :to="{name: 'organizationinfo', query:{organization_id: '3'}}">
             <div class="jigou-item">
               <div class="img">
-                <img src="/img/home/jigou.jpg" alt="">
+                <!-- <img src="/img/home/jigou.jpg" alt=""> -->
+                <el-image
+                  style="width: 335px; height: 252px"
+                  :src="v.head_img ? v.head_img : '/img/avatar_jigou.png'"
+                  fit="contain"
+                >
+                </el-image>
               </div>
               <div class="con">
                 <p>
                   <span class="leftlabel">评分：</span>
-                  <span class="sore">4.7</span>
+                  <span class="sore">{{v.score}}</span>
                 </p>
                 <p class="kcclass">
-                  <span class="leftlabel">课程：</span>
-                  <span>电商类别</span>
+                  <span class="leftlabel">服务：</span>
+                  <span>{{v.organization_yewu || '暂无'}}</span>
                 </p>
                 <p>
-                  <span class="leftlabel">团队：</span>
-                  <span>孙老师 刘老师 王老师 </span>
+                  <span class="leftlabel">名称：</span>
+                  <span>{{v.organization_name}}</span>
                 </p>
               </div>
             </div>
@@ -29,8 +35,14 @@
         </el-col>
       </el-row>
       <!-- 分页 -->
-      <div class="st-page">
-        <el-pagination background layout="prev, pager, next" :total="1000">
+      <div v-if="orgList.length > 0" class="st-page">
+        <el-pagination 
+          background
+          :page-size="pageConfig.page_size"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.total_num"
+        >
         </el-pagination>
       </div>
     </div>
@@ -54,11 +66,13 @@ export default {
     return {
       search:'',
       count:12,
-      pageCon: {
+      orgList: [],
+      pageConfig: {
         page: 1,
-        page_size: 20
+        page_size: 20,
+        total_num: 0
       },
-      score_sort: ''
+      score_sort: null
     };
   },
   computed: {},
@@ -70,18 +84,23 @@ export default {
     getList(){
       // 获取机构列表
       apiGetOrganizationList({
-        'organization_id': this.$route.query.organization_id,
-        'page': this.pageCon.page,
-        'page_size': this.pageCon.page_size,
+        'page': this.pageConfig.page,
+        'page_size': this.pageConfig.page_size,
         'score_sort': this.score_sort
       }).then(res => {
         // console.info('res', res)
         if(res.data.code==200){
-          this.orgInfo = res.data.data
+          this.orgList = res.data.data.list
+          // 总条数
+          this.pageConfig.total_num = parseInt(res.data.data.total_num)
         }else{
-          this.orgInfo = {}
+          this.orgList = []
         }
       })
+    },
+    changeSearchType(value){
+      this.type = value
+      console.info('父组件value=====', this.type)
     }
   }
 };
@@ -100,6 +119,7 @@ export default {
     .img{
       width:335px;
       height:252px;
+      background: #cccccc;
       img{
         border-radius:10px 10px 0px 0px;
         max-width: 100%;

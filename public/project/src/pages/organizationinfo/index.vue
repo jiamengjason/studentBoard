@@ -35,9 +35,9 @@
                 <span class="label">网址：</span>{{ orgInfo.organization_www ? orgInfo.organization_www : '未填写' }}
               </el-col>
               <el-col :span="6">
-                <router-link class="orgvaluation-a" :to="{name: 'orgvaluation', query: {evaluated_uid: orgInfo.organization_id, head_img: orgInfo.head_img}}">
+                <span @click="orgvaluation" class="orgvaluation-a">
                   评价机构
-                </router-link>
+                </span>
               </el-col>
             </el-row>
             <div class="mess-tit">
@@ -95,26 +95,34 @@
       <!-- 全部评论 -->
       <div class="st-message">
         <div class="st-message-tit">
-          全部评论  20
+          全部评论  {{pageConfig.total_num}}
         </div>
 
         <div class="st-message-list">
-          <div v-for="i in 12" :key="i" class="st-message-item">
+          <div v-if="commentList.length == 0" class="nullCon">
+            暂无评论内容
+          </div>
+          <div v-for="(v, i) in commentList" :key="i" :if="commentList.length > 0" class="st-message-item">
             <!-- 头像 -->
             <div class="avatar">
-              <img src="/img/avatar.jpg" alt="">
+              <el-image
+                style="width: 80px; height: 80px"
+                :src="v.head_img ? v.head_img : '/img/avatar_student.png'"
+                fit="contain"
+              >
+              </el-image>
             </div>
 
             <!-- 评论内容 -->
             <div class="con">
               <div class="username">
-                霉霉
-                <span class="time">2020-03-15</span>  
+                {{ v.user_name }}
+                <span class="time">{{ v.create_time }}</span>  
               </div>
-              老师治学严谨，要求严格，能深入了解学生的学习和生活状况，循循善诱，平易近人;注意启发和调动学生的积极性，课堂气氛较为活跃;上课例题丰富，不厌其烦，细心讲解，使学生有所收获;半数认真工整，批改作业认真及时并注意讲解学生易犯错误;最重要的是，段老师能虚心并广泛听取学生的意见和反馈信息，做到及时修正和调整自己的教学。总之，段老师是一个不可多得的好教师。
+              {{ v.comment ? v.comment : '内容为空' }}
               <div class="st-message-zan">
-                <span class="zan">10</span>  
-                <span class="cai">2</span>  
+                <span class="zan">{{ v.give_like ? v.give_like : 0 }}</span>  
+                <span class="cai">{{ v.give_dislike ? v.give_dislike : 0 }}</span>  
               </div> 
             </div>
             <div style="clear:both"></div>
@@ -122,8 +130,14 @@
         </div>
 
         <!-- 分页 -->
-        <div class="st-page">
-          <el-pagination background layout="prev, pager, next" :total="1000">
+        <div v-if="commentList.length > 0" class="st-page">
+          <el-pagination 
+            background
+            :page-size="pageConfig.page_size"
+            :current-page.sync="pageConfig.page"
+            layout="prev, pager, next"
+            :total="pageConfig.total_num"
+          >
           </el-pagination>
         </div>
       </div>
@@ -134,7 +148,7 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
-import { apiGetOrganizationInfo, apiGetFamousTeacher } from "@/apis/api_st";
+import { apiGetOrganizationInfo, apiGetFamousTeacher, apiGetCommentListOrg } from "@/apis/api_st";
 
 
 export default {
@@ -148,7 +162,15 @@ export default {
       search:'',
       count:12,
       orgInfo: {},
-      famousTeacher: []
+      // 机构老师
+      famousTeacher: [],
+      pageConfig:{
+        page: 1,
+        page_size: 20,
+        total_num: 0
+      },
+      // 全部评论
+      commentList: []
     };
   },
   computed: {},
@@ -157,6 +179,8 @@ export default {
     this.getInfo()
     // 获取机构名师团队
     this.getFamousTeacher()
+    // 获取全部评论
+    this.getCommentList()
   },
   methods: {
     getInfo(){
@@ -180,6 +204,35 @@ export default {
           this.famousTeacher = []
         }
       })
+    },
+    getCommentList(){
+      // 获取全部评论
+      apiGetCommentListOrg({
+        'organization_id': this.$route.query.organization_id,
+        'page': this.pageConfig.page,
+        'page_size': this.pageConfig.page_size,
+      }).then(res => {
+        if(res.data.code==200){
+          this.commentList = res.data.data.list
+          // 总条数
+          this.pageConfig.total_num = parseInt(res.data.data.total_num)
+        }else{
+          this.commentList = []
+        }
+      })
+    },
+    orgvaluation(){
+      if(localStorage.getItem('board_user_id')){
+        this.$router.push({
+          name: 'orgvaluation', 
+          query: {
+            evaluated_uid: this.orgInfo.organization_id, 
+            head_img: this.orgInfo.head_img
+          }
+        })
+      }else{
+        this.$message.error('请登录后，再来评价吧。');
+      }
     }
   }
 };
@@ -260,6 +313,7 @@ export default {
           line-height:30px;
         }
         .orgvaluation-a{
+          cursor: pointer;
           display: block;
           text-align: center;
           float: right;

@@ -91,7 +91,7 @@
       <!-- 全部评论 -->
       <div class="st-message">
         <div class="st-message-tit">
-          全部评论  20
+          全部评论  {{pageConfig.total_num}}
         </div>
 
         <div class="st-message-list">
@@ -127,7 +127,13 @@
 
         <!-- 分页 -->
         <div v-if="commentList.length > 0" class="st-page">
-          <el-pagination background layout="prev, pager, next" :total="1000">
+          <el-pagination 
+            background
+            :page-size="pageConfig.page_size"
+            :current-page.sync="pageConfig.page"
+            layout="prev, pager, next"
+            :total="pageConfig.total_num"
+          >
           </el-pagination>
         </div>
       </div>
@@ -154,7 +160,12 @@ export default {
       // 相似老师
       similarTeacher: [],
       // 全部评论
-      commentList: []
+      commentList: [],
+      pageConfig:{
+        page: 1,
+        page_size: 20,
+        total_num: 0
+      }
     };
   },
   computed: {},
@@ -189,9 +200,15 @@ export default {
     },
     getCommentList(){
       // 获取全部评论
-      apiGetCommentList({'teacher_id': this.$route.query.teacher_id}).then(res => {
+      apiGetCommentList({
+        'teacher_id': this.$route.query.teacher_id,
+        'page': this.pageConfig.page,
+        'page_size': this.pageConfig.page_size,
+      }).then(res => {
         if(res.data.code==200){
           this.commentList = res.data.data.list
+          // 总条数
+          this.pageConfig.total_num = parseInt(res.data.data.total_num)
         }else{
           this.commentList = []
         }

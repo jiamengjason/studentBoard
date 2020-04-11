@@ -149,6 +149,7 @@ const router = new Router({
     },
     {
       path: "/personal",
+      name: 'personal',
       component: Personal,
       meta: {
         title: "个人中心"
