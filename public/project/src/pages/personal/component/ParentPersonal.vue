@@ -154,7 +154,7 @@ export default {
             this.ruleForm = res.data.data;
             // 给父组件传用户信息值
             this.$emit('handleInfo',{
-              headImg: res.data.data.headImg || '/img/img_teacher.png',
+              headImg: res.data.data.headImg || '/img/img_parent.png',
               userName: res.data.data.userName,
               mobile: res.data.data.mobile
             })

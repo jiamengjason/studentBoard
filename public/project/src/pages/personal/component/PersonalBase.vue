@@ -289,6 +289,7 @@ export default {
     margin-right: 180px;
   }
   .forget-pwd {
+    cursor: pointer;
     font-size: 14px;
     margin-top: 10px;
   }
