@@ -69,4 +69,28 @@ where '.$where.' '.$orderBy.' '.$limitSql;
         $data['list'] = $userList;
         return $data;
     }
+
+    /**
+     * 查询老师列表
+     * @param $organizationId
+     * @param $limit
+     * @return mixed
+     */
+    public function getTeachersListByOrganizationId($organizationId, $limit = 3){
+        $where = 'u.parent_id = '.$organizationId.' and u.role_id = '.RoleGroupListConfig::$teacherRoleId;
+        $orderBy = 'order by e.score desc,e.e_num desc';
+        $sql = 'select 
+	u.id user_id,u.user_name,u.head_img,IFNULL(e.score,0.0) as score
+from sb_users u
+left join (
+	select ANY_VALUE(evaluated_uid) evaluated_uid, round(avg(score),1) as score, count(id) e_num  
+	from sb_evaluate_score  
+	group by evaluated_uid
+) as e on u.id = e.evaluated_uid
+where '.$where.' '.$orderBy.' limit '.$limit;
+
+        $dbHandel = Yii::app()->db;
+        $userList = $dbHandel->createCommand($sql)->queryAll();
+        return $userList;
+    }
 }

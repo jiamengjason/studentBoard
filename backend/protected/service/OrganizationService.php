@@ -78,6 +78,11 @@ where '.$where.' '.$orderBy.' '.$limitSql;
             $totalNum = ceil($countRs[0]['c'] / $pageSize);
             $data['total_num'] = $countRs[0]['c'];
         }
+        //获取机构下的推荐老师
+        $teacherService = new TeachersService();
+        foreach ($userList as $key=>$item){
+            $userList[$key]['teacher_list'] = $teacherService->getTeachersListByOrganizationId($item['user_id']);
+        }
 
         $data['page_count'] = $totalNum;
         $data['page'] = $page;
