@@ -199,7 +199,7 @@ where '.$where.' order by e.create_time desc '.$limitSql;
         $totalNum = 0;
         if (isset($countRs[0]['c'])){
             $totalNum = ceil($countRs[0]['c'] / $pageSize);
-            $data['total_num'] = $countRs[0]['c'];
+            $data['total_num'] = intval($countRs[0]['c']);
         }
         //获取老师对应的机构
         $orgIds = [];
