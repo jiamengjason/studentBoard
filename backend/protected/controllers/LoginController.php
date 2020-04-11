@@ -143,7 +143,7 @@ class LoginController extends FInterfaceBase
         if (false === $rs){
             $this->outputError('登陆失败');
         }else {
-            $this->outputOk('', $rs);
+            $this->outputOk('', $data);
         }
     }
 
