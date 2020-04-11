@@ -76,8 +76,8 @@
       <PersonBase />
     </template>
     <PersonalActivity v-if="activeName == 'parent2'" />
-    <ComActivity v-if="activeName == 'parent3'" :act-list="actList" />
-    <Comment v-if="activeName == 'parent4'" />
+    <!-- <ComActivity v-if="activeName == 'parent3'" :act-list="actList" /> -->
+    <Comment v-if="activeName == 'parent3'" />
   </div>
 </template>
 <script>
@@ -85,7 +85,7 @@ import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import PersonalActivity from "./PersonalActivity.vue";
 import Comment from "./Comment.vue";
-import ComActivity from "@/components/Activity";
+// import ComActivity from "@/components/Activity";
 import { 
   apiGetUserInfo,
   apiResetUserUpdate,
@@ -97,14 +97,10 @@ export default {
     TopTitle,
     PersonBase,
     PersonalActivity,
-    Comment,
-    ComActivity
+    Comment
   },
   props: {
-    activeName: String,
-    default(){
-      return 'parent1'
-    }
+    activeName: String
   },
   data() {
     return {

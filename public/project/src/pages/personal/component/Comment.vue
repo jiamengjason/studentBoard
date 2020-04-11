@@ -1,19 +1,13 @@
 <template>
   <div class="comment-list">
-    <div v-for="(item,index) in list" :key="index" class="comment-item">
+    <div v-for="(item,index) in commentList" :key="index" class="comment-item">
       <img src="https://www.baidu.com/img/bd_logo1.png" alt />
       <div class="activity-item-bottom">
         <div class="date-status">
-          <p class="title">老师治学严谨，要求严格，能深入了解学生的学习和生活状况老师治学严谨，要求严格，能深入了解学生的学习和生活状况</p>
-          <p class="date">2019-10-0</p>
+          <p class="title">{{ item.title }}</p>
+          <p class="date">{{ item }}</p>
         </div>
-        <p class="desc">
-          老师治学严谨，要求严格，能深入了解学生的学习和生活状况
-          ，循循善诱，平易近人;注意启发和调动学生的积极性，课堂气氛较为活跃;上课例题丰富，
-          不厌 其烦，细心讲解，使学生有所收获;半数认真工整，批改作业认真及时并注意讲解学生易犯错误;
-          最重要的是，段老师能虚心并广泛听取学生的意见和反馈信息，
-          做到及时修正和调整自己的教学。总之，段老师是一个不可多得的好教师。
-        </p>
+        <p class="desc">{{ item.desc }}</p>
       </div>
     </div>
   </div>
@@ -22,7 +16,7 @@
 export default {
   data(){
     return {
-      list:[1,2,3,4]
+      commentList:[1,2,3,4]
     }
   }
 };

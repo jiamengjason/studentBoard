@@ -143,7 +143,7 @@ export default {
       },
       ruleMobile: {
         newMobile: "",
-        validCode: ""
+        vertifyMeg: ""
       },
       clickCodeFlag: false,
       timerNum: 5,
@@ -222,9 +222,10 @@ export default {
       apiResetUpdateUnion(params).then(res=>{
         if (res.data.code == 200) {
           this.$message.success('修改成功');
-          this.$refs.formName.resetFields();
-          this.$refs.ruleEmail.resetFields();
-          this.$refs.ruleMobile.resetFields();
+          // 修改完密码后跳转至登录页面
+          if(params.type == 1){
+            this.$router.push("/login");
+          }
         }else{
           this.$message.error(res.data.msg);
         }
@@ -240,8 +241,7 @@ export default {
         newPassword: this.ruleForm.newPassword,
         rePassword: this.ruleForm.rePassword
       }
-      this.modifyRequest(params)
-       
+      this.modifyRequest(params);
     },
     // 保存邮箱
     updateUnionEmail(){
@@ -249,10 +249,10 @@ export default {
         userId: localStorage.getItem('board_user_id'),
         token: localStorage.getItem('board_token'),
         type: 2,  //1修改密码 2修改邮箱 3修改手机号
-        newEmail: this.ruleEmail.oldPassword,
-        validCode: this.ruleEmail.newPassword
+        newEmail: this.ruleEmail.newEmail,
+        validCode: this.ruleEmail.validCode
       }
-      this.modifyRequest(params)
+      this.modifyRequest(params);
     },
     // 保存手机号
     updateUnionMobile(){
@@ -260,8 +260,8 @@ export default {
         userId: localStorage.getItem('board_user_id'),
         token: localStorage.getItem('board_token'),
         type: 3,  //1修改密码 2修改邮箱 3修改手机号
-        newMobile: this.ruleMobile.oldPassword,
-        validCode: this.ruleMobile.newPassword
+        newMobile: this.ruleMobile.newMobile,
+        validCode: this.ruleMobile.vertifyMeg
       }
       this.modifyRequest(params)
     }
