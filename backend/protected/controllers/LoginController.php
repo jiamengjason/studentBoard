@@ -204,7 +204,7 @@ class LoginController extends FInterfaceBase
         //用户是否存在
         $loginService = new LoginService();
         if (false === $loginService->isUserExsit($email)){
-            $this->outputError('邮箱未注册');
+            $this->outputError('该邮箱已经被注册~');
         }
 
         //获取验证码
