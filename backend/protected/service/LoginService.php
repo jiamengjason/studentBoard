@@ -155,9 +155,8 @@ class LoginService
         $rs = $usersModel->find('mobile=:mobile or email=:email', ['mobile'=>$mobile, 'email'=>$mobile]);
         if (empty($rs)){
             return false;
-        }else {
-            return $rs;
         }
+        return true;
     }
 
     /**
