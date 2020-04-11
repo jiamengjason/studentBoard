@@ -101,14 +101,14 @@ class TeachersController extends FInterfaceBase
      * 【知名教师】教师详情-全部评论
      */
     public function actionCommentList(){
-        $params['teacherId'] = $this->_gets->getParam('teacher_id');
+        $params['evaluated_uid'] = $this->_gets->getParam('teacher_id');
         $params['page'] = $this->_gets->getParam('page');
         $params['page_size'] = $this->_gets->getParam('page_size');
-        if (empty($params['teacherId'])){
+        if (empty($params['evaluated_uid'])){
             $this->outputParamsError();
         }
         $usersService = new UsersService();
-        $userInfo = $usersService->getUserInfoByUid($params['teacherId']);
+        $userInfo = $usersService->getUserInfoByUid($params['evaluated_uid']);
         if (empty($userInfo)){
             $this->outputParamsError();
         }

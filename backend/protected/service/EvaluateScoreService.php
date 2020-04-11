@@ -130,7 +130,7 @@ order by tmp.score desc,tmp.e_num desc,tmp.evaluated_uid desc
         $criteria = new CDbCriteria();
         $criteria->select = 't.id,t.evaluated_uid,t.user_id,t.score,t.give_like,t.give_dislike,t.comment,t.create_time';
         $criteria->order = 't.create_time desc,t.give_like desc';
-        $criteria->condition = 't.evaluated_uid = ' . $params['teacherId'];
+        $criteria->condition = 't.evaluated_uid = ' . $params['evaluated_uid'];
         $criteria->with = array ('users');
         $count = $evaluateScoreModel->count($criteria);
         $pages = new CPagination($count);

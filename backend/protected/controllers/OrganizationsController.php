@@ -86,4 +86,29 @@ class OrganizationsController extends FInterfaceBase
 
         $this->outputOk('', $organizationList);
     }
+
+    /**
+     *【著名机构】机构详情-全部评论
+     */
+    public function actionCommentList(){
+        $params['evaluated_uid'] = $this->_gets->getParam('organization_id');
+        $params['page'] = $this->_gets->getParam('page');
+        $params['page_size'] = $this->_gets->getParam('page_size');
+        if (empty($params['evaluated_uid'])){
+            $this->outputParamsError();
+        }
+        $usersService = new UsersService();
+        $userInfo = $usersService->getUserInfoByUid($params['evaluated_uid']);
+        if (empty($userInfo)){
+            $this->outputParamsError();
+        }
+        if ($userInfo['roleId'] != RoleGroupListConfig::$organizationRoleId){
+            $this->outputParamsError();
+        }
+
+        $evaluateScoreService = new EvaluateScoreService();
+        $data = $evaluateScoreService->findEvaluateScoreListById($params);
+
+        $this->outputOk('', $data);
+    }
 }
