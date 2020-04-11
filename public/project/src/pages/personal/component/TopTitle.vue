@@ -27,10 +27,11 @@ export default {
   text-align: left;
   .top-title-line {
     width: 4px;
-    height: 21px;
+    height: 22px;
     background: $orangeColor;
     display: inline-block;
     margin: 0 10px 0 40px;
+    vertical-align: sub;
   }
   .top-title-text {
     font-size: 22px;

@@ -16,7 +16,7 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="旧密码：" prop="oldPassword">
-                  <el-input v-model="ruleForm.oldPassword"></el-input>
+                  <el-input v-model="ruleForm.oldPassword" show-password></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4" :offset="2" class="forget-pwd">忘记密码？</el-col>
@@ -25,7 +25,7 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="新密码：" prop="newPassword">
-                  <el-input v-model="ruleForm.newPassword"></el-input>
+                  <el-input v-model="ruleForm.newPassword" show-password></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -33,7 +33,7 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="确认密码：" prop="rePassword">
-                  <el-input v-model="ruleForm.rePassword"></el-input>
+                  <el-input v-model="ruleForm.rePassword" show-password></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -116,6 +116,19 @@ export default {
         }
       }, 100);
     };
+    // 确认密码验证
+    let checkPwd = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请确认您的密码"));
+      }
+      setTimeout(() => {
+        if (value === this.ruleForm.newPassword) {
+          callback();
+        } else {
+          callback(new Error("两次输入的密码不一致"));
+        }
+      }, 100);
+    };
     return {
       text: "修改绑定信息",
       tabPosition: "left",
@@ -140,10 +153,11 @@ export default {
           { required: true, message: "请输入旧密码", trigger: "blur" }
         ],
         newPassword: [
-          { required: true, message: "请输入新密码", trigger: "blur" }
+          { required: true, message: "请输入新密码", trigger: "blur" },
+          { min: 6, max: 18, message: "长度在6到18个字符", trigger: "blur" }
         ],
         rePassword: [
-          { required: true, message: "请输入确认密码", trigger: "blur" }
+          { required: true, validator: checkPwd, trigger: "blur" }
         ],
         newEmail: [
           { required: true, message: "请输入Email", trigger: "blur" },
@@ -208,6 +222,9 @@ export default {
       apiResetUpdateUnion(params).then(res=>{
         if (res.data.code == 200) {
           this.$message.success('修改成功');
+          this.$refs.formName.resetFields();
+          this.$refs.ruleEmail.resetFields();
+          this.$refs.ruleMobile.resetFields();
         }else{
           this.$message.error(res.data.msg);
         }
@@ -216,20 +233,21 @@ export default {
     // 保存密码
     updateUnionPwd(){
       let params = {
-        userId: '19',  //手机号
-        token:'77e0a3ce658692e1a105774ccddf8ac0',
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
         type: 1,  //1修改密码 2修改邮箱 3修改手机号
         oldPassword: this.ruleForm.oldPassword,
         newPassword: this.ruleForm.newPassword,
         rePassword: this.ruleForm.rePassword
       }
       this.modifyRequest(params)
+       
     },
     // 保存邮箱
     updateUnionEmail(){
       let params = {
-        userId: '19',  //手机号
-        token:'77e0a3ce658692e1a105774ccddf8ac0',
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
         type: 2,  //1修改密码 2修改邮箱 3修改手机号
         newEmail: this.ruleEmail.oldPassword,
         validCode: this.ruleEmail.newPassword
@@ -239,8 +257,8 @@ export default {
     // 保存手机号
     updateUnionMobile(){
       let params = {
-        userId: '19',  //手机号
-        token:'77e0a3ce658692e1a105774ccddf8ac0',
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
         type: 3,  //1修改密码 2修改邮箱 3修改手机号
         newMobile: this.ruleMobile.oldPassword,
         validCode: this.ruleMobile.newPassword
@@ -271,9 +289,10 @@ export default {
     display: block;
   }
   .personal-save-btn {
+    cursor: pointer;
     width: 300px;
     height: 40px;
-    background: rgba(255, 112, 1, 1);
+    background: $orangeColor;
     border-radius: 5px;
     font-size: 20px;
     color: #fff;
@@ -293,6 +312,9 @@ export default {
     width: 170px !important;
     margin-right: 20px;
   }
+}
+.personal-page .el-input__suffix{
+  right: 14px;
 }
 // .modify-base-info {
 .personal-page .el-tabs__item {
