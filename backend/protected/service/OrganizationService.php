@@ -46,7 +46,7 @@ class OrganizationService
         $page = !isset($params['page']) ? 1 : $params['page'];
         $limit = ($page - 1) * $pageSize;
 
-        $where = 'u.role_id = 1';
+        $where = 'u.role_id = '.RoleGroupListConfig::$organizationRoleId;
         $orderBy = 'order by e.score desc,e.e_num desc';
         $limitSql = 'limit '.$limit.','.$pageSize;
         if (isset($params['organization_name']) && !empty($params['organization_name'])){
