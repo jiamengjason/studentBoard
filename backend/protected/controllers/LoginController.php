@@ -155,7 +155,7 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $mobile = isset($this->_requestParams['mobile']) ? $this->_requestParams['mobile'] : '';
+        $mobile = isset($this->_requestParams['newMobile']) ? $this->_requestParams['newMobile'] : '';
         $validateCode = isset($this->_requestParams['validate_code']) ? $this->_requestParams['validate_code'] : '';
         $newPassword = isset($this->_requestParams['new_password']) ? $this->_requestParams['new_password'] : '';
         $rePassword = isset($this->_requestParams['re_password']) ? $this->_requestParams['re_password'] : '';
@@ -197,7 +197,7 @@ class LoginController extends FInterfaceBase
             $this->outputParamsError();
         }
 
-        $email = isset($this->_requestParams['email']) ? $this->_requestParams['email'] : '';
+        $email = isset($this->_requestParams['newEmail']) ? $this->_requestParams['newEmail'] : '';
         if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
             $this->outputError('无效的Email格式');
         }
