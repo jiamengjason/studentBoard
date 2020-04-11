@@ -5,7 +5,8 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img :src="ruleForm.headImg" />
+            <img v-if="ruleForm.headImg" :src="ruleForm.headImg" />
+            <img v-else src="/img/img_parent.png" />
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
@@ -153,7 +154,7 @@ export default {
             this.ruleForm = res.data.data;
             // 给父组件传用户信息值
             this.$emit('handleInfo',{
-              headImg: res.data.data.headImg || '/img/img_student.png',
+              headImg: res.data.data.headImg || '/img/img_teacher.png',
               userName: res.data.data.userName,
               mobile: res.data.data.mobile
             })
@@ -174,8 +175,7 @@ export default {
     // 上传共有的方法
     uplaodFn(event){
       const file = event.file
-      const param = new FormData() // 创建form对象
-      param.append('file', file) // 通过append向form对象添加数据
+      uploadParam.append('file', file) // 通过append向form对象添加数据
       this.uploadConfig = {
         headers: {'Content-Type': 'multipart/form-data'}
       }

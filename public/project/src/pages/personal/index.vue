@@ -65,6 +65,7 @@ export default {
       this.activeName = tab.name;
     },
     handleInfo(res){
+      console.log(res, 'resresres')
       this.userInfo = res
     }
   }
