@@ -54,6 +54,26 @@ class UsersService
     }
 
     /**
+     * 根据条件查询机构名称
+     * @param $idsArr
+     * @return array|CActiveRecord[]
+     */
+    public function getOrganizationInfoByIds($idsArr){
+        if (empty($idsArr)){
+            return [];
+        }
+        $defaultSelect = 'id,organization_name,organization_desc,organization_yewu,organization_www,organization_phone,head_img';
+        //条件
+        $where = 'id in ('.implode(',', $idsArr).')';
+        $usersModel = new Users();
+        $criteria = new CDbCriteria();
+        $criteria->condition = $where;
+        $criteria->select = empty($select) ? $defaultSelect : $select;
+
+        return $usersModel->findAll($criteria);
+    }
+
+    /**
      * 根据uid查询用户信息
      * @param $uid
      * @return array|CActiveRecord

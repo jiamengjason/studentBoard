@@ -172,4 +172,89 @@ order by tmp.score desc,tmp.e_num desc,tmp.evaluated_uid desc
         $commentModel->setAttributes($params);
         return $commentModel->save();
     }
+
+    /**
+     * 查询机构列表
+     * @param $params
+     * @return array
+     */
+    public function getCommentListByParams($params){
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
+        $page = !isset($params['page']) ? 1 : $params['page'];
+        $limit = ($page - 1) * $pageSize;
+        $userId = $params['user_id'];
+
+        $where = 'e.user_id = '.$userId;
+        $limitSql = 'limit '.$limit.','.$pageSize;
+
+        $sqlCount = 'select count(e.id) c from sb_evaluate_score e where '.$where;
+        $sql = 'select e.*,u.parent_id,u.role_id,u.user_name,u.head_img,u.organization_name,u.organization_desc,u.organization_yewu,u.organization_email
+from sb_evaluate_score e
+left join sb_users u on e.evaluated_uid = u.id
+where '.$where.' order by e.create_time desc '.$limitSql;
+
+        $dbHandel = Yii::app()->db;
+        $commentList = $dbHandel->createCommand($sql)->queryAll();
+        $countRs = $dbHandel->createCommand($sqlCount)->queryAll();
+        $totalNum = 0;
+        if (isset($countRs[0]['c'])){
+            $totalNum = ceil($countRs[0]['c'] / $pageSize);
+            $data['total_num'] = $countRs[0]['c'];
+        }
+        //获取老师对应的机构
+        $orgIds = [];
+        $organizationList = [];
+        foreach ($commentList as $item){
+            if ($item['parent_id'] && $item['role_id'] == RoleGroupListConfig::$teacherRoleId){
+                $orgIds[] = $item['parent_id'];
+            }
+        }
+        if (!empty($orgIds)){
+            $orgIds = array_unique($orgIds);
+            $usersService = new UsersService();
+            $organizationList = $usersService->getOrganizationInfoByIds($orgIds);
+            foreach ($organizationList as $item){
+                $tmp[] = $item->getAttributes();
+            }
+            $organizationList = array_column($tmp, null, 'id');
+        }
+
+        //返回数据
+        $rs = [];
+        foreach ($commentList as $item){
+            $tmp = [
+                'evaluated_uid' => $item[''],
+                'user_id' => $item['user_id'],
+                'score' => $item['score'],
+                'is_recommend' => $item['is_recommend'],
+                'tags' => $item['tags'],
+                'comment' => $item['comment'],
+                'give_like' => $item['give_like'],
+                'give_dislike' => $item['give_dislike'],
+                'comment_time' => $item['create_time'],
+                'head_img' => $item['head_img'],
+            ];
+            //评价的机构
+            if ($item['role_id'] == RoleGroupListConfig::$organizationRoleId){
+                $tmp['organization_name'] = $item['organization_name'];
+                $tmp['organization_desc'] = $item['organization_desc'];
+                $tmp['organization_yewu'] = $item['organization_yewu'];
+                $tmp['organization_email'] = $item['organization_email'];
+            }else {
+                //评价的老师
+                $tmp['teacher_name'] = $item['user_name'];
+                if (isset($organizationList[$item['parent_id']])){
+                    $tmp['organization_name'] = $organizationList[$item['parent_id']]['organization_name'];
+                }
+            }
+
+            $rs[] = $tmp;
+        }
+
+        $data['page_count'] = intval($totalNum);
+        $data['page'] = $page;
+        $data['page_size'] = $pageSize;
+        $data['list'] = $rs;
+        return $data;
+    }
 }
