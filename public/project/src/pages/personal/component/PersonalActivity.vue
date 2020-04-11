@@ -1,6 +1,6 @@
 <template>
   <div class="personal-activety-list">
-    <div v-for="(item,index) in list" :key="index" class="activity-item">
+    <div v-for="(item,index) in activeList" :key="index" class="activity-item">
       <img :src="item.title_img" alt />
       <div class="activity-item-bottom">
         <div class="title-status">

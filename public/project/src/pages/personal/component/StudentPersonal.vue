@@ -134,10 +134,7 @@ export default {
     Comment
   },
   props: {
-    activeName: String,
-    default(){
-      return 'student1'
-    }
+    activeName: String
   },
   data() {
     return {
@@ -165,8 +162,8 @@ export default {
     };
   },
   created() {
-    this.getUserInfo();
     this.getSiteConfig();
+    this.getUserInfo();
   },
   methods:{
     // 获取网站配置
@@ -182,13 +179,14 @@ export default {
     // 获取个人信息
     getUserInfo(){
       let params = {
-        userId:'19',
-        token:'77e0a3ce658692e1a105774ccddf8ac0'
+        userId:localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token')
       }
       apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {
           console.log(res.data.data,'res.data.data;')
             this.ruleForm = res.data.data;
+            
         }else{
           this.$message.error(res.data.msg);
         }

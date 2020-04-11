@@ -50,9 +50,7 @@ export const apiGetMyActiveList = () => {
 export const apiGetOrgActiveList = () => {
   return request.get(`${defaultPath}member/activeList`);
 };
-// get
-export const apiGet = params => {
-  return request.get(
-    `${defaultPath}/organization/members?school_id=${params.school_id}&role_id=${params.role_id}`
-  );
+// 发布活动
+export const apiOrgPublish = params => {
+  return request.post(`${defaultPath}member/publish`,params);
 };
