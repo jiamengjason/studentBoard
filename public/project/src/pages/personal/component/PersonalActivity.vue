@@ -118,5 +118,8 @@ export default {
     text-align: left;
     @include ignore();
   }
+  .st-page {
+    margin: 0 auto;
+  }
 }
 </style>
