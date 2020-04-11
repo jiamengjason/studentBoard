@@ -138,7 +138,8 @@ class LoginController extends FInterfaceBase
             $this->outputError('用户已禁用');
         }
         //登陆成功，去生成token
-        $rs = $loginService->createToken($rs);
+        $data = $loginService->createToken($rs);
+        $data['role_id'] = $rs['role_id'];
         if (false === $rs){
             $this->outputError('登陆失败');
         }else {
