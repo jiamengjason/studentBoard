@@ -31,6 +31,24 @@ class RoleGroupListConfig
         ];
     }
 
+    /**
+     * 根据年级ID获取年级名称
+     * @param $gradeId
+     * @return string
+     */
+    public static function getGradeLabelByGradeId($gradeId){
+	    $label = '';
+
+	    $gradeList = self::getGradeList();
+	    foreach ($gradeList as $item){
+	        if ($item['value'] == $gradeId){
+	            $label = $item['label'];
+	            break;
+            }
+        }
+
+        return $label;
+    }
 
     /**
      * 获取在读学校下的年级列表

@@ -81,13 +81,13 @@ class EvaluateScoreService
         //查询机构下的老师按照评分排序
         $sql = 'select * from (
 select 
-	ANY_VALUE(e.evaluated_uid) evaluated_uid, ANY_VALUE(u.user_name) user_name, ANY_VALUE(head_img) head_img, round(avg(score),1) as score, count(e.id) enum
+	ANY_VALUE(e.evaluated_uid) evaluated_uid, ANY_VALUE(u.user_name) user_name, ANY_VALUE(head_img) head_img, round(avg(score),1) as score, count(e.id) e_num
 from sb_users u 
 left join sb_evaluate_score e on u.id = e.evaluated_uid
 where u.parent_id = '.$userId.'
 group by e.evaluated_uid having score > 0 limit '.$limit.'
 ) as tmp
-order by tmp.score desc,tmp.enum desc,tmp.evaluated_uid desc
+order by tmp.score desc,tmp.e_num desc,tmp.evaluated_uid desc
 ';
         $evaluateScoreModel = new EvaluateScore();
         $data = $evaluateScoreModel->findAllBySql($sql);

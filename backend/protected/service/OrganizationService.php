@@ -42,45 +42,39 @@ class OrganizationService
      * @return array
      */
     public function getOrganizationListByParams($params){
-        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
-
-        $usersModel = new Users();
-        $criteria = new CDbCriteria();
-        $criteria->order = 't.end_time DESC';
-        if (!empty($params)){
-            $condition = '1 ';
-            foreach ($params as $field=>$v){
-                if (empty($v)){
-                    continue;
-                }
-                if ($field == 'user_id'){//查询机构下的活动列表
-                    $condition .= ' and user_id = ' . $v . ' and status_is = 1';
-                }elseif($field == 'title'){//根据活动名称模糊搜索
-                    $condition .= ' and title like \'%' . trim($v) . '%\'';
-                }elseif($field == 'type' && $v == 1){//活动预告
-                    $condition .= ' and start_time >\'' . date('Y-m-d H:i:s').'\'';
-                }elseif($field == 'type' && $v == 2){//活动进行中
-                    $condition .= ' and start_time <\'' . date('Y-m-d H:i:s').'\' and end_time >\'' . date('Y-m-d H:i:s').'\'';
-                }elseif($field == 'type' && $v == 3){//已结束
-                    $condition .= ' and end_time <\'' . date('Y-m-d H:i:s').'\'';
-                }
-            }
-            $criteria->condition = $condition;
-        }
-        $count = $usersModel->count($criteria);
-        $pages = new CPagination($count);
-        $pages->pageSize = $pageSize;
-        $criteria->limit = $pages->pageSize;
-        $criteria->offset = $pages->currentPage * $pages->pageSize;
-        $list = $usersModel->findAll($criteria);
-
         $data = [];
-        $time = time();
-        foreach ($list as $item){
-            $data[] = [
-            ];
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
+        $page = !isset($params['page']) ? 1 : $params['page'];
+        $limit = ($page - 1) * $pageSize;
+
+        $where = 'u.role_id = 1';
+        $orderBy = 'order by e.score desc,e.e_num desc';
+        $limitSql = 'lmit '.$limit.','.$pageSize;
+        if (isset($params['organization_name']) && !empty($params['organization_name'])){
+            $where .= ' and organization_name like \'%' . $params['organization_name'] . '%\'';
+        }
+        if (isset($params['score_sort']) && $params['score_sort'] == 'desc'){
+            $orderBy = 'order by e.score desc';
+        }
+        if (isset($params['score_sort']) && $params['score_sort'] == 'asc'){
+            $orderBy = 'order by e.score asc';
         }
 
-        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
+        $sqlCount = 'select count(id) from sb_users u where '.$where;
+        $sql = 'select 
+	u.id user_id,u.user_name,u.head_img,u.organization_name,u.organization_phone,u.organization_name,u.organization_desc,e.score,e.e_num 
+from sb_users u
+left join (
+	select ANY_VALUE(evaluated_uid) evaluated_uid, round(avg(score),1) as score, count(id) e_num  
+	from sb_evaluate_score  
+	group by evaluated_uid
+) as e on u.id = e.evaluated_uid
+where '.$where.' '.$orderBy.' '.$limitSql;
+
+        $userModel = new Users();
+        $userList = $userModel->findAllBySql($sql);
+        $count = $userModel->findBySql($sqlCount);
+        var_dump($userList, $count);
+
     }
 }
