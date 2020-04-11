@@ -226,6 +226,7 @@ where '.$where.' order by e.create_time desc '.$limitSql;
                 'evaluated_uid' => $item[''],
                 'user_id' => $item['user_id'],
                 'score' => $item['score'],
+                'role_id' => $item['role_id'],
                 'is_recommend' => $item['is_recommend'],
                 'tags' => $item['tags'],
                 'comment' => $item['comment'],
