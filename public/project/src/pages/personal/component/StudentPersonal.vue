@@ -7,7 +7,6 @@
           <div class="grid-content-first">
             <img v-if="ruleForm.headImg" :src="ruleForm.headImg" />
             <img v-else src="/img/img_student.png" />
-
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
@@ -97,7 +96,7 @@
                     :http-request="uploadSchoolImg"
                     :on-change="imageChange"
                   >
-                    <span>选取文件</span>
+                    <span>{{ schoolUploadText }}</span>
                   </el-upload>
                 </el-form-item>
               </el-col>
@@ -110,8 +109,8 @@
       <PersonBase />
     </template>
     <PersonalActivity v-if="activeName == 'student2'" />
-    <ComActivity v-if="activeName == 'student3'" :act-list="actList" />
-    <Comment v-if="activeName == 'student4'" />
+    <!-- <ComActivity v-if="activeName == 'student3'" :act-list="actList" /> -->
+    <Comment v-if="activeName == 'student3'" />
   </div>
 </template>
 <script>
@@ -119,7 +118,7 @@ import TopTitle from "./TopTitle";
 import PersonBase from "./PersonalBase";
 import PersonalActivity from "./PersonalActivity";
 import Comment from "./Comment";
-import ComActivity from "@/components/Activity";
+// import ComActivity from "@/components/Activity";
 import { 
   apiGetSiteConfig,
   apiGetUserInfo,
@@ -134,7 +133,6 @@ export default {
     TopTitle,
     PersonBase,
     PersonalActivity,
-    ComActivity,
     Comment
   },
   props: {
@@ -172,6 +170,12 @@ export default {
         return '重新上传'
       }
       return '选取文件'
+    },
+    schoolUploadText(){
+      if(this.ruleForm.studentCardImg){
+        return '重新上传'
+      }
+      return '选取文件'
     }
   },
   created() {
@@ -199,7 +203,7 @@ export default {
         if (res.data.code == 200) {
           console.log(res.data.data,'res.data.data;')
             this.ruleForm = res.data.data;
-            this.ruleForm.grade = res.data.data.grade_label
+            this.ruleForm.grade = Number(res.data.data.grade)
             // 给父组件传用户信息值
             this.$emit('handleInfo',{
               headImg: res.data.data.headImg || '/img/img_student.png',
@@ -235,7 +239,7 @@ export default {
     uploadHeadImg(event){
       this.uplaodFn(event)
       if(this.checkImg){
-        apiPostUploadFile(uploadParams, this.uploadConfig).then(res => {
+        apiPostUploadFile(uploadParam, this.uploadConfig).then(res => {
           if (res.data.code == 200) {
             this.ruleForm.headImg = res.data.data.file_path    
           }else{
@@ -289,6 +293,7 @@ export default {
       apiResetUserUpdate(params).then(res=>{
         if (res.data.code == 200) {
           this.$message.success('修改成功');
+          this.getUserInfo()
         }else{
           this.$message.error(res.data.msg);
         }
