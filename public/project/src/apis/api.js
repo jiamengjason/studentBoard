@@ -43,12 +43,12 @@ export const apiResetUpdateUnion = params => {
   return request.post(`${defaultPath}member/updateUnion`,params);
 };
 // 参加的活动列表【老师、学生、家长】
-export const apiGetMyActiveList = () => {
-  return request.get(`${defaultPath}member/myActive`);
+export const apiGetMyActiveList = params => {
+  return request.get(`${defaultPath}member/myActive&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.token}`);
 };
 // 机构的活动列表
-export const apiGetOrgActiveList = () => {
-  return request.get(`${defaultPath}member/activeList`);
+export const apiGetOrgActiveList = params => {
+  return request.get(`${defaultPath}member/activeList&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.token}`);
 };
 // 发布活动
 export const apiOrgPublish = params => {

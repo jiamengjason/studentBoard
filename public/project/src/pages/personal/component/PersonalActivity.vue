@@ -1,26 +1,29 @@
 <template>
-  <div class="personal-activety-list">
-    <div v-for="(item,index) in activeList" :key="index" class="activity-item">
-      <img :src="item.title_img" alt />
-      <div class="activity-item-bottom">
-        <div class="title-status">
-          <p class="title">{{ item.title }}</p>
-          <p>{{ state(item.status) }}</p>
+  <div :class="{'personal-activety-list' :activeList.length > 0 }">
+    <template v-if="activeList.length > 0">
+      <div v-for="(item,index) in activeList" :key="index" class="activity-item">
+        <img :src="item.title_img" alt />
+        <div class="activity-item-bottom">
+          <div class="title-status">
+            <p class="title">{{ item.title }}</p>
+            <p>{{ state(item.status) }}</p>
+          </div>
+          <p class="desc">{{ item.desc }}</p>
         </div>
-        <p class="desc">{{ item.desc }}</p>
       </div>
-    </div>
-    <!-- 分页 -->
-    <div v-if="activeList.length > 0" class="st-page">
-      <el-pagination 
-        background
-        :page-size="pageConfig.pageSize"
-        :current-page.sync="pageConfig.page"
-        layout="prev, pager, next"
-        :total="pageConfig.totalNum"
-      >
-      </el-pagination>
-    </div>
+      <!-- 分页 -->
+      <div class="st-page">
+        <el-pagination 
+          background
+          :page-size="pageConfig.pageSize"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.totalNum"
+        >
+        </el-pagination>
+      </div>
+    </template>
+    <p v-else class="personal-empty-list">暂无数据</p>
   </div>
 </template>
 <script>
@@ -28,18 +31,7 @@ import { apiGetMyActiveList } from "@/apis/api";
 export default {
   data(){
     return {
-      activeList:[
-        {
-          title: "123123",
-          title_img: "https://www.baidu.com/img/bd_logo1.png",
-          desc: "5",
-          addr: "6",
-          start_time: "2020-03-20 00:00:00",  //活动开始时间
-          end_time: "2020-03-30 00:00:00",    //活动结束时间
-          attend_tim: "2020-03-31 12:12:03",  //学生参加时间  
-          status: 1  //活动是否开始：1进行中 2未开始 3已过期
-        }
-      ],
+      activeList:[],
       pageConfig:{
         page: 1,
         pageSize: 20,
@@ -126,5 +118,9 @@ export default {
     text-align: left;
     @include ignore();
   }
+}
+.personal-empty-list{
+  text-align: center;
+  font-size: 20px;
 }
 </style>
