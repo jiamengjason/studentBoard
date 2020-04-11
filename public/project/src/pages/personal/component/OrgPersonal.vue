@@ -5,12 +5,21 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img src alt />
+            <img :src="ruleForm.identityImg" />
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
             </p>
-            <p class="content-first-btn">上传头像</p>
+            <el-upload
+              action="''"
+              class="content-first-btn"
+              accept="image/jpeg,image/png,image/jpg"
+              :show-file-list="false"
+              :http-request="uploadHeadImg"
+              :on-change="imageChange"
+            >
+              <span class="content-first-btn">选取文件</span>
+            </el-upload>
           </div>
         </el-col>
         <el-col :span="18">
@@ -65,13 +74,23 @@
               </el-col>
               <el-col :span="8" :offset="5">
                 <el-form-item label="身份证：" class="text-left">
-                  <span>已上传</span>
-                  <span>未上传</span>
+                  <span v-if="ruleForm.identityImg" class="upload-state">已上传</span>
+                  <span v-else class="upload-state">未上传</span>
+                  <el-upload             
+                    action="''"
+                    class="add-info-img-btn"
+                    accept="image/jpeg,image/png,image/jpg"
+                    :show-file-list="false"
+                    :http-request="uploadIdentityImg"
+                    :on-change="imageChange"
+                  >
+                    <span>选取文件</span>
+                  </el-upload>
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 保存 -->
-            <p class="personal-top-save-btn">保存</p>
+            <p class="personal-top-save-btn" @click="saveOrgPublish">保存</p>
           </el-form>
         </el-col>
       </el-row>
@@ -86,6 +105,11 @@ import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import OrgActivity from "./OrgActivity.vue";
 import OrgRelease from "./OrgRelease.vue";
+import { 
+  apiGetUserInfo,
+  apiResetUserUpdate,
+  apiPostUploadFile 
+} from "@/apis/api";
 
 export default {
   components: {
@@ -101,12 +125,14 @@ export default {
     return {
       text: "基本信息",
       ruleForm: {
-        organizationName:"" ,
-        organizationEmail:"organizationEmail" ,
-        organizationDesc:"" ,
+        headImg:"",
+        organizationName: "" ,
+        organizationEmail: "" ,
+        organizationDesc: "" ,
         organizationYewu: "",
-        organizationPhone: "organizationPhone",
-        organizationWww: ""
+        organizationPhone: "",
+        organizationWww: "",
+        identityImg: ""
       },
     
       rules: {
@@ -120,7 +146,73 @@ export default {
     };
   },
   created() {
+    this.getOrgInfo();
     console.log(this.activeName, "activeName");
+  },
+  methods:{
+    // 获取机构信息
+    getOrgInfo(){
+      let params = {
+        userId:localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token')
+      }
+      apiGetUserInfo(params).then(res=>{
+        if (res.data.code == 200) {
+          console.log(res.data.data,'res.data.data;')
+            this.ruleForm = res.data.data;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    imageChange(file) { 
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      }else{
+        this.checkImg = true
+      } 
+    },
+    // 上传共有的方法
+    uplaodFn(event){
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      this.uploadConfig = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }
+    },
+    // 上传头像
+    uploadHeadImg(){
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.headImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+     // 上传身份证
+    uploadIdentityImg(event) {
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.identityImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+    // 发布
+    saveOrgPublish(){
+
+    }
   }
 };
 </script>

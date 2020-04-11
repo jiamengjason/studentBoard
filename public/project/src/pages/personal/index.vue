@@ -21,10 +21,10 @@
           {{ item }}
         </el-tab-pane>
       </el-tabs>
-      <StudentPersonal v-if="role ===3 " :active-name="activeName" />
-      <TeacherPersonal v-if="role ===2 " :active-name="activeName" />
-      <ParentPersonal v-if="role ===4 " :active-name="activeName" />
-      <OrgPersonal v-if="role ===1 " :active-name="activeName" />
+      <StudentPersonal v-if="role == 3 " :active-name="activeName" />
+      <TeacherPersonal v-if="role == 2 " :active-name="activeName" />
+      <ParentPersonal v-if="role == 4 " :active-name="activeName" />
+      <OrgPersonal v-if="role == 1 " :active-name="activeName" />
     </div>
     <Footer />
   </div>
@@ -50,8 +50,8 @@ export default {
   data() {
     return {
       stretch: true,
-      role: 3, // 1 organization  2 teacher 3 student 4 parent
-      activeName:PERSONAL_NAV_LIST[3][0].key,
+      role: localStorage.getItem('board_role_id'), // 1 organization  2 teacher 3 student 4 parent
+      activeName:PERSONAL_NAV_LIST[localStorage.getItem('board_role_id')][0].key,
     };
   },
   computed: {
@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      console.log(tab.name, tab);
       this.activeName = tab.name;
     }
   }
