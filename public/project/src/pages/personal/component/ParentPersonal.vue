@@ -5,7 +5,7 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img :src="ruleForm.identityImg" />
+            <img :src="ruleForm.headImg" />
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
@@ -18,7 +18,7 @@
               :http-request="uploadHeadImg"
               :on-change="imageChange"
             >
-              <span class="content-first-btn">选取文件</span>
+              <span class="content-first-btn">{{ headUploadText }}</span>
             </el-upload>
           </div>
         </el-col>
@@ -40,7 +40,7 @@
               </el-col>
               <el-col :span="8" :offset="5">
                 <el-form-item label="Email：" class="text-left">
-                  {{ ruleForm.eamil }}
+                  {{ ruleForm.email }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -63,13 +63,13 @@
                     :http-request="uploadIdentityImg"
                     :on-change="imageChange"
                   >
-                    <span>选取文件</span>
+                    <span>{{ uploadText }}</span>
                   </el-upload>
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 保存 -->
-            <p class="personal-top-save-btn">保存</p>
+            <p class="personal-top-save-btn" @click="updateUserInfo">保存</p>
           </el-form>
         </el-col>
       </el-row>
@@ -92,6 +92,8 @@ import {
   apiPostUploadFile 
 } from "@/apis/api";
 
+const uploadParam = new FormData() // 创建form对象
+
 export default {
   components: {
     TopTitle,
@@ -109,16 +111,32 @@ export default {
       ruleForm: {
         headImg: "",
         userName: "",
-        eamil: "",
+        email: "",
         mobile: "",
         identityImg: "",
       },
+      checkImg:true,
+      uploadConfig:{}, // 上传的时候设置config
       rules: {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" }
         ]
       }
     };
+  },
+  computed: {
+    uploadText(){
+      if(this.ruleForm.identityImg){
+        return '重新上传'
+      }
+      return '选取文件'
+    },
+    headUploadText(){
+      if(this.ruleForm.headImg){
+        return '修改头像'
+      }
+      return '选取文件'
+    }
   },
   created() {
     this.getUserInfo();
@@ -133,6 +151,12 @@ export default {
       apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {
             this.ruleForm = res.data.data;
+            // 给父组件传用户信息值
+            this.$emit('handleInfo',{
+              headImg: res.data.data.headImg || '/img/img_student.png',
+              userName: res.data.data.userName,
+              mobile: res.data.data.mobile
+            })
         }else{
           this.$message.error(res.data.msg);
         }
@@ -157,10 +181,10 @@ export default {
       }
     },
     // 上传头像
-    uploadHeadImg(){
+    uploadHeadImg(event){
       this.uplaodFn(event)
       if(this.checkImg){
-        apiPostUploadFile(param, this.uploadConfig).then(res => {
+        apiPostUploadFile(uploadParam, this.uploadConfig).then(res => {
           if (res.data.code == 200) {
             this.ruleForm.headImg = res.data.data.file_path    
           }else{
@@ -173,7 +197,7 @@ export default {
     uploadIdentityImg(event) {
       this.uplaodFn(event)
       if(this.checkImg){
-        apiPostUploadFile(param, this.uploadConfig).then(res => {
+        apiPostUploadFile(uploadParam, this.uploadConfig).then(res => {
           if (res.data.code == 200) {
             this.ruleForm.identityImg = res.data.data.file_path    
           }else{
@@ -196,6 +220,7 @@ export default {
       apiResetUserUpdate(params).then(res=>{
         if (res.data.code == 200) {
           this.$message.success('修改成功');
+          this.getUserInfo() // 重新获取个人信息
         }else{
           this.$message.error(res.data.msg);
         }
