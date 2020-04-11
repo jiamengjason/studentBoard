@@ -178,6 +178,12 @@ export default {
       apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {      
           this.ruleForm = res.data.data;
+          // 给父组件传用户信息值
+          this.$emit('handleInfo',{
+            headImg: res.data.data.headImg || '/img/img_org.png',
+            userName: res.data.data.userName,
+            mobile: res.data.data.mobile
+          })
         }else{
           this.$message.error(res.data.msg);
         }

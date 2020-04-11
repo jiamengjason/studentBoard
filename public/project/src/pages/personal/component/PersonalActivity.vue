@@ -119,8 +119,4 @@ export default {
     @include ignore();
   }
 }
-.personal-empty-list{
-  text-align: center;
-  font-size: 20px;
-}
 </style>

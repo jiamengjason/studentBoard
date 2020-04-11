@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-list">
+  <div :class="{'comment-list' :commentList.length > 0 }">
     <template v-if="commentList.length > 0">
       <div v-for="(item,index) in commentList" :key="index" class="comment-item">
         <template v-if="item.role_id === '1'">
@@ -93,7 +93,6 @@ export default {
   background:#fff;
   .comment-item {
     height: 180px;
-    border: 1px solid red;
     width: 100%;
     margin-bottom: 20px;
     padding: 20px;
@@ -107,7 +106,6 @@ export default {
   }
   .activity-item:nth-child(odd) {
     margin-right: 20px;
-    border: 1px solid blue;
   }
   .activity-item-bottom {
     flex: 1;

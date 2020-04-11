@@ -177,7 +177,7 @@ export default {
           this.ruleForm.parentId = Number(res.data.data.parentId)
           // 给父组件传用户信息值
           this.$emit('handleInfo',{
-            headImg: res.data.data.headImg || '/img/img_student.png',
+            headImg: res.data.data.headImg || '/img/img_teacher.png',
             userName: res.data.data.userName,
             mobile: res.data.data.mobile
           })

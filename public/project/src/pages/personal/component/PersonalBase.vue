@@ -2,7 +2,7 @@
   <div class="base-personal">
     <TopTitle :text="text" />
     <div class="modify-base-info">
-      <el-tabs :tab-position="tabPosition" style="height: 230px;">
+      <el-tabs :tab-position="tabPosition" style="height: 240px;">
         <el-tab-pane label="修改密码">
           <el-form
             ref="ruleForm"
