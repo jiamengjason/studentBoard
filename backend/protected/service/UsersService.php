@@ -117,8 +117,8 @@ class UsersService
 
         $data = [];
         foreach ($saveFields as $inputField => $saveField){
-            if (!empty($_getsObj->getParam($inputField))){
-                $data[$saveField] = $_getsObj->getParam($inputField);
+            if (!empty($_getsObj[$inputField])){
+                $data[$saveField] = $_getsObj[$inputField];
             }
         }
         if (empty($data)){
