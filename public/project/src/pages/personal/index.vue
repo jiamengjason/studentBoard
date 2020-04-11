@@ -4,9 +4,9 @@
     <div class="personal-top-com">
       <div class="top-img">
         <div class="personal-top-info">
-          <p class="top-head-img"></p>
-          <p class="top-name">name</p>
-          <p class="top-mobile">手机号</p>
+          <img class="top-head-img" :src="userInfo.headImg" />
+          <p class="top-name">{{ userInfo.userName }}</p>
+          <p class="top-mobile">{{ userInfo.mobile }}</p>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
           {{ item }}
         </el-tab-pane>
       </el-tabs>
-      <StudentPersonal v-if="role == 3 " :active-name="activeName" />
+      <StudentPersonal v-if="role == 3 " :active-name="activeName" @handleInfo="handleInfo" />
       <TeacherPersonal v-if="role == 2 " :active-name="activeName" />
       <ParentPersonal v-if="role == 4 " :active-name="activeName" />
       <OrgPersonal v-if="role == 1 " :active-name="activeName" />
@@ -49,6 +49,7 @@ export default {
   },
   data() {
     return {
+      userInfo: {},
       stretch: true,
       role: localStorage.getItem('board_role_id'), // 1 organization  2 teacher 3 student 4 parent
       activeName:PERSONAL_NAV_LIST[localStorage.getItem('board_role_id')][0].key,
@@ -62,6 +63,9 @@ export default {
   methods: {
     handleClick(tab) {
       this.activeName = tab.name;
+    },
+    handleInfo(res){
+      this.userInfo = res
     }
   }
 };
@@ -75,7 +79,7 @@ export default {
 .personal-top-com {
   width: 100%;
   // max-width: 1400px;
-  height: 426px;
+  height: 406px;
   background: #fff;
   margin: 80px auto 0;
   .top-img {
@@ -90,10 +94,11 @@ export default {
       margin-left: -90px;
     }
     .top-head-img {
+      display: block;
       width: 180px;
       height: 180px;
       border-radius: 50%;
-      background: #fff;
+      margin-bottom: 30px;
     }
     .top-name {
       font-size: 28px;

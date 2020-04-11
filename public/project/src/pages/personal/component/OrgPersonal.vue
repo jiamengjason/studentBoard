@@ -242,7 +242,6 @@ export default {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 1px solid #d3dce6;
       margin: 0 auto;
     }
     .content-first-desc {
