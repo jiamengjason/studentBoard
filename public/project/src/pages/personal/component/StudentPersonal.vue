@@ -19,7 +19,7 @@
               :http-request="uploadHeadImg"
               :on-change="imageChange"
             >
-              <span class="content-first-btn">选取文件</span>
+              <span class="content-first-btn">{{ headUploadText }}</span>
             </el-upload>
           </div>
         </el-col>
@@ -140,7 +140,6 @@ export default {
   },
   data() {
     return {
-      // uploadParams: "",
       actList:[1,23,4,5,6],
       text: "基本信息",
       ruleForm: {
@@ -155,7 +154,7 @@ export default {
       },
       checkImg:true,
       eduOptions: [],
-      uploadConfig:{},
+      uploadConfig:{}, // 上传的时候设置config
       rules: {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" }
@@ -171,12 +170,18 @@ export default {
       }
       return '选取文件'
     },
+    headUploadText(){
+      if(this.ruleForm.headImg){
+        return '修改头像'
+      }
+      return '选取文件'
+    },
     schoolUploadText(){
       if(this.ruleForm.studentCardImg){
         return '重新上传'
       }
       return '选取文件'
-    }
+    },
   },
   created() {
     this.getSiteConfig();
@@ -289,11 +294,10 @@ export default {
         studentCardImg: this.ruleForm.studentCardImg
       }
       console.log(params,'params')
-      // return false
       apiResetUserUpdate(params).then(res=>{
         if (res.data.code == 200) {
           this.$message.success('修改成功');
-          this.getUserInfo()
+          this.getUserInfo() // 重新获取个人信息
         }else{
           this.$message.error(res.data.msg);
         }
