@@ -44,11 +44,15 @@ export const apiResetUpdateUnion = params => {
 };
 // 参加的活动列表【老师、学生、家长】
 export const apiGetMyActiveList = params => {
-  return request.get(`${defaultPath}member/myActive&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.token}`);
+  return request.get(`${defaultPath}member/myActive&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.page_size}`);
 };
 // 机构的活动列表
 export const apiGetOrgActiveList = params => {
-  return request.get(`${defaultPath}member/activeList&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.token}`);
+  return request.get(`${defaultPath}member/activeList&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.page_size}`);
+};
+// 【学生/家长】我的评论
+export const apiGetMyCommentList = params => {
+  return request.get(`${defaultPath}member/myComment&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.page_size}`);
 };
 // 发布活动
 export const apiOrgPublish = params => {

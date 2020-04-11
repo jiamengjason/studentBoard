@@ -181,7 +181,7 @@ export default {
         return '重新上传'
       }
       return '选取文件'
-    },
+    }
   },
   created() {
     this.getSiteConfig();
@@ -206,7 +206,6 @@ export default {
       }
       apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {
-          console.log(res.data.data,'res.data.data;')
             this.ruleForm = res.data.data;
             this.ruleForm.grade = Number(res.data.data.grade)
             // 给父组件传用户信息值
@@ -233,8 +232,6 @@ export default {
     // 上传共有的方法
     uplaodFn(event){
       const file = event.file
-      
-      // this.uploadParams = new FormData()
       uploadParam.append('file', file) // 通过append向form对象添加数据
       this.uploadConfig = {
         headers: {'Content-Type': 'multipart/form-data'}

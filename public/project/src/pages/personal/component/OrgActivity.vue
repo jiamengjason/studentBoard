@@ -1,38 +1,30 @@
 <template>
   <div class="organization-activety-list">
-    <div v-for="(item,index) in activeList" :key="index" class="activity-item">
-      <img :src="item.title_img" alt />
-      <div class="activity-item-bottom">
-        <p class="title">{{ item.title }}</p>
-        <p class="desc">{{ item.desc }}</p>
-        <div class="date-status">
-          <p class="date">{{ item.start_time - item.end_time }}</p>
-          <p class="status">{{ state(item.status) }}</p>
+    <template v-if="orgActiveList.length > 0">
+      <div v-for="(item,index) in orgActiveList" :key="index" class="activity-item">
+        <img :src="item.title_img" alt />
+        <div class="activity-item-bottom">
+          <p class="title">{{ item.title }}</p>
+          <p class="desc">{{ item.desc }}</p>
+          <div class="date-status">
+            <p class="date">{{ item.start_time - item.end_time }}</p>
+            <p class="status">{{ state(item.status) }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="activity-item">
-      <img src="https://www.baidu.com/img/bd_logo1.png" alt />
-      <div class="activity-item-bottom">
-        <p class="title">高考冲刺</p>
-        <p class="desc">desc</p>
-        <div class="date-status">
-          <p class="date">2019-10-0</p>
-          <p class="status active-status">进行中</p>
-        </div>
+      <!-- 分页 -->
+      <div class="st-page">
+        <el-pagination 
+          background
+          :page-size="pageConfig.pageSize"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.totalNum"
+        >
+        </el-pagination>
       </div>
-    </div>
-    <!-- 分页 -->
-    <div v-if="activeList.length > 0" class="st-page">
-      <el-pagination 
-        background
-        :page-size="pageConfig.pageSize"
-        :current-page.sync="pageConfig.page"
-        layout="prev, pager, next"
-        :total="pageConfig.totalNum"
-      >
-      </el-pagination>
-    </div>
+    </template>
+    <p v-else class="personal-empty-list">暂无数据</p>
   </div>
 </template>
 <script>

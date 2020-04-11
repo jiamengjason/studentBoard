@@ -2,7 +2,7 @@
   <div class="base-personal">
     <TopTitle :text="text" />
     <div class="modify-base-info">
-      <el-tabs :tab-position="tabPosition" style="height: 230px;">
+      <el-tabs :tab-position="tabPosition" style="height: 240px;">
         <el-tab-pane label="修改密码">
           <el-form
             ref="ruleForm"
@@ -19,7 +19,7 @@
                   <el-input v-model="ruleForm.oldPassword" show-password></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="4" :offset="2" class="forget-pwd">忘记密码？</el-col>
+              <el-col :span="4" :offset="2" class="forget-pwd" @click="toPwdPageFn">忘记密码？</el-col>
             </el-row>
             <!-- 新密码 -->
             <el-row :gutter="20">
@@ -92,30 +92,15 @@
 </template>
 <script>
 import TopTitle from "./TopTitle.vue";
+import { homePage } from "@/mixin/home";
+import { checkPhone } from "@/utils/common";
 import { apiResetUpdateUnion,apigetValidEmailPost,apiGetValidCodePost } from "@/apis/api";
 export default {
   components: {
     TopTitle
   },
-  data() {
-    // 手机号验证
-    let checkPhone = (rule, value, callback) => {
-      const phoneReg = /^1[3|4|5|6|7|8][0-9]{9}$/;
-      if (!value) {
-        return callback(new Error("手机号码不能为空"));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(+value)) {
-          callback(new Error("请输入数字值"));
-        } else {
-          if (phoneReg.test(value)) {
-            callback();
-          } else {
-            callback(new Error("手机号码格式不正确"));
-          }
-        }
-      }, 100);
-    };
+  mixins: [homePage],
+  data() {   
     // 确认密码验证
     let checkPwd = (rule, value, callback) => {
       if (!value) {
@@ -304,6 +289,7 @@ export default {
     margin-right: 180px;
   }
   .forget-pwd {
+    cursor: pointer;
     font-size: 14px;
     margin-top: 10px;
   }

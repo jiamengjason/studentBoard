@@ -118,9 +118,8 @@ export default {
     text-align: left;
     @include ignore();
   }
-}
-.personal-empty-list{
-  text-align: center;
-  font-size: 20px;
+  .st-page {
+    margin: 0 auto;
+  }
 }
 </style>

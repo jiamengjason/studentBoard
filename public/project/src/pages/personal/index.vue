@@ -22,9 +22,9 @@
         </el-tab-pane>
       </el-tabs>
       <StudentPersonal v-if="role == 3 " :active-name="activeName" @handleInfo="handleInfo" />
-      <TeacherPersonal v-if="role == 2 " :active-name="activeName" />
-      <ParentPersonal v-if="role == 4 " :active-name="activeName" />
-      <OrgPersonal v-if="role == 1 " :active-name="activeName" />
+      <TeacherPersonal v-if="role == 2 " :active-name="activeName" @handleInfo="handleInfo" />
+      <ParentPersonal v-if="role == 4 " :active-name="activeName" @handleInfo="handleInfo" />
+      <OrgPersonal v-if="role == 1 " :active-name="activeName" @handleInfo="handleInfo" />
     </div>
     <Footer />
   </div>
@@ -65,6 +65,7 @@ export default {
       this.activeName = tab.name;
     },
     handleInfo(res){
+      console.log(res, 'resresres')
       this.userInfo = res
     }
   }
