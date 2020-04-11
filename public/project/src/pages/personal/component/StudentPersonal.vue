@@ -5,7 +5,9 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img :src="ruleForm.identityImg" />
+            <img v-if="ruleForm.headImg" :src="ruleForm.headImg" />
+            <img v-else src="/img/img_student.png" />
+
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
@@ -186,6 +188,13 @@ export default {
         if (res.data.code == 200) {
           console.log(res.data.data,'res.data.data;')
             this.ruleForm = res.data.data;
+            this.ruleForm.grade = res.data.data.grade_label
+            // 给父组件传用户信息值
+            this.$emit('handleInfo',{
+              headImg: res.data.data.headImg || '/img/img_student.png',
+              userName: res.data.data.userName,
+              mobile: res.data.data.mobile
+            })
             
         }else{
           this.$message.error(res.data.msg);
@@ -263,6 +272,8 @@ export default {
         identityImg: this.ruleForm.identityImg,
         studentCardImg: this.ruleForm.studentCardImg
       }
+      console.log(params,'params')
+      return false
       apiResetUserUpdate(params).then(res=>{
         if (res.data.code == 200) {
           this.$message.success('修改成功');
@@ -274,7 +285,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 @import "@/assets/base.scss";
 @import "../../register/component/ele-reset.css";
 .student-personal {
@@ -292,7 +303,6 @@ export default {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 1px solid #d3dce6;
       margin: 0 auto;
     }
     .content-first-desc {

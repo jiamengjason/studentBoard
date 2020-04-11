@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <Hearder />
     <div class="login-bg">
       <div class="login-warp">
@@ -10,7 +10,7 @@
             <input v-model="loginInput" type="text" placeholder="请输入手机号码/邮箱" />
           </p>
           <p>
-            <input v-model="loginPwd" type="password" placeholder="请输入密码" />
+            <input v-model="loginPwd" type="password" placeholder="请输入密码" @keyup.enter="toLoginFn" />
           </p>
         </div>
         <p class="login-btn" @click="toLoginFn">登录</p>
@@ -29,8 +29,11 @@ import Footer from "@/components/Footer";
 import { homePage } from "@/mixin/home";
 import { apiLoginDoPost } from "@/apis/api";
 export default {
+  components:{
+    Hearder,
+    Footer
+  },
   mixins: [homePage],
-
   data() {
     return {
       loginInput: "",
@@ -65,6 +68,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/base.scss";
+.login{
+  .st-footer{
+    padding-top:30px;
+  }
+}
 .login-bg{
   font-family:Source Han Sans CN;
   width: 100%;
