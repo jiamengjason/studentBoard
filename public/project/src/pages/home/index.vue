@@ -356,6 +356,7 @@ export default {
       p{
         text-align: left;
         line-height: 28px;
+        margin: 0;
         span{
           font-size:18px;
           font-weight:400;
@@ -413,6 +414,7 @@ export default {
         line-height: 40px;
         overflow: hidden;
         padding: 0 20px;
+        margin: 0;
       }
       .tit{
         font-size:28px;

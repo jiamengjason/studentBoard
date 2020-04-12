@@ -234,6 +234,7 @@ export default {
 // 验证码
 .container {
   width: 310px;
+  background: #f7f7f7;
 }
 input {
   display: block;

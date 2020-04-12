@@ -291,12 +291,18 @@ export default {
         studentCardImg: this.ruleForm.studentCardImg
       }
       console.log(params,'params')
-      apiResetUserUpdate(params).then(res=>{
-        if (res.data.code == 200) {
-          this.$message.success('修改成功');
-          this.getUserInfo() // 重新获取个人信息
-        }else{
-          this.$message.error(res.data.msg);
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          apiResetUserUpdate(params).then(res=>{
+            if (res.data.code == 200) {
+              this.$message.success('修改成功');
+              this.getUserInfo() // 重新获取个人信息
+            }else{
+              this.$message.error(res.data.msg);
+            }
+          })
+        } else {
+          this.$message.error('输入信息不完整')
         }
       })
     }
@@ -343,7 +349,7 @@ export default {
   .add-info-img-btn{
     width: 120px;
     height: 36px;
-     background: $orangeColor;
+    background: $orangeColor;
     border-radius: 4px;
     line-height: 36px;
     color: #fff;

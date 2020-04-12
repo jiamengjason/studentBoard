@@ -44,14 +44,29 @@
                   <el-input v-model="ruleForm.organizationWww"></el-input>
                 </el-form-item>
               </el-col>             
+            </el-row>
+            <!-- 选择业务 -->
+            <el-row :gutter="20"> 
+              <el-col :span="26"> 
+                <el-form-item
+                  label="选择业务："                  
+                  :rules="{required: true, message: '请选择业务', trigger: 'change'}"
+                >
+                  <el-checkbox-group v-model="organizationYewu" style="text-align:left;">
+                    <el-checkbox-button v-for="item in yewuList" :key="item" :label="item">
+                      {{ item }}
+                    </el-checkbox-button>
+                  </el-checkbox-group>                
+                </el-form-item>
+              </el-col>
             </el-row>                                          
             <!-- 业务、电话 -->
-            <el-row :gutter="20">
+            <el-row :gutter="20">  
               <el-col :span="8">
-                <el-form-item label="业务：" prop="organizationYewu">
-                  <el-input v-model="ruleForm.organizationYewu"></el-input>
-                </el-form-item>
-              </el-col>  
+                <el-form-item label="手机号码：" class="text-left">
+                  {{ ruleForm.mobile }}
+                </el-form-item>                
+              </el-col>           
               <el-col :span="8" :offset="5">
                 <el-form-item label="机构电话：">
                   <el-input v-model="ruleForm.organizationPhone"></el-input>
@@ -59,18 +74,14 @@
               </el-col>           
             </el-row>
             <!-- 手机号码、邮件 -->
-            <el-row :gutter="10">            
+            <el-row :gutter="20">            
               <el-col :span="8">
                 <el-form-item label="邮件：" class="text-left">
                   {{ ruleForm.organizationEmail }}
                 </el-form-item>
               </el-col>
-              <el-col :span="8" :offset="5">
-                <el-form-item label="手机号码：" class="text-left">
-                  {{ ruleForm.mobile }}
-                </el-form-item>                
-              </el-col>
             </el-row>
+            
             <!-- 邮件 email -->
             <el-row :gutter="20">                             
               <el-col :span="8">
@@ -112,13 +123,13 @@ import PersonBase from "./PersonalBase.vue";
 import OrgActivity from "./OrgActivity.vue";
 import OrgRelease from "./OrgRelease.vue";
 import { 
+  apiGetSiteConfig,
   apiGetUserInfo,
   apiResetUserUpdate,
   apiPostUploadFile 
 } from "@/apis/api";
 
 const uploadParam = new FormData() // 创建form对象
-
 
 export default {
   components: {
@@ -139,18 +150,18 @@ export default {
         organizationEmail: "" ,
         organizationPhone: "",
         organizationDesc: "" ,
-        organizationYewu: "",
         mobile: "",
         organizationWww: "",
-        identityImg: ""
+        identityImg: "",      
       },
-      checkImg:true,
-      uploadConfig:{},  // 上传的时候设置config
+      organizationYewu: [],
+      checkImg: true,
+      uploadConfig: {},  // 上传的时候设置config
+      yewuList: [],
       rules: {
         organizationName: [
           { required: true, message: "请输入机构名称", trigger: "blur" }
         ],
-        organizationYewu: [{ required: true, message: "请输入业务", trigger: "blur" }],
         organizationWww: [{ required: true, message: "请输入官网地址", trigger: "blur" }] 
       }
     };
@@ -171,9 +182,20 @@ export default {
     },
   },
   created() {
+    this.getSiteConfig();
     this.getOrgInfo();
   },
   methods:{
+    // 获取网站配置
+    getSiteConfig(){
+      apiGetSiteConfig().then(res => {
+        if (res.data.code == 200) {
+          this.yewuList = res.data.data.organization_yewu;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
     // 获取机构信息
     getOrgInfo(){
       let params = {
@@ -183,6 +205,7 @@ export default {
       apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {      
           this.ruleForm = res.data.data;
+          this.organizationYewu = res.data.data.organizationYewu;
           // 给父组件传用户信息值
           this.$emit('handleInfo',{
             headImg: res.data.data.headImg || '/img/img_org.png',
@@ -246,20 +269,31 @@ export default {
         organizationName: this.ruleForm.organizationName,
         organizationEmail: this.ruleForm.organizationEmail,
         organizationDesc: this.ruleForm.organizationDesc,
-        organizationYewu: this.ruleForm.organizationYewu,
+        organizationYewu: this.organizationYewu,
         mobile: this.ruleForm.mobile,
         organizationWww: this.ruleForm.organizationWww,
         identityImg: this.ruleForm.identityImg
       }
       console.log(params,'params')
-      apiResetUserUpdate(params).then(res=>{
-        if (res.data.code == 200) {
-          this.$message.success('修改成功');
-          this.getOrgInfo() // 重新获取个人信息
-        }else{
-          this.$message.error(res.data.msg);
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          if(this.organizationYewu.length > 0){
+            apiResetUserUpdate(params).then(res=>{
+              if (res.data.code == 200) {
+                this.$message.success('修改成功');
+                this.getOrgInfo() // 重新获取个人信息
+              }else{
+                this.$message.error(res.data.msg);
+              }
+            })
+          }else{
+            this.$message.error('输入信息不完整');
+          }          
+        } else {
+          this.$message.error('输入信息不完整');
         }
       })
+      
     }
   }
 };

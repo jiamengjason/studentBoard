@@ -145,6 +145,7 @@ export default {
         line-height: 40px;
         overflow: hidden;
         padding: 0 20px;
+        margin: 0;
       }
       .tit{
         font-size:28px;
