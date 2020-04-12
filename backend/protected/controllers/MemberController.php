@@ -26,6 +26,14 @@ class MemberController extends FSessionInterfaceBase
         if (false == $this->isPostRequest()){
             $this->outputParamsError();
         }
+        //老师课程
+        if (isset($this->_requestParams['teacherCourse']) && !empty($this->_requestParams['teacherCourse'])){
+            $this->_requestParams['teacherCourse'] = implode(',', $this->_requestParams['teacherCourse']);
+        }
+        //机构业务
+        if (isset($this->_requestParams['organizationYewu']) && !empty($this->_requestParams['organizationYewu'])){
+            $this->_requestParams['organizationYewu'] = implode(',', $this->_requestParams['organizationYewu']);
+        }
 
         //编辑用户信息
         $usersService = new UsersService();

@@ -133,7 +133,8 @@ class UsersService
             'organizationYewu'  => 'organization_yewu',
             'organizationPhone' => 'organization_phone',
             'organizationWww'   => 'organization_www',
-            'parentId'          => 'parent_id'
+            'parentId'          => 'parent_id',
+            'teacherCourse'     => 'teacher_course'
         ];
 
         $data = [];
