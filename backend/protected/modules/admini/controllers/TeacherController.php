@@ -18,8 +18,11 @@ class TeacherController extends XAdminiBase
         $result = $usersService->adminGetUsersPageList(RoleGroupListConfig::$teacherRoleId);
 
         //查询对应机构信息
-        $organizationList = [];
-        $parentIds = array_column($result['list'], 'parent_id');
+        $organizationList = $parentIds = [];
+        foreach ($result['list'] as $item){
+            $parentIds[] = $item->getAttribute('parent_id');
+        }
+        $parentIds = array_unique($parentIds);
         if (!empty($parentIds)){
             $where = 'id in ('.implode(',', $parentIds).')';
             $select = 'id,organization_name';
