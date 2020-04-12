@@ -57,6 +57,7 @@ class TeachersController extends FInterfaceBase
             'teacher_id' => $teacherId,
             'avg_score' => $avgScore,
             'teacher_name' => $userInfo['userName'],
+            'teacher_course' => $userInfo['teacherCourse'],
             'head_img' => $userInfo['headImg'],
             'organization_id' => $userInfo['parentId'],
             'organization_name' => isset($organizationList[$userInfo['parentId']]) ? $organizationList[$userInfo['parentId']]['organization_name'] : '',

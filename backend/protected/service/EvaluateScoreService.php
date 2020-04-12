@@ -300,12 +300,12 @@ where '.$where.' order by e.create_time desc '.$limitSql;
         if (empty($evaInfo) || empty($evaInfo->getAttributes())){
             return false;
         }
-
+        $params = [];
         if ($type == 'like'){
-            $evaInfo->setAttribute('give_like', $evaInfo->getAttribute('give_like') + 1);
+            $params['give_like'] = $evaInfo->getAttribute('give_like') + 1;
         }else {
-            $evaInfo->setAttribute('give_dislike', $evaInfo->getAttribute('give_dislike') + 1);
+            $params['give_dislike'] = $evaInfo->getAttribute('give_dislike') + 1;
         }
-        return $evaInfo->save();
+        return EvaluateScore::model()->updateByPk($commentId, $params);
     }
 }

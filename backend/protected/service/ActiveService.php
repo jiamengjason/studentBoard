@@ -13,6 +13,7 @@ class ActiveService
         $activeModel = new Active();
         $criteria = new CDbCriteria();
         $criteria->order = 't.end_time DESC';
+        $criteria->with = array ('users');
         if (!empty($params)){
             $condition = '1 ';
             foreach ($params as $field=>$v){
@@ -43,7 +44,10 @@ class ActiveService
         $data = [];
         $time = time();
         foreach ($list as $item){
+            $organizationInfo = $item->users->getAttributes();
             $data[] = [
+                'organization_id' => $item['user_id'],
+                'organization_name' => $organizationInfo['organization_name'],
                 'active_id' => $item['id'],
                 'title' => $item['title'],
                 'title_img' => $item['title_img'],
@@ -56,7 +60,14 @@ class ActiveService
             ];
         }
 
-        return ['list'=>$data, 'total_num' => $count,'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
+        return [
+            'list'=>$data,
+            'total_num' => $count,
+            'page_count'=>$pages->getPageCount(),
+            'page'=>$pages->getCurrentPage() + 1,
+            'page_size'=>$pages->getPageSize(),
+            'page_bar'=>$pages
+        ];
     }
 
     /**

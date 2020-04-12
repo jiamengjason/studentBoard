@@ -13,13 +13,10 @@ class ActivesController extends XAdminiBase
     {
         parent::_acl();
 
-        //查询家长列表
-        $usersService = new UsersService();
-        $result = $usersService->adminGetUsersPageList(RoleGroupListConfig::$parentRoleId);
+        $activesService = new ActiveService();
+        $result = $activesService->getActiveListByParams([]);
 
-        $gradeList = CommonEnums::getGradeIdList();
-
-        $this->render('parent_index', array ('datalist' => $result['list'] , 'pagebar' => $result['pages'], 'gradeList'=>$gradeList));
+        $this->render('actives_index', array ('datalist' => $result['list'] , 'pagebar' => $result['page_bar']));
     }
 
     /**
