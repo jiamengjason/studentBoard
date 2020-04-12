@@ -125,7 +125,7 @@ export default {
     return {
       search:'',
       homeData:{}
-    };
+    }
   },
   created() {
     this.getHomeData()
