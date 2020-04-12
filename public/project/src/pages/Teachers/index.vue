@@ -65,8 +65,9 @@ export default {
   },
   data() {
     return {
-      search:'',
+      teacher_name:'',
       teaList: [],
+      type: '',
       pageConfig: {
         page: 1,
         page_size: 20,
@@ -80,9 +81,14 @@ export default {
     this.getList()
   },
   methods: {
+    goSearch(value){
+      this.teacher_name = value
+      this.getList()
+    },
     getList(){
       // 获取教师列表
       apiGetTeachersList({
+        'teacher_name': this.teacher_name,
         'page': this.pageConfig.page,
         'page_size': this.pageConfig.page_size,
         'score_sort': this.score_sort
@@ -100,6 +106,11 @@ export default {
     changeSearchType(value){
       this.type = value
       console.info('父组件value=====', this.type)
+      if(value || value == 0){
+        if(value == 1) this.score_sort = 'asc'
+        if(value == 2) this.score_sort = 'desc'
+        this.getList()
+      }
     }
   }
 };
