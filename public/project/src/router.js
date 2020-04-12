@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "./pages/home/index";
+import Search from "./pages/search/index";
 import Organization from "./pages/organization/index"
 import OrganizationInfo from "./pages/organizationinfo/index"
 import OrganizationValuation from "./pages/OrganizationValuation/index"
@@ -49,6 +50,13 @@ const router = new Router({
       //     }
       //   }
       // ]
+    }, {
+      path: "/search",
+      name: 'search',
+      component: Search,
+      meta: {
+        title: "搜索"
+      }
     }, {
       path: "/organization",
       name: 'organization',
