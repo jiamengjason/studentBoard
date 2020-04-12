@@ -10,7 +10,7 @@
     <!-- 机构 -->
     <el-row :gutter="10">
       <el-col :span="8">
-        <el-form-item label="所属机构：" prop="organization">
+        <el-form-item label="所属机构：" prop="orgValue">
           <el-select v-model="ruleForm.orgValue" placeholder="请选择机构" class="organization">
             <el-option
               v-for="(item,index) in orgOptions"
@@ -75,7 +75,7 @@ export default {
       timerNum: 5,
       timer: null,
       rules: {
-        organization: [{ required: true, message: "请选择机构", trigger: "change" }],
+        orgValue: [{ required: true, message: "请选择机构", trigger: "change" }],
         vertifyMeg: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       }
     };

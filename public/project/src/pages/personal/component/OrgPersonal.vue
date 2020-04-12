@@ -32,7 +32,7 @@
             label-width="100px"
             class="personal-ruleForm"
           >
-            <!-- 机构名称、简介 -->
+            <!-- 机构名称、官网 -->
             <el-row :gutter="20">
               <el-col :span="8">
                 <el-form-item label="名称：" prop="organizationName">
@@ -40,40 +40,40 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="简介：" prop="organizationDesc">
-                  <el-input v-model="ruleForm.organizationDesc" type="textarea" class="org-desc"></el-input>
+                <el-form-item label="官网：" prop="organizationWww">
+                  <el-input v-model="ruleForm.organizationWww"></el-input>
                 </el-form-item>
-              </el-col>
-            </el-row>
-            <!-- 手机号码 -->
-            <el-row :gutter="10">
-              <el-col :span="8" style="margin-top:-50px;">
-                <el-form-item label="手机号码：" class="text-left">
-                  {{ ruleForm.organizationPhone }}
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <!-- 业务、官网 -->
+              </el-col>             
+            </el-row>                                          
+            <!-- 业务、电话 -->
             <el-row :gutter="20">
               <el-col :span="8">
                 <el-form-item label="业务：" prop="organizationYewu">
                   <el-input v-model="ruleForm.organizationYewu"></el-input>
                 </el-form-item>
-              </el-col>
+              </el-col>  
               <el-col :span="8" :offset="5">
-                <el-form-item label="官网：" prop="organizationWww">
-                  <el-input v-model="ruleForm.organizationWww"></el-input>
+                <el-form-item label="机构电话：">
+                  <el-input v-model="ruleForm.organizationPhone"></el-input>
                 </el-form-item>
-              </el-col>
+              </el-col>           
             </el-row>
-            <!-- 身份证 -->
-            <el-row :gutter="20">
+            <!-- 手机号码、邮件 -->
+            <el-row :gutter="10">            
               <el-col :span="8">
-                <el-form-item label="Email：" class="text-left">
+                <el-form-item label="邮件：" class="text-left">
                   {{ ruleForm.organizationEmail }}
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
+                <el-form-item label="手机号码：" class="text-left">
+                  {{ ruleForm.mobile }}
+                </el-form-item>                
+              </el-col>
+            </el-row>
+            <!-- 邮件 email -->
+            <el-row :gutter="20">                             
+              <el-col :span="8">
                 <el-form-item label="身份证：" class="text-left">
                   <span v-if="ruleForm.identityImg" class="upload-state">已上传</span>
                   <span v-else class="upload-state">未上传</span>
@@ -87,6 +87,11 @@
                   >
                     <span>{{ uploadText }}</span>
                   </el-upload>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" :offset="5">
+                <el-form-item label="机构简介：">
+                  <el-input v-model="ruleForm.organizationDesc" type="textarea" class="org-desc"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -132,9 +137,10 @@ export default {
         headImg:"",
         organizationName: "" ,
         organizationEmail: "" ,
+        organizationPhone: "",
         organizationDesc: "" ,
         organizationYewu: "",
-        organizationPhone: "",
+        mobile: "",
         organizationWww: "",
         identityImg: ""
       },
@@ -144,7 +150,6 @@ export default {
         organizationName: [
           { required: true, message: "请输入机构名称", trigger: "blur" }
         ],
-        organizationDesc: [{ required: true, message: "请输入简介", trigger: "blur" }],
         organizationYewu: [{ required: true, message: "请输入业务", trigger: "blur" }],
         organizationWww: [{ required: true, message: "请输入官网地址", trigger: "blur" }] 
       }
@@ -242,7 +247,7 @@ export default {
         organizationEmail: this.ruleForm.organizationEmail,
         organizationDesc: this.ruleForm.organizationDesc,
         organizationYewu: this.ruleForm.organizationYewu,
-        organizationPhone: this.ruleForm.organizationPhone,
+        mobile: this.ruleForm.mobile,
         organizationWww: this.ruleForm.organizationWww,
         identityImg: this.ruleForm.identityImg
       }
@@ -276,7 +281,8 @@ export default {
     height: 110px;
     .el-textarea__inner{
       resize:none;
-      padding: 20px;
+      min-height: 100px!important;
+      padding: 2px 4px;
     }
   }
   .grid-content-first {
@@ -312,11 +318,28 @@ export default {
   }
   .text-left{
     text-align: left;
+    .el-form-item__content{
+      display: flex;
+    }
+    .upload-state{
+      margin-right:10px;
+      width: 50px;
+    }
+  }
+  .add-info-img-btn{
+    width: 120px;
+    height: 36px;
+    background: $orangeColor;
+    border-radius: 4px;
+    line-height: 36px;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
   }
   .personal-top-save-btn {
     width: 300px;
     height: 40px;
-    background: orangeColor;
+    background: $orangeColor;
     border-radius: 5px;
     font-size: 20px;
     color: #fff;

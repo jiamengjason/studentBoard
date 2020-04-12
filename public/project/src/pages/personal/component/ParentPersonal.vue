@@ -40,7 +40,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="Email：" class="text-left">
+                <el-form-item label="邮件：" class="text-left">
                   {{ ruleForm.email }}
                 </el-form-item>
               </el-col>
