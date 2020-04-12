@@ -258,4 +258,34 @@ where '.$where.' order by e.create_time desc '.$limitSql;
         $data['list'] = $rs;
         return $data;
     }
+
+    /**
+     * 查询明星评论
+     * @param $params
+     * @return array
+     */
+    public function getStartCommentList($params){
+        $evaluated_uid = $params['evaluated_uid'];
+        $sql = 'select * from sb_evaluate_score where evaluated_uid = '.$evaluated_uid.' order by score desc,give_like desc,create_time desc limit 1';
+
+        $dbHandel = Yii::app()->db;
+        $commentList = $dbHandel->createCommand($sql)->queryAll();
+        if (!isset($commentList[0])){
+            return false;
+        }
+        $data = [
+            'comment_id' => $commentList[0]['id'],
+            'evaluated_uid' => $commentList[0]['evaluated_uid'],
+            'user_id' => $commentList[0]['user_id'],
+            'score' => $commentList[0]['score'],
+            'is_recommend' => $commentList[0]['is_recommend'],
+            'tags' => $commentList[0]['tags'],
+            'comment' => $commentList[0]['comment'],
+            'give_like' => $commentList[0]['give_like'],
+            'give_dislike' => $commentList[0]['give_dislike'],
+            'create_time' => $commentList[0]['create_time']
+        ];
+
+        return $data;
+    }
 }
