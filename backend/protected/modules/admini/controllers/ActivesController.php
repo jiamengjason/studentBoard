@@ -20,25 +20,23 @@ class ActivesController extends XAdminiBase
     }
 
     /**
-     * 家长编辑
+     * 活动编辑
      * @param $id
      * @throws CHttpException
      */
     public function actionUpdate ($id){
         parent::_acl(); 
-        $model = parent::_dataLoad(new Users(), $id);
+        $model = parent::_dataLoad(new Active(), $id);
         
-        if (isset($_POST['Users'])) {
-            $model->attributes = $_POST['Users'];
+        if (isset($_POST['Active'])) {
+            $model->attributes = $_POST['Active'];
             
             if ($model->save()) {
-                AdminLogger::_create(array ('catalog' => 'update' , 'intro' => '更新家长资料:' . $model->user_name ));
                 $this->redirect(array ('index'));
             }
         }
-        $model->gradeIdList = CommonEnums::getGradeIdList();
 
-        $this->render('parent_update', array ('model' => $model ));
+        $this->render('actives_update', array ('model' => $model ));
     }
 
     /**
@@ -61,8 +59,8 @@ class ActivesController extends XAdminiBase
         switch ($command) {
             case 'delete':
                 parent::_acl('admin_delete');
-                AdminLogger::_create(array ('catalog' => 'delete' , 'intro' => '删除家长,ID:' . $ids ));
-                parent::_delete(new Users(), $ids, array('index'));
+                AdminLogger::_create(array ('catalog' => 'delete' , 'intro' => '删除活动,ID:' . $ids ));
+                parent::_delete(new Active(), $ids, array('index'));
                 break;
             default:
                 throw new CHttpException(404, '错误的操作类型:' . $command);

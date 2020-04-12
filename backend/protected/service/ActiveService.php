@@ -55,6 +55,7 @@ class ActiveService
                 'addr' => $item['addr'],
                 'start_time' => $item['start_time'],
                 'end_time' => $item['end_time'],
+                'is_command' => $item['is_command'],
                 //活动是否开始：1进行中 2未开始 3已过期
                 'status' => strtotime($item['start_time']) > $time ? 2 : (strtotime($item['end_time']) > $time ? 1 : 3)
             ];

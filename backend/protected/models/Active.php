@@ -22,7 +22,7 @@ class Active extends XBaseModel
 	{
         return array(
             array('user_id,title_img,title,desc,addr,start_time,end_time', 'required'),
-            array('user_id,title_img,title,desc,addr,start_time,end_time,status_is,sign_in,create_time', 'safe'),
+            array('user_id,title_img,title,desc,addr,start_time,end_time,status_is,sign_in,create_time,is_command', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
 //            array('id, post_id, user_id, nickname, email, content, status_is, status_answer, answer_content, client_ip, create_time', 'safe', 'on'=>'search'),
