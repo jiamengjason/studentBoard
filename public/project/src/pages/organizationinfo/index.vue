@@ -400,7 +400,7 @@ export default {
         // 用户名
         .con{
           text-align: left;
-          width: 1240px;
+          width: 1200px;
           padding-left: 40px;
           float: left;
           font-size:16px;

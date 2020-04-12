@@ -87,9 +87,9 @@ export default {
     getCurrtActive(){
       console.info('this.route', this.$route)
       // 著名机构
-      if(this.$route.name == 'organization' || this.$route.name == 'organizationinfo'){
+      if(this.$route.name == 'organization' || this.$route.name == 'organizationinfo' || this.$route.name == 'orgvaluation'){
         this.activeIndex = '2'
-      }else if(this.$route.name == 'teachers' || this.$route.name == 'teachersinfo'){
+      }else if(this.$route.name == 'teachers' || this.$route.name == 'teachersinfo'|| this.$route.name == 'teachervaluation'){
         // 知名教师
         this.activeIndex = '3'
       }else if(this.$route.name == 'activity' || this.$route.name == 'activityinfo'){
