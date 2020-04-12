@@ -68,3 +68,8 @@ export const apiGetActiveInfo = params => {
 export const apiDoLikeDislike = params => {
   return request.get(`${defaultPath}comment/do`, params);
 };
+
+// 首页搜索
+export const apiSearch = params => {
+  return request.get(`${defaultPath}site/index`, params);
+};

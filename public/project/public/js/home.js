@@ -5,13 +5,32 @@ $(document).scroll(function() {
 	var defaultShowHead = true
  
 	if(scroH >100){  //距离顶部大于100px时
-		console.info('设置')
+		console.info('变化颜色')
 		if(defaultShowHead){
-
+			if(defaultShowHead){
+				$("#headerBar").addClass("blackHead")
+				// banner图上的搜索隐藏
+				$("#conSearch").css('display', 'none')
+				// 导航图上的搜索显示
+				$("#headerSearch").css('display', 'block')
+				// 菜单隐藏
+				$("#elmenu").css('display', 'none')
+				$("#langth").css('display', 'none')
+				defaultShowHead = false
+			}
 		}
 	}
-	if (contentH - (scroH + viewH) <= 100){  //距离底部高度小于100px
-		 
+	if (scroH <= 100){  //距离顶部小于100px
+		console.info('背景白色')
+		$("#headerBar").removeClass("blackHead")
+		// 导航图上的搜索隐藏
+		$("#headerSearch").css('display', 'none')
+		// banner图上的搜索显示
+		$("#conSearch").css('display', 'block')
+		// 菜单显示
+		$("#elmenu").css('display', 'block')
+		$("#langth").css('display', 'block')
+		defaultShowHead = true
 	} 
 })
 // window.fullpage = function () {

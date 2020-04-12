@@ -1,8 +1,10 @@
 <template>
   <div class="jigou-item">
     <div class="img">
-      <el-image v-if="item.head_img" :src="item.head_img" fit="fill"></el-image>
-      <el-image v-else src="/img/home/jigou.jpg" fit="fill"></el-image>
+      <el-image style="width: 335px; height: 252px"
+        :src="item.head_img ? item.head_img : '/img/avatar_jigou.png'"
+        fit="contain">
+      </el-image>
     </div>
     <div class="con">
       <p>
@@ -50,6 +52,7 @@ export default {
   .img{
     width:335px;
     height:252px;
+    background: #cccccc;
     img{
       border-radius:10px 10px 0px 0px;
       max-width: 100%;

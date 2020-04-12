@@ -8,16 +8,10 @@
         <div class="section-con firstPage">
           <div class="st-banner">
             <!-- 搜索 -->
-            <div class="st-search">
-              <el-input
-                placeholder="请输入内容"
-                suffix-icon="el-icon-search"
-                :model="search"
-              >
+            <div class="st-search" id="conSearch">
+              <el-input v-model="search" placeholder="请输入内容" class="input-with-select">
+                <el-button slot="append" icon="el-icon-search" @click="goSearch"></el-button>
               </el-input>
-              <!-- <el-input placeholder="请输入内容">
-                <el-button slot="append" icon="el-icon-search"></el-button>
-              </el-input> -->
             </div>
             
             <!-- nav -->
@@ -139,6 +133,14 @@ export default {
           this.$message.error('服务升级中，请稍后访问...');
         }
       })
+    },
+    goSearch(){
+      this.$router.push({
+        name: 'search',
+        query:{
+          seatchText: this.search
+        }
+      })
     }
   }
 };
@@ -217,7 +219,7 @@ export default {
     // 搜索
     .st-search{
       width: 800px;
-      padding-top: 100px;
+      padding-top: 170px;
       font-size:20px;
       font-weight:400;
       margin: 0 auto;
@@ -312,6 +314,22 @@ export default {
   position: relative;  
   .st-column-more{
     margin-bottom: 100px;
+  }
+}
+</style>
+<style lang="scss">
+// 搜索
+.st-search{
+  .el-input-group{
+    .el-input-group__append{
+      cursor: pointer;
+      background: none!important;
+      background-color: transparent!important;
+      border: none;
+      position: absolute;
+      right: 20px;
+      top: 12px;
+    }
   }
 }
 </style>
