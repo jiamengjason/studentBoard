@@ -43,7 +43,7 @@ export default {
         re_password: regBase.model.truePwd,
         email: regBase.model.email,
         valid_code: teacherReg.model.vertifyMeg,
-        p_id: teacherReg.model.orgValue,
+        parent_id: teacherReg.model.orgValue,
         identity_img: teacherReg.model.imageId
       };
       console.log(params, "params");

@@ -111,6 +111,7 @@ export default {
       if (this.mobile) {
         apiGetValidCodePost({ mobile: this.mobile }).then(res => {
           if (res.data.code == 200) {
+            this.$message.success('发送验证码成功')
             this.clickCodeFlag = true;
             this.timer = setInterval(this.cutDown, 1000);
           }else{

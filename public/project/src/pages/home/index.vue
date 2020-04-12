@@ -44,27 +44,9 @@
           <div class="st-column-tit">著名机构</div> 
           <div class="st-column-con">
             <el-row :gutter="20">
-              <el-col v-for="i in 4" :key="i" :span="6">
+              <el-col v-for="(item,index) in homeData.organization_list" :key="index" :span="6">
                 <router-link :to="{name: 'organizationinfo', query:{organization_id: '3'}}">
-                  <div class="jigou-item">
-                    <div class="img">
-                      <img src="/img/home/jigou.jpg" alt="">
-                    </div>
-                    <div class="con">
-                      <p>
-                        <span class="leftlabel">评分：</span>
-                        <span class="sore">4.7</span>
-                      </p>
-                      <p class="kcclass">
-                        <span class="leftlabel">课程：</span>
-                        <span>电商类别</span>
-                      </p>
-                      <p>
-                        <span class="leftlabel">团队：</span>
-                        <span>孙老师 刘老师 王老师 </span>
-                      </p>
-                    </div>
-                  </div>
+                  <OrgList :item="item" />
                 </router-link>
               </el-col>
             </el-row>
@@ -81,27 +63,13 @@
           <div class="st-column-tit">知名教师</div> 
           <div class="st-column-con">
             <el-row :gutter="20">
-              <el-col v-for="i in 4" :key="i" :span="6">
+              <el-col
+                v-for="(item,index) in homeData.teacher_list"
+                :key="index"
+                :span="6"
+              >
                 <router-link :to="{name: 'teachersinfo', query: {teacher_id: 17}}">
-                  <div class="jigou-item">
-                    <div class="img">
-                      <img src="/img/home/jiaoshi.jpg" alt="">
-                    </div>
-                    <div class="con">
-                      <p>
-                        <span class="leftlabel">评分：</span>
-                        <span class="sore">4.7</span>
-                      </p>
-                      <p class="kcclass">
-                        <span class="leftlabel">机构：</span>
-                        <span>进入教育机构</span>
-                      </p>
-                      <p>
-                        <span class="leftlabel">团队：</span>
-                        <span>老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感觉自己进步很大，老师讲的特别棒，感...</span>
-                      </p>
-                    </div>
-                  </div>
+                  <TeachList :item="item" />
                 </router-link>
               </el-col>
             </el-row>
@@ -119,19 +87,8 @@
           <div class="st-column-con">
             <el-row :gutter="20">
               <router-link :to="{name: 'activityinfo', query: { 'active_id': 5 }}">
-                <el-col v-for="i in 2" :key="i" :span="12">
-                  <div class="huodong-item">
-                    <div class="img">
-                      <img src="/img/home/huodong.jpg" alt="">
-                    </div>
-                    <div class="con">
-                      <p class="tit">
-                        基础插画公开课
-                        <span class="ing">进行中</span>
-                      </p>
-                      <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
-                    </div>
-                  </div>
+                <el-col v-for="(item,index) in homeData.active_list" :key="index" :span="12">
+                  <ActiveList :item="item" />                  
                 </el-col>
               </router-link>
             </el-row>
@@ -149,48 +106,61 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
+import OrgList from "./components/OrgList";
+import TeachList from "./components/TeachList";
+import ActiveList from "./components/ActiveList";
+
+import { apiHomeInfo } from "@/apis/api";
+
 // import fullPage from "../assets/home.js"
 export default {
-  name: "Home",
   components: {
     Hearder,
-    Footer
+    Footer,
+    OrgList,
+    TeachList,
+    ActiveList
   },
   data() {
     return {
-      search:''
+      search:'',
+      homeData:{}
     };
   },
-  computed: {},
-  mounted() {
-    // this.dowebok()
+  created() {
+    this.getHomeData()
   },
   methods: {
-    dowebok() {
-      console.info('11111')
-      // window.fullpage()
-      // this.$router.go(0)
+    getHomeData(){
+      apiHomeInfo().then(res => {
+        if(res.data.code == 200){
+          this.homeData = res.data.data
+        }else{
+          this.$message.error('服务升级中，请稍后访问...');
+        }
+      })
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-// @import "../../assets/jquery.fullPage.scss";
+@import "@/assets/base.scss";
+
 .el-input__inner {
   max-width: 100%!important;
 }
 .section-con{
-  padding: 80px 0 0 0;
+  padding-top: 80px 0 0 0;
   width: 100%;
   height: 100%;
 }
 // 标题
 .st-column-tit{
-  width:300px;
-  font-size:34px;
+  width: 300px;
+  font-size: 34px;
   height: 60px;
-  font-weight:500;
+  font-weight: 500;
   color:rgba(51,51,51,1);
   margin: 75px auto 30px auto;
   position: relative;
@@ -199,10 +169,10 @@ export default {
     position: absolute;
     left: 50%;
     bottom: 0;
-    width:60px;
-    height:6px;
-    background:rgba(255,112,1,1);
-    border-radius:3px;
+    width: 60px;
+    height: 6px;
+    background:$orangeColor;
+    border-radius: 4px;
     margin-left: -30px;
   }
 }
@@ -334,129 +304,14 @@ export default {
 }
 
 // 第二屏
-.secondPage,.thirdPage{
-  .jigou-item{
-    background:rgba(255,255,255,1);
-    border-radius:10px;
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-    // 图片
-    .img{
-      width:335px;
-      height:252px;
-      img{
-        border-radius:10px 10px 0px 0px;
-        max-width: 100%;
-        max-height: 100%;
-      }
-    } 
-    .con{
-      background:rgba(255,255,255,1);
-      padding: 20px;
-      border-radius:0px 0px 10px 10px;
-      p{
-        text-align: left;
-        line-height: 28px;
-        margin: 0;
-        span{
-          font-size:18px;
-          font-weight:400;
-          color:#333333;
-        }
-        .leftlabel{
-          color: #666666;
-        }
-        .sore{
-          color:#ff7001;
-          font-size: 26px;
-        }
-      }
-    }
-  }
-}
 
 // 第三屏
-.thirdPage{
-  .con{
-    height: 192px;
-  }
-}
 
 // 第四屏
 .fourthPage{
-  position: relative;
-  // .homefooter{
-  //   width: 100%;
-  //   position: absolute;
-  //   left: 0;
-  //   bottom: 0;
-  // }
-  .huodong-item{
-    background:rgba(255,255,255,1);
-    border-radius:10px;
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-    // 图片
-    .img{
-      width:690px;
-      height:229px;
-      img{
-        border-radius:10px 10px 0px 0px;
-        max-width: 100%;
-        max-height: 100%;
-      }
-    } 
-    .con{
-      height: 110px;
-      overflow: hidden;
-      padding-top: 15px;
-      p{
-        text-align: left;
-        height: 40px;
-        line-height: 40px;
-        overflow: hidden;
-        padding: 0 20px;
-        margin: 0;
-      }
-      .tit{
-        font-size:28px;
-        font-weight:400;
-        color:rgba(51,51,51,1);
-        position: relative;
-        .ing{
-          position: absolute;
-          right: 0;
-          top: 0;
-          width: 99px;
-          height: 32px;
-          line-height: 32px;
-          background: url(/img/home/ing-bg.png) no-repeat;
-          font-size:18px;
-          color:rgba(255,255,255,1);
-          text-align: center;
-        }
-        .end{
-          position: absolute;
-          right: 0;
-          top: 0;
-          width: 99px;
-          height: 32px;
-          line-height: 32px;
-          background: url(/img/home/end-bg.png) no-repeat;
-          font-size:18px;
-          color:rgba(255,255,255,1);
-          text-align: center;
-        }
-      }
-      
-      .desc{
-        font-size:24px;
-        font-weight:400;
-        color:rgba(153,153,153,1);
-        line-height:48px;
-      }
-    }
-  }
+  position: relative;  
   .st-column-more{
-    margin-bottom: 40px;
+    margin-bottom: 100px;
   }
 }
 </style>
