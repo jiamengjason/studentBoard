@@ -5,6 +5,10 @@ export const homePage = {
     };
   },
   methods: {
+    // 去个人中心
+    toPersonalPageFn() {
+      this.$router.push("/personal");
+    },
     // 忘记密码
     toPwdPageFn() {
       this.$router.push("/password");

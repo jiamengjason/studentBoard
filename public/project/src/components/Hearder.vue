@@ -35,23 +35,19 @@
               <router-link to="/login">登录</router-link>
             </el-col>
             <el-col v-if="isLogin" :span="7">
-              <router-link :to="{name: 'personal'}">
-                <el-dropdown @command="handleCommand">
-                  <span class="el-dropdown-link">
-                    <el-avatar v-if="userInfo.headImg" size="large" :src="userInfo.headImg"></el-avatar>
-                    <el-avatar v-if="!userInfo.headImg" size="large">
-                      {{ userInfo.organizationName || userInfo.userName }}
-                    </el-avatar>
-                  </span>
-                  
-
-                  <!-- 下拉展示 -->
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="a">个人中心</el-dropdown-item>
-                    <el-dropdown-item command="b">退出登录</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </router-link>
+              <el-dropdown @command="handleCommand">
+                <span class="el-dropdown-link">
+                  <el-avatar v-if="userInfo.headImg" size="large" :src="userInfo.headImg"></el-avatar>
+                  <el-avatar v-else size="large">
+                    {{ userInfo.organizationName || userInfo.userName }}
+                  </el-avatar>
+                </span>                  
+                <!-- 下拉展示 -->
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="a">个人中心</el-dropdown-item>
+                  <el-dropdown-item command="b">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </el-col>
             <el-col :span="7">
               <p>
@@ -66,9 +62,12 @@
   </div>
 </template>
 <script>
-import { apiGetUserInfo } from "@/apis/api"
+import { apiGetUserInfo, apiLoginOutPost } from "@/apis/api"
+import { homePage } from "@/mixin/home";
+
 export default {
   name: "Header",
+  mixins: [homePage],
   data() {
     return {
       activeIndex: '1',
@@ -81,11 +80,27 @@ export default {
     this.getLoginUser()
   },
   methods: {
+    // 进入个人中心或者退出
     handleCommand(command) {
-      this.$message('click on item ' + command);
+      if(command === 'a'){
+        this.toPersonalPageFn()
+      }else{
+        apiLoginOutPost({
+          userId: localStorage.getItem('board_user_id'),
+          token: localStorage.getItem('board_token')
+        }).then(res=>{          
+           if(res.data.code === 200){
+            this.isLogin = false
+            this.toHomePageFn();
+            localStorage.clear();
+          }else{
+            this.$message.error(res.data.msg)
+          }
+        })
+      }
     },
+    // 进入相应页面
     getCurrtActive(){
-      console.info('this.route', this.$route)
       // 著名机构
       if(this.$route.name == 'organization' || this.$route.name == 'organizationinfo' || this.$route.name == 'orgvaluation'){
         this.activeIndex = '2'
@@ -106,14 +121,13 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    // 获取用户信息
     getLoginUser(){
-      if(localStorage.getItem('board_user_id')){
-        // 获取用户信息
+      if(localStorage.getItem('board_user_id')){ 
         apiGetUserInfo({
           userId: localStorage.getItem('board_user_id'),
           token: localStorage.getItem('board_token')
         }).then( res => {
-          console.info(res.data)
           if(res.data.code == '200'){
             this.userInfo = res.data.data
             this.isLogin = true
@@ -180,8 +194,10 @@ export default {
     font-weight:400;
     color:rgba(51,51,51,1);
     height: 100%;
+    line-height: 100%;
     .el-row, .el-col,.el-dropdown{
       height: 80px;
+      line-height: 80px;
     }
     p{
       line-height: 40px;
