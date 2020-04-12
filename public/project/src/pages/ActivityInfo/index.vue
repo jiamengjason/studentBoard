@@ -48,10 +48,13 @@
           <div class="desc">
             {{ activityInfo.desc }}
           </div>
-          <div class="apply">
-            <button>报名</button>
-            <button>已报名</button>
-            <button class="cancle">取消</button>
+          <div class="apply" v-if="activityInfo.status != 3">
+            <button v-if="!activityInfo.is_attend">报名</button>
+            <button v-if="activityInfo.is_attend">已报名</button>
+            <button v-if="activityInfo.is_attend" class="cancle">取消</button>
+          </div>
+          <div class="apply" v-if="activityInfo.status == 3">
+            <button class="cancle">已结束</button>
           </div>
         </div>
         <div style="clear:both;"></div>
@@ -63,22 +66,36 @@
       </div>
       <!-- 其他活动 -->
       <div class="organization-list">
-        <el-row :gutter="20">
-          <el-col v-for="i in 4" :key="i" :span="12">
-            <div class="huodong-item">
-              <div class="img">
-                <img src="/img/home/huodong.jpg" alt="">
+        <el-row v-if="activeList.length > 0" :gutter="20">
+          <el-col v-for="(v,i) in activeList" :key="i" :span="12">
+            <router-link :to="{ name: 'activityinfo', query: { 'active_id': v.active_id }}">
+              <div class="huodong-item">
+                <div class="img">
+                  <el-image
+                    style="width: 690px; height: 229px"
+                    :src="v.head_img ? v.head_img : ''"
+                    fit="contain"
+                  >
+                    <div slot="error" class="el-image__error">
+                      <i class="el-icon-picture-outline"></i>
+                    </div>
+                  </el-image>
+                </div>
+                <div class="con">
+                  <p class="tit">
+                    {{ v.title }}
+                    <span v-if="v.status == 1" class="ing">进行中</span>
+                    <span v-if="v.status == 2" class="end">未开始</span>
+                    <span v-if="v.status == 3" class="end">已结束</span>
+                  </p>
+                  <p class="desc">简介：{{ v.desc }}</p>
+                </div>
               </div>
-              <div class="con">
-                <p class="tit">
-                  基础插画公开课
-                  <span class="ing">进行中</span>
-                </p>
-                <p class="desc">简介：零基础学习绘画技巧和色彩搭配</p>
-              </div>
-            </div>
+            </router-link>
           </el-col>
         </el-row>
+
+        <div v-if="activeList.length == 0" class="nullCon">暂其他活动内容</div> 
       </div>
     </div>
     <Footer class="homefooter"></Footer> 
@@ -87,7 +104,7 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
-import { apiGetActiveInfo } from "@/apis/api_st";
+import { apiGetActiveInfo, apiGetActiveList } from "@/apis/api_st";
 
 
 export default {
@@ -98,22 +115,44 @@ export default {
   },
   data() {
     return {
-      activityInfo: {}
+      activityInfo: {},
+      activeList: []
     };
   },
   computed: {},
   mounted() {
+    // 获取活动详情
     this.getActiveInfo()
+    // 获取其他活动列表
+    this.getActiveList()
   },
   methods: {
     getActiveInfo(){
-      apiGetActiveInfo({active_id: this.$route.query.active_id}).then( res => {
+      apiGetActiveInfo({
+        active_id: this.$route.query.active_id,
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token')
+      }).then( res => {
         if(res.data.code==200){
           this.activityInfo = res.data.data
           // if(this.activityInfo.start_time) this.activityInfo.start_time = this.activityInfo.start_time.substring(0, 10)
           // if(this.activityInfo.end_time) this.activityInfo.end_time = this.activityInfo.end_time.substring(0, 10)
         }else{
           this.activityInfo = {}
+        }
+      })
+    },
+    // 获取活动列表
+    getActiveList(){
+      apiGetActiveList({
+        'page': 1,
+        'page_size': '10',
+        'type': 2
+      }).then( res => {
+        if(res.data.code==200){
+          this.activeList = res.data.data.list
+        }else{
+          this.activeList = {}
         }
       })
     }
@@ -150,6 +189,7 @@ export default {
         line-height: 40px;
         overflow: hidden;
         padding: 0 20px;
+        margin: 0;
       }
       .tit{
         font-size:28px;

@@ -67,6 +67,7 @@ export default {
       search:'',
       count:12,
       orgList: [],
+      type: '',
       pageConfig: {
         page: 1,
         page_size: 20,
@@ -81,9 +82,14 @@ export default {
     this.getList()
   },
   methods: {
+    goSearch(value){
+      this.organization_name = value
+      this.getList()
+    },
     getList(){
       // 获取机构列表
       apiGetOrganizationList({
+        'organization_name': this.organization_name,
         'page': this.pageConfig.page,
         'page_size': this.pageConfig.page_size,
         'score_sort': this.score_sort
@@ -101,6 +107,11 @@ export default {
     changeSearchType(value){
       this.type = value
       console.info('父组件value=====', this.type)
+      if(value || value == 0){
+        if(value == 1) this.score_sort = 'asc'
+        if(value == 2) this.score_sort = 'desc'
+        this.getList()
+      }
     }
   }
 };

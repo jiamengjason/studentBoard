@@ -47,10 +47,10 @@ export const apiGetCommentList = params => {
 // ----------------------------------活动相关---------------------------------------
 // 获取活动列表
 export const apiGetActiveList = params => {
-  return request.get(`${defaultPath}active/index&title=${params.title}&page=${params.page}&page_size=${params.page_size}&type=${params.type}`);
+  return request.get(`${defaultPath}active/index`, params);
 };
 // 获取活动详细
 export const apiGetActiveInfo = params => {
-  return request.get(`${defaultPath}active/detail&active_id=${params.active_id}`);
+  return request.get(`${defaultPath}active/detail`, params);
 };
 // ----------------------------------活动相关---------------------------------------

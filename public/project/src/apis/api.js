@@ -4,6 +4,9 @@ const defaultPath = 'index.php?r='
 export const apiLoginDoPost = params => request.post(`${defaultPath}login/do`, params);
 // 注册
 export const apiRegisterPost = params => request.post(`${defaultPath}login/register`, params);
+// 退出
+export const apiLoginOutPost = params => request.post(`${defaultPath}member/logout`, params);
+
 // 获取网站配置信息
 export const apiGetSiteConfig = () => {
   return request.get(`${defaultPath}siteConfig/index`);
