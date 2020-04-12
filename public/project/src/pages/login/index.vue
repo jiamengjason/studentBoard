@@ -78,7 +78,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 160px 0;
-  background: url(../../../public/img/bg_login.jpg) no-repeat;
+  background: url(/img/bg_login.jpg) no-repeat;
 }
 .login-warp {
   width: 640px;
