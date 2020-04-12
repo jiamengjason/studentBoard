@@ -72,9 +72,9 @@ class XAdminiAcl
             )
         ),
         '课外活动' => array(
-            'controller'=>'active', 'url'=>'active/index', 'acl'=>'user','action'=>array(
-                array('name'=>'留学圈','url'=>'active/index','acl'=>'active_index','list_acl'=>array(
-                    '回复'=>'active_update', '删除'=>'active_delete'
+            'controller'=>'active', 'url'=>'actives/index', 'acl'=>'user','action'=>array(
+                array('name'=>'课外活动','url'=>'actives/index','acl'=>'actives_index','list_acl'=>array(
+                    '回复'=>'actives_update', '删除'=>'actives_delete'
                 )),
             )
         ),
