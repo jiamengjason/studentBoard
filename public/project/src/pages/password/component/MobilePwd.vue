@@ -45,6 +45,7 @@
 <script>
 import { apiResetPwByMobile,apiGetValidCodePost,apiResetPwByEmail,apigetValidEmailPost } from "@/apis/api";
 import { homePage } from "@/mixin/home";
+import { checkPhone } from "@/utils/common";
 
 export default {
   mixins: [homePage],
@@ -56,25 +57,7 @@ export default {
       }
     }
   },
-  data() {
-    // 手机号验证
-    let checkPhone = (rule, value, callback) => {
-      const phoneReg = /^1[3|4|5|6|7|8][0-9]{9}$/;
-      if (!value) {
-        return callback(new Error("手机号码不能为空"));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(+value)) {
-          callback(new Error("请输入数字值"));
-        } else {
-          if (phoneReg.test(value)) {
-            callback();
-          } else {
-            callback(new Error("手机号码格式不正确"));
-          }
-        }
-      }, 100);
-    };
+  data() {    
     // 确认密码验证
     let checkPwd = (rule, value, callback) => {
       if (!value) {

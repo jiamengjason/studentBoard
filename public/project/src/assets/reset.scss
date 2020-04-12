@@ -141,7 +141,6 @@ $orangeColor: #ff7001; //主题色
 }
 
 
-// 验证码
 
 // 验证码
 .block {
@@ -258,4 +257,8 @@ $orangeColor: #ff7001; //主题色
   cursor: pointer;
   background: url('/img/icon_light.f13cff3.png') 0 -437px;
   background-size: 34px 471px;
+}
+.personal-empty-list{
+  text-align: center;
+  font-size: 20px;
 }

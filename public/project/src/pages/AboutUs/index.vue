@@ -94,7 +94,7 @@ export default {
       }
     }
     .st-about-con{
-      width: 885px;
+      width: 840px;
       float: left;
       padding: 0 40px;
       p{

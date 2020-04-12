@@ -16,8 +16,8 @@ class FSessionInterfaceBase extends FInterfaceBase
         parent::init();
 
         //教研用户token是否正确
-        $token = isset($this->_requestParams['token']) ? $this->_requestParams['token'] : '';
-        $userId = isset($this->_requestParams['userId']) ? $this->_requestParams['userId'] : '';
+        $token = isset($this->_requestParams['token']) ? $this->_requestParams['token'] : $this->_gets->getParam('token');
+        $userId = isset($this->_requestParams['userId']) ? $this->_requestParams['userId'] : $this->_gets->getParam('userId');
         if (empty($userId) || empty($token)){
             $this->outputError('请重新登陆');
         }

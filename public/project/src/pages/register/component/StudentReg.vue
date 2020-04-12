@@ -115,7 +115,6 @@ export default {
     // 获取网站配置
     getSiteConfig(){
       apiGetSiteConfig().then(res => {
-        console.log(res,'res')
         if (res.data.code == 200) {
           this.eduOptions = res.data.data.grade_list;
         }else{

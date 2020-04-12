@@ -214,7 +214,7 @@ export default {
   }
   .valuation-r{
     padding: 0 40px;
-    width: 1100px;
+    width: 1030px;
     float: left;
     text-align: left;
     font-size: 24px;

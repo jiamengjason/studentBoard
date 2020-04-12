@@ -298,7 +298,7 @@ export default {
         }
       }
       .con{
-        width: 1110px;
+        width: 1070px;
         float: left;
         padding-left: 40px;
         color: #333333;

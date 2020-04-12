@@ -6,6 +6,24 @@
  */
 class TeachersController extends FInterfaceBase
 {
+    /**
+     * 【知名教师】列表页面
+     */
+    public function actionIndex(){
+        $params = [];
+        $params['page'] = $this->_gets->getParam('page');
+        $params['page_size'] = $this->_gets->getParam('page_size');
+        $params['teacher_name'] = $this->_gets->getParam('teacher_name');
+        $params['score_sort'] = $this->_gets->getParam('score_sort');   //0默认1预告2进行中3已结束
+        if (!empty($params['score_sort']) && !in_array($params['score_sort'], ['desc', 'asc'])){
+            $this->outputOk();
+        }
+
+        $teachersService = new TeachersService();
+        $data = $teachersService->getTeachersListByParams($params);
+
+        $this->outputOk('', $data);
+    }
 
     /**
      * 【知名教师】教师详情
@@ -83,14 +101,14 @@ class TeachersController extends FInterfaceBase
      * 【知名教师】教师详情-全部评论
      */
     public function actionCommentList(){
-        $params['teacherId'] = $this->_gets->getParam('teacher_id');
+        $params['evaluated_uid'] = $this->_gets->getParam('teacher_id');
         $params['page'] = $this->_gets->getParam('page');
         $params['page_size'] = $this->_gets->getParam('page_size');
-        if (empty($params['teacherId'])){
+        if (empty($params['evaluated_uid'])){
             $this->outputParamsError();
         }
         $usersService = new UsersService();
-        $userInfo = $usersService->getUserInfoByUid($params['teacherId']);
+        $userInfo = $usersService->getUserInfoByUid($params['evaluated_uid']);
         if (empty($userInfo)){
             $this->outputParamsError();
         }

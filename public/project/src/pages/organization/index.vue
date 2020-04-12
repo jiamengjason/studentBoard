@@ -5,7 +5,7 @@
     <div class="organization-list">
       <el-row :gutter="20">
         <el-col v-for="(v, i) in orgList" :key="i" :span="6" class="sort">
-          <router-link :to="{name: 'organizationinfo', query:{organization_id: '3'}}">
+          <router-link :to="{name: 'organizationinfo', query:{organization_id: v.user_id}}">
             <div class="jigou-item">
               <div class="img">
                 <!-- <img src="/img/home/jigou.jpg" alt=""> -->
@@ -19,7 +19,7 @@
               <div class="con">
                 <p>
                   <span class="leftlabel">评分：</span>
-                  <span class="sore">{{v.score}}</span>
+                  <span class="sore">{{ v.score || '0.0' }}</span>
                 </p>
                 <p class="kcclass">
                   <span class="leftlabel">服务：</span>

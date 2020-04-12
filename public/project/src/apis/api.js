@@ -42,13 +42,19 @@ export const apiResetUserUpdate = params => {
 export const apiResetUpdateUnion = params => {
   return request.post(`${defaultPath}member/updateUnion`,params);
 };
-// 参加的活动列表
-export const apiGetMyActiveList = () => {
-  return request.get(`${defaultPath}member/myActive`);
+// 参加的活动列表【老师、学生、家长】
+export const apiGetMyActiveList = params => {
+  return request.get(`${defaultPath}member/myActive&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.page_size}`);
 };
-// get
-export const apiGet = params => {
-  return request.get(
-    `${defaultPath}/organization/members?school_id=${params.school_id}&role_id=${params.role_id}`
-  );
+// 机构的活动列表
+export const apiGetOrgActiveList = params => {
+  return request.get(`${defaultPath}member/activeList&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.page_size}`);
+};
+// 【学生/家长】我的评论
+export const apiGetMyCommentList = params => {
+  return request.get(`${defaultPath}member/myComment&userId=${params.userId}&token=${params.token}&page=${params.page}&page_size=${params.page_size}`);
+};
+// 发布活动
+export const apiOrgPublish = params => {
+  return request.post(`${defaultPath}member/publish`,params);
 };

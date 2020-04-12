@@ -54,6 +54,26 @@ class UsersService
     }
 
     /**
+     * 根据条件查询机构名称
+     * @param $idsArr
+     * @return array|CActiveRecord[]
+     */
+    public function getOrganizationInfoByIds($idsArr){
+        if (empty($idsArr)){
+            return [];
+        }
+        $defaultSelect = 'id,organization_name,organization_desc,organization_yewu,organization_www,organization_phone,head_img';
+        //条件
+        $where = 'id in ('.implode(',', $idsArr).')';
+        $usersModel = new Users();
+        $criteria = new CDbCriteria();
+        $criteria->condition = $where;
+        $criteria->select = empty($select) ? $defaultSelect : $select;
+
+        return $usersModel->findAll($criteria);
+    }
+
+    /**
      * 根据uid查询用户信息
      * @param $uid
      * @return array|CActiveRecord
@@ -76,6 +96,7 @@ class UsersService
             $data['realName'] = $userInfo['real_name'];
             $data['schoolName'] = $userInfo['school_name'];
             $data['grade'] = $userInfo['grade'];
+            $data['grade_label'] = RoleGroupListConfig::getGradeLabelByGradeId($userInfo['grade']);
             $data['headImg'] = empty($userInfo['head_img']) ? '' : $userInfo['head_img'];
             $data['identityImg'] = $userInfo['identity_img'];
             $data['studentCardImg'] = $userInfo['student_card_img'];
@@ -116,8 +137,8 @@ class UsersService
 
         $data = [];
         foreach ($saveFields as $inputField => $saveField){
-            if (!empty($_getsObj->getParam($inputField))){
-                $data[$saveField] = $_getsObj->getParam($inputField);
+            if (!empty($_getsObj[$inputField])){
+                $data[$saveField] = $_getsObj[$inputField];
             }
         }
         if (empty($data)){
@@ -152,8 +173,13 @@ class UsersService
                 }
                 break;
             case 2: //修改邮箱
+                $loginService = new LoginService();
+                if (true === $loginService->isUserExsit($data['newEmail'])){
+                    $rs = '新的邮箱账号已被注册~';
+                    break;
+                }
                 $validateCodeService = new ValidateCodeService();
-                $bool = $validateCodeService->validateByValidate($userInfo['email'], $data['validCode']);
+                $bool = $validateCodeService->validateByValidate($data['newEmail'], $data['validCode']);
                 if ($bool == true){
                     $save = [
                         'email' => $data['newEmail']
@@ -169,8 +195,13 @@ class UsersService
                 }
                 break;
             case 3: //修改手机
+                $loginService = new LoginService();
+                if (true === $loginService->isUserExsit($data['newMobile'])){
+                    $rs = '新的手机账号已被注册~';
+                    break;
+                }
                 $validateCodeService = new ValidateCodeService();
-                $bool = $validateCodeService->validateByValidate($userInfo['mobile'], $data['validCode']);
+                $bool = $validateCodeService->validateByValidate($data['newMobile'], $data['validCode']);
                 if ($bool == true){
                     $save = [
                         'mobile' => $data['newMobile']

@@ -2,10 +2,6 @@
 
 class LoginService
 {
-    //token有效期
-    private $tokenLifeTime = 3600;
-
-
     //可以保持的字段
     private $saveFields = [
         'role_id',          //账户类型
@@ -114,9 +110,10 @@ class LoginService
      */
     public function createToken($users){
         $return = [];
+        $tokenService = new TokenService();
 
         $time = time();
-        $expireTime = $time + $this->tokenLifeTime;
+        $expireTime = $time + $tokenService->tokenLifeTime;
         $mobile = $users['mobile'];
         $roleId = $users['role_id'];
         $userId = $users['id'];
@@ -127,7 +124,7 @@ class LoginService
         $tokenModel = new Token();
         $rs = $tokenModel->findByConditions('user_id=:user_id', ['user_id'=>$userId]);
         if (!empty($rs)){
-            $bool = $tokenModel->updateByPk($rs['id'], ['token'=>$token, 'expire_time'=>$expireTime]);
+            $bool = $tokenService->updateTokenInfo($rs['id'], ['token'=>$token, 'expire_time'=>$expireTime]);
         }else {
             $tokenModel->setAttributes([
                 'user_id' => $userId,
@@ -158,9 +155,8 @@ class LoginService
         $rs = $usersModel->find('mobile=:mobile or email=:email', ['mobile'=>$mobile, 'email'=>$mobile]);
         if (empty($rs)){
             return false;
-        }else {
-            return $rs;
         }
+        return true;
     }
 
     /**

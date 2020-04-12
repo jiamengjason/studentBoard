@@ -4,21 +4,20 @@
       <el-col :span="8">
         <div class="grid-content-img">
           <el-upload
+            action="''"
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            accept="image/jpeg,image/png,image/jpg"
             :show-file-list="false"
-            :on-success="handleIdSuccess"
-            :before-upload="beforeAvatarUpload"
+            :http-request="uploadTitleImg"
+            :on-change="imageChange"
           >
-            <img v-if="ruleForm.imageId" :src="ruleForm.imageId" class="avatar" />
+            <img v-if="ruleForm.titleImg" :src="ruleForm.titleImg" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <!-- <img src alt /> -->
           <p class="content-first-desc">
             支持jpg、png格式的图片
             <br />文件须小于1M
           </p>
-          <!-- <p class="content-first-btn">上传</p> -->
         </div>
       </el-col>
       <el-col :span="16">
@@ -63,8 +62,7 @@
                 <el-input v-model="ruleForm.addr"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-     
+          </el-row>    
           <div class="org-btn-warp">
             <p class="org-save-btn personal-btn">保存</p>
             <p class="org-cancel-btn personal-btn">取消</p>
@@ -75,17 +73,19 @@
   </div>
 </template>
 <script>
+import { apiOrgPublish, apiPostUploadFile } from "@/apis/api";
 export default {
   data(){
     return {
-      titleImg: './update/xxx/xxxx/xxx/jpg',
       ruleForm:{
+        titleImg: './update/xxx/xxxx/xxx/jpg',
         title: '',
         startTime: '2020-03-20 00:00:00',
         endTime: '2020-03-20 00:00:00',
         desc:'',
         addr:''
       },
+      checkImg: true,
       rules: {
         title: [
           { required: true, message: "请输入名称", trigger: "blur" }
@@ -95,6 +95,63 @@ export default {
         desc: [{ required: true, message: "请输入官网简介", trigger: "blur" }],
         addr:[{ required: true, message: "请输入官网地址", trigger: "blur" }]
       }
+    }
+  },
+  computed: {
+    uploadText(){
+      if(this.ruleForm.identityImg){
+        return '重新上传'
+      }
+      return '选取文件'
+    }
+  },
+  methods:{
+    imageChange(file) { 
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      } 
+    },
+     // 上传身份证
+    uploadTitleImg(event) {
+      const file = event.file
+      const param = new FormData() // 创建form对象
+      param.append('file', file) // 通过append向form对象添加数据
+      const config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }
+     if(this.checkImg){
+      apiPostUploadFile(param, config).then(res => {
+        if (res.data.code == 200) {
+          this.ruleForm.titleImg = res.data.data.file_path    
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+     }
+    },
+    // 更新个人中心的数据
+    updateUserInfo(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        title: this.ruleForm.title,
+        title_img: this.titleImg,
+        start_time: this.ruleForm.startTime,
+        end_time: this.ruleForm.endTime,
+        desc: this.ruleForm.desc,
+        addr: this.ruleForm.addr
+      }
+      console.log(params,'params')
+      apiOrgPublish(params).then(res=>{
+        if (res.data.code == 200) {
+          this.$message.success('修改成功');
+          this.getUserInfo() // 重新获取个人信息
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
     }
   }
 }

@@ -5,12 +5,22 @@
       <el-row :gutter="20" class="student-base-info">
         <el-col :span="6">
           <div class="grid-content-first">
-            <img src alt />
+            <img v-if="ruleForm.headImg" :src="ruleForm.headImg" />
+            <img v-else src="/img/img_org.png" />
             <p class="content-first-desc">
               支持jpg、png格式的图片
               <br />文件须小于1M
             </p>
-            <p class="content-first-btn">上传头像</p>
+            <el-upload
+              action="''"
+              class="content-first-btn"
+              accept="image/jpeg,image/png,image/jpg"
+              :show-file-list="false"
+              :http-request="uploadHeadImg"
+              :on-change="imageChange"
+            >
+              <span class="content-first-btn">{{ headUploadText }}</span>
+            </el-upload>
           </div>
         </el-col>
         <el-col :span="18">
@@ -65,13 +75,23 @@
               </el-col>
               <el-col :span="8" :offset="5">
                 <el-form-item label="身份证：" class="text-left">
-                  <span>已上传</span>
-                  <span>未上传</span>
+                  <span v-if="ruleForm.identityImg" class="upload-state">已上传</span>
+                  <span v-else class="upload-state">未上传</span>
+                  <el-upload             
+                    action="''"
+                    class="add-info-img-btn"
+                    accept="image/jpeg,image/png,image/jpg"
+                    :show-file-list="false"
+                    :http-request="uploadIdentityImg"
+                    :on-change="imageChange"
+                  >
+                    <span>{{ uploadText }}</span>
+                  </el-upload>
                 </el-form-item>
               </el-col>
             </el-row>
             <!-- 保存 -->
-            <p class="personal-top-save-btn">保存</p>
+            <p class="personal-top-save-btn" @click="saveOrgPublish">保存</p>
           </el-form>
         </el-col>
       </el-row>
@@ -86,6 +106,14 @@ import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import OrgActivity from "./OrgActivity.vue";
 import OrgRelease from "./OrgRelease.vue";
+import { 
+  apiGetUserInfo,
+  apiResetUserUpdate,
+  apiPostUploadFile 
+} from "@/apis/api";
+
+const uploadParam = new FormData() // 创建form对象
+
 
 export default {
   components: {
@@ -101,14 +129,17 @@ export default {
     return {
       text: "基本信息",
       ruleForm: {
-        organizationName:"" ,
-        organizationEmail:"organizationEmail" ,
-        organizationDesc:"" ,
+        headImg:"",
+        organizationName: "" ,
+        organizationEmail: "" ,
+        organizationDesc: "" ,
         organizationYewu: "",
-        organizationPhone: "organizationPhone",
-        organizationWww: ""
+        organizationPhone: "",
+        organizationWww: "",
+        identityImg: ""
       },
-    
+      checkImg:true,
+      uploadConfig:{},  // 上传的时候设置config
       rules: {
         organizationName: [
           { required: true, message: "请输入机构名称", trigger: "blur" }
@@ -119,8 +150,112 @@ export default {
       }
     };
   },
+
+  computed: {
+    uploadText(){
+      if(this.ruleForm.identityImg){
+        return '重新上传'
+      }
+      return '选取文件'
+    },
+    headUploadText(){
+      if(this.ruleForm.headImg){
+        return '修改头像'
+      }
+      return '选取文件'
+    },
+  },
   created() {
-    console.log(this.activeName, "activeName");
+    this.getOrgInfo();
+  },
+  methods:{
+    // 获取机构信息
+    getOrgInfo(){
+      let params = {
+        userId:localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token')
+      }
+      apiGetUserInfo(params).then(res=>{
+        if (res.data.code == 200) {      
+          this.ruleForm = res.data.data;
+          // 给父组件传用户信息值
+          this.$emit('handleInfo',{
+            headImg: res.data.data.headImg || '/img/img_org.png',
+            userName: res.data.data.userName,
+            mobile: res.data.data.mobile
+          })
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    imageChange(file) { 
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.checkImg = false
+      }else{
+        this.checkImg = true
+      } 
+    },
+    // 上传共有的方法
+    uplaodFn(event){
+      const file = event.file
+      uploadParam.append('file', file) // 通过append向form对象添加数据
+      this.uploadConfig = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }
+    },
+    // 上传头像
+    uploadHeadImg(event){
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(uploadParam, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.headImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+     // 上传身份证
+    uploadIdentityImg(event) {
+      this.uplaodFn(event)
+      if(this.checkImg){
+        apiPostUploadFile(param, this.uploadConfig).then(res => {
+          if (res.data.code == 200) {
+            this.ruleForm.identityImg = res.data.data.file_path    
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
+      }
+    },
+    // 发布
+    saveOrgPublish(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        headImg: this.ruleForm.headImg,
+        organizationName: this.ruleForm.organizationName,
+        organizationEmail: this.ruleForm.organizationEmail,
+        organizationDesc: this.ruleForm.organizationDesc,
+        organizationYewu: this.ruleForm.organizationYewu,
+        organizationPhone: this.ruleForm.organizationPhone,
+        organizationWww: this.ruleForm.organizationWww,
+        identityImg: this.ruleForm.identityImg
+      }
+      console.log(params,'params')
+      apiResetUserUpdate(params).then(res=>{
+        if (res.data.code == 200) {
+          this.$message.success('修改成功');
+          this.getOrgInfo() // 重新获取个人信息
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    }
   }
 };
 </script>
@@ -150,7 +285,6 @@ export default {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 1px solid #d3dce6;
       margin: 0 auto;
     }
     .content-first-desc {

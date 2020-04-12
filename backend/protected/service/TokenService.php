@@ -2,6 +2,8 @@
 
 class TokenService
 {
+    //token有效期
+    public $tokenLifeTime = 7200;
 
     /**
      * 判断token是否过期
@@ -25,8 +27,21 @@ class TokenService
         //判断token是否过期
         if ($tokenInfo['expire_time'] > time()){
             $bool = true;
+            $expireTime = time() + $this->tokenLifeTime;
+            $this->updateTokenInfo($tokenInfo['id'], ['expire_time'=>$expireTime]);
         }
 
         return $bool;
+    }
+
+    /**
+     * 更新用户登录token信息
+     * @param $pk
+     * @param $params
+     * @return int
+     */
+    public function updateTokenInfo($pk, $params){
+        $tokenModel = new Token();
+        return $tokenModel->updateByPk($pk, $params);
     }
 }

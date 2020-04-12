@@ -1,28 +1,39 @@
 <template>
-  <div class="login-warp">
-    <p class="login-title">欢迎登录学汇网</p>
-    <p class="login-desc">请使用您本人的账号密码登录</p>
-    <div class="login-input">
-      <p>
-        <input v-model="loginInput" type="text" placeholder="请输入手机号码/邮箱" />
-      </p>
-      <p>
-        <input v-model="loginPwd" type="password" placeholder="请输入密码" />
-      </p>
+  <div class="login">
+    <Hearder />
+    <div class="login-bg">
+      <div class="login-warp">
+        <p class="login-title">欢迎登录学汇网</p>
+        <p class="login-desc">请使用您本人的账号密码登录</p>
+        <div class="login-input">
+          <p>
+            <input v-model="loginInput" type="text" placeholder="请输入手机号码/邮箱" />
+          </p>
+          <p>
+            <input v-model="loginPwd" type="password" placeholder="请输入密码" @keyup.enter="toLoginFn" />
+          </p>
+        </div>
+        <p class="login-btn" @click="toLoginFn">登录</p>
+        <p class="login-opa">
+          <span @click="toPwdPageFn">忘记密码？</span>
+          <span @click="toRegPageFn">去注册账号</span>
+        </p>
+      </div>
     </div>
-    <p class="login-btn" @click="toLoginFn">登录</p>
-    <p class="login-opa">
-      <span @click="toPwdPageFn">忘记密码？</span>
-      <span @click="toRegPageFn">去注册账号</span>
-    </p>
+    <Footer />
   </div>
 </template>
 <script>
+import Hearder from "@/components/Hearder";
+import Footer from "@/components/Footer";
 import { homePage } from "@/mixin/home";
 import { apiLoginDoPost } from "@/apis/api";
 export default {
+  components:{
+    Hearder,
+    Footer
+  },
   mixins: [homePage],
-
   data() {
     return {
       loginInput: "",
@@ -57,15 +68,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/base.scss";
-
+.login{
+  .st-footer{
+    padding-top:30px;
+  }
+}
+.login-bg{
+  font-family:Source Han Sans CN;
+  width: 100%;
+  height: 100%;
+  padding: 160px 0;
+  background: url(../../../public/img/bg_login.jpg) no-repeat;
+}
 .login-warp {
   width: 640px;
   height: 698px;
-  margin: 160px auto 0;
   background: #fff;
-  border: 1px solid red;
+  margin: 0 auto;
   padding-top: 32px;
   text-align: center;
+  box-shadow:-7px 3px 13px 0px rgba(255,237,207,0.46);
+  border-radius:10px;
 }
 .login-title {
   color: $orangeColor;

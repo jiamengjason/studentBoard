@@ -278,4 +278,21 @@ class MemberController extends FSessionInterfaceBase
             $this->outputError('报名失败');
         }
     }
+
+    /**
+     * 【个人中心】【学生-家长】我的评论
+     */
+    public function actionMyComment()
+    {
+        $params = [];
+        $params['page'] = $this->_gets->getParam('page');
+        $params['page_size'] = $this->_gets->getParam('page_size');
+        $params['user_id'] = $this->userId;
+
+        //查询参加的活动列表
+        $activeService = new EvaluateScoreService();
+        $rs = $activeService->getCommentListByParams($params);
+
+        $this->outputOk('', $rs);
+    }
 }

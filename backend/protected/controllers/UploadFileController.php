@@ -39,9 +39,10 @@ class UploadFileController extends FInterfaceBase
             $this->outputError('文件上传错误');
         }
 
+        //TODO: file_path上线后修改具体域名
         $fileInfo = [
             'doc_path'=>$file['savepath'],
-            'file_path'=>'/'.$file['pathname'],
+            'file_path'=>'http://118.190.25.177/'.$file['pathname'],
             'file_ext' =>$file['extension'],
             'file_name'=>$file['savename'],
             'file_size'=>$file['size']

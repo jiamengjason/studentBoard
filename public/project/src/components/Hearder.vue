@@ -36,13 +36,28 @@
             </el-col>
             <el-col v-if="isLogin" :span="7">
               <router-link :to="{name: 'personal'}">
-                <el-avatar v-if="userInfo.headImg" size="large" :src="userInfo.headImg"></el-avatar>
-                <el-avatar v-if="!userInfo.headImg" size="large">
-                  {{ userInfo.organizationName || userInfo.userName }}
-                </el-avatar>
+                <el-dropdown @command="handleCommand">
+                  <span class="el-dropdown-link">
+                    <el-avatar v-if="userInfo.headImg" size="large" :src="userInfo.headImg"></el-avatar>
+                    <el-avatar v-if="!userInfo.headImg" size="large">
+                      {{ userInfo.organizationName || userInfo.userName }}
+                    </el-avatar>
+                  </span>
+                  
+
+                  <!-- 下拉展示 -->
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="a">个人中心</el-dropdown-item>
+                    <el-dropdown-item command="b">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </router-link>
             </el-col>
-            <el-col :span="7"><span class="gray">中</span>/EN</el-col>
+            <el-col :span="7">
+              <p>
+                <span class="gray">中</span>/EN
+              </p>
+            </el-col>
             <el-col :offset="4"></el-col>
           </el-row>
           <div></div>
@@ -67,6 +82,9 @@ export default {
     this.getLoginUser()
   },
   methods: {
+    handleCommand(command) {
+      this.$message('click on item ' + command);
+    },
     getCurrtActive(){
       console.info('this.route', this.$route)
       // 著名机构
@@ -118,7 +136,6 @@ export default {
   width: 100%;
   overflow: hidden;
   height: 80px;
-  line-height: 80px;
   // background: #000000;
   background: #FFFFFF;
   box-shadow:0px 1px 5px 0px rgba(4,0,0,0.2);
@@ -153,7 +170,10 @@ export default {
   }
 
   .logo{
-    padding-top: 19px;
+    height: 100%;
+    img{
+      margin-top: 19px;
+    }
   }
 
   // 登录状态
@@ -161,6 +181,7 @@ export default {
     font-size:20px;
     font-weight:400;
     color:rgba(51,51,51,1);
+    line-height: 50px;
     a{
       color:rgba(51,51,51,1);
     }

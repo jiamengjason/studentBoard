@@ -1,28 +1,78 @@
 <template>
-  <div class="comment-list">
-    <div v-for="(item,index) in list" :key="index" class="comment-item">
-      <img src="https://www.baidu.com/img/bd_logo1.png" alt />
-      <div class="activity-item-bottom">
-        <div class="date-status">
-          <p class="title">老师治学严谨，要求严格，能深入了解学生的学习和生活状况老师治学严谨，要求严格，能深入了解学生的学习和生活状况</p>
-          <p class="date">2019-10-0</p>
-        </div>
-        <p class="desc">
-          老师治学严谨，要求严格，能深入了解学生的学习和生活状况
-          ，循循善诱，平易近人;注意启发和调动学生的积极性，课堂气氛较为活跃;上课例题丰富，
-          不厌 其烦，细心讲解，使学生有所收获;半数认真工整，批改作业认真及时并注意讲解学生易犯错误;
-          最重要的是，段老师能虚心并广泛听取学生的意见和反馈信息，
-          做到及时修正和调整自己的教学。总之，段老师是一个不可多得的好教师。
-        </p>
+  <div :class="{'comment-list' :commentList.length > 0 }">
+    <template v-if="commentList.length > 0">
+      <div v-for="(item,index) in commentList" :key="index" class="comment-item">
+        <template v-if="item.role_id === '1'">
+          <img :src="item.head_img" alt />
+          <div class="activity-item-bottom">
+            <div class="date-status">
+              <p class="title">{{ item.organization_name }}</p>
+              <p class="date">{{ item.comment_time }}</p>
+            </div>
+            <p class="desc">{{ item.comment }}</p>
+          </div>
+        </template>
+        <template v-else-if="item.role_id === '2'">
+          <img :src="item.head_img" alt />
+          <div class="activity-item-bottom">
+            <div class="date-status">
+              <p class="title">{{ item.organization_name }} | {{ item.teacher_name }}</p>
+              <p class="date">{{ item.comment_time }}</p>
+            </div>
+            <p class="desc">{{ item.comment }}</p>
+          </div>
+        </template>
       </div>
-    </div>
+      <!-- 分页 -->
+      <div class="st-page">
+        <el-pagination 
+          background
+          :page-size="pageConfig.pageSize"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.totalNum"
+        >
+        </el-pagination>
+      </div>
+    </template>
+    <p v-else class="personal-empty-list">暂无数据</p>
   </div>
 </template>
 <script>
+import { apiGetMyCommentList } from "@/apis/api";
+
 export default {
   data(){
     return {
-      list:[1,2,3,4]
+      commentList:[],
+      pageConfig:{
+        page: 1,
+        pageSize: 20,
+        totalNum: 0
+      }
+    }
+  },
+  computed: {},
+  created(){
+    this.getMyComment()
+  },
+  methods:{
+    getMyComment(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        // userId: 5,
+        // token: '8743ca12de24675423788eb080cb11d5',
+        page: this.pageConfig.page,
+        page_size: this.pageConfig.pageSize
+      }
+      apiGetMyCommentList(params).then(res=>{
+        if (res.data.code == 200) {
+          this.commentList = res.data.data.list;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
     }
   }
 };
@@ -43,21 +93,19 @@ export default {
   background:#fff;
   .comment-item {
     height: 180px;
-    border: 1px solid red;
     width: 100%;
     margin-bottom: 20px;
     padding: 20px;
     display: flex;
     img {
       width:180px;
-      height:135px;
+      height:136px;
       border-radius:10px;
       margin-right:20px;
     }
   }
   .activity-item:nth-child(odd) {
     margin-right: 20px;
-    border: 1px solid blue;
   }
   .activity-item-bottom {
     flex: 1;
@@ -87,6 +135,9 @@ export default {
     font-size:14px;
     color: rgba(153, 153, 153, 1);
     margin-left:20px;
+  }
+  .st-page {
+    margin: 0 auto;
   }
 }
 </style>

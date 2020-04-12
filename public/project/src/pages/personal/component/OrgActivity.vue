@@ -1,33 +1,79 @@
 <template>
   <div class="organization-activety-list">
-    <div class="activity-item">
-      <img src="https://www.baidu.com/img/bd_logo1.png" alt />
-      <div class="activity-item-bottom">
-        <p class="title">高考冲刺</p>
-        <p class="desc">desc</p>
-        <div class="date-status">
-          <p class="date">2019-10-0</p>
-          <p class="status">进行中</p>
+    <template v-if="orgActiveList.length > 0">
+      <div v-for="(item,index) in orgActiveList" :key="index" class="activity-item">
+        <img :src="item.title_img" alt />
+        <div class="activity-item-bottom">
+          <p class="title">{{ item.title }}</p>
+          <p class="desc">{{ item.desc }}</p>
+          <div class="date-status">
+            <p class="date">{{ item.start_time - item.end_time }}</p>
+            <p class="status">{{ state(item.status) }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="activity-item">
-      <img src="https://www.baidu.com/img/bd_logo1.png" alt />
-      <div class="activity-item-bottom">
-        <p class="title">高考冲刺</p>
-        <p class="desc">desc</p>
-        <div class="date-status">
-          <p class="date">2019-10-0</p>
-          <p class="status active-status">进行中</p>
-        </div>
+      <!-- 分页 -->
+      <div class="st-page">
+        <el-pagination 
+          background
+          :page-size="pageConfig.pageSize"
+          :current-page.sync="pageConfig.page"
+          layout="prev, pager, next"
+          :total="pageConfig.totalNum"
+        >
+        </el-pagination>
       </div>
-    </div>
-    <div class="activity-item"></div>
-    <div class="activity-item"></div>
+    </template>
+    <p v-else class="personal-empty-list">暂无数据</p>
   </div>
 </template>
 <script>
-export default {};
+import { apiGetOrgActiveList } from "@/apis/api";
+
+export default {
+  data(){
+    return {
+      orgActiveList:[],
+      pageConfig:{
+        page: 1,
+        pageSize: 20,
+        totalNum: 0
+      }
+    }
+  },
+  computed: {
+    state(status){
+      if( status === 1 ){
+        return '进行中'
+      }else if( status === 2 ){
+        return '未开始'
+      }else if( status === 3){
+        return '已过期'
+      }
+      return ''
+    }
+  },
+  created(){
+    this.getOrgActive()
+  },
+  methods:{
+    getOrgActive(){
+      let params = {
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token'),
+        page: this.pageConfig.page,
+        page_size: this.pageConfig.pageSize
+      }
+      apiGetOrgActiveList(params).then(res=>{
+        if (res.data.code == 200) {
+          this.orgActiveList = res.data.data.list;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 @import "@/assets/base.scss";
