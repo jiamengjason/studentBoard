@@ -163,7 +163,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.dowebok()
+    // this.dowebok()
   },
   methods: {
     dowebok() {
@@ -176,7 +176,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/jquery.fullPage.scss";
+// @import "../../assets/jquery.fullPage.scss";
 .el-input__inner {
   max-width: 100%!important;
 }
@@ -239,6 +239,7 @@ export default {
  padding-bottom:55px; 
  .st-banner{
     width: 100%;
+    min-height: 700px;
     background: url(/img/banner.jpg) no-repeat;
     height: 100%;
     position: relative;
@@ -382,12 +383,12 @@ export default {
 // 第四屏
 .fourthPage{
   position: relative;
-  .homefooter{
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-  }
+  // .homefooter{
+  //   width: 100%;
+  //   position: absolute;
+  //   left: 0;
+  //   bottom: 0;
+  // }
   .huodong-item{
     background:rgba(255,255,255,1);
     border-radius:10px;
@@ -452,6 +453,8 @@ export default {
       }
     }
   }
-  
+  .st-column-more{
+    margin-bottom: 40px;
+  }
 }
 </style>

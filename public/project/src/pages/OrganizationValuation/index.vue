@@ -23,12 +23,12 @@
           </el-image>
         </div>
         <div class="valuation-r">
-          <el-form ref="form" :model="sizeForm" label-width="150px">
+          <el-form ref="form" :model="valuationForm" label-width="150px">
             <!-- 总体评分 -->
-            <el-form-item label="总体评分">
+            <el-form-item label="总体评分" :rules="[{required: true}]">
               <div class="st-rate">
                 <el-rate
-                  v-model="sizeForm.score"
+                  v-model="valuationForm.score"
                   :texts="['1分', '2分', '3分', '4分', '5分']"
                   :colors="['#F7BA2A', '#FF9900', '#FF7001']"
                   show-text
@@ -37,16 +37,16 @@
               </div>
             </el-form-item>
             <!-- 推荐选择 -->
-            <el-form-item label="推荐选择">
+            <el-form-item label="推荐选择" :rules="[{required: true}]">
               是否会推荐给别的学生
-              <el-radio-group v-model="sizeForm.is_recommend" size="medium">
+              <el-radio-group v-model="valuationForm.is_recommend" size="medium">
                 <el-radio-button label="yes"></el-radio-button>
                 <el-radio-button label="no"></el-radio-button>
               </el-radio-group>
             </el-form-item>
             <!-- 选择标签 -->
-            <el-form-item label="选择标签">
-              <el-checkbox-group v-model="sizeForm.tags">
+            <el-form-item label="选择标签" :rules="[{required: true}]">
+              <el-checkbox-group v-model="valuationForm.tags">
                 <el-checkbox-button label="积极反馈" name="type"></el-checkbox-button>
                 <el-checkbox-button label="令人尊敬" name="type"></el-checkbox-button>
                 <el-checkbox-button label="作业较多" name="type"></el-checkbox-button>
@@ -61,8 +61,14 @@
               </el-checkbox-group>
             </el-form-item>
             <!-- 详细评轮 -->
-            <el-form-item label="详细评论">
-              <el-input v-model="sizeForm.comment" type="textarea" :autosize="{minRows: 6, maxRows: 8}"></el-input>
+            <el-form-item label="详细评论" :rules="[{required: true}]">
+              <el-input v-model="valuationForm.comment" type="textarea" :autosize="{minRows: 6, maxRows: 8}" show-word-limit maxlength="500"></el-input>
+            </el-form-item>
+            <el-form-item label="验证">
+              <div class="container">
+                <div id="captcha" style="position: relative"></div>
+                <div id="msg"></div>
+              </div>
             </el-form-item>
           </el-form>
 
@@ -80,7 +86,6 @@ import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
 import { apiDoValuate } from "@/apis/api_st";
 
-
 export default {
   name: "Home",
   components: {
@@ -92,41 +97,101 @@ export default {
       search:'',
       count:12,
       head_img: this.$route.query.head_img,
-      sizeForm: {
+      validation: false,
+      valuationForm: {
+        // 总体评分
         score: 0,
-        is_recommend:0,
+        // 是否推荐给学生
+        is_recommend: null,
+        // 标签
         tags:[],
-        comment: ''
-      },
+        // 详细评论
+        comment: '',
+        // 机构id
+        evaluated_uid: this.$route.query.evaluated_uid,
+        userId: localStorage.getItem('board_user_id'),
+        token: localStorage.getItem('board_token')
+      }
     };
   },
-  computed: {},
-  mounted() {},
+  created() {
+    
+  },
+  // computed: {},
+  mounted(){
+    const self = this;
+    // this.dynamicLoadJs("/js/jigsaw.js");
+    window.jigsaw.init(document.getElementById('captcha'), function() {
+      document.getElementById('msg').innerHTML = '验证成功！'
+      self.validation = true;
+    }, function() {
+      console.info('失败')
+      document.getElementById('msg').innerHTML = ''
+      self.validation = false;
+    })
+  },
   methods: {
+    dynamicLoadJs(url, callback) {
+      var head = document.getElementsByTagName("head")[0];
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = url;
+      if (typeof callback == "function") {
+        script.onload = script.onreadystatechange = function() {
+          if (
+            !this.readyState ||
+            this.readyState === "loaded" ||
+            this.readyState === "complete"
+          ) {
+            callback();
+            script.onload = script.onreadystatechange = null;
+          }
+        };
+      }
+      head.appendChild(script);
+    },
     // 提交评价
     doValuate(){
-      apiDoValuate({
-        userId:'',
-        token:'',
-        // 分数
-        score: this.sizeForm.score,
-        // 是否退群给学生
-        is_recommend: this.sizeForm.is_recommend,
-        // 标签
-        tags: this.sizeForm.tags,
-        // 评价详细
-        comment: this.sizeForm.comment,
-        evaluated_uid: this.$route.evaluated_uid
-      }).then( res => {
-        if(res.data.code == '200'){
-          this.$message({
-            message: '恭喜你，提交成功',
-            type: 'success'
-          });
+      // console.info('this.valuationForm', this.valuationForm)
+      var msg = this.checkValuation()
+      var self = this
+      if(!msg){
+        apiDoValuate(this.valuationForm).then( res => {
+            if(res.data.code == '200'){
+              this.$message({
+                message: '恭喜你，提交成功!',
+                type: 'success'
+              });
+              setTimeout(function(){
+                self.$router.push({
+                  name: 'organizationinfo', 
+                  query: {
+                    evaluated_uid: self.$route.query.evaluated_uid
+                  }
+                })
+              },2000)
+            }else{
+              this.$message.error(res.data.msg);
+            }
+          })
         }else{
-          this.$message.error(res.data.msg);
+          this.$message.error(msg);
         }
-      })
+    },
+    checkValuation(){
+      if(!this.valuationForm.score){
+        return '请选择 "总体评分"'
+      }else if(!this.valuationForm.is_recommend && this.valuationForm.is_recommend != 0){
+        return '请选择 "推荐选择"'
+      }else if(!this.valuationForm.tags){
+        return '请选择 "标签"'
+      }else if(!this.valuationForm.comment){
+        return '请填写详细评论'
+      }else if(!this.validation){
+        return '请滑动拼图完成验证'
+      }else{
+        return false
+      }
     }
   }
 };
@@ -149,7 +214,7 @@ export default {
   }
   .valuation-r{
     padding: 0 40px;
-    width: 1100px;
+    width: 1030px;
     float: left;
     text-align: left;
     font-size: 24px;
@@ -163,5 +228,32 @@ export default {
       margin-top: 40px;
     }
   }
+}
+
+
+// 验证码
+.container {
+  width: 310px;
+}
+input {
+  display: block;
+  width: 290px;
+  line-height: 40px;
+  margin: 10px 0;
+  padding: 0 10px;
+  outline: none;
+  border:1px solid #c8cccf;
+  border-radius: 4px;
+  color:#6a6f77;
+}
+#msg {
+  width: 100%;
+  line-height: 40px;
+  font-size: 14px;
+  text-align: center;
+}
+a:link,a:visited,a:hover,a:active {
+  margin-left: 100px;
+  color: #0366D6;
 }
 </style>

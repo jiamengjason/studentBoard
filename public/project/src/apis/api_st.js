@@ -4,7 +4,7 @@ const defaultPath = 'index.php?r='
 // ----------------------------------机构相关---------------------------------------
 // 获取机构列表
 export const apiGetOrganizationList = params => {
-  return request.get(`${defaultPath}organizations/index&organization_name=${params.organization_name}&page=${params.page}&page_size=${params.page_size}&score_sort=${params.score_sort}`);
+  return request.get(`${defaultPath}organizations/index`, params);
 };
 // 获取机构详情
 export const apiGetOrganizationInfo = params => {
@@ -18,10 +18,18 @@ export const apiGetFamousTeacher = params => {
 export const apiDoValuate = params => {
   return request.post(`${defaultPath}member/evaluate`,params);
 };
+// 获取机构全部评论
+export const apiGetCommentListOrg = params => {
+  return request.get(`${defaultPath}organizations/commentList&organization_id=${params.organization_id}`);
+};
 // ----------------------------------机构相关---------------------------------------
 
 
 // ----------------------------------教师相关---------------------------------------
+// 获取机构列表
+export const apiGetTeachersList = params => {
+  return request.get(`${defaultPath}teachers/index`, params);
+};
 // 获取详情
 export const apigetTeachersInfo = params => {
     return request.get(`${defaultPath}teachers/info&teacher_id=${params.teacher_id}`);

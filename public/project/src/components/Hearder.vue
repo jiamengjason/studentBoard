@@ -1,5 +1,5 @@
 <template>
-  <div class="st-header">
+  <div class="st-header blackHead">
     <el-row :gutter="20">
       <el-col :span="7" class="logo">
         <img src="/logo.png" alt="">
@@ -29,13 +29,35 @@
       <el-col :span="6">
         <div class="login-status">
           <el-row>
-            <el-col :span="7">
+            <el-col v-if="!isLogin" :span="7">
               <router-link to="/register">注册</router-link>
               |
               <router-link to="/login">登录</router-link>
             </el-col>
-            <el-col :span="7"><span class="gray">中</span>/EN</el-col>
-            <el-col :offset="4"></el-col>
+            <el-col v-if="isLogin" :span="7">
+              <router-link :to="{name: 'personal'}">
+                <el-dropdown @command="handleCommand">
+                  <span class="el-dropdown-link">
+                    <el-avatar v-if="userInfo.headImg" size="large" :src="userInfo.headImg"></el-avatar>
+                    <el-avatar v-if="!userInfo.headImg" size="large">
+                      {{ userInfo.organizationName || userInfo.userName }}
+                    </el-avatar>
+                  </span>
+                  
+
+                  <!-- 下拉展示 -->
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="a">个人中心</el-dropdown-item>
+                    <el-dropdown-item command="b">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </router-link>
+            </el-col>
+            <el-col :span="7">
+              <p>
+                <span class="gray">中</span>/EN
+              </p>
+            </el-col>
           </el-row>
           <div></div>
         </div>
@@ -44,17 +66,24 @@
   </div>
 </template>
 <script>
+import { apiGetUserInfo } from "@/apis/api"
 export default {
   name: "Header",
   data() {
     return {
-      activeIndex: '1'
+      activeIndex: '1',
+      isLogin: localStorage.getItem('board_user_id'),
+      userInfo: {}
     };
   },
   mounted(){
     this.getCurrtActive()
+    this.getLoginUser()
   },
   methods: {
+    handleCommand(command) {
+      this.$message('click on item ' + command);
+    },
     getCurrtActive(){
       console.info('this.route', this.$route)
       // 著名机构
@@ -76,6 +105,27 @@ export default {
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    getLoginUser(){
+      if(localStorage.getItem('board_user_id')){
+        // 获取用户信息
+        apiGetUserInfo({
+          userId: localStorage.getItem('board_user_id'),
+          token: localStorage.getItem('board_token')
+        }).then( res => {
+          console.info(res.data)
+          if(res.data.code == '200'){
+            this.userInfo = res.data.data
+            this.isLogin = true
+          }else{
+            this.isLogin = false
+            // 移除登录信息
+            localStorage.removeItem('board_token')
+            localStorage.removeItem('board_user_id')
+            localStorage.removeItem('board_role_id')
+          }
+        })
+      }
     }
   }
 };
@@ -85,7 +135,6 @@ export default {
   width: 100%;
   overflow: hidden;
   height: 80px;
-  line-height: 80px;
   // background: #000000;
   background: #FFFFFF;
   box-shadow:0px 1px 5px 0px rgba(4,0,0,0.2);
@@ -130,12 +179,32 @@ export default {
     font-size:20px;
     font-weight:400;
     color:rgba(51,51,51,1);
+    height: 100%;
+    .el-row, .el-col,.el-dropdown{
+      height: 80px;
+    }
+    p{
+      line-height: 40px;
+    }
     a{
       color:rgba(51,51,51,1);
+      display: inline;
     }
     .gray{
       color:rgba(153,153,153,1);
     }
+    .el-avatar{
+      margin-top: 20px;
+    }
   }
+}
+.blackHead{
+  background: #FFFFFF;
+  animation: gradientChange 2s;
+}
+@keyframes gradientChange  {
+    100% {
+        background: #000000;
+    }
 }
 </style>
