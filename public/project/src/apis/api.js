@@ -1,5 +1,9 @@
 import request from "./request";
 const defaultPath = 'index.php?r='
+// 首页
+export const apiHomeInfo = () => {
+  return request.get(`${defaultPath}site/index`);
+};
 //登录
 export const apiLoginDoPost = params => request.post(`${defaultPath}login/do`, params);
 // 注册

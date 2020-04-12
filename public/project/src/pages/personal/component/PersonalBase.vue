@@ -169,6 +169,7 @@ export default {
       if (this.ruleMobile.newMobile) {
         apiGetValidCodePost({ mobile: this.ruleMobile.newMobile }).then(res => {
           if (res.data.code == 200) {
+            this.$message.success('发送验证码成功')
             this.clickCodeFlag = true;
             this.timer = setInterval(this.cutDown, 1000);
           }else{
@@ -184,6 +185,7 @@ export default {
       if (this.ruleEmail.newEmail) {
         apigetValidEmailPost({ email: this.ruleEmail.newEmail }).then(res => {
           if (res.data.code == 200) {
+          this.$message.success('发送邮箱验证码成功，请查收')
             this.clickCodeFlag = true;
             this.timer = setInterval(this.cutDown, 1000);
           }else{
