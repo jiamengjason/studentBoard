@@ -91,14 +91,24 @@ class ActiveService
                 'start_time' => $item->active()->start_time,
                 'end_time' => $item->active()->end_time,
                 'attend_time' => $item->create_time,
-                //活动是否开始：1进行中 2未开始 3已过期
-                'status' => strtotime($item->active()->start_time) > $time ? 2 : (strtotime($item->active()->end_time) > $time ? 1 : 3)
+                'status' => $this->getActiveStatus($item->active()->start_time, $item->active()->end_time)
             ];
         }
 
         return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
     }
 
+    /**
+     * 活动是否开始：1进行中 2未开始 3已过期
+     * @param $activeStartTime
+     * @param $activeEndTime
+     * @return int
+     */
+    private function getActiveStatus($activeStartTime, $activeEndTime){
+        $time = time();
+        $status = strtotime($activeStartTime) > $time ? 2 : (strtotime($activeEndTime) > $time ? 1 : 3);
+        return $status;
+    }
 
     /**
      * 【课外活动】活动详情
@@ -136,6 +146,8 @@ class ActiveService
         $data['addr'] = $activeInfo['addr'];
         $data['start_time'] = $activeInfo['start_time'];
         $data['end_time'] = $activeInfo['end_time'];
+        //活动是否开始：1进行中 2未开始 3已过期
+        $data['status'] = $this->getActiveStatus($activeInfo['start_time'], $activeInfo['end_time']);
 
         return $data;
     }
