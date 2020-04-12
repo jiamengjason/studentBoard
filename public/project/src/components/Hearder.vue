@@ -188,7 +188,8 @@ export default {
     }
     a{
       color:rgba(51,51,51,1);
-      display: inline;
+      display: inline-block;
+      line-height: 80px;
     }
     .gray{
       color:rgba(153,153,153,1);
