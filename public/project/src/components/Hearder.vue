@@ -120,7 +120,9 @@ export default {
   }
 
   .logo{
-    padding-top: 19px;
+    padding-top: 20px;
+    text-align: left;
+    padding-left: 24px!important;
   }
 
   // 登录状态

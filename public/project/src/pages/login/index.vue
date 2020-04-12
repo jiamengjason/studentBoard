@@ -97,7 +97,7 @@ export default {
 .login-desc {
   font-size: 26px;
   color: #999;
-  margin-bottom: 90px;
+  margin: -30px auto 80px;
 }
 // 登录输入
 .login-input {

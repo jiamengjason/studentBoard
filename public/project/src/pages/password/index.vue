@@ -14,7 +14,6 @@
         </el-tab-pane>
       </el-tabs>
       <comMobile :pwd-type="pwdType" />
-      <!-- <comEmail v-if="activeName == 'email'" /> -->
     </div>
     <Footer />
   </div>
@@ -24,11 +23,10 @@ import Hearder from "@/components/Hearder";
 import Footer from "@/components/Footer";
 import comBreadcrumb from "@/components/Breadcrumb";
 import comMobile from "./component/MobilePwd";
-// import comEmail from "./component/EmailPwd";
 
 export default {
   components: {
-     Hearder,
+    Hearder,
     Footer,
     comBreadcrumb,
     comMobile
