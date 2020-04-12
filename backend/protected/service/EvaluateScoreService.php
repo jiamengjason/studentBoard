@@ -288,4 +288,24 @@ where '.$where.' order by e.create_time desc '.$limitSql;
 
         return $data;
     }
+
+    /**
+     * 评论-点赞和踩
+     * @param $commentId
+     * @param $type
+     * @return bool
+     */
+    public function giveLikeToComment($commentId, $type){
+        $evaInfo = EvaluateScore::model()->findByPk($commentId);
+        if (empty($evaInfo) || empty($evaInfo->getAttributes())){
+            return false;
+        }
+
+        if ($type == 'like'){
+            $evaInfo->setAttribute('give_like', $evaInfo->getAttribute('give_like') + 1);
+        }else {
+            $evaInfo->setAttribute('give_dislike', $evaInfo->getAttribute('give_dislike') + 1);
+        }
+        return $evaInfo->save();
+    }
 }
