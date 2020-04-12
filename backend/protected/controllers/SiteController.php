@@ -10,14 +10,47 @@
  * @version       v3.1.0
  */
 
-class SiteController extends XFrontBase
+class SiteController extends FInterfaceBase
 {
     /**
      * 首页
      */
     public function actionIndex ()
     {
-      $this->render('index',array('model'=>$model));
+        //机构
+        $organizationService = new OrganizationService();
+        $organizationList = $organizationService->getOrganizationListByParams([
+            'page' => 1,
+            'page_size' => 4,
+            'is_command' => 1
+        ]);
+        $organizationList = $organizationList['list'];
+
+        //教师
+        $teacherService = new TeachersService();
+        $teacherList = $teacherService->getTeachersListByParams([
+            'page' => 1,
+            'page_size' => 4,
+            'is_command' => 1
+        ]);
+        $teacherList = $teacherList['list'];
+
+        //活动
+        $activeService = new ActiveService();
+        $activeList = $activeService->getActiveListByParams([
+            'page' => 1,
+            'page_size' => 2,
+            'is_command' => 1
+        ]);
+        $activeList = $activeList['list'];
+
+        //返回数据
+        $data = [
+            'organization_list' => $organizationList,
+            'teacher_list' => $teacherList,
+            'active_list' => $activeList
+        ];
+        $this->outputOk('', $data);
     }
 
 }

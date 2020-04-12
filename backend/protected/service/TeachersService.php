@@ -18,6 +18,9 @@ class TeachersService
         if (isset($params['teacher_name']) && !empty($params['teacher_name'])){
             $where .= ' and user_name like \'%' . $params['teacher_name'] . '%\'';
         }
+        if (isset($params['is_command']) && !empty($params['is_command'])){
+            $where .= ' and u.is_command = ' . $params['is_command'];
+        }
         if (isset($params['score_sort']) && $params['score_sort'] == 'desc'){
             $orderBy = 'order by e.score desc';
         }
@@ -27,7 +30,7 @@ class TeachersService
 
         $sqlCount = 'select count(id) c from sb_users u where '.$where;
         $sql = 'select 
-	u.id user_id,u.parent_id,u.user_name,u.head_img,e.score,e.e_num 
+	u.id user_id,u.parent_id,u.user_name,u.head_img,u.teacher_course,u.is_command,IFNULL(e.score, 0.0) as score, IFNULL(e.e_num, 0) as e_num 
 from sb_users u
 left join (
 	select ANY_VALUE(evaluated_uid) evaluated_uid, round(avg(score),1) as score, count(id) e_num  
@@ -55,12 +58,7 @@ where '.$where.' '.$orderBy.' '.$limitSql;
             if (isset($parentList[$item['parent_id']])){
                 $userList[$key]['organization_name'] = $parentList[$item['parent_id']]['organization_name'];
             }
-            if (empty($item['score'])){
-                $userList[$key]['score'] = '0.0';
-            }
-            if (empty($item['e_num'])){
-                $userList[$key]['e_num'] = '0';
-            }
+            $userList[$key]['teacher_course'] = !empty($item['teacher_course']) ? explode(',', $item['teacher_course']) : [];
         }
 
         $data['page_count'] = $totalNum;

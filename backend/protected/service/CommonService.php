@@ -7,11 +7,19 @@ class CommonService
      * @return string
      */
     public function getCaptchaImage(){
-        $fileList = XUtils::getFile(WWWPATH.DS.'uploads'.DS.'captcha');
+        $imagePath = WWWPATH.DS.'uploads'.DS.'captcha'.DS;
+        $fileList = XUtils::getFile($imagePath);
         $randomKey = array_rand($fileList);
 
+        $randomImage = $imagePath.$fileList[$randomKey];
 
-        return Yii::app()->request->hostInfo . '/uploads/captcha/'.$fileList[$randomKey];
+        return $this->base64EncodeImage($randomImage);
     }
 
+    private function base64EncodeImage($image_file) {
+        $image_info = getImageSize($image_file);
+        $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+        $base64_image = 'data:' . $image_info['mime'] . ';base64,' .chunk_split(base64_encode($image_data));
+        return $base64_image;
+    }
 }

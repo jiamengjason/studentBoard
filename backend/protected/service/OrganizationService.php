@@ -52,6 +52,9 @@ class OrganizationService
         if (isset($params['organization_name']) && !empty($params['organization_name'])){
             $where .= ' and organization_name like \'%' . $params['organization_name'] . '%\'';
         }
+        if (isset($params['is_command']) && !empty($params['is_command'])){
+            $where .= ' and u.is_command = ' . $params['is_command'];
+        }
         if (isset($params['score_sort']) && $params['score_sort'] == 'desc'){
             $orderBy = 'order by e.score desc';
         }
@@ -61,10 +64,11 @@ class OrganizationService
 
         $sqlCount = 'select count(id) c from sb_users u where '.$where;
         $sql = 'select 
-	u.id user_id,u.user_name,u.head_img,u.organization_name,u.organization_yewu,u.organization_phone,u.organization_name,u.organization_desc,e.score,e.e_num 
+	u.id user_id,u.user_name,u.head_img,u.organization_name,u.organization_yewu,u.is_command,u.organization_phone,
+	u.organization_name,u.organization_desc,IFNULL(e.score, 0.0) as score, IFNULL(e.e_num, 0) as e_num
 from sb_users u
 left join (
-	select ANY_VALUE(evaluated_uid) evaluated_uid, round(avg(score),1) as score, count(id) e_num  
+	select ANY_VALUE(evaluated_uid) evaluated_uid, round(avg(score),1) as score, count(id) as e_num  
 	from sb_evaluate_score  
 	group by evaluated_uid
 ) as e on u.id = e.evaluated_uid
@@ -82,6 +86,7 @@ where '.$where.' '.$orderBy.' '.$limitSql;
         $teacherService = new TeachersService();
         foreach ($userList as $key=>$item){
             $userList[$key]['teacher_list'] = $teacherService->getTeachersListByOrganizationId($item['user_id']);
+            $userList[$key]['organization_yewu'] = !empty($item['organization_yewu']) ? explode(',', $item['organization_yewu']) : [];
         }
 
         $data['page_count'] = $totalNum;

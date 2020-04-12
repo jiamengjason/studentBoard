@@ -30,6 +30,8 @@ class ActiveService
                     $condition .= ' and start_time <\'' . date('Y-m-d H:i:s').'\' and end_time >\'' . date('Y-m-d H:i:s').'\'';
                 }elseif($field == 'type' && $v == 3){//已结束
                     $condition .= ' and end_time <\'' . date('Y-m-d H:i:s').'\'';
+                }elseif ($field == 'is_command'){
+                    $condition .= ' and t.is_command = ' . $v;
                 }
             }
             $criteria->condition = $condition;
