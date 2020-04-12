@@ -249,6 +249,10 @@ class UsersService
         if (isset($params['organization_yewu']) && !empty($params['organization_yewu'])){
             $where .= ' and u.organization_yewu like \'%' .$params['organization_yewu']. '%\'';
         }
+        //关键字
+        if (isset($params['name']) && !empty($params['name'])){
+            $where .= ' and (u.user_name like \'%' .$params['name']. '%\' or u.organization_name like \'%'.$params['name'].'%\')';
+        }
 
         //order by
         $orderBy = 'order by e.score desc,e.e_num desc';
