@@ -15,10 +15,12 @@ class SiteConfigController extends FInterfaceBase
         $config['seo_title'] = $this->_seoTitle;
         $config['seo_desc'] = $this->_seoDescription;
         $config['seo_keywords'] = $this->_seoKeywords;
-        $config['config'] = $this->_conf;
+//        $config['config'] = $this->_conf;
         $config['grade_list'] = $this->_gradeList;
         $config['score_list'] = $this->_scoreList;
         $config['tags'] = RoleGroupListConfig::getTagsList();
+        $config['teacher_course'] = RoleGroupListConfig::getTeacherCourse();
+        $config['organization_yewu'] = RoleGroupListConfig::getOrganizationYewu();
 
         $this->outputOk('', $config);
     }

@@ -134,4 +134,68 @@ class RoleGroupListConfig
             '讲的细心',
         ];
     }
+
+    /**
+     * 老师课程
+     * @return array
+     */
+    public static function getTeacherCourse(){
+        //托福，SAT, SAT II，SSAT, 雅思，GRE，其他
+        return [
+            [
+                'value' => 1,
+                'label' => '托福',
+            ],
+            [
+                'value' => 2,
+                'label' => 'SAT',
+            ],
+            [
+                'value' => 3,
+                'label' => 'SAT II',
+            ],
+            [
+                'value' => 4,
+                'label' => 'SSAT',
+            ],
+            [
+                'value' => 5,
+                'label' => '雅思',
+            ],
+            [
+                'value' => 6,
+                'label' => 'GRE',
+            ],
+            [
+                'value' => 7,
+                'label' => '其他',
+            ],
+        ];
+    }
+
+    /**
+     * 机构业务
+     * @return array
+     */
+    public static function getOrganizationYewu(){
+        //美高申请，美本申请，美初申请，研究生申请
+        return [
+            [
+                'value' => 1,
+                'label' => '美高申请',
+            ],
+            [
+                'value' => 2,
+                'label' => '美本申请',
+            ],
+            [
+                'value' => 3,
+                'label' => '美初申请',
+            ],
+            [
+                'value' => 4,
+                'label' => '研究生申请',
+            ],
+        ];
+    }
 }

@@ -17,6 +17,7 @@ class LoginService
         'organization_name',//机构名称
         'organization_desc',//机构简介
         'organization_email',//机构邮箱
+        'teacher_course',//老师课程
         'parent_id',        //父类Id
     ];
 
