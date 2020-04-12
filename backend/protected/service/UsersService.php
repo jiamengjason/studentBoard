@@ -103,8 +103,8 @@ class UsersService
             $data['organizationName'] = $userInfo['organization_name'];
             $data['organizationEmail'] = $userInfo['organization_email'];
             $data['organizationDesc'] = $userInfo['organization_desc'];
-            $data['organizationYewu'] = explode(',', $userInfo['organization_yewu']);
-            $data['teacherCourse'] = explode(',', $userInfo['teacher_course']);
+            $data['organizationYewu'] = empty($userInfo['organization_yewu']) ? [] : explode(',', $userInfo['organization_yewu']);
+            $data['teacherCourse'] = empty($userInfo['teacher_course']) ? [] : explode(',', $userInfo['teacher_course']);
             $data['organizationPhone'] = $userInfo['organization_phone'];
             $data['organizationWww'] = $userInfo['organization_www'];
         }
