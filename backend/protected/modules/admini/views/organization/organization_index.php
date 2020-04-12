@@ -20,6 +20,7 @@
         <th width="90">已验证手机号</th>
         <th width="60">用户状态</th>
         <th width="140">注册时间</th>
+        <th width="100">推荐到首页</th>
         <th width="80">操作</th>
     </tr>
     <?php foreach ($datalist as $row):?>
@@ -33,6 +34,7 @@
         <td> <?php echo $row->mobile_vali == 1 ? '是' : '否'?></td>
         <td> <?php echo $row->status_is == 1 ? '正常' : '禁用'?></td>
         <td ><?php echo $row->create_time?></td>
+        <td> <?php echo $row->is_command == 1 ? '是' : '否'?></td>
         <td >
             <a href="<?php echo  $this->createUrl('update',array('id'=>$row->id))?>">
                 <img src="<?php echo $this->_baseUrl?>/static/admin/images/update.png" align="absmiddle" />
