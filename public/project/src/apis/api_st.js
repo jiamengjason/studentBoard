@@ -18,6 +18,10 @@ export const apiGetFamousTeacher = params => {
 export const apiDoValuate = params => {
   return request.post(`${defaultPath}member/evaluate`,params);
 };
+// 获取机构明星评价
+export const apiGetOrgStartComment = params => {
+  return request.get(`${defaultPath}organizations/startComment&organization_id=${params.organization_id}`);
+};
 // 获取机构全部评论
 export const apiGetCommentListOrg = params => {
   return request.get(`${defaultPath}organizations/commentList&organization_id=${params.organization_id}`);
@@ -38,6 +42,10 @@ export const apigetTeachersInfo = params => {
 export const apiGetSimilarTeacher = params => {
   return request.get(`${defaultPath}teachers/similar&teacher_id=${params.teacher_id}`);
 };
+// 获取教师明星评价
+export const apiGetTeacherStartComment = params => {
+  return request.get(`${defaultPath}teachers/startComment&teacher_id=${params.teacher_id}`);
+};
 // 获取教师全部评论
 export const apiGetCommentList = params => {
   return request.get(`${defaultPath}teachers/commentList&teacher_id=${params.teacher_id}`);
@@ -54,3 +62,9 @@ export const apiGetActiveInfo = params => {
   return request.get(`${defaultPath}active/detail`, params);
 };
 // ----------------------------------活动相关---------------------------------------
+
+
+// 点赞/踩
+export const apiDoLikeDislike = params => {
+  return request.get(`${defaultPath}comment/do`, params);
+};

@@ -39,14 +39,14 @@
             </el-row>
             <div class="mess-tit">
               明星评价
-              <span class="time">2020-03-15</span>  
+              <span class="time">{{ starComment.create_time }}</span>  
             </div>
             <div class="mess-con">
-              老师治学严谨，要求严格，能深入了解学生的学习和生活状况，循循善诱，平易近人;注意启发和调动学生的积极性，课堂气氛较为活跃;上课例题丰富，不厌其烦，细心讲解，使学生有所收获;半数认真工整，批改作业认真及时并注意讲解学生易犯错误;最重要的是，段老师能虚心并广泛听取学生的意见和反馈信息，做到及时修正和调整自己的教学。总之，段老师是一个不可多得的好教师。
+              {{ starComment.comment || '暂无评价内容' }}
             </div>
             <div class="st-message-zan">
-              <span class="zan">10</span>  
-              <span class="cai">2</span>  
+              <span class="zan" @click="doLikeDisList(starComment.comment_id, 'like')">{{ starComment.give_like }}</span>  
+              <span class="cai" @click="doLikeDisList(starComment.comment_id, 'dislike')">{{ starComment.give_dislike }}</span>  
             </div> 
           </div>
           <div style="clear:both"></div>
@@ -144,7 +144,7 @@
 <script>
 import Hearder from "../../components/Hearder";
 import Footer from "../../components/Footer";
-import { apigetTeachersInfo, apiGetSimilarTeacher, apiGetCommentList } from "@/apis/api_st";
+import { apigetTeachersInfo, apiGetSimilarTeacher, apiGetCommentList, apiGetTeacherStartComment, apiDoLikeDislike} from "@/apis/api_st";
 
 export default {
   name: "Home",
@@ -161,6 +161,7 @@ export default {
       similarTeacher: [],
       // 全部评论
       commentList: [],
+      starComment: {},
       pageConfig:{
         page: 1,
         page_size: 20,
@@ -172,6 +173,8 @@ export default {
   mounted() {
     // 获取教师详细信息
     this.getInfo()
+    // 获取明星评价
+    this.getStarCom()
     // 获取相似教师
     this.getFamousTeacher()
     // 获取全部评论
@@ -185,6 +188,18 @@ export default {
           this.teacherInfo = res.data.data
         }else{
           this.teacherInfo = {}
+        }
+      })
+    },
+    getStarCom(){
+      // 获取明星评价
+      apiGetTeacherStartComment({
+        'teacher_id': this.$route.query.teacher_id
+      }).then( res => {
+        if(res.data.code==200){
+          this.starComment = res.data.data
+        }else{
+          this.starComment = {}
         }
       })
     },
@@ -211,6 +226,20 @@ export default {
           this.pageConfig.total_num = parseInt(res.data.data.total_num)
         }else{
           this.commentList = []
+        }
+      })
+    },
+    doLikeDisList(comment_id, type){
+      if(!comment_id || !type) return
+      // 点赞、踩
+      apiDoLikeDislike({
+        'comment_id': comment_id,
+        'type': type
+      }).then( res => {
+        if(res.data.code==200){
+          this.$message.success('成功');
+        }else{
+          this.$message.error(res.data.msg);
         }
       })
     }
