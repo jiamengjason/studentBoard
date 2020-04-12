@@ -48,7 +48,7 @@ class SiteConfigController extends FInterfaceBase
     public function actionCaptcha(){
         $commonService = new CommonService();
         $captcha = $commonService->getCaptchaImage();
-
-        $this->outputOk('', $captcha);
+        echo $captcha;
+        exit;
     }
 }
