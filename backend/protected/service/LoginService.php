@@ -28,9 +28,6 @@ class LoginService
      */
     public function doRegister($params){
         $save = [];
-        if (isset($params['p_id'])){//父类ID
-            $params['parent_id'] = $params['p_id'];
-        }
         if (isset($params['password'])){
             $params['password'] = CommonEnums::md5Password($params['password']);
         }

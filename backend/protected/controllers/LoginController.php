@@ -33,7 +33,7 @@ class LoginController extends FInterfaceBase
             'organization_email',//机构简介
             'teacher_course',//老师课程
             'valid_code',       //手机验证码
-            'p_id',  //父类id
+            'parent_id',  //父类id
         ];
         foreach ($collectionFields as $fields){
             if (isset($this->_requestParams[$fields])){

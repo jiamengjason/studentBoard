@@ -53,4 +53,7 @@ class SiteController extends FInterfaceBase
         $this->outputOk('', $data);
     }
 
+    public function actionSearch(){
+
+    }
 }
