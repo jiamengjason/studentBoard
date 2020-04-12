@@ -30,6 +30,7 @@ class LoginController extends FInterfaceBase
             'parent_id',        //所属机构
             'organization_name',//机构名称
             'organization_desc',//机构简介
+            'organization_email',//机构简介
             'valid_code',       //手机验证码
             'p_id',  //父类id
         ];

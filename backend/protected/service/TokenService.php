@@ -44,4 +44,13 @@ class TokenService
         $tokenModel = new Token();
         return $tokenModel->updateByPk($pk, $params);
     }
+
+    /**
+     * 退出登录清楚token
+     * @param $userId
+     * @return int
+     */
+    public function logout($userId){
+        return Token::model()->deleteAll('user_id=:user_id', ['user_id'=>$userId]);
+    }
 }

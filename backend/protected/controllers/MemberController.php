@@ -295,4 +295,16 @@ class MemberController extends FSessionInterfaceBase
 
         $this->outputOk('', $rs);
     }
+
+    /**
+     * 【个人中心】退出登录
+     */
+    public function actionLogout()
+    {
+        //查询参加的活动列表
+        $tokenService = new TokenService();
+        $rs = $tokenService->logout($this->userId);
+
+        $this->outputOk('', $rs);
+    }
 }
