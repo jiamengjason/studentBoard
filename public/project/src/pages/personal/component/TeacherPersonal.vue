@@ -40,11 +40,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="邮件：" class="text-left">
-                  {{ ruleForm.email }}
+                <el-form-item label="手机号：" class="text-left">
+                  {{ ruleForm.mobile }}
                 </el-form-item>
               </el-col>
-            </el-row>
+            </el-row>           
             <!-- 机构、手机号 -->
             <el-row :gutter="20">
               <el-col :span="8">
@@ -60,11 +60,26 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="手机号：" class="text-left">
-                  {{ ruleForm.mobile }}
+                <el-form-item label="邮件：" class="text-left">
+                  {{ ruleForm.email }}
+                </el-form-item>
+              </el-col>             
+            </el-row>
+            <!-- 选择课程 -->
+            <el-row :gutter="20"> 
+              <el-col :span="26"> 
+                <el-form-item
+                  label="选择课程："
+                  :rules="{required: true, message: '请选择课程', trigger: 'change'}"
+                >
+                  <el-checkbox-group v-model="teacherCourse" style="text-align:left;">
+                    <el-checkbox-button v-for="item in courseList" :key="item" :label="item">
+                      {{ item }}
+                    </el-checkbox-button>
+                  </el-checkbox-group>                
                 </el-form-item>
               </el-col>
-            </el-row>
+            </el-row> 
             <!-- 身份证 -->
             <el-row :gutter="10">
               <el-col :span="8">
@@ -99,6 +114,7 @@ import TopTitle from "./TopTitle.vue";
 import PersonBase from "./PersonalBase.vue";
 import PersonalActivity from "./PersonalActivity.vue";
 import { 
+  apiGetSiteConfig,
   apiGetOrganizationList,
   apiGetUserInfo,
   apiResetUserUpdate,
@@ -127,12 +143,15 @@ export default {
         parentId: "",
         identityImg:""
       },
+      teacherCourse: [],
       orgOptions: [],
+      courseList: [],
       uploadConfig:{}, // 上传的时候设置config
       checkImg:true,
       rules: {
         userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        parentId: [{ required: true, message: "请选择机构", trigger: "blur" }]
+        parentId: [{ required: true, message: "请选择机构", trigger: "change" }]
+        
       }
     };
   },
@@ -151,11 +170,22 @@ export default {
     }
   },
   created() {
+    this.getSiteConfig();
     this.getOrganizationList();
     this.getUserInfo();
   },
   methods:{
-    // 获取网站配置
+    // 获取课程配置
+    getSiteConfig(){
+      apiGetSiteConfig().then(res => {
+        if (res.data.code == 200) {
+          this.courseList = res.data.data.teacher_course;
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      })
+    },
+    // 获取机构配置
     getOrganizationList(){
       apiGetOrganizationList().then(res => {
         if (res.data.code == 200) {
@@ -174,7 +204,7 @@ export default {
       apiGetUserInfo(params).then(res=>{
         if (res.data.code == 200) {
           this.ruleForm = res.data.data;
-          this.ruleForm.parentId = Number(res.data.data.parentId)
+          this.teacherCourse = res.data.data.teacherCourse;
           // 给父组件传用户信息值
           this.$emit('handleInfo',{
             headImg: res.data.data.headImg || '/img/img_teacher.png',
@@ -238,16 +268,28 @@ export default {
         mobile: this.ruleForm.mobile,
         email: this.ruleForm.email,
         parentId: this.ruleForm.parentId,
+        teacherCourse: this.teacherCourse,
         headImg: this.ruleForm.headImg,
         identityImg: this.ruleForm.identityImg
       }
-      apiResetUserUpdate(params).then(res=>{
-        if (res.data.code == 200) {
-          this.$message.success('修改成功');
-          this.getUserInfo() // 重新获取个人信息
-        }else{
-          this.$message.error(res.data.msg);
-        }
+      console.log(params,'params')
+      this.$refs.ruleForm.validate((valid) => {       
+          if (valid) {
+            if(this.teacherCourse.length > 0){
+              apiResetUserUpdate(params).then(res=>{
+                if (res.data.code == 200) {
+                  this.$message.success('修改成功');
+                  this.getUserInfo() // 重新获取个人信息
+                }else{
+                  this.$message.error(res.data.msg);
+                }
+              })
+            }else {
+              this.$message.error('输入信息不完整')
+            }
+          } else {
+            this.$message.error('输入信息不完整')
+          }               
       })
     }
   }
