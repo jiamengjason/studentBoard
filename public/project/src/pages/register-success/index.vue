@@ -3,7 +3,7 @@
     <Hearder />
     <Breadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
-      <img src="/img/icon_success.png" class="register-success-icon"/>  
+      <img src="/img/icon_success.png" class="register-success-icon" />  
       <p class="reg-success-title">{{ text }}已成功</p>
       <p class="reg-success-tologin">
         <span>返回首页？</span>
@@ -66,6 +66,7 @@ export default {
   margin-bottom: 20px;
 }
 .reg-success-tologin {
+  cursor: pointer;
   font-size: 16px;
   span:last-child {
     color: $orangeColor;
