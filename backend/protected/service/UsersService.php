@@ -222,4 +222,97 @@ class UsersService
 
         return $rs;
     }
+
+    /**
+     * 搜索
+     * @param $params
+     * @return array
+     */
+    public function searchByParams($params){
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
+        $page = !isset($params['page']) ? 1 : $params['page'];
+        $limit = ($page - 1) * $pageSize;
+
+        //条件
+        $where = '1';
+        //检索角色
+        if (isset($params['role_id']) && !empty($params['role_id'])){
+            $where .= ' and u.role_id = ' .$params['role_id'];
+        }else {
+            $where .= ' and u.role_id in('.RoleGroupListConfig::$organizationRoleId. ','.RoleGroupListConfig::$teacherRoleId.')';
+        }
+        //检索老师课程
+        if (isset($params['teacher_course']) && !empty($params['teacher_course'])){
+            $where .= ' and u.teacher_course like \'%' .$params['teacher_course']. '%\'';
+        }
+        //检索机构业务
+        if (isset($params['organization_yewu']) && !empty($params['organization_yewu'])){
+            $where .= ' and u.organization_yewu like \'%' .$params['organization_yewu']. '%\'';
+        }
+
+        //order by
+        $orderBy = 'order by e.score desc,e.e_num desc';
+        //limit
+        $limitSql = 'limit '.$limit.','.$pageSize;
+        //select
+        $sqlCount = 'select count(id) c from sb_users u where '.$where;
+        $sql = 'select 
+	u.id user_id,u.role_id,u.parent_id,u.user_name,u.head_img,u.teacher_course,u.organization_yewu,IFNULL(e.score, 0.0) as score, IFNULL(e.e_num, 0) as e_num 
+from sb_users u
+left join (
+	select ANY_VALUE(evaluated_uid) evaluated_uid, round(avg(score),1) as score, count(id) e_num  
+	from sb_evaluate_score  
+	group by evaluated_uid
+) as e on u.id = e.evaluated_uid
+where '.$where.' '.$orderBy.' '.$limitSql;
+
+        $dbHandel = Yii::app()->db;
+        $userList = $dbHandel->createCommand($sql)->queryAll();
+        $countRs = $dbHandel->createCommand($sqlCount)->queryAll();
+        $totalNum = 0;
+        if (isset($countRs[0]['c'])){
+            $totalNum = ceil($countRs[0]['c'] / $pageSize);
+            $data['total_num'] = intval($countRs[0]['c']);
+        }
+        $parentIds = array_unique(array_column($userList, 'parent_id'));
+        $parentList = [];
+        if (!empty($parentIds)){
+            foreach ($parentIds as $key=>$pId){
+                if (empty($pId)){
+                    unset($parentIds[$key]);
+                }
+            }
+            if (!empty($parentList)){
+                $parentList = $dbHandel->createCommand('select id,organization_name from sb_users where id in('.implode(',', $parentIds).')')->queryAll();
+                $parentList = array_column($parentList, null, 'id');
+            }
+        }
+
+        $teacherService = new TeachersService();
+        //查询明星评价
+        $evaluateScoreService = new EvaluateScoreService();
+        //遍历
+        foreach ($userList as $key=>$item){
+            if (isset($parentList[$item['parent_id']])){
+                $userList[$key]['organization_name'] = $parentList[$item['parent_id']]['organization_name'];
+            }
+            $userList[$key]['teacher_course'] = !empty($item['teacher_course']) ? explode(',', $item['teacher_course']) : [];
+            $userList[$key]['organization_yewu'] = !empty($item['organization_yewu']) ? explode(',', $item['organization_yewu']) : [];
+            //机构获取团队老师
+            if ($item['role_id'] == RoleGroupListConfig::$organizationRoleId){
+                $userList[$key]['teacher_list'] = $teacherService->getTeachersListByOrganizationId($item['user_id']);
+
+            }elseif ($item['role_id'] == RoleGroupListConfig::$teacherRoleId){
+                //老师获取明星评价
+                $comment = $evaluateScoreService->getStartCommentList(['evaluated_uid'=>$item['user_id']]);
+                $userList[$key]['comment'] = $comment ? $comment['comment'] : '';
+            }
+        }
+
+        $data['page_count'] = $totalNum;
+        $data['page'] = $page;
+        $data['page_size'] = $pageSize;
+        $data['list'] = $userList;
+        return $data;
+    }
 }

@@ -45,11 +45,16 @@ where '.$where.' '.$orderBy.' '.$limitSql;
         $totalNum = 0;
         if (isset($countRs[0]['c'])){
             $totalNum = ceil($countRs[0]['c'] / $pageSize);
-            $data['total_num'] = $countRs[0]['c'];
+            $data['total_num'] = intval($countRs[0]['c']);
         }
         $parentIds = array_unique(array_column($userList, 'parent_id'));
         $parentList = [];
         if (!empty($parentIds)){
+            foreach ($parentIds as $key=>$pId){
+                if (empty($pId)){
+                    unset($parentIds[$key]);
+                }
+            }
             $parentList = $dbHandel->createCommand('select id,organization_name from sb_users where id in('.implode(',', $parentIds).')')->queryAll();
             $parentList = array_column($parentList, null, 'id');
         }

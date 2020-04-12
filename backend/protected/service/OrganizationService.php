@@ -80,7 +80,7 @@ where '.$where.' '.$orderBy.' '.$limitSql;
         $totalNum = 0;
         if (isset($countRs[0]['c'])){
             $totalNum = ceil($countRs[0]['c'] / $pageSize);
-            $data['total_num'] = $countRs[0]['c'];
+            $data['total_num'] = intval($countRs[0]['c']);
         }
         //获取机构下的推荐老师
         $teacherService = new TeachersService();

@@ -60,7 +60,20 @@ class SiteController extends FInterfaceBase
         $this->outputOk('', $data);
     }
 
+    /**
+     * 搜索页面
+     */
     public function actionSearch(){
+        $params['role_id'] = $this->_gets->getParam('role_id');
+        $params['name'] = $this->_gets->getParam('name');
+        $params['page_size'] = $this->_gets->getParam('page_size');
+        $params['page'] = $this->_gets->getParam('page');
+        $params['teacher_course'] = $this->_gets->getParam('teacher_course');
+        $params['organization_yewu'] = $this->_gets->getParam('organization_yewu');
 
+        $userService = new UsersService();
+        $data = $userService->searchByParams($params);
+
+        $this->outputOk('', $data);
     }
 }
