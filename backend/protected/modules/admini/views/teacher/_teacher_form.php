@@ -67,6 +67,12 @@
     <tr >
         <td ><?php echo $form->dropDownList($model,'status_is',array('1'=>'正常', '0'=>'禁用')); ?></td>
     </tr>
+    <tr>
+        <td class="tb_title">推荐到首页：</td>
+    </tr>
+    <tr >
+        <td ><?php echo $form->dropDownList($model,'is_command',array('0'=>'否', '1'=>'是')); ?></td>
+    </tr>
     <tr class="submit">
         <td > <input name="submit" type="submit" id="submit" value="提交" class="button" /></td>
     </tr>
