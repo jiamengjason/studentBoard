@@ -1,7 +1,10 @@
 <template>
   <div class="form-page">
     <!-- 基本信息 -->
-    <p class="title">基本信息</p>
+    <p class="title">
+      <img src="/img/icon_info.png" alt="">
+      基本信息
+    </p>
     <comRegBase ref="regBase" />
     <comParentReg ref="parentReg" />
     <!-- 完成 -->

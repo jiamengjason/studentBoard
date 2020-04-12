@@ -10,7 +10,7 @@
     <!-- 手机号 -->
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="Email：" prop="email">
+        <el-form-item label="邮件：" prop="email">
           <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
       </el-col>

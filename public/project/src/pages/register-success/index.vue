@@ -3,6 +3,7 @@
     <Hearder />
     <Breadcrumb class="bread-crumb" :bread-list="breadList" />
     <div class="register-page">
+      <img src="/img/icon_success.png" class="register-success-icon" />  
       <p class="reg-success-title">{{ text }}已成功</p>
       <p class="reg-success-tologin">
         <span>返回首页？</span>
@@ -30,13 +31,13 @@ export default {
   },
   computed: {
     text(){
-      if(this.$route.query.id ===2){
+      if(this.$route.query.id === 2){
         return "修改"
       }
       return "注册"
     },
     breadList(){
-      if(this.$route.query.id ===2){
+      if(this.$route.query.id === 2){
         return ['忘记密码']
       }
       return ['个人注册']
@@ -65,9 +66,14 @@ export default {
   margin-bottom: 20px;
 }
 .reg-success-tologin {
+  cursor: pointer;
   font-size: 16px;
   span:last-child {
     color: $orangeColor;
   }
+}
+.register-success-icon{
+  width: 110px;
+  height: 110px;
 }
 </style>

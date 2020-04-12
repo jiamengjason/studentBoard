@@ -26,7 +26,10 @@
       </el-col>
     </el-row>
     <!-- 验证信息 -->
-    <p class="title">验证信息</p>
+    <p class="title">
+      <img src="/img/icon_verify.png" alt="">
+      验证信息
+    </p>
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="手机验证码：" prop="vertifyMeg">

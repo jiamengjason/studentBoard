@@ -1,7 +1,10 @@
 <template>
   <div class="form-page">
     <!-- 基本信息 -->
-    <p class="title">基本信息</p>
+    <p class="title">
+      <img src="/img/icon_info.png" alt="">
+      基本信息
+    </p>
     <comOrgBase ref="orgBase" />
     <p class="title">负责人信息</p>
     <comRegBase ref="regBase" />
@@ -45,8 +48,8 @@ export default {
         password: regBase.model.pwd,
         re_password: regBase.model.truePwd,
         email: regBase.model.email,
-        valid_code: studentReg.model.vertifyMeg,
-        identity_img: studentReg.model.imageId
+        valid_code: orgReg.model.vertifyMeg,
+        identity_img: orgReg.model.imageId
       };
       console.log(params, "params");
       // 使用Promise.all去校验结果

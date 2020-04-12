@@ -122,4 +122,31 @@ class TeachersController extends FInterfaceBase
 
         $this->outputOk('', $data);
     }
+
+    /**
+     *【知名教师】教师详情-明星评论
+     */
+    public function actionStartComment(){
+        $params['evaluated_uid'] = $this->_gets->getParam('teacher_id');
+        if (empty($params['evaluated_uid'])){
+            $this->outputParamsError();
+        }
+        $usersService = new UsersService();
+        $userInfo = $usersService->getUserInfoByUid($params['evaluated_uid']);
+        if (empty($userInfo)){
+            $this->outputParamsError();
+        }
+        if ($userInfo['roleId'] != RoleGroupListConfig::$teacherRoleId){
+            $this->outputParamsError();
+        }
+
+        //查询明星评论
+        $evaluateScoreService = new EvaluateScoreService();
+        $data = $evaluateScoreService->getStartCommentList($params);
+        if (false === $data){
+            $this->outputParamsError();
+        }
+
+        $this->outputOk('', $data);
+    }
 }

@@ -7,6 +7,14 @@
     label-width="100px"
     class="demo-ruleForm"
   >
+    <p v-if="pwdType === 'mobile'" class="title">
+      <img src="/img/icon_phone.png" alt="">
+      手机验证
+    </p>
+    <p v-else class="title">
+      <img src="/img/icon_verify.png" alt="">
+      邮箱验证
+    </p>
     <!-- 手机号 -->
     <el-row :gutter="20">
       <el-col v-if="pwdType === 'mobile'" :span="8">
@@ -15,7 +23,7 @@
         </el-form-item>
       </el-col>
       <el-col v-else :span="8">
-        <el-form-item label="Email：" prop="email">
+        <el-form-item label="邮件：" prop="email">
           <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
       </el-col>
@@ -26,6 +34,10 @@
         </el-form-item>
       </el-col>
     </el-row>
+    <p class="title">
+      <img src="/img/icon_lock.png" alt="">
+      重置密码
+    </p>
     <!-- 密码 -->
     <el-row :gutter="20">
       <el-col :span="8">
@@ -161,7 +173,7 @@ export default {
         new_password: this.ruleForm.newPwd,  //新密码
         re_password: this.ruleForm.verNewPwd  
       }
-       apiResetPwByMobile(params).then(res => {
+      apiResetPwByMobile(params).then(res => {
         if(res.data.code == 200){
           this.successPath = 2 // 2代表是修改成功
           this.$message.success("修改成功");
@@ -180,7 +192,7 @@ export default {
       }
       apiResetPwByEmail(params).then(res => {
         if(res.data.code == 200){
-          this.successPath = 2 // 2代表是修改成功
+          this.successPath = 2 // 2代表是修改成功 定义值在home.js里
           this.$message.success("修改成功");
           this.toRegisterSuccessPageFn()
         }else{

@@ -58,7 +58,6 @@
                 <span class="gray">中</span>/EN
               </p>
             </el-col>
-            <el-col :offset="4"></el-col>
           </el-row>
           <div></div>
         </div>
@@ -170,10 +169,9 @@ export default {
   }
 
   .logo{
-    height: 100%;
-    img{
-      margin-top: 19px;
-    }
+    padding-top: 20px;
+    text-align: left;
+    padding-left: 24px!important;
   }
 
   // 登录状态
@@ -181,9 +179,16 @@ export default {
     font-size:20px;
     font-weight:400;
     color:rgba(51,51,51,1);
-    line-height: 50px;
+    height: 100%;
+    .el-row, .el-col,.el-dropdown{
+      height: 80px;
+    }
+    p{
+      line-height: 40px;
+    }
     a{
       color:rgba(51,51,51,1);
+      display: inline;
     }
     .gray{
       color:rgba(153,153,153,1);

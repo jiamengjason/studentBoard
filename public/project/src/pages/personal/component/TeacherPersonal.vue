@@ -40,7 +40,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="5">
-                <el-form-item label="Email：" class="text-left">
+                <el-form-item label="邮件：" class="text-left">
                   {{ ruleForm.email }}
                 </el-form-item>
               </el-col>
@@ -307,8 +307,25 @@ export default {
       }
     }
   }
-  .text-left {
+  .text-left{
     text-align: left;
+    .el-form-item__content{
+      display: flex;
+    }
+    .upload-state{
+      margin-right:10px;
+      width: 50px;
+    }
+  }
+  .add-info-img-btn{
+    width: 120px;
+    height: 36px;
+    background: $orangeColor;
+    border-radius: 4px;
+    line-height: 36px;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
   }
   .personal-top-save-btn {
     cursor: pointer;

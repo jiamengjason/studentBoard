@@ -1,5 +1,5 @@
 <template>
-  <div class="organization-activety-list">
+  <div :class="{'organization-activety-list' : orgActiveList.length > 0 }">
     <template v-if="orgActiveList.length > 0">
       <div v-for="(item,index) in orgActiveList" :key="index" class="activity-item">
         <img :src="item.title_img" alt />
