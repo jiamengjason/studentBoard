@@ -41,4 +41,14 @@ class SiteConfigController extends FInterfaceBase
 
         $this->outputOk('', $return);
     }
+
+    /**
+     * 【人机交互】获取人机交互随机背景图片地址
+     */
+    public function actionCaptcha(){
+        $commonService = new CommonService();
+        $captcha = $commonService->getCaptchaImage();
+
+        $this->outputOk('', $captcha);
+    }
 }
