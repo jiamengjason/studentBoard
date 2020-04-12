@@ -41,7 +41,7 @@
   }
   
   function getRandomImg() {
-    return 'https://picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 100)
+    return '/v1/index.php?r=siteConfig/captcha&image=' + getRandomNumberByRange(0, 100)
   }
 
   function draw(ctx, operation, x, y) {
