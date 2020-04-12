@@ -34,6 +34,13 @@ class SiteController extends FInterfaceBase
             'is_command' => 1
         ]);
         $teacherList = $teacherList['list'];
+        //查询明星评价
+        $evaluateScoreService = new EvaluateScoreService();
+        foreach ($teacherList as $key=>$item){
+            $params['evaluated_uid'] = $item['user_id'];
+            $comment = $evaluateScoreService->getStartCommentList($params);
+            $teacherList[$key]['comment'] = $comment ? $comment['comment'] : '';
+        }
 
         //活动
         $activeService = new ActiveService();
