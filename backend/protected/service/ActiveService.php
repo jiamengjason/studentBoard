@@ -107,24 +107,35 @@ class ActiveService
      * @return array|bool
      */
     public function getActiveInfoById($id, $userId=false){
-        $activeInfo = Active::model()->findByPk($id);
-        if (empty($activeInfo) || empty($activeInfo->getAttributes())){
+        $activeModel = new Active();
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.id = ' . $id;
+        $criteria->with = array ('users');
+        $activeInfo = $activeModel->findAll($criteria);
+        if (!isset($activeInfo[0]) || empty($activeInfo[0]->getAttributes())){
             return false;
         }
 
-        $data = $activeInfo->getAttributes();
+        $organizationInfo = $activeInfo[0]->users->getAttributes();
+        $data = [];
+        $data['is_attend'] = 0;
         if ($userId){
-            $attributes = [
-                'active_id' => $id,
-                'user_id' => $userId
-            ];
-            $activeUserInfo = ActiveUser::model()->findByAttributes($attributes);
+            $activeUserInfo = ActiveUser::model()->findByAttributes(['active_id' => $id, 'user_id' => $userId]);
             if (!empty($activeUserInfo) && !empty($activeUserInfo->getAttributes())){
                 $data['is_attend'] = 1;
-            }else {
-                $data['is_attend'] = 0;
             }
         }
+        $data['organization_name'] = $organizationInfo['organization_name'];
+        $data['organization_id'] = $organizationInfo['id'];
+        $data['organization_yewu'] = $organizationInfo['organization_yewu'];
+        $activeInfo = $activeInfo[0]->getAttributes();
+        $data['active_id'] = $activeInfo['id'];
+        $data['title_img'] = $activeInfo['title_img'];
+        $data['title'] = $activeInfo['title'];
+        $data['desc'] = $activeInfo['desc'];
+        $data['addr'] = $activeInfo['addr'];
+        $data['start_time'] = $activeInfo['start_time'];
+        $data['end_time'] = $activeInfo['end_time'];
 
         return $data;
     }
