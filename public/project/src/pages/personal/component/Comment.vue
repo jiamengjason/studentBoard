@@ -69,6 +69,8 @@ export default {
       apiGetMyCommentList(params).then(res=>{
         if (res.data.code == 200) {
           this.commentList = res.data.data.list;
+          // 总条数
+          this.pageConfig.totalNum = parseInt(res.data.data.total_num)
         }else{
           this.$message.error(res.data.msg);
         }

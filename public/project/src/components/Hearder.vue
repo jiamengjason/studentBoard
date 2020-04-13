@@ -91,7 +91,7 @@ export default {
     this.$router.push({
         name: 'search',
         query:{
-          seatchText: this.search
+          searchText: this.search
         }
       })
     },

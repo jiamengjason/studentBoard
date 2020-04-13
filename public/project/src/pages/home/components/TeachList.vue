@@ -11,15 +11,15 @@
     <div class="con">
       <p>
         <span class="leftlabel">评分：</span>
-        <span class="sore">{{ item.score }}</span>
+        <span class="sore">{{ item.score  || '0.0' }}</span>
       </p>
       <p class="kcclass">
         <span class="leftlabel">机构：</span>
-        <span>{{ item.organization_name }}</span>
+        <span>{{ item.organization_name  || '暂无' }}</span>
       </p>
       <p class="home-comment-label">
         <span class="leftlabel">评论：</span>
-        <span>{{ item.comment }}</span>
+        <span>{{ item.comment  || '暂无' }}</span>
       </p>
     </div>
   </div>

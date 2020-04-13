@@ -13,7 +13,6 @@ import Activity from "./pages/Activity/index"
 import ActivityInfo from "./pages/ActivityInfo/index"
 import StudyCircle from "./pages/StudyCircle/index"
 import AboutUs from "./pages/AboutUs/index"
-// import Dashboard from "./pages/dashboard/index";
 import Register from "./pages/register/index";
 import RegisterSuccess from "./pages/register-success/index";
 import Login from "./pages/login/index";
