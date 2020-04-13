@@ -71,5 +71,5 @@ export const apiDoLikeDislike = params => {
 
 // 首页搜索
 export const apiSearch = params => {
-  return request.get(`${defaultPath}site/index`, params);
+  return request.get(`${defaultPath}site/search`, params);
 };
