@@ -149,8 +149,8 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.st-search-nav{
+ <style lang="scss">
+// .st-search-nav{
   // .el-form-item{
   //   margin-bottom: 10px;
   //   .el-form-item__label{
@@ -166,7 +166,7 @@ export default {
   //   font-weight:400;
   //   color:rgba(153,153,153,1)!important;
   // }
-}
+// }
 </style>
 <style lang="scss" scoped>
 .st-search-nav{
