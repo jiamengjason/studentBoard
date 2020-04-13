@@ -1,11 +1,11 @@
 <template>
-  <div class="st-header blackHead">
+  <div class="st-header" id="headerBar">
     <el-row :gutter="20">
       <el-col :span="7" class="logo">
         <img src="/logo.png" alt="">
       </el-col>
       <el-col :span="11">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu id="elmenu" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
           <el-menu-item index="1">
             <router-link :to="{name: 'home'}">首页</router-link>
           </el-menu-item>
@@ -25,6 +25,12 @@
             <router-link :to="{name: 'aboutUs'}">关于我们</router-link>
           </el-menu-item>
         </el-menu>
+        
+        <div class="st-search" id="headerSearch">
+          <el-input v-model="search" placeholder="请输入内容" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search" @click="goSearch"></el-button>
+          </el-input>
+        </div>
       </el-col>
       <el-col :span="6">
         <div class="login-status">
@@ -49,7 +55,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="7" id="langth">
               <p>
                 <span class="gray">中</span>/EN
               </p>
@@ -72,7 +78,8 @@ export default {
     return {
       activeIndex: '1',
       isLogin: localStorage.getItem('board_user_id'),
-      userInfo: {}
+      userInfo: {},
+      search: ''
     };
   },
   mounted(){
@@ -80,6 +87,14 @@ export default {
     this.getLoginUser()
   },
   methods: {
+    goSearch(){
+    this.$router.push({
+        name: 'search',
+        query:{
+          searchText: this.search
+        }
+      })
+    },
     // 进入个人中心或者退出
     handleCommand(command) {
       if(command === 'a'){
@@ -145,6 +160,20 @@ export default {
 };
 </script>
 <style lang="scss">
+#headerSearch{
+  display: none;
+  margin-top: 23px;
+  .el-input__inner{
+    max-width: 100%;
+    height: 35px;
+    line-height: 35px;
+  }
+  .el-input-group{
+    .el-input-group__append{
+      top: 6px;
+    }
+  }
+}
 .st-header{
   width: 100%;
   overflow: hidden;
@@ -184,7 +213,7 @@ export default {
 
   .logo{
     padding-top: 20px;
-    text-align: left;
+    text-align: center;
     padding-left: 24px!important;
   }
 
@@ -216,12 +245,21 @@ export default {
   }
 }
 .blackHead{
-  background: #FFFFFF;
+  background: rgba(0, 0, 0, 0.8);
   animation: gradientChange 2s;
+  .login-status{
+    color: #FFFFFF;
+    a{
+      color: #FFFFFF;
+    }
+  }
 }
 @keyframes gradientChange  {
-    100% {
-        background: #000000;
-    }
+  0% {
+      background: #ffffff;
+  }
+  100% {
+      background: rgba(0, 0, 0, 0.8);
+  }
 }
 </style>

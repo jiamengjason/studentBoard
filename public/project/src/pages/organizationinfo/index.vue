@@ -29,7 +29,9 @@
                 <span class="font1"> {{ orgInfo.avg_score ? orgInfo.avg_score : '0' }}</span><span class="font2">/5</span>
               </el-col>
               <el-col :span="6">
-                <span class="label">业务：</span>{{ orgInfo.organization_yewu ? orgInfo.organization_yewu : '未填写' }}
+                <span class="label">业务：</span>
+                <span v-for="(v, i) in orgInfo.organization_yewu" :key="i">{{v}}</span>
+                <span v-if="!orgInfo.organization_yewu || orgInfo.organization_yewu.length == 0">未填写</span>
               </el-col>
               <el-col :span="6">
                 <span class="label">网址：</span>{{ orgInfo.organization_www ? orgInfo.organization_www : '未填写' }}

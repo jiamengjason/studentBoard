@@ -1,21 +1,25 @@
 <template>
   <div class="jigou-item">
     <div class="img">
-      <el-image v-if="item.head_img" :src="item.head_img" fit="fill"></el-image>
-      <el-image v-else src="/img/home/jiaoshi.jpg" fit="fill"></el-image>
+      <el-image
+        style="width: 335px; height: 252px"
+        :src="item.head_img ? item.head_img : '/img/avatar_teacher.png'"
+        fit="contain"
+      >
+      </el-image>
     </div>
     <div class="con">
       <p>
         <span class="leftlabel">评分：</span>
-        <span class="sore">{{ item.score }}</span>
+        <span class="sore">{{ item.score  || '0.0' }}</span>
       </p>
       <p class="kcclass">
         <span class="leftlabel">机构：</span>
-        <span>{{ item.organization_name }}</span>
+        <span>{{ item.organization_name  || '暂无' }}</span>
       </p>
       <p class="home-comment-label">
         <span class="leftlabel">评论：</span>
-        <span>{{ item.comment }}</span>
+        <span>{{ item.comment  || '暂无' }}</span>
       </p>
     </div>
   </div>
@@ -40,6 +44,7 @@ export default {
   .img{
     width:335px;
     height:252px;
+    background: #cccccc;
     img{
       border-radius:10px 10px 0px 0px;
       max-width: 100%;

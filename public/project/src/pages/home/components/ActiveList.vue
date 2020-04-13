@@ -1,8 +1,15 @@
 <template>
   <div class="huodong-item">
     <div class="img">
-      <el-image v-if="item.title_img" :src="item.title_img" fit="fill"></el-image>
-      <el-image v-else src="/img/home/huodong.jpg" fit="fill"></el-image>
+      <el-image
+        style="width: 690px; height: 229px"
+        :src="item.head_img ? item.head_img : ''"
+        fit="contain"
+      >
+      <div slot="error" class="el-image__error">
+        <i class="el-icon-picture-outline"></i>
+      </div>
+      </el-image>
     </div>
     <div class="con">
       <p class="tit">

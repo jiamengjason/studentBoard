@@ -1,13 +1,17 @@
 <template>
   <div class="jigou-item">
     <div class="img">
-      <el-image v-if="item.head_img" :src="item.head_img" fit="fill"></el-image>
-      <el-image v-else src="/img/home/jigou.jpg" fit="fill"></el-image>
+      <el-image
+        style="width: 335px; height: 252px"
+        :src="item.head_img ? item.head_img : '/img/avatar_jigou.png'"
+        fit="contain"
+      >
+      </el-image>
     </div>
     <div class="con">
       <p>
         <span class="leftlabel">评分：</span>
-        <span class="sore">{{ item.score }}</span>
+        <span class="sore">{{ item.score || '0.0' }} </span>
       </p>
       <p class="kcclass">
         <span class="leftlabel">业务：</span>
@@ -16,7 +20,7 @@
           :key="indexYewu"
           style="margin-right:6px"
         >
-          {{ itemYewu }}
+          {{ itemYewu || '暂无' }}
         </span>
       </p>
       <p class="home-three-label">
@@ -25,7 +29,7 @@
           v-for="(itemTeacher,indexTeacher) in item.teacher_list"
           :key="indexTeacher"
           style="margin-right:6px"
-        >{{ itemTeacher.user_name }}</span>
+        >{{ itemTeacher.user_name || '暂无' }}</span>
       </p>
     </div>
   </div>
@@ -50,6 +54,7 @@ export default {
   .img{
     width:335px;
     height:252px;
+    background: #cccccc;
     img{
       border-radius:10px 10px 0px 0px;
       max-width: 100%;
