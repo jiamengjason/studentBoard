@@ -41,7 +41,8 @@
   }
   
   function getRandomImg() {
-    return '/v1/index.php?r=siteConfig/captcha&image=' + getRandomNumberByRange(0, 100)
+    // return '/v1/index.php?r=siteConfig/captcha&image=' + getRandomNumberByRange(0, 100)
+    return '/img/captcha/' + getRandomNumberByRange(0, 100) + '.jpg'
   }
 
   function draw(ctx, operation, x, y) {

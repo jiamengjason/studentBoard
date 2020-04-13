@@ -32,9 +32,9 @@
                 {{ teacherInfo.organization_name ? teacherInfo.organization_name : '暂未加入机构' }}
               </el-col>
               <el-col :span="6">
-                <router-link class="orgvaluation-a" :to="{name: 'teachervaluation'}">
+                <span @click="teachervaluation" class="orgvaluation-a">
                   评价老师
-                </router-link>
+                </span>
               </el-col>
             </el-row>
             <div class="mess-tit">
@@ -242,6 +242,19 @@ export default {
           this.$message.error(res.data.msg);
         }
       })
+    },
+    teachervaluation(){
+      if(localStorage.getItem('board_user_id')){
+        this.$router.push({
+          name: 'teachervaluation', 
+          query: {
+            evaluated_uid: this.teacherInfo.teacher_id, 
+            head_img: this.teacherInfo.head_img
+          }
+        })
+      }else{
+        this.$message.error('请登录后，再来评价吧。');
+      }
     }
   }
 };
@@ -367,6 +380,7 @@ export default {
           font-size:22px;
           font-weight:400;
           color:rgba(255,255,255,1);
+          cursor: pointer;
         }
       }
     }

@@ -131,31 +131,13 @@ export default {
     })
   },
   methods: {
-    dynamicLoadJs(url, callback) {
-      var head = document.getElementsByTagName("head")[0];
-      var script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = url;
-      if (typeof callback == "function") {
-        script.onload = script.onreadystatechange = function() {
-          if (
-            !this.readyState ||
-            this.readyState === "loaded" ||
-            this.readyState === "complete"
-          ) {
-            callback();
-            script.onload = script.onreadystatechange = null;
-          }
-        };
-      }
-      head.appendChild(script);
-    },
     // 提交评价
     doValuate(){
       // console.info('this.valuationForm', this.valuationForm)
       var msg = this.checkValuation()
       var self = this
       if(!msg){
+        this.valuationForm.tags = this.valuationForm.tags.join(",")
         apiDoValuate(this.valuationForm).then( res => {
             if(res.data.code == '200'){
               this.$message({
@@ -166,7 +148,7 @@ export default {
                 self.$router.push({
                   name: 'organizationinfo', 
                   query: {
-                    evaluated_uid: self.$route.query.evaluated_uid
+                    organization_id: self.$route.query.evaluated_uid
                   }
                 })
               },2000)

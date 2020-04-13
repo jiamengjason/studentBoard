@@ -249,6 +249,9 @@ export default {
   animation: gradientChange 2s;
   .login-status{
     color: #FFFFFF;
+    a{
+      color: #FFFFFF;
+    }
   }
 }
 @keyframes gradientChange  {
