@@ -22,8 +22,9 @@
                   <span class="sore">{{ v.score || '0.0' }}</span>
                 </p>
                 <p class="kcclass">
-                  <span class="leftlabel">服务：</span>
+                  <span class="leftlabel">业务：</span>
                   <span>{{v.organization_yewu || '暂无'}}</span>
+                  <span v-if="!v.organization_yewu || v.organization_yewu.length==0">暂未填写</span>
                 </p>
                 <p>
                   <span class="leftlabel">名称：</span>
