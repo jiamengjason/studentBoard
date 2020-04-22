@@ -67,8 +67,9 @@ export default {
       text-align: left;
       line-height: 28px;
       display: flex;
+      margin: 0;
       span{
-        font-size:18px;
+        font-size:16px;
         font-weight:400;
         color:#333333;
       }
@@ -87,7 +88,7 @@ export default {
       
       .sore{
         color:$orangeColor;
-        font-size: 26px;
+        font-size: 20px;
       }
     }
   }

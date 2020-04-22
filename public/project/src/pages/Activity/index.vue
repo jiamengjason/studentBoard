@@ -2,14 +2,14 @@
   <div class="layout mainBg">
     <Hearder></Hearder>
     <SearchBar search-type="active"></SearchBar>
-    <div class="organization-list">
+    <div class="organization-list st-container">
       <el-row v-if="activeList.length > 0" :gutter="20">
         <el-col v-for="(v, i) in activeList" :key="i" :span="12">
           <router-link :to="{ name: 'activityinfo', query: { 'active_id': v.active_id }}">
             <div class="huodong-item">
               <div class="img">
                 <el-image
-                  style="width: 690px; height: 229px"
+                  style="width: 590px; height: 202px"
                   :src="v.head_img ? v.head_img : ''"
                   fit="contain"
                 >
@@ -115,7 +115,6 @@ export default {
 
 <style lang="scss" scoped>
 .organization-list{
-  width: 1400px;
   margin:  0 auto 50px auto;
   .huodong-item{
     background:rgba(255,255,255,1);
@@ -124,8 +123,8 @@ export default {
     margin-bottom: 20px;
     // 图片
     .img{
-      width:690px;
-      height:229px;
+      width:590px;
+      height:202px;
       img{
         border-radius:10px 10px 0px 0px;
         max-width: 100%;
@@ -136,9 +135,9 @@ export default {
       }
     } 
     .con{
-      height: 110px;
+      height: 85px;
       overflow: hidden;
-      padding-top: 15px;
+      padding-top: 10px;
       p{
         text-align: left;
         height: 40px;
@@ -148,14 +147,14 @@ export default {
         margin: 0;
       }
       .tit{
-        font-size:28px;
+        font-size:22px;
         font-weight:400;
         color:rgba(51,51,51,1);
         position: relative;
         .ing{
           position: absolute;
           right: 0;
-          top: 0;
+          top: 5px;
           width: 99px;
           height: 32px;
           line-height: 32px;
@@ -167,7 +166,7 @@ export default {
         .end{
           position: absolute;
           right: 0;
-          top: 0;
+          top: 5px;
           width: 99px;
           height: 32px;
           line-height: 32px;
@@ -179,10 +178,10 @@ export default {
       }
       
       .desc{
-        font-size:24px;
+        font-size:18px;
         font-weight:400;
         color:rgba(153,153,153,1);
-        line-height:48px;
+        line-height:35px;
       }
     }
   }

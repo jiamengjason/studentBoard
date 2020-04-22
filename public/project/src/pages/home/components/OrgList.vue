@@ -2,7 +2,7 @@
   <div class="jigou-item">
     <div class="img">
       <el-image
-        style="width: 335px; height: 252px"
+        style="width: 285px; height: 214px"
         :src="item.head_img ? item.head_img : '/img/avatar_jigou.png'"
         fit="contain"
       >
@@ -52,8 +52,8 @@ export default {
   box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   // 图片
   .img{
-    width:335px;
-    height:252px;
+    width:285px;
+    height:214px;
     background: #cccccc;
     img{
       border-radius:10px 10px 0px 0px;
@@ -76,7 +76,7 @@ export default {
       line-height: 28px;
       margin: 0;
       span{
-        font-size:18px;
+        font-size:16px;
         font-weight:400;
         color:#333333;
       }       
@@ -85,7 +85,7 @@ export default {
       }
       .sore{
         color:$orangeColor;
-        font-size: 26px;
+        font-size: 20px;
       }
     }
   }

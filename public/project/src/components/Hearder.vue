@@ -202,7 +202,7 @@ export default {
   .el-menu{
     background:none;
     .el-menu-item{
-      font-size:20px;
+      font-size:16px;
       font-weight:400;
       color:rgba(51,51,51,1);
       a{
@@ -219,7 +219,7 @@ export default {
 
   // 登录状态
   .login-status{
-    font-size:20px;
+    font-size:16px;
     font-weight:400;
     color:rgba(51,51,51,1);
     height: 100%;
@@ -229,7 +229,7 @@ export default {
       line-height: 80px;
     }
     p{
-      line-height: 40px;
+      line-height: 48px;
     }
     a{
       color:rgba(51,51,51,1);

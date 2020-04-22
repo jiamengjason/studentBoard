@@ -2,7 +2,7 @@
   <div class="layout mainBg">
     <Hearder></Hearder>
     <SearchBar></SearchBar>
-    <div class="organization-list">
+    <div class="organization-list st-container">
       <el-row :gutter="20">
         <el-col v-for="(v, i) in orgList" :key="i" :span="6" class="sort">
           <router-link :to="{name: 'organizationinfo', query:{organization_id: v.user_id}}">
@@ -10,7 +10,7 @@
               <div class="img">
                 <!-- <img src="/img/home/jigou.jpg" alt=""> -->
                 <el-image
-                  style="width: 335px; height: 252px"
+                  style="width: 285px; height: 214px"
                   :src="v.head_img ? v.head_img : '/img/avatar_jigou.png'"
                   fit="contain"
                 >
@@ -120,7 +120,6 @@ export default {
 
 <style lang="scss" scoped>
 .organization-list{
-  width: 1400px;
   margin:  0 auto 50px auto;
   .jigou-item{
     background:rgba(255,255,255,1);
@@ -129,8 +128,8 @@ export default {
     margin-bottom: 20px;
     // 图片
     .img{
-      width:335px;
-      height:252px;
+      width:285px;
+      height:214px;
       background: #cccccc;
       img{
         border-radius:10px 10px 0px 0px;
@@ -147,7 +146,7 @@ export default {
         line-height: 28px;
         margin: 0;
         span{
-          font-size:18px;
+          font-size:16px;
           font-weight:400;
           color:#333333;
         }
@@ -156,7 +155,7 @@ export default {
         }
         .sore{
           color:#ff7001;
-          font-size: 26px;
+          font-size: 20px;
         }
       }
     }

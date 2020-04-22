@@ -5,7 +5,13 @@
     <div class="st-container mt80">
       <!-- banner -->
       <div class="banner">
-        <img src="/img/banner_studyCircle.jpg" alt="">
+        <el-image
+          style="width: 1200px; height: 429px"
+          src="/img/banner_studyCircle.jpg"
+          fit="contain"
+        >
+        </el-image>
+        <!-- <img src="/img/banner_studyCircle.jpg" alt=""> -->
       </div>
 
       <div class="q-list">
@@ -59,11 +65,11 @@ export default {
 <style lang="scss" scoped>
 .q-tit{
   border-bottom: 1px solid #cccccc;
-  font-size:24px;
+  font-size:18px;
   font-weight:400;
   color:rgba(51,51,51,1);
-  height: 78px;
-  line-height: 78px;
+  height: 65px;
+  line-height: 65px;
   a{
     padding: 0 40px;
     color:rgba(51,51,51,1);
@@ -77,18 +83,21 @@ export default {
 }
 .q-list{
   text-align: left;
-  margin: 40px 0 140px 0;
+  margin: 40px 0 100px 0;
   background: #ffffff;
 
   .q-item{
-    padding: 40px;
-    font-size:18px;
+    padding: 25px 30px;
+    font-size:14px;
     line-height: 30px;
     font-weight:400;
     color:rgba(51,51,51,1);
     border-bottom: 1px solid #cccccc;
+    p{
+      margin: 0;
+    }
     .st-message-zan{
-      margin-top: 20px;
+      margin-top: 10px;
     }
   }
 }

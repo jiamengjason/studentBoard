@@ -1,7 +1,7 @@
 <template>
   <div class="layout mainBg">
     <Hearder></Hearder>
-    <div class="organization-info">
+    <div class="organization-info st-container">
       <!-- 面包屑 -->
       <div class="st-breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -16,14 +16,14 @@
         <div class="part-1">
           <div class="avatar">
             <el-image
-              style="width: 210px; height: 210px"
+              style="width: 150px; height: 150px"
               :src="teacherInfo.head_img ? teacherInfo.head_img : '/img/avatar_teacher.png'"
               fit="contain"
             >
             </el-image>
           </div>
           <div class="con">
-            <el-row :gutter="20">
+            <el-row :gutter="20" class="con-p-1">
               <el-col :span="6">
                 <span class="name">{{ teacherInfo.teacher_name }} </span>
                 <span class="font1"> {{ teacherInfo.avg_score ? teacherInfo.avg_score : 0 }}</span><span class="font2">/5</span>
@@ -60,7 +60,7 @@
             <div v-for="v in similarTeacher" :key="v.teacher_id" :if="similarTeacher.length > 0" class="teacher-item">
               <div class="img">
                 <el-image
-                  style="width: 120; height: 120px"
+                  style="width: 80; height: 80px"
                   :src="v.head_img ? v.head_img : '/img/avatar_teacher.png'"
                   fit="contain"
                 ></el-image>
@@ -73,7 +73,7 @@
             <div :if="similarTeacher.length == 0" class="teacher-item">
               <div class="img">
                 <el-image
-                  style="width: 120px; height: 120px"
+                  style="width: 80px; height: 80px"
                   src="/img/avatar_teacher.png"
                   fit="contain"
                 >
@@ -262,7 +262,6 @@ export default {
 
 <style lang="scss" scoped>
 .organization-info{
-  width: 1400px;
   margin:  80px auto 50px auto;
   // 面包屑
   .st-breadcrumb{
@@ -329,8 +328,8 @@ export default {
     .part-1{
       padding: 40px;
       .avatar{
-        width: 210px;
-        height: 210px;
+        width: 150px;
+        height: 150px;
         float: left;
         overflow: hidden;
         border-radius:10px;
@@ -340,47 +339,50 @@ export default {
         }
       }
       .con{
-        width: 1070px;
+        width: 900px;
         float: left;
         padding-left: 40px;
         color: #333333;
-        font-size: 24px;
+        font-size: 18px;
+        .con-p-1{
+          line-height: 40px;
+        }
         // 机构名称
         .name{
-          font-size: 28px;
+          font-size: 22px;
         }
        
         .label{
-          font-size:24px;
           font-weight:400;
           color:#999999;
+          height: 100%;
         }
         .mess-tit{
-          font-size:20px;
+          font-size:18px;
           font-weight:400;
           color:rgba(51,51,51,1);
-          padding: 20px 0;
+          padding: 10px 0;
         }
         .mess-con{
-          font-size:16px;
+          font-size:14px;
           font-weight:400;
           color:rgba(153,153,153,1);
           line-height:30px;
         }
         .orgvaluation-a{
+          cursor: pointer;
           display: block;
           text-align: center;
           float: right;
-          height:40px;
-          padding: 0 40px;
+          height:36px;
+          padding: 0 36px;
           border: none;
-          line-height: 40px;
+          line-height: 36px;
           background:rgba(255,112,1,1);
           border-radius:5px;
-          font-size:22px;
+          font-size:16px;
           font-weight:400;
           color:rgba(255,255,255,1);
-          cursor: pointer;
         }
       }
     }
@@ -400,8 +402,8 @@ export default {
           float: left;
           padding-left: 40px;
           .img{
-            width:120px;
-            height:120px;
+            width:80px;
+            height:80px;
             border-radius:10px;
             overflow: hidden;
             img{
@@ -414,7 +416,7 @@ export default {
             font-size:28px;
             font-weight:500;
             color:rgba(51,51,51,1);
-            padding: 20px 0 40px 0;
+            padding: 10px 0 20px 0;
           }
         }
       }
@@ -422,12 +424,12 @@ export default {
   }
 
   // 评论
-  .st-message{
+ .st-message{
     margin-top: 40px;
     background: #ffffff;
     .st-message-tit{
-      height: 100px;
-      line-height: 100px;
+      height: 80px;
+      line-height: 80px;
       font-size:22px;
       font-weight:400;
       color:rgba(51,51,51,1);
@@ -440,7 +442,7 @@ export default {
     .st-message-list{
       .st-message-item{
         border-bottom: 1px solid #cccccc;
-        padding: 40px;
+        padding: 25px 35px;
         // 头像
         .avatar{
           width: 80px;
@@ -455,15 +457,15 @@ export default {
         // 用户名
         .con{
           text-align: left;
-          width: 1200px;
+          width: 1000px;
           padding-left: 40px;
           float: left;
-          font-size:16px;
+          font-size:14px;
           font-weight:400;
           color:rgba(153,153,153,1);
           line-height:30px;
           .username{
-            font-size:22px;
+            font-size:20px;
             font-weight:500;
             color:rgba(51,51,51,1);
             padding: 10px 0;

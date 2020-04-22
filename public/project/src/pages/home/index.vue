@@ -15,18 +15,20 @@
             </div>
             
             <!-- nav -->
-            <div class="st-nav">
-              <el-row>
-                <el-col :span="8" class="st-nav-jigou">
-                  <router-link :to="{name: 'organization'}">&emsp;&emsp;著名机构</router-link>
-                </el-col>
-                <el-col :span="8" class="st-nav-jiaoshi">
-                  <router-link :to="{name: 'teachers'}">&emsp;&emsp;知名教师</router-link>
-                </el-col>
-                <el-col :span="8" class="st-nav-quan">
-                  <router-link :to="{name: 'home'}">&emsp;&emsp;留学圈</router-link>
-                </el-col>
-              </el-row>
+            <div class="st-container">
+              <div class="st-nav">
+                <el-row>
+                  <el-col :span="8" class="st-nav-jigou">
+                    <router-link :to="{name: 'organization'}">&emsp;&emsp;著名机构</router-link>
+                  </el-col>
+                  <el-col :span="8" class="st-nav-jiaoshi">
+                    <router-link :to="{name: 'teachers'}">&emsp;&emsp;知名教师</router-link>
+                  </el-col>
+                  <el-col :span="8" class="st-nav-quan">
+                    <router-link :to="{name: 'home'}">&emsp;&emsp;留学圈</router-link>
+                  </el-col>
+                </el-row>
+              </div>
             </div>
           </div>
         </div>
@@ -36,7 +38,7 @@
       <div class="section">
         <div class="section-con secondPage">
           <div class="st-column-tit">著名机构</div> 
-          <div class="st-column-con">
+          <div class="st-column-con st-container">
             <el-row :gutter="20">
               <el-col v-for="(item,index) in homeData.organization_list" :key="index" :span="6">
                 <router-link :to="{name: 'organizationinfo', query:{organization_id: '3'}}">
@@ -55,7 +57,7 @@
       <div class="section">
         <div class="section-con thirdPage">
           <div class="st-column-tit">知名教师</div> 
-          <div class="st-column-con">
+          <div class="st-column-con st-container">
             <el-row :gutter="20">
               <el-col
                 v-for="(item,index) in homeData.teacher_list"
@@ -78,7 +80,7 @@
       <div class="section">
         <div class="section-con fourthPage">
           <div class="st-column-tit">课外活动</div>
-          <div class="st-column-con">
+          <div class="st-column-con st-container">
             <el-row :gutter="20">
               <router-link :to="{name: 'activityinfo', query: { 'active_id': 5 }}">
                 <el-col v-for="(item,index) in homeData.active_list" :key="index" :span="12">
@@ -160,8 +162,8 @@ export default {
 // 标题
 .st-column-tit{
   width: 300px;
-  font-size: 34px;
-  height: 60px;
+  font-size: 26px;
+  height: 50px;
   font-weight: 500;
   color:rgba(51,51,51,1);
   margin: 75px auto 30px auto;
@@ -179,13 +181,8 @@ export default {
   }
 }
 
-.st-column-con{
-  width: 1400px;
-  margin: 0 auto;
-}
-
 .st-column-more{
-  font-size:28px;
+  font-size:22px;
   font-weight:400;
   margin-top: 60px;
   a{
@@ -199,10 +196,11 @@ export default {
       content: '';
       position: absolute;
       right: 0;
-      top: 0;
-      width: 40px;
-      height: 40px;
+      top: 3px;
+      width: 35px;
+      height: 35px;
       background: url(/img/home/more.png) no-repeat;
+      background-size: 35px 35px;
     }
   }
 }
@@ -211,7 +209,7 @@ export default {
  padding-bottom:55px; 
  .st-banner{
     width: 100%;
-    min-height: 700px;
+    min-height: 510px;
     background: url(/img/banner.jpg) no-repeat;
     height: 100%;
     position: relative;
@@ -227,20 +225,19 @@ export default {
       
       .el-input__inner{
         max-width: 100%;
-        height: 50px;
-        line-height: 50px;;
+        height: 40px;
+        line-height: 40px;;
       }
     }
 
     // 首屏 nav
     .st-nav{
-      width: 1400px;
-      height: 100px;
-      line-height: 100px;
+      width: 100%;
+      height: 80px;
+      line-height: 80px;
+      max-width: 1200px;
       position: absolute;
-      left: 50%;
-      bottom: -50px;
-      margin-left: -700px;
+      bottom: -40px;
       background: #ffffff;
       box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.15);
       border-radius:10px;
@@ -249,16 +246,16 @@ export default {
         height: 100%;
         display: inline-block;
         position: relative;
-        font-size:30px;
+        font-size:22px;
         font-weight:400;
         color:rgba(51,51,51,1);
         &::before{
           content: '';
           position: absolute;
-          left: 135px;
+          left: 65px;
           top: 0;
           width:60px;
-          height:100px;
+          height:100%;
         }
       }
       // 著名机构
