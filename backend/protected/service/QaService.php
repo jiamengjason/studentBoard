@@ -107,4 +107,77 @@ where 1 '.$andWhere.$limitSql;
         }
         return QaAns::model()->updateByPk($answer_id, $params);
     }
+
+    /**
+     * 问题详情
+     * @param $question_id
+     * @return bool
+     */
+    public function questionInfo($question_id){
+        $qaModel = new Qa();
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.id = ' . $question_id;
+        $criteria->with = array ('users');
+        $qaInfo = $qaModel->find($criteria);
+
+
+        if (empty($qaInfo) || empty($qaInfo->getAttributes())){
+            return false;
+        }
+
+        $data = $qaInfo->getAttributes() + $qaInfo->users()->getAttributes();
+        foreach ($data as $key=>$v){
+            if ($key == 'id'){
+                $data['question_id'] = $v;
+            }elseif ($key == 'user_id'){
+                $data['ask_user_id'] = $v;
+                unset($data[$key]);
+            }
+            if ($v === null){
+                unset($data[$key]);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 问题详情
+     * @param $params
+     * @return bool
+     */
+    public function infoAnsList($params){
+        $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
+        $page = !isset($params['page']) ? 1 : $params['page'];
+        $limit = ($page - 1) * $pageSize;
+        //limit
+        $limitSql = ' limit '.$limit.','.$pageSize;
+        $andWhere = ' and a.question_id = '.$params['question_id'];
+
+        $sql = 'select ANY_VALUE(a.id) as answer_id,ANY_VALUE(a.ans) ans, ANY_VALUE(a.user_id) ans_user_id,ANY_VALUE(a.question_id) question_id,
+ ANY_VALUE(a.give_like) give_like, ANY_VALUE(a.give_dislike) give_dislike, max(give_like - give_dislike) as diff ,u.user_name,u.head_img
+from sb_qa_ans a
+left join sb_users u on a.user_id=u.id
+ where 1 '.$andWhere.'
+group by question_id,user_id '.$limitSql;
+        $sqlCount = 'select count(id) c
+from sb_qa_ans a
+where 1 '.$andWhere.'
+group by question_id,user_id';
+
+        $dbHandel = Yii::app()->db;
+        $ansList = $dbHandel->createCommand($sql)->queryAll();
+        $countRs = $dbHandel->createCommand($sqlCount)->queryAll();
+
+        $totalNum = 0;
+        if (isset($countRs[0]['c'])){
+            $totalNum = ceil($countRs[0]['c'] / $pageSize);
+            $data['total_num'] = intval($countRs[0]['c']);
+        }
+
+        $data['page_count'] = intval($totalNum);
+        $data['page'] = $page;
+        $data['page_size'] = $pageSize;
+        $data['list'] = $ansList;
+        return $data;
+    }
 }

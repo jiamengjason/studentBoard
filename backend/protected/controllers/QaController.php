@@ -46,4 +46,42 @@ class QaController extends FInterfaceBase
 
         $this->outputOk('', $data);
     }
+
+    /**
+     * 【留学圈】问题详情
+     */
+    public function actionInfo(){
+        $question_id = $this->_gets->getParam('question_id');
+        if (empty($question_id)){
+            $this->outputParamsError();
+        }
+
+        $qaService = new QaService();
+        $data = $qaService->questionInfo($question_id);
+        if (false === $data){
+            $this->outputParamsError();
+        }
+
+        $this->outputOk('', $data);
+    }
+
+    /**
+     * 【留学圈】问题详情-回答问题列表
+     */
+    public function actionInfoAnsList(){
+        $params['question_id'] = $this->_gets->getParam('question_id');
+        if (empty($params['question_id'])){
+            $this->outputParamsError();
+        }
+        $params['page_size'] = $this->_gets->getParam('page_size');
+        $params['page'] = $this->_gets->getParam('page');
+
+        $qaService = new QaService();
+        $data = $qaService->infoAnsList($params);
+        if (false === $data){
+            $this->outputParamsError();
+        }
+
+        $this->outputOk('', $data);
+    }
 }
