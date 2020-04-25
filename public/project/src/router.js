@@ -12,6 +12,7 @@ import TeacherValuation from "./pages/TeacherValuation/index"
 import Activity from "./pages/Activity/index"
 import ActivityInfo from "./pages/ActivityInfo/index"
 import StudyCircle from "./pages/StudyCircle/index"
+import Question from "./pages/StudyCircleQuestion/index"
 import AboutUs from "./pages/AboutUs/index"
 import Register from "./pages/register/index";
 import Identity from "./pages/identity/index";
@@ -118,7 +119,14 @@ const router = new Router({
       name: 'studyCircle',
       component: StudyCircle,
       meta: {
-        title: "课外活动"
+        title: "留学圈"
+      }
+    }, {
+      path: "/question",
+      name: 'question',
+      component: Question,
+      meta: {
+        title: "提个问题"
       }
     }, {
       path: "/aboutUs",

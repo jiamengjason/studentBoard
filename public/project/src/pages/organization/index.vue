@@ -35,6 +35,8 @@
           </router-link>
         </el-col>
       </el-row>
+
+      <div v-if="orgList.length == 0" class="nullCon">暂无内容</div> 
       <!-- 分页 -->
       <div v-if="orgList.length > 0" class="st-page">
         <el-pagination 

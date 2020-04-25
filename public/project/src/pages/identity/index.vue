@@ -91,6 +91,7 @@ export default {
 .identity{
   background: #ffffff;
   margin-bottom: 60px;
+  padding-bottom: 60px;
   color: #000000;
   a{
     color: #000000;

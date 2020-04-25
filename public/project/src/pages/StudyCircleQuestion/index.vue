@@ -18,33 +18,26 @@
         <div class="q-tit">
           <router-link :to="{name: 'studyCircle', query:{ type: 'all'}}">全部</router-link>
           <router-link :to="{name: 'studyCircle', query:{ type: 'hot'}}">热门问题</router-link>
-          <router-link :to="{name: 'question'}">提个问题</router-link>
+          <router-link class="hover" :to="{name: 'question'}">提个问题</router-link>
           <!-- <router-link :to="{name: 'studyCircle'}">回答问题</router-link> -->
         </div>
-        <div v-for="(v, i) in qaList" :key="i" class="q-item">
-          <p>Q：我想问个问题，不知道谁可以回答一下,我想问个问题，不知道谁可以回答一下,我想问个问题，不知道谁可以回答一下？</p>
-          <p>A：我可以回答你，你想问什么,我可以回答你，你想问什么,我可以回答你，你想问什么,我可以回答你，你想问什么</p>
-          <div class="st-message-zan">
-            <span class="time">2020-03-15  12:00</span>
-            <span class="zan">10</span>
-            <span class="cai">2</span>
-          </div>
-        </div>
-
-        <div v-if="qaList.length == 0" class="nullCon">暂无内容</div> 
-      </div>
-      
-      <!-- 分页 -->
-      <div class="st-page">
-        <div v-if="qaList.length > 0" class="st-page">
-          <el-pagination 
-            background
-            :page-size="pageConfig.page_size"
-            :current-page.sync="pageConfig.page"
-            layout="prev, pager, next"
-            :total="pageConfig.total_num"
-          >
-          </el-pagination>
+        
+        <div class="quest">
+          <el-row :gutter="20">
+            <el-col :span="3">
+              <!-- 头像 -->
+              <el-image
+                style="width: 80px; height: 80px"
+                :src="userInfo.head_img ? userInfo.head_img : '/img/avatar_student.png'"
+                fit="contain"
+              >
+              </el-image>
+            </el-col>
+            <el-col :span="18">
+              <el-input placeholder="写下你的问题，准确的描述问题更容易得到解答" v-model="comment" type="textarea" :autosize="{minRows: 6, maxRows: 8}" show-word-limit maxlength="500"></el-input>
+              <el-button type="primary" plain>提问</el-button>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div> 
@@ -67,35 +60,31 @@ export default {
   data() {
     return {
       search:'',
-      type: this.$route.query.type || 'all',
-      qaList: [],
-      pageConfig: {
-        page: 1,
-        page_size: 20,
-        total_num: 0
-      }
+      isLogin: localStorage.getItem('board_user_id'),
+      userInfo: {},
+      comment: ''
     };
   },
   computed: {},
   mounted() {
-    // 获取机构列表
-    this.getList()
+    this.getLoginUser()
   },
   methods: {
-    getList(){
-      apiQaList({
-        'page': this.pageConfig.page,
-        'page_size': this.pageConfig.page_size,
-      }).then( res => {
-        // console.info('res', res)
-        if(res.data.code==200){
-          this.qaList = res.data.data.list
-          // 总条数
-          this.pageConfig.total_num = parseInt(res.data.data.total_num)
-        }else{
-          this.qaList = []
-        }
-      })
+    // 获取用户信息
+    getLoginUser(){
+      if(localStorage.getItem('board_user_id')){ 
+        apiGetUserInfo({
+          userId: localStorage.getItem('board_user_id'),
+          token: localStorage.getItem('board_token')
+        }).then( res => {
+          if(res.data.code == '200'){
+            this.userInfo = res.data.data
+            this.isLogin = true
+          }else{
+            this.isLogin = false
+          }
+        })
+      }
     }
   }
 };
@@ -138,6 +127,12 @@ export default {
     .st-message-zan{
       margin-top: 10px;
     }
+  }
+}
+.quest{
+  padding: 40px 100px;
+  .el-button{
+    margin-top: 40px;
   }
 }
 </style>
