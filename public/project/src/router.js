@@ -14,6 +14,7 @@ import ActivityInfo from "./pages/ActivityInfo/index"
 import StudyCircle from "./pages/StudyCircle/index"
 import AboutUs from "./pages/AboutUs/index"
 import Register from "./pages/register/index";
+import Identity from "./pages/identity/index";
 import RegisterSuccess from "./pages/register-success/index";
 import Login from "./pages/login/index";
 import Pwd from "./pages/password/index";
@@ -131,6 +132,13 @@ const router = new Router({
       component: Register,
       meta: {
         title: "注册"
+      }
+    }, {
+      path: "/identity",
+      name: "identity",
+      component: Identity,
+      meta: {
+        title: "身份选择"
       }
     },
     {

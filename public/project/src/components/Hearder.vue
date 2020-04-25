@@ -36,7 +36,7 @@
         <div class="login-status">
           <el-row>
             <el-col v-if="!isLogin" :span="7">
-              <router-link to="/register">注册</router-link>
+              <router-link to="/identity">注册</router-link>
               |
               <router-link to="/login">登录</router-link>
             </el-col>
