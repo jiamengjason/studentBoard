@@ -4,97 +4,67 @@ class QaService
 {
 
     /**
-     * 【个人中心】【学生-家长】参加的活动列表
+     * 问题列表
      * @param $params
      * @return array
      */
-    public function getMyActiveList($params){
-        $userId = $params['user_id'];
+    public function getQaList($params){
         $pageSize = !isset($params['page_size']) ? CommonEnums::$pageSizeOfAdmin : $params['page_size'];
+        $page = !isset($params['page']) ? 1 : $params['page'];
+        $limit = ($page - 1) * $pageSize;
+        //limit
+        $limitSql = ' limit '.$limit.','.$pageSize;
+        $andWhere = isset($params['status_is']) ? ' and sb_qa.status_is = '.$params['status_is'] : '';
 
-        $activeUserModel = new ActiveUser();
-        $criteria = new CDbCriteria();
-        $criteria->order = 'end_time DESC';
-        $criteria->condition = 't.user_id = ' . $userId;
-        $criteria->with = array ('active');
-        $count = $activeUserModel->count($criteria);
-        $pages = new CPagination($count);
-        $pages->pageSize = $pageSize;
-        $criteria->limit = $pages->pageSize;
-        $criteria->offset = $pages->currentPage * $pages->pageSize;
-        $list = $activeUserModel->findAll($criteria);
+        $sql = 'select sb_qa.id as question_id,sb_qa.user_id ask_user_id,sb_qa.question,sb_qa.status_is,sb_qa.create_time,tmp.answer_id,tmp.ans,tmp.user_id ans_user_id,tmp.give_like,tmp.give_dislike,diff from (
+		select 
+		ANY_VALUE(id) as answer_id,ANY_VALUE(ans) ans,ANY_VALUE(user_id) user_id,question_id, ANY_VALUE(give_like) give_like, ANY_VALUE(give_dislike) give_dislike,
+		max(give_like - give_dislike) as diff 
+		from sb_qa_ans group by question_id '.$limitSql.'
+) as tmp
+right join sb_qa on sb_qa.id = tmp.question_id
+where 1 '.$andWhere.$limitSql;
+        $sqlCount = 'select count(id) c from sb_qa where 1 '.$andWhere;
 
-        $data = [];
-        $time = time();
-        foreach ($list as $item){
-            $data[] = [
-                'title' => $item->active()->title,
-                'title_img' => $item->active()->title_img,
-                'desc' => $item->active()->desc,
-                'addr' => $item->active()->addr,
-                'start_time' => $item->active()->start_time,
-                'end_time' => $item->active()->end_time,
-                'attend_time' => $item->create_time,
-                'status' => $this->getActiveStatus($item->active()->start_time, $item->active()->end_time)
+        $dbHandel = Yii::app()->db;
+        $qaList = $dbHandel->createCommand($sql)->queryAll();
+        $countRs = $dbHandel->createCommand($sqlCount)->queryAll();
+
+        $totalNum = 0;
+        if (isset($countRs[0]['c'])){
+            $totalNum = ceil($countRs[0]['c'] / $pageSize);
+            $data['total_num'] = intval($countRs[0]['c']);
+        }
+        $list = [];
+        foreach ($qaList as $item){
+            $tmp = ['answer'=>[]];
+            $tmp['question'] = [
+                "question_id" => $item['question_id'],
+                "ask_user_id" => $item['ask_user_id'],
+                "question" => $item['question'],
+                "status_is" => $item['status_is'],
+                "create_time" => $item['create_time'],
             ];
-        }
-
-        return ['list'=>$data, 'page_count'=>$pages->getPageCount(), 'page'=>$pages->getCurrentPage() + 1, 'page_size'=>$pages->getPageSize()];
-    }
-
-    /**
-     * 活动是否开始：1进行中 2未开始 3已过期
-     * @param $activeStartTime
-     * @param $activeEndTime
-     * @return int
-     */
-    private function getActiveStatus($activeStartTime, $activeEndTime){
-        $time = time();
-        $status = strtotime($activeStartTime) > $time ? 2 : (strtotime($activeEndTime) > $time ? 1 : 3);
-        return $status;
-    }
-
-    /**
-     * 【课外活动】活动详情
-     * @param $id
-     * @param bool $userId
-     * @return array|bool
-     */
-    public function getActiveInfoById($id, $userId=false){
-        $activeModel = new Active();
-        $criteria = new CDbCriteria();
-        $criteria->condition = 't.id = ' . $id;
-        $criteria->with = array ('users');
-        $activeInfo = $activeModel->findAll($criteria);
-        if (!isset($activeInfo[0]) || empty($activeInfo[0]->getAttributes())){
-            return false;
-        }
-
-        $organizationInfo = $activeInfo[0]->users->getAttributes();
-        $data = [];
-        $data['is_attend'] = 0;
-        if ($userId){
-            $activeUserInfo = ActiveUser::model()->findByAttributes(['active_id' => $id, 'user_id' => $userId]);
-            if (!empty($activeUserInfo) && !empty($activeUserInfo->getAttributes())){
-                $data['is_attend'] = 1;
+            if (!empty($item['answer_id'])){
+                $tmp['answer'] = [
+                    "answer_id" => $item['answer_id'],
+                    "ans" => $item['ans'],
+                    "ans_user_id" => $item['ans_user_id'],
+                    "give_like" => $item['give_like'],
+                    "give_dislike" => $item['give_dislike'],
+                    "diff" => $item['diff'],
+                ];
             }
+            $list[] = $tmp;
         }
-        $data['organization_name'] = $organizationInfo['organization_name'];
-        $data['organization_id'] = $organizationInfo['id'];
-        $data['organization_yewu'] = $organizationInfo['organization_yewu'];
-        $activeInfo = $activeInfo[0]->getAttributes();
-        $data['active_id'] = $activeInfo['id'];
-        $data['title_img'] = $activeInfo['title_img'];
-        $data['title'] = $activeInfo['title'];
-        $data['desc'] = $activeInfo['desc'];
-        $data['addr'] = $activeInfo['addr'];
-        $data['start_time'] = $activeInfo['start_time'];
-        $data['end_time'] = $activeInfo['end_time'];
-        //活动是否开始：1进行中 2未开始 3已过期
-        $data['status'] = $this->getActiveStatus($activeInfo['start_time'], $activeInfo['end_time']);
 
+        $data['page_count'] = intval($totalNum);
+        $data['page'] = $page;
+        $data['page_size'] = $pageSize;
+        $data['list'] = $list;
         return $data;
     }
+
 
     /**
      * 【留学圈】提问问题
@@ -116,5 +86,25 @@ class QaService
         $qaModel = new QaAns();
         $qaModel->setAttributes($params);
         return $qaModel->save();
+    }
+
+    /**
+     * 问题-点赞和踩
+     * @param $answer_id
+     * @param $type
+     * @return bool
+     */
+    public function giveLikeToComment($answer_id, $type){
+        $ansInfo = QaAns::model()->findByPk($answer_id);
+        if (empty($ansInfo) || empty($ansInfo->getAttributes())){
+            return false;
+        }
+        $params = [];
+        if ($type == 'like'){
+            $params['give_like'] = $ansInfo->getAttribute('give_like') + 1;
+        }else {
+            $params['give_dislike'] = $ansInfo->getAttribute('give_dislike') + 1;
+        }
+        return QaAns::model()->updateByPk($answer_id, $params);
     }
 }
