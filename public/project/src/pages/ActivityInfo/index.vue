@@ -28,7 +28,12 @@
       <!-- 机构详情 -->
       <div class="st-activity-info">
         <div class="inner-l">
-          <img src="/img/home/jigou.jpg" alt="">
+          <el-image
+            style="width: 285px; height: 214px"
+            :src="activityInfo.head_img ? activityInfo.head_img : '/img/avatar_jigou.png'"
+            fit="contain"
+          >
+          </el-image>
         </div>
         <div class="inner-r">
           <div class="tit">
@@ -245,28 +250,25 @@ export default {
   margin-top: 40px;
   padding: 40px;
   .inner-l{
-    width:335px;
-    height:252px;
+    width: 285px;
+    height: 214px;
     border-radius:10px;
     float: left;
     overflow: hidden;
-    img{
-      max-height: 100%;
-    }
   }
   .inner-r{
-    width: 940px;
+    width: 795px;
     float: left;
     margin-left: 40px;
     text-align: left;
     // 标题
     .tit{
       margin-top: 15px;
-      font-size:32px;
+      font-size:22px;
       color:rgba(51,51,51,1);
       .jigou,
       .time{
-        font-size: 20px;
+        font-size: 14px;
         color:rgba(102,102,102,1);
       }
       .time{
@@ -275,13 +277,13 @@ export default {
     }
     // 地址
     .address{
-      font-size:24px;
+      font-size:16px;
       font-weight:400;
       color:rgba(51,51,51,1);
       margin-top: 15px;
     }
     .desc{
-      font-size:18px;
+      font-size:14px;
       font-weight:400;
       color:rgba(153,153,153,1);
       line-height:30px;
@@ -312,7 +314,7 @@ export default {
 .st-activity-tit{
   text-align: left;
   padding:  40px 0;
-  font-size:22px;
+  font-size:16px;
   color:rgba(51,51,51,1);
 }
 </style>

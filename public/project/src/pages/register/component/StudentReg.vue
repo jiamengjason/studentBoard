@@ -60,13 +60,11 @@
       <img src="/img/icon_verify.png" alt="">
       验证信息
     </p>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <el-form-item label="手机验证码：" prop="vertifyMeg">
-          <el-input v-model="ruleForm.vertifyMeg" class="vertify-code"></el-input>
-          <el-button plain :disabled="clickCodeFlag" @click="getVertifyCode">{{ codeText }}</el-button>
-        </el-form-item>
-      </el-col>
+    <el-row type="flex" :gutter="20">
+      <el-form-item label="手机验证码：" prop="vertifyMeg">
+        <el-input v-model="ruleForm.vertifyMeg" class="vertify-code"></el-input>
+        <el-button plain :disabled="clickCodeFlag" @click="getVertifyCode">{{ codeText }}</el-button>
+      </el-form-item>
     </el-row>
     <el-checkbox v-model="ruleForm.checked" class="check-agree">本人已阅并同意本站注册的要求内容</el-checkbox>
   </el-form>

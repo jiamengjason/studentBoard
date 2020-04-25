@@ -84,8 +84,8 @@ export default {
   // 第一部分
   .part1{
     .st-about-img{
-      width:400px;
-      height:400px;
+      width:300px;
+      height:300px;
       border-radius:10px;
       overflow: hidden;
       float: left;
@@ -94,15 +94,16 @@ export default {
       }
     }
     .st-about-con{
-      width: 840px;
+      width: 740px;
       float: left;
       padding: 0 40px;
       p{
-        font-size:22px;
+        font-size:18px;
         font-weight:400;
         color:rgba(102,102,102,1);
-        line-height:48px;
-        margin-top: 30px;
+        line-height:38px;
+        margin-top: 20px;
+        margin-bottom: 0;
         &.tit{
           color:rgba(51,51,51,1);
           font-size: 32px;
@@ -133,11 +134,12 @@ export default {
   // 免责声明
   .st-Liability{
     p{
-      font-size:22px;
+      font-size:18px;
       font-weight:400;
       color:rgba(102,102,102,1);
-      line-height:48px;
+      line-height:45px;
       margin-bottom: 20px;
+      margin-top: 0;;
     }
   }
 }

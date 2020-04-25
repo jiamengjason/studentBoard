@@ -1,23 +1,25 @@
 <template>
   <div class="page-warp">
     <Hearder />
-    <Breadcrumb class="bread-crumb" :bread-list="breadList" />
-    <div class="register-page">
-      <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
-        <el-tab-pane
-          v-for="(item,index) in navList"
-          :key="index"
-          :label="item.lable"
-          :name="item.name"
-        >
-          {{ item }}
-        </el-tab-pane>
-      </el-tabs>
+    <div class="st-container">
+      <Breadcrumb class="bread-crumb" :bread-list="breadList" />
+      <div class="register-page">
+        <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
+          <el-tab-pane
+            v-for="(item,index) in navList"
+            :key="index"
+            :label="item.lable"
+            :name="item.name"
+          >
+            {{ item }}
+          </el-tab-pane>
+        </el-tabs>
 
-      <OrgReg v-if="activeName == 'organization'" />
-      <TeacherReg v-if="activeName == 'teacher'" />
-      <StudentReg v-if="activeName == 'student'" />
-      <ParentReg v-if="activeName == 'parent'" />     
+        <OrgReg v-if="activeName == 'organization'" />
+        <TeacherReg v-if="activeName == 'teacher'" />
+        <StudentReg v-if="activeName == 'student'" />
+        <ParentReg v-if="activeName == 'parent'" />     
+      </div>
     </div>
     <Footer />
   </div>
@@ -91,7 +93,7 @@ export default {
   border-bottom: 1px solid #ccc;
 }
 .register-page {
-  width: 1400px;
+  width: 1200px;
   background: rgba(255, 255, 255, 1);
   margin: 20px auto 140px;
   padding-top: 30px;

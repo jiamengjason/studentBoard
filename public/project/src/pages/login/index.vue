@@ -81,8 +81,8 @@ export default {
   background: url(/img/bg_login.jpg) no-repeat;
 }
 .login-warp {
-  width: 640px;
-  height: 698px;
+  width: 570px;
+  height: 530px;
   background: #fff;
   margin: 0 auto;
   padding-top: 32px;
@@ -97,39 +97,39 @@ export default {
 .login-desc {
   font-size: 26px;
   color: #999;
-  margin: -30px auto 80px;
+  margin: -30px auto 50px;
 }
 // 登录输入
 .login-input {
-  margin-bottom: 80px;
+  margin-bottom: 50px;
   input {
-    width: 400px;
-    height: 70px;
+    width: 260px;
+    height: 45px;
     background: #f1f1f1;
     border-radius: 10px;
     margin-bottom: 10px;
     outline: none;
     color: #999;
-    font-size: 22px;
+    font-size: 14px;
     border: none;
     padding: 0 30px;
   }
 }
 .login-btn {
-  width: 463px;
-  height: 80px;
+  width: 340px;
+  height: 55px;
   background: $orangeColor;
   box-shadow: 0px 4px 15px 0px rgba(255, 112, 1, 0.4);
   border-radius: 40px;
   margin: 0 auto 20px;
   color: #fff;
-  font-size: 34px;
+  font-size: 20px;
   text-align: center;
-  line-height: 80px;
+  line-height: 55px;
   cursor: pointer;
 }
 .login-opa {
-  font-size: 18px;
+  font-size: 14px;
   cursor: pointer;
   span:first-child {
     color: #999;
