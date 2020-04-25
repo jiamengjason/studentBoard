@@ -97,7 +97,7 @@ class QaService
     }
 
     /**
-     * 【课外活动】活动详情页面-报名活动
+     * 【留学圈】提问问题
      * @param $params
      * @return bool
      */
@@ -107,4 +107,14 @@ class QaService
         return $qaModel->save();
     }
 
+    /**
+     * 【留学圈】回答问题
+     * @param $params
+     * @return bool
+     */
+    public function addAns($params){
+        $qaModel = new QaAns();
+        $qaModel->setAttributes($params);
+        return $qaModel->save();
+    }
 }

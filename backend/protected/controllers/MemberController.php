@@ -334,6 +334,39 @@ class MemberController extends FSessionInterfaceBase
     }
 
     /**
+     * 【留学圈】回答问题
+     */
+    public function actionAns(){
+        if (false == $this->isPostRequest()){
+            $this->outputParamsError();
+        }
+
+        $question_id = isset($this->_requestParams['question_id']) ? $this->_requestParams['question_id'] : '';
+        $ans = isset($this->_requestParams['ans']) ? $this->_requestParams['ans'] : '';
+        $userId = $this->userId;
+        if (empty($question_id)){
+            $this->outputParamsError('请选择要回答的问题呦~');
+        }
+        if (empty($ans)){
+            $this->outputParamsError('请回答问题呦~');
+        }
+        $params = [
+            'question_id' => $question_id,
+            'user_id' => $userId,
+            'ans' => $ans
+        ];
+
+        //查询报名的活动是否存在
+        $qaService = new QaService();
+        $bool = $qaService->addAns($params);
+        if ($bool){
+            $this->outputOk('回答成功');
+        }else {
+            $this->outputError('回答失败，请重试~');
+        }
+    }
+
+    /**
      * 【个人中心】退出登录
      */
     public function actionLogout()
