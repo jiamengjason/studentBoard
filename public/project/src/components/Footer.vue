@@ -11,14 +11,14 @@ export default {
 </script>
 <style lang="scss">
 .st-footer{
-  height:130px;
-  padding: 30px 0 0 0;
+  height:100px;
+  padding: 15px 0 0 0;
   background: rgba(51, 51, 51, 1);
   p{
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     color: #999999;
-    line-height: 28px;
+    line-height: 20px;
   }
 }
 </style>
