@@ -25,7 +25,6 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  // base: process.env.BASE_URL,
   routes: [
     {
       path: "/404",
@@ -41,16 +40,6 @@ const router = new Router({
       meta: {
         title: "首页"
       }
-      // redirect: "/dashboard",
-      // children: [
-      //   {
-      //     path: "dashboard",
-      //     component: Dashboard,
-      //     meta: {
-      //       title: "首页"
-      //     }
-      //   }
-      // ]
     }, {
       path: "/search",
       name: 'search',
@@ -137,6 +126,7 @@ const router = new Router({
       }
     }, {
       path: "/register",
+      name: "register",
       component: Register,
       meta: {
         title: "注册"
