@@ -4,17 +4,6 @@
     <div class="st-container">
       <Breadcrumb class="bread-crumb" :bread-list="breadList" />
       <div class="register-page">
-        <el-tabs v-model="activeName" :stretch="stretch" @tab-click="handleClick">
-          <el-tab-pane
-            v-for="(item,index) in navList"
-            :key="index"
-            :label="item.lable"
-            :name="item.name"
-          >
-            {{ item }}
-          </el-tab-pane>
-        </el-tabs>
-
         <OrgReg v-if="activeName == 'organization'" />
         <TeacherReg v-if="activeName == 'teacher'" />
         <StudentReg v-if="activeName == 'student'" />
@@ -47,7 +36,6 @@ export default {
     OrgReg
   },
   data() {
-    console.log(ROLE_LIST,'ROLE_LIST')
     return {
       activeName: 'student',
       stretch: true,
@@ -67,6 +55,10 @@ export default {
       }
       return ['个人注册','学生']
     }
+  },
+  created() {
+    this.activeName = this.$route.query.type
+    console.log(this.$route.query,'this.$route.query')
   },
   methods: {
     handleClick(tab) {

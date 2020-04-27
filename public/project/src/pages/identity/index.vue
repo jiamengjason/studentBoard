@@ -9,7 +9,7 @@
         <el-row :gutter="20" type="flex" justify="center">
           <!-- 学生 -->
           <el-col :span="8">
-            <router-link to="/register">
+            <router-link :to="{ name:'register', query: {type: 'student'} } ">
               <el-image
                 style="width: 100px; height: 100px"
                 src="/img/img_student.png"
@@ -21,7 +21,7 @@
           </el-col>
           <!-- 家长 -->
           <el-col :span="8">
-            <router-link to="/register">
+            <router-link :to="{ name:'register', query: {type: 'parent'} } ">
               <el-image
                 style="width: 100px; height: 100px"
                 src="/img/img_parent.png"
@@ -35,7 +35,7 @@
         <el-row :gutter="20" type="flex" justify="center">
           <!-- 学生 -->
           <el-col :span="8">
-            <router-link to="/register">
+            <router-link :to="{ name:'register', query: {type: 'teacher'} } ">
               <el-image
                 style="width: 100px; height: 100px"
                 src="/img/img_teacher.png"
@@ -47,7 +47,7 @@
           </el-col>
           <!-- 家长 -->
           <el-col :span="8">
-            <router-link to="/register">
+            <router-link :to="{ name:'register', query: {type: 'organization'} } ">
               <el-image
                 style="width: 100px; height: 100px"
                 src="/img/img_org.png"
