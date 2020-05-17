@@ -36,12 +36,16 @@ return array(
            'class'=>'CFileCache',
         ),
 		'db'=>array(
-			'connectionString' => 'mysql:host=rm-bp10436z81762jp2t6o.mysql.rds.aliyuncs.com;dbname=student_board',
+		    //测试阿里云RDS链接地址
+//			'connectionString' => 'mysql:host=rm-bp10436z81762jp2t6o.mysql.rds.aliyuncs.com;dbname=student_board',
+            //studentBoard线上阿里云RDS链接地址
+            'connectionString' => 'mysql:host=rm-bp1z4ue2osq9km40zjo.mysql.rds.aliyuncs.com;dbname=student_board',
+			//studentBoard线上阿里云ECS登录地址：ssh root@182.92.102.117 ZhixiaGroup2020!
 			'emulatePrepare' => true,
 			'enableParamLogging' => true,
 			'enableProfiling'=>true,
 			'username' => 'student_board',
-			'password' => 'kaka123!',
+			'password' => 'ZhixiaGroup2020!',
 			'charset' => 'utf8',
 			'tablePrefix' => 'sb_',
 		),
