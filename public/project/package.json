@@ -1,0 +1,35 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.8.5",
+    "browserslist": "^4.13.0",
+    "caniuse-lite": "^1.0.30001097",
+    "element-ui": "^2.4.5",
+    "js-base64": "^2.5.1",
+    "lib-flexible": "^0.3.2",
+    "minimist": ">=1.2.2",
+    "postcss-px2rem": "^0.3.0",
+    "vue": "^2.6.10",
+    "vue-i18n": "^8.14.0",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.0.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.4.6",
+    "@vue/cli-service": "^4.4.6",
+    "babel-plugin-component": "^1.1.1",
+    "core-js": "^3.6.5",
+    "node-sass": "^4.14.1",
+    "px2rem-loader": "^0.1.9",
+    "sass-loader": "^9.0.2",
+    "vue-cli-plugin-element": "^1.0.1",
+    "vue-directive-image-previewer": "^2.2.2",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

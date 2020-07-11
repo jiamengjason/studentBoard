@@ -1,0 +1,91 @@
+/*
+Write your variables here. All available variables can be
+found in element-ui/packages/theme-chalk/src/common/var.scss.
+For example, to overwrite the theme color:
+*/
+$--color-primary: #ee6b03;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+// 公共样式
+*{
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;
+    &:before,&:after{
+        -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;
+    }
+}
+body,html{
+    width: 100%;
+    max-width: 100%;
+    font-size: 12px;
+    word-break:break-all;
+}
+body{
+    background: #f8f8f8;
+    font-family: '微软雅黑', 'Avenir', Helvetica, Arial, sans-serif;
+}
+a,input,textarea,select{
+    font-family: "Microsoft YaHei";
+    outline: none;
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.container{
+    width: 1200px;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0 10px;
+}
+
+// 搜索及banner---start
+.company-banner{
+position: relative;
+text-align: center;
+padding-bottom: 30px;
+img{
+    max-width: 100%;
+}
+.com-search{
+    height: 80px;
+    padding: 10px;
+    width: 1180px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow:5px 5px 5px rgba(0,0,0,.35);
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    margin-left: -590px;
+    input{
+    background: #ededed;
+    height: 60px;
+    font-size: 24px;
+    color: #cacaca;
+    }
+    .com-search-btn{
+    position: absolute;
+    right: 30px;
+    bottom: 50%;
+    margin-bottom: -12px;
+    cursor: pointer;
+    }
+}
+}
+@media screen and (max-width: 750px) {
+    .com-search{
+        left: 0!important;
+        margin-left: 0!important;
+    }
+}
+// 搜索及banner----end
+
+.vue-directive-image-previewer{
+    z-index: 1000!important;
+}
