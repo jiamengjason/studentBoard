@@ -1,0 +1,8 @@
+dist
+build
+node_modules/
+.DS_Store
+src/.DS_Store
+node_modules/.cache/*
+node_modules/.cache/*.*
+src/assets/.DS_Store

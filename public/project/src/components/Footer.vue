@@ -25,10 +25,9 @@ export default {
 </script>
 <style lang="scss">
 .Footer{
-  margin-top: 100px;
-  background: #ebebeb;
+  margin-top: 20px;
   text-align: center;
-  color: #333333;
+  color: #ffffff;
   padding: 50px 0;
   p{
     line-height: 24px;
@@ -36,7 +35,16 @@ export default {
   .footerMenu{
     background: none;
     display: inline-table;
+    .el-menu-item{
+      &:hover,&:focus{
+        background: none!important;
+        a{
+          text-decoration: underline;
+        }
+      }
+    }
     a{
+      color: #ffffff!important;
       display: inline-block;
       width: 100%;
       height: 100%;

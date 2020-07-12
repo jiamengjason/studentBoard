@@ -1,12 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg1">
+    <!-- 头部 -->
+    <Header></Header>
+    <!-- banner -->
     <el-container>
-      <el-header>
-        <!-- 头部 -->
-        <Header></Header>
-      </el-header>
-      <!-- banner -->
-      
     </el-container>
     <router-view/>
     <!-- 尾部 -->

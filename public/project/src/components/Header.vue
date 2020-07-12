@@ -2,41 +2,57 @@
 
 <div class="banner-nav">
     <div class="container"> 
-    <el-row>
-        <el-col :span="6">
-        <img class="logo" src="assets/img/logo.png" alt="">
-        </el-col>
-        <el-col :span="18">
-        <!-- pc菜单 -->
-        <div class="pcMenu">
-          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1"><router-link to="home" active-class="activeClass">首页</router-link></el-menu-item>
-          <el-menu-item index="2"><router-link to="company" active-class="activeClass">邮轮公司</router-link></el-menu-item>
-          <el-menu-item index="3"><router-link to="YLairline" active-class="activeClass">邮轮航线</router-link></el-menu-item>
-          <el-menu-item index="4"><router-link to="gkcity" active-class="activeClass">港口城市</router-link></el-menu-item>
-          <el-menu-item index="5"><router-link to="bkcruise" active-class="activeClass">邮轮百科</router-link></el-menu-item>
-          <el-menu-item index="6"><router-link to="travelog" active-class="activeClass">邮轮游记</router-link></el-menu-item>
-          </el-menu>
-        </div>
-        <!-- app菜单 -->
-        <div class="appMenu el-icon-more" icon="el-icon-more" @click="drawer = true">&nbsp;</div>
+      <el-row>
+          <el-col :span="6">
+            <img class="logo" src="../assets/img/logo1.png" alt="">
+          </el-col>
+          <el-col :span="7">
+            <!-- pc菜单 -->
+            <div class="pcMenu">
+              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+              <el-menu-item index="1"><router-link to="comingSoon" active-class="activeClass">首页</router-link></el-menu-item>
+              <el-menu-item index="2"><router-link to="comingSoon" active-class="activeClass">找一找</router-link></el-menu-item>
+              <el-menu-item index="3"><router-link to="comingSoon" active-class="activeClass">活动</router-link></el-menu-item>
+              <el-menu-item index="4"><router-link to="comingSoon" active-class="activeClass">留学圈</router-link></el-menu-item>
+              </el-menu>
+            </div>
+            <!-- app菜单 -->
+            <div class="appMenu el-icon-more" icon="el-icon-more" @click="drawer = true">&nbsp;</div>
 
-        <!-- 侧栏菜单 -->
-        <div class="appMenuList">
-            <el-drawer
-            title="法嘉华"
-            :visible.sync="drawer"
-            :direction="direction">
-            <p class="appnav"><router-link to="home">首页</router-link></p>
-            <p class="appnav"><router-link to="company">邮轮公司</router-link></p>
-            <p class="appnav"><router-link to="YLairline">邮轮航线</router-link></p>
-            <p class="appnav"><router-link to="gkcity">港口城市</router-link></p>
-            <p class="appnav"><router-link to="bkcruise">邮轮百科</router-link></p>
-            <p class="appnav"><router-link to="travelog">邮轮游记</router-link></p>
-            </el-drawer>
-        </div>
-        </el-col>
-    </el-row>
+            <!-- 侧栏菜单 -->
+            <div class="appMenuList">
+                <el-drawer
+                :visible.sync="drawer"
+                :direction="direction"
+                size="150px"
+                class="headerDrawer">
+                <p class="appnav"><router-link to="comingSoon">我的</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">收藏</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">关注</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">历史</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">评论</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">登出</router-link></p>
+
+                <p class="appnav"><router-link to="comingSoon">设置</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">关于</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">反馈</router-link></p>
+                </el-drawer>
+            </div>
+          </el-col>
+          <el-col :span="7">
+            <!-- 搜索 -->
+            <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select mt-30">
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+          </el-col>
+          <el-col :span="4" class="tr">
+            <!-- 头像 -->
+            <div @click="drawer = true">
+              <el-avatar class="mt-30" :size="40" icon="el-icon-user-solid">
+              </el-avatar>
+            </div>
+          </el-col>
+      </el-row>
     </div>
 </div>
      
@@ -53,6 +69,7 @@ export default {
       drawer: false,
       // 侧栏菜单方向，，，从右往左开
       direction:'rtl',
+      searchText: ''
     }
   },
   methods: {
@@ -65,11 +82,9 @@ export default {
 <style lang="scss">
 // 导航
 .banner-nav{
-  position: absolute;
   z-index: 10;
   width: 100%;
   height: 100px;
-  background: rgba(0, 0, 0, 0.3);
   .logo{
     // width: 78px;
     height: 72px;
@@ -105,16 +120,20 @@ export default {
   }
 }
 
-@media screen and (max-width: 750px) {
-  .pcMenu{
-    display: none!important;
+
+// 右侧展开导航
+.headerDrawer{
+  .el-drawer{
+    background: rgba($color: #fff, $alpha: 0.9);
   }
-  .appMenu{
-    display: block!important;
+  .appnav{
+    padding: 0 0 0 30px;
+    color: #333;
+    line-height: 30px;
+    font-size: 14px;
+    a{
+      color: #333;
+    }
   }
-  .logo{
-    margin-left: 20px;
-  }
-  
 }
 </style>

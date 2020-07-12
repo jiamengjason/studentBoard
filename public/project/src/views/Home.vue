@@ -1,6 +1,26 @@
 <template>
-  <div class="home">
-   ssss
+  <div class="home container containerBgColor">
+    <div class="home-edu-list">
+      <el-row :gutter="20">
+        <el-col :span="12" v-for="(o, index) in 12" :key="index">
+          <el-card class="box-card mt-20">
+            <div slot="header" class="clearfix">
+              <el-avatar icon="el-icon-user-solid"></el-avatar>
+              <span class="home-edu-tit">XXX教育</span>
+            </div>
+            <div v-for="o in 2" :key="o" class="text item">
+              <span v-if="index%2 ==0">{{'留学生XXXX ' + o }}</span>
+              <span v-if="index%2 !=0">{{'新闻XXXX ' + o }}</span>
+            </div>
+          </el-card>  
+        </el-col>
+      </el-row>
+    </div>
+
+    <!-- 返回顶部 -->
+    <div class="goTop" @click="window.scrollTo(0, 0);">
+      <span class="el-icon-arrow-up"></span>
+    </div>
   </div>
 </template>
 
@@ -17,17 +37,42 @@ export default {
   components: {
   },
   methods: {
-    // 邮轮品牌
-    getPPnav(){
-      this.$http.get('/API/index.ashx?command=GetShipCompany').then(function (res) {
-        res.body = this.formatterNavVal(res.body, 'shipcompany')
-        this.navDataPP = res.body
-      })
-    }
   }
 }
 </script>
 
 <style lang="scss">
+.home-edu-list{
+  padding: 10px 10px;
+  .clearfix{
+    height: 40px;
+    .el-avatar{
+      float: left;
+    }
+    .home-edu-tit{
+      float: left;
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      margin-left: 20px;
+    }
+  }
+}
 
+.goTop{
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background: #999999;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: center;
+  &:hover{
+    cursor: pointer;
+  }
+}
 </style>
