@@ -6,3 +6,5 @@ src/.DS_Store
 node_modules/.cache/*
 node_modules/.cache/*.*
 src/assets/.DS_Store
+../../.DS_Store
+../.DS_Store
