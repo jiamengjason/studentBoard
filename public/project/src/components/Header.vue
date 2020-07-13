@@ -136,4 +136,10 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 750px) {
+  .pcMenu{
+    display: none;
+  }
+}
 </style>
