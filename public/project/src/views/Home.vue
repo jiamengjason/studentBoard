@@ -1,5 +1,12 @@
 <template>
   <div class="home container containerBgColor">
+    <div class="home-silider">
+      <el-carousel height="300px">
+        <el-carousel-item v-for="item in 4" :key="item">
+          <h3 class="small">{{ item }}</h3>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
     <div class="home-edu-list">
       <el-row :gutter="20">
         <el-col :span="12" v-for="(o, index) in 12" :key="index">
@@ -42,37 +49,56 @@ export default {
 </script>
 
 <style lang="scss">
-.home-edu-list{
-  padding: 10px 10px;
-  .clearfix{
-    height: 40px;
-    .el-avatar{
-      float: left;
+  /*幻灯片*/
+  .home-silider{
+    padding: 20px;
+    .el-carousel__item h3 {
+      color: #475669;
+      font-size: 14px;
+      opacity: 0.75;
+      line-height: 150px;
+      margin: 0;
     }
-    .home-edu-tit{
-      float: left;
-      display: block;
-      height: 40px;
-      line-height: 40px;
-      margin-left: 20px;
-    }
-  }
-}
 
-.goTop{
-  position: fixed;
-  top: 50%;
-  right: 20px;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  background: #999999;
-  color: #ffffff;
-  font-size: 18px;
-  line-height: 32px;
-  text-align: center;
-  &:hover{
-    cursor: pointer;
+    .el-carousel__item:nth-child(2n) {
+      background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+      background-color: #d3dce6;
+    }
   }
-}
+  .home-edu-list{
+    padding: 10px 10px;
+    .clearfix{
+      height: 40px;
+      .el-avatar{
+        float: left;
+      }
+      .home-edu-tit{
+        float: left;
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .goTop{
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #999999;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 32px;
+    text-align: center;
+    &:hover{
+      cursor: pointer;
+    }
+  }
 </style>

@@ -15,6 +15,7 @@
     "lib-flexible": "^0.3.2",
     "minimist": ">=1.2.2",
     "postcss-px2rem": "^0.3.0",
+    "sass": "^1.26.10",
     "vue": "^2.6.10",
     "vue-i18n": "^8.14.0",
     "vue-resource": "^1.5.1",
