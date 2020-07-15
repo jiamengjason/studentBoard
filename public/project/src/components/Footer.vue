@@ -10,7 +10,7 @@
         <el-menu-item index="6"><router-link to="comingSoon">合作伙伴</router-link></el-menu-item>
         <el-menu-item index="7"><router-link to="comingSoon">联系我们</router-link></el-menu-item>
       </el-menu>
-      <p>
+      <p style="margin-top:10px">
         <span>Copyright</span>
         <span>2007-2018,All Rights Reserve 网站建设</span>
       </p>
@@ -20,7 +20,17 @@
 
 <script>
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  data(){
+    return {
+      activeIndex: ''
+    }
+  },
+  methods: {
+    handleSelect(v){
+      this.activeIndex = v
+    }
+  }
 }
 </script>
 <style lang="scss">

@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="bg1">
     <!-- 头部 -->
-    <Header></Header>
+    <Header activeIndex='1'></Header>
     <!-- banner -->
     <el-container>
     </el-container>

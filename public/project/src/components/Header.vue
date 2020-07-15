@@ -3,10 +3,12 @@
 <div class="banner-nav">
     <div class="container"> 
       <el-row>
-          <el-col :span="6">
-            <img class="logo" src="../assets/img/logo1.png" alt="">
+          <el-col :span="3">
+            <div class="logobox">
+              <img class="logo" src="../assets/img/logo1.png" alt="">
+            </div>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="9">
             <!-- pc菜单 -->
             <div class="pcMenu">
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -16,8 +18,10 @@
               <el-menu-item index="4"><router-link to="comingSoon" active-class="activeClass">留学圈</router-link></el-menu-item>
               </el-menu>
             </div>
+            <div class="appMenu"  @click="drawer1 = true">
+              <span class="el-icon-more"></span>
+            </div>
             <!-- app菜单 -->
-            <div class="appMenu el-icon-more" icon="el-icon-more" @click="drawer = true">&nbsp;</div>
 
             <!-- 侧栏菜单 -->
             <div class="appMenuList">
@@ -33,22 +37,35 @@
                 <p class="appnav"><router-link to="comingSoon">评论</router-link></p>
                 <p class="appnav"><router-link to="comingSoon">登出</router-link></p>
 
-                <p class="appnav"><router-link to="comingSoon">设置</router-link></p>
+                <p class="appnav mt-30"><router-link to="comingSoon">设置</router-link></p>
                 <p class="appnav"><router-link to="comingSoon">关于</router-link></p>
                 <p class="appnav"><router-link to="comingSoon">反馈</router-link></p>
                 </el-drawer>
             </div>
+
+            <div class="appMenuList">
+                <el-drawer
+                :visible.sync="drawer1"
+                :direction="direction1"
+                size="150px"
+                class="headerDrawer">
+                <p class="appnav"><router-link to="comingSoon">首页</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">找一找</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">活动</router-link></p>
+                <p class="appnav"><router-link to="comingSoon">留学圈</router-link></p>
+                </el-drawer>
+            </div>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="8" :offset="2" class="tr">
             <!-- 搜索 -->
-            <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select mt-30">
+            <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select" id="SearchBox">
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </el-col>
-          <el-col :span="4" class="tr">
+          <el-col :span="2" class="tr">
             <!-- 头像 -->
-            <div @click="drawer = true">
-              <el-avatar class="mt-30" :size="40" icon="el-icon-user-solid">
+            <div @click="drawer = true" style="height:100px">
+              <el-avatar class="mt-30" :size="30" icon="el-icon-user-solid">
               </el-avatar>
             </div>
           </el-col>
@@ -67,8 +84,10 @@ export default {
     return {
       // 侧栏菜单显示状态
       drawer: false,
+      drawer1: false,
       // 侧栏菜单方向，，，从右往左开
       direction:'rtl',
+      direction1:'ltr',
       searchText: ''
     }
   },
@@ -85,10 +104,17 @@ export default {
   z-index: 10;
   width: 100%;
   height: 100px;
+  .logobox{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    img{
+      max-width: 100%;
+    }
+  }
   .logo{
-    // width: 78px;
-    height: 72px;
-    margin-top: 14px;
+    display: inline-block;
+    height: 40px;
   }
   .el-menu{
     background:none;
@@ -102,21 +128,45 @@ export default {
       line-height: 100px;
       color: #ffffff;
     }
+    a{
+      padding: 0 10px 5px 10px;
+    }
     .is-active{
-      background: #ee6b03;
       border-bottom: none;
+      a{
+        border-bottom: 2px solid #fff;
+      }
       color: #ffffff;
     }
   }
   .pcMenu{
     a{
-      display: inline-block;
       width: 100%;
-      height: 100%;
     }
   }
   .appMenu{
       display: none
+  }
+  .el-input__inner{
+    border: none!important;
+    border-bottom: 1px solid #fff!important;
+    background: none!important;
+    border-radius: 0;
+    color: #fff;
+  }
+  .input-with-select{
+    margin-top: 25px;
+    .el-input-group__append{
+      background: none;
+      border: none;
+      padding: 10px;
+      
+      .el-button{
+        font-size: 20px;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
   }
 }
 
@@ -138,8 +188,16 @@ export default {
 }
 
 @media screen and (max-width: 750px) {
-  .pcMenu{
-    display: none;
+  .banner-nav{
+    .pcMenu{
+      display: none;
+    }
+    .appMenu{
+      display: block;
+      color: #fff;
+      font-size: 26px;
+      margin: 30px 0  0 30px;
+    }
   }
 }
 </style>

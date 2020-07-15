@@ -27,7 +27,8 @@ body,html{
 }
 body{
     background: #f8f8f8;
-    font-family: '微软雅黑', 'Avenir', Helvetica, Arial, sans-serif;
+    // font-family: '微软雅黑', 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 a,input,textarea,select{
     font-family: "Microsoft YaHei";
@@ -67,4 +68,12 @@ li{
 .mt-30{
     margin-top: 30px;
 }
-
+.el-drawer__header{
+    margin-bottom: 0;
+}
+@media screen and (max-width: 750px) {
+    .container{
+        width: calc(100% - 40px);
+        margin: 0 20px;
+    }
+}

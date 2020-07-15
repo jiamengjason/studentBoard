@@ -19,6 +19,11 @@ export default new Router({
             name: 'home',
             component: Home
         },
+        {
+            path: '/home',
+            name: 'home',
+            component: Home
+        },
         // 网站建设中ing
         {
             path: '/comingSoon',
