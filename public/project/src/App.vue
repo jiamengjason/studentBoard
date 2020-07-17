@@ -1,7 +1,11 @@
 <template>
-  <div id="app" class="bg1">
+  <div id="app" 
+    :class="{ 
+      'bg1': ($route.name != 'find'), 
+      'bg2': ($route.name == 'find')
+    }">
     <!-- 头部 -->
-    <Header activeIndex='1'></Header>
+    <Header></Header>
     <!-- banner -->
     <el-container>
     </el-container>

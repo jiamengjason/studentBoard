@@ -65,10 +65,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   /*幻灯片*/
   .home-silider{
-    padding: 20px 10px;
+    padding: 10px 10px;
     .el-carousel__item {
       border-radius: 10px;
       h3{

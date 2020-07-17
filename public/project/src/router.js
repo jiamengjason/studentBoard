@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Find from './views/Find.vue'
 import ComingSoon from './views/ComingSoon.vue'
 Vue.use(Router)
 
@@ -14,10 +15,11 @@ export default new Router({
             name: 'index',
             component: Home
         },
+        // 找一找
         {
-            path: '/home',
-            name: 'home',
-            component: Home
+            path: '/find',
+            name: 'find',
+            component: Find
         },
         {
             path: '/home',

@@ -6,14 +6,16 @@
           <el-col :span="3">
             <div class="logobox">
               <img class="logo" src="../assets/img/logo1.png" alt="">
+              <!-- <img class="logo" v-if="$route.name == 'home'" src="../assets/img/logo1.png" alt="">
+              <img class="logo" v-if="$route.name == 'find'" src="../assets/img/logo.png" alt=""> -->
             </div>
           </el-col>
           <el-col :span="9">
             <!-- pc菜单 -->
             <div class="pcMenu">
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="1"><router-link to="comingSoon" active-class="activeClass">首页</router-link></el-menu-item>
-              <el-menu-item index="2"><router-link to="comingSoon" active-class="activeClass">找一找</router-link></el-menu-item>
+              <el-menu-item index="1"><router-link to="home" active-class="activeClass">首页</router-link></el-menu-item>
+              <el-menu-item index="2"><router-link to="find" active-class="activeClass">找一找</router-link></el-menu-item>
               <el-menu-item index="3"><router-link to="comingSoon" active-class="activeClass">活动</router-link></el-menu-item>
               <el-menu-item index="4"><router-link to="comingSoon" active-class="activeClass">留学圈</router-link></el-menu-item>
               </el-menu>
@@ -77,8 +79,8 @@
 <script>
 export default {
   name: 'home',
-  props: {
-    activeIndex: String
+  mounted(){
+    this.init()
   },
   data() {
     return {
@@ -88,10 +90,18 @@ export default {
       // 侧栏菜单方向，，，从右往左开
       direction:'rtl',
       direction1:'ltr',
-      searchText: ''
+      searchText: '',
+      activeIndex: 1
     }
   },
   methods: {
+    init(){
+      if(this.$route.name == 'home'){
+        this.activeIndex = '1'
+      }else if(this.$route.name == 'find'){
+        this.activeIndex = '2'
+      }
+    },
     handleSelect(v){
       this.activeIndex = v
     }
@@ -103,7 +113,7 @@ export default {
 .banner-nav{
   z-index: 10;
   width: 100%;
-  height: 100px;
+  height: 120px;
   .logobox{
     height: 100px;
     display: flex;
@@ -127,8 +137,17 @@ export default {
       height: 100px;
       line-height: 100px;
       color: #ffffff;
+      &:hover{
+        background: none;
+        color: #fff;
+        font-weight: 600px;
+        a{
+          border-bottom: 2px solid #fff;
+        }
+      }
     }
     a{
+      min-width: 50px;
       padding: 0 10px 5px 10px;
     }
     .is-active{
