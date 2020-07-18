@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Find from './views/Find.vue'
+import Login from './views/Login.vue'
 import ComingSoon from './views/ComingSoon.vue'
 Vue.use(Router)
 
@@ -14,6 +15,12 @@ export default new Router({
             path: '/',
             name: 'index',
             component: Home
+        },
+        // 登录
+        {
+            path: '/',
+            name: 'login',
+            component: Login
         },
         // 找一找
         {

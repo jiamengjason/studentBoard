@@ -64,13 +64,13 @@
                 </div></el-col>
                 <el-col :span="6">
                   <p class="tag">
-                    <el-tag type="success">有优惠<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="info">环境好<span class="el-icon-plus"></span></el-tag>
+                    <el-tag type="success">有优惠</el-tag>
+                    <el-tag type="info">环境好</el-tag>
                   </p>
                   <p class="tag">
-                    <el-tag type="danger">文书<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="info">同城<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="warning">师资好<span class="el-icon-plus"></span></el-tag>
+                    <el-tag type="danger">文书</el-tag>
+                    <el-tag type="info">同城</el-tag>
+                    <el-tag type="warning">师资好</el-tag>
                   </p>
                 </el-col>
               </el-row>
@@ -80,7 +80,8 @@
       </el-tab-pane>
       <el-tab-pane label="培训" name="second">
         <!-- 培训 -->
-        <el-card class="box-card" v-for="o in 14" :key="o">
+        <div class="find-list">
+          <el-card class="box-card" v-for="o in 14" :key="o">
             <div class="find-list-item">
               <el-row :gutter="20">
                 <el-col :span="3">
@@ -103,56 +104,42 @@
                 </div></el-col>
                 <el-col :span="6">
                   <p class="tag">
-                    <el-tag type="success">有优惠<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="info">环境好<span class="el-icon-plus"></span></el-tag>
+                    <el-tag type="success">有优惠</el-tag>
+                    <el-tag type="info">环境好</el-tag>
                   </p>
                   <p class="tag">
-                    <el-tag type="success">文书<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="info">同城<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="warning">师资好<span class="el-icon-plus"></span></el-tag>
+                    <el-tag type="danger">文书</el-tag>
+                    <el-tag type="info">同城</el-tag>
+                    <el-tag type="warning">师资好</el-tag>
                   </p>
                 </el-col>
               </el-row>
             </div>
           </el-card>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="教师" name="third">
         <!-- 教师 -->
-        <el-card class="box-card" v-for="o in 14" :key="o">
-            <div class="find-list-item">
-              <el-row :gutter="20">
-                <el-col :span="3">
-                  <el-image
-                    style="width: 120px; height: 120px;"
+        <div class="find-list">
+          <el-row :gutter="20">
+            <el-col span="25" v-for="(o, index) in 16" :key="index">
+              <el-card :body-style="{ padding: '0px' }">
+                <el-image
+                    style="width: 214px; height: 214px;"
                     src="sdsd"
                     fit="cover">
                     <div slot="placeholder" class="image-slot">
                       加载中<span class="dot">...</span>
                     </div>
                   </el-image>
-                </el-col>
-                <el-col :span="15"><div class="grid-content bg-purple">
-                  <p class="tit">XXXX留学</p>
-                  <p class="progress">
-                    <el-progress :percentage="60" :format="format"></el-progress>
-                    <span>36条</span>
-                  </p>
-                  <p class="desc">{{'简介文案简介文案简介文案简介文案简介文案简介文案 ' + o }}</p>
-                </div></el-col>
-                <el-col :span="6">
-                  <p class="tag">
-                    <el-tag type="success">有优惠<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="info">环境好<span class="el-icon-plus"></span></el-tag>
-                  </p>
-                  <p class="tag">
-                    <el-tag type="success">文书<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="info">同城<span class="el-icon-plus"></span></el-tag>
-                    <el-tag type="warning">师资好<span class="el-icon-plus"></span></el-tag>
-                  </p>
-                </el-col>
-              </el-row>
-            </div>
-          </el-card>
+                <div style="padding: 14px;">
+                  <p class="tit-teacher">XXX</p>
+                  <p class="desc-teacher">简单文案文案文案简单文案文案文案</p>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
       </el-tab-pane>
     </el-tabs>
 
@@ -185,6 +172,16 @@ export default {
 </script>
 
 <style lang="scss">
+.el-col.el-col-25{
+  width: 20%;
+  margin-bottom: 20px;
+  &:last-child{
+    margin-bottom: 0;
+  }
+  img{
+    max-height: 235px;
+  }
+}
 .find-paixu{
   text-align: center;
   color: #606266;
@@ -242,6 +239,15 @@ export default {
       margin-bottom: 0;
     }
   }
+  .tit-teacher{
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .desc-teacher{
+    font-size: 14px;
+    color: #666666;
+  }
+
   .find-list-item{
     .el-image{
       border: 1px solid #3333;
