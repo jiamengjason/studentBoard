@@ -1,52 +1,60 @@
 <template>
-  <div class="home container containerBgColor">
-    <div class="home-silider">
-      <el-carousel height="300px">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <h3 class="small">{{ item }}</h3>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
+  <div class="home bg1">
+    <!-- 头部 -->
+    <Header></Header>
+    <div class="home container containerBgColor">
+      <div class="home-silider">
+        <el-carousel height="300px">
+          <el-carousel-item v-for="item in 4" :key="item">
+            <h3 class="small">{{ item }}</h3>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
 
-    <div class="homeTJ">
-      <span>推荐</span>
-      <span>关注</span>
-    </div>
-    <div class="homeTag">
-      <el-tag type="success">近期活动<span class="el-icon-plus"></span></el-tag>
-      <el-tag type="info">优惠<span class="el-icon-plus"></span></el-tag>
-      <el-tag type="warning">资讯<span class="el-icon-plus"></span></el-tag>
-      <el-tag type="danger">热点<span class="el-icon-plus"></span></el-tag>
-      <el-tag type="info">干货分享<span class="el-icon-plus"></span></el-tag>
-      <el-tag type="success">实习<span class="el-icon-plus"></span></el-tag>
-      <el-tag type="info">经验<span class="el-icon-plus"></span></el-tag>
-    </div>
-    <div class="home-edu-list">
-      <el-row :gutter="20">
-        <el-col :span="12" v-for="(o, index) in 12" :key="index">
-          <el-card class="box-card mt-20">
-            <div slot="header" class="clearfix">
-              <el-avatar icon="el-icon-user-solid"></el-avatar>
-              <span class="home-edu-tit">XXX教育</span>
-            </div>
-            <div v-for="o in 2" :key="o" class="text item">
-              <span v-if="index%2 ==0">{{'留学生XXXX ' + o }}</span>
-              <span v-if="index%2 !=0">{{'新闻XXXX ' + o }}</span>
-            </div>
-          </el-card>  
-        </el-col>
-      </el-row>
-    </div>
+      <div class="homeTJ">
+        <span>推荐</span>
+        <span>关注</span>
+      </div>
+      <div class="homeTag">
+        <el-tag type="success">近期活动<span class="el-icon-plus"></span></el-tag>
+        <el-tag type="info">优惠<span class="el-icon-plus"></span></el-tag>
+        <el-tag type="warning">资讯<span class="el-icon-plus"></span></el-tag>
+        <el-tag type="danger">热点<span class="el-icon-plus"></span></el-tag>
+        <el-tag type="info">干货分享<span class="el-icon-plus"></span></el-tag>
+        <el-tag type="success">实习<span class="el-icon-plus"></span></el-tag>
+        <el-tag type="info">经验<span class="el-icon-plus"></span></el-tag>
+      </div>
+      <div class="home-edu-list">
+        <el-row :gutter="20">
+          <el-col :span="12" v-for="(o, index) in 12" :key="index">
+            <el-card class="box-card mt-20">
+              <div slot="header" class="clearfix">
+                <el-avatar icon="el-icon-user-solid"></el-avatar>
+                <span class="home-edu-tit">XXX教育</span>
+              </div>
+              <div v-for="o in 2" :key="o" class="text item">
+                <span v-if="index%2 ==0">{{'留学生XXXX ' + o }}</span>
+                <span v-if="index%2 !=0">{{'新闻XXXX ' + o }}</span>
+              </div>
+            </el-card>  
+          </el-col>
+        </el-row>
+      </div>
 
-    <!-- 返回顶部 -->
-    <div class="goTop" @click="goTop()">
-      <span class="el-icon-arrow-up"></span>
+      <!-- 返回顶部 -->
+      <div class="goTop" @click="goTop()">
+        <span class="el-icon-arrow-up"></span>
+      </div>
     </div>
+    <!-- 尾部 -->
+    <Footer></Footer>
   </div>
+  
 </template>
 
 <script>
-
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
 export default {
   name: 'home',
   data() {
@@ -56,6 +64,8 @@ export default {
   mounted(){
   },
   components: {
+    Header,
+    Footer
   },
   methods: {
     goTop(){

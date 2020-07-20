@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Find from './views/Find.vue'
 import Login from './views/Login.vue'
+import Register from './views/Register.vue'
 import ComingSoon from './views/ComingSoon.vue'
 Vue.use(Router)
 
@@ -22,6 +23,12 @@ export default new Router({
             name: 'login',
             component: Login
         },
+        // 注册
+        {
+            path: '/',
+            name: 'register',
+            component: Register
+        },
         // 找一找
         {
             path: '/find',
@@ -39,11 +46,5 @@ export default new Router({
             name: 'comingSoon',
             component: ComingSoon
         }
-    ],
-    scrollBehavior(to, from,savedPosition) {
-        return {
-            x: 0,
-            y: 0
-        }
-    }
+    ]
 })

@@ -1,154 +1,162 @@
 <template>
-  <div class="find container containerBgColor">
+  <div class="find bg2">
+    <!-- 头部 -->
+    <Header></Header>
+    <div class="find container containerBgColor">
 
-    <el-tabs class="find-tab" v-model="activeName" @tab-click="handleClick">
-      <div class="find-paixu">
-        <span class="mlr">智能排序</span>
-        <span class="mlr">评分</span>
-        <el-dropdown :hide-on-click="false" class="mlr">
-          <span class="el-dropdown-link">
-            位置<i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>位置1</el-dropdown-item>
-            <el-dropdown-item>位置2</el-dropdown-item>
-            <el-dropdown-item>位置3</el-dropdown-item>
-            <el-dropdown-item>位置4</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <!-- 服务项目 -->
-        <el-dropdown :hide-on-click="false" class="mlr">
-          <span class="el-dropdown-link">
-            服务项目<i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>服务项目1</el-dropdown-item>
-            <el-dropdown-item>服务项目2</el-dropdown-item>
-            <el-dropdown-item>服务项目3</el-dropdown-item>
-            <el-dropdown-item>服务项目4</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-      <div class="findTag">
-        <el-tag type="success">多好评<span class="el-icon-plus"></span></el-tag>
-        <el-tag type="info">优惠<span class="el-icon-plus"></span></el-tag>
-        <el-tag type="warning">距离近<span class="el-icon-plus"></span></el-tag>
-        <el-tag type="danger">教学质量好<span class="el-icon-plus"></span></el-tag>
-        <el-tag type="info">环境好<span class="el-icon-plus"></span></el-tag>
-        <el-tag type="success">文书<span class="el-icon-plus"></span></el-tag>
-        <el-tag type="info">教学负责<span class="el-icon-plus"></span></el-tag>
-      </div>
-      <el-tab-pane label="中介" name="first">
-        <!-- 中介 -->
-        <div class="find-list">
-          <el-card class="box-card" v-for="o in 14" :key="o">
-            <div class="find-list-item">
-              <el-row :gutter="20">
-                <el-col :span="3">
+      <el-tabs class="find-tab" v-model="activeName" @tab-click="handleClick">
+        <div class="find-paixu">
+          <span class="mlr">智能排序</span>
+          <span class="mlr">评分</span>
+          <el-dropdown :hide-on-click="false" class="mlr">
+            <span class="el-dropdown-link">
+              位置<i class="el-icon-caret-bottom el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>位置1</el-dropdown-item>
+              <el-dropdown-item>位置2</el-dropdown-item>
+              <el-dropdown-item>位置3</el-dropdown-item>
+              <el-dropdown-item>位置4</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!-- 服务项目 -->
+          <el-dropdown :hide-on-click="false" class="mlr">
+            <span class="el-dropdown-link">
+              服务项目<i class="el-icon-caret-bottom el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>服务项目1</el-dropdown-item>
+              <el-dropdown-item>服务项目2</el-dropdown-item>
+              <el-dropdown-item>服务项目3</el-dropdown-item>
+              <el-dropdown-item>服务项目4</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <div class="findTag">
+          <el-tag type="success">多好评<span class="el-icon-plus"></span></el-tag>
+          <el-tag type="info">优惠<span class="el-icon-plus"></span></el-tag>
+          <el-tag type="warning">距离近<span class="el-icon-plus"></span></el-tag>
+          <el-tag type="danger">教学质量好<span class="el-icon-plus"></span></el-tag>
+          <el-tag type="info">环境好<span class="el-icon-plus"></span></el-tag>
+          <el-tag type="success">文书<span class="el-icon-plus"></span></el-tag>
+          <el-tag type="info">教学负责<span class="el-icon-plus"></span></el-tag>
+        </div>
+        <el-tab-pane label="中介" name="first">
+          <!-- 中介 -->
+          <div class="find-list">
+            <el-card class="box-card" v-for="o in 14" :key="o">
+              <div class="find-list-item">
+                <el-row :gutter="20">
+                  <el-col :span="3">
+                    <el-image
+                      style="width: 120px; height: 120px;"
+                      src="sdsd"
+                      fit="cover">
+                      <div slot="placeholder" class="image-slot">
+                        加载中<span class="dot">...</span>
+                      </div>
+                    </el-image>
+                  </el-col>
+                  <el-col :span="15"><div class="grid-content bg-purple">
+                    <p class="tit">XXXX留学</p>
+                    <p class="progress">
+                      <el-progress :percentage="60" :format="format"></el-progress>
+                      <span>36条</span>
+                    </p>
+                    <p class="desc">{{'简介文案简介文案简介文案简介文案简介文案简介文案 ' + o }}</p>
+                  </div></el-col>
+                  <el-col :span="6">
+                    <p class="tag">
+                      <el-tag type="success">有优惠</el-tag>
+                      <el-tag type="info">环境好</el-tag>
+                    </p>
+                    <p class="tag">
+                      <el-tag type="danger">文书</el-tag>
+                      <el-tag type="info">同城</el-tag>
+                      <el-tag type="warning">师资好</el-tag>
+                    </p>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-card>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="培训" name="second">
+          <!-- 培训 -->
+          <div class="find-list">
+            <el-card class="box-card" v-for="o in 14" :key="o">
+              <div class="find-list-item">
+                <el-row :gutter="20">
+                  <el-col :span="3">
+                    <el-image
+                      style="width: 120px; height: 120px;"
+                      src="sdsd"
+                      fit="cover">
+                      <div slot="placeholder" class="image-slot">
+                        加载中<span class="dot">...</span>
+                      </div>
+                    </el-image>
+                  </el-col>
+                  <el-col :span="15"><div class="grid-content bg-purple">
+                    <p class="tit">XXXX教师</p>
+                    <p class="progress">
+                      <el-progress :percentage="60" :format="format"></el-progress>
+                      <span>36条</span>
+                    </p>
+                    <p class="desc">{{'简介文案简介文案简介文案简介文案简介文案简介文案 ' + o }}</p>
+                  </div></el-col>
+                  <el-col :span="6">
+                    <p class="tag">
+                      <el-tag type="success">有优惠</el-tag>
+                      <el-tag type="info">环境好</el-tag>
+                    </p>
+                    <p class="tag">
+                      <el-tag type="danger">文书</el-tag>
+                      <el-tag type="info">同城</el-tag>
+                      <el-tag type="warning">师资好</el-tag>
+                    </p>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-card>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="教师" name="third">
+          <!-- 教师 -->
+          <div class="find-list">
+            <el-row :gutter="20">
+              <el-col span="25" v-for="(o, index) in 16" :key="index">
+                <el-card :body-style="{ padding: '0px' }">
                   <el-image
-                    style="width: 120px; height: 120px;"
-                    src="sdsd"
-                    fit="cover">
-                    <div slot="placeholder" class="image-slot">
-                      加载中<span class="dot">...</span>
-                    </div>
-                  </el-image>
-                </el-col>
-                <el-col :span="15"><div class="grid-content bg-purple">
-                  <p class="tit">XXXX留学</p>
-                  <p class="progress">
-                    <el-progress :percentage="60" :format="format"></el-progress>
-                    <span>36条</span>
-                  </p>
-                  <p class="desc">{{'简介文案简介文案简介文案简介文案简介文案简介文案 ' + o }}</p>
-                </div></el-col>
-                <el-col :span="6">
-                  <p class="tag">
-                    <el-tag type="success">有优惠</el-tag>
-                    <el-tag type="info">环境好</el-tag>
-                  </p>
-                  <p class="tag">
-                    <el-tag type="danger">文书</el-tag>
-                    <el-tag type="info">同城</el-tag>
-                    <el-tag type="warning">师资好</el-tag>
-                  </p>
-                </el-col>
-              </el-row>
-            </div>
-          </el-card>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="培训" name="second">
-        <!-- 培训 -->
-        <div class="find-list">
-          <el-card class="box-card" v-for="o in 14" :key="o">
-            <div class="find-list-item">
-              <el-row :gutter="20">
-                <el-col :span="3">
-                  <el-image
-                    style="width: 120px; height: 120px;"
-                    src="sdsd"
-                    fit="cover">
-                    <div slot="placeholder" class="image-slot">
-                      加载中<span class="dot">...</span>
-                    </div>
-                  </el-image>
-                </el-col>
-                <el-col :span="15"><div class="grid-content bg-purple">
-                  <p class="tit">XXXX留学</p>
-                  <p class="progress">
-                    <el-progress :percentage="60" :format="format"></el-progress>
-                    <span>36条</span>
-                  </p>
-                  <p class="desc">{{'简介文案简介文案简介文案简介文案简介文案简介文案 ' + o }}</p>
-                </div></el-col>
-                <el-col :span="6">
-                  <p class="tag">
-                    <el-tag type="success">有优惠</el-tag>
-                    <el-tag type="info">环境好</el-tag>
-                  </p>
-                  <p class="tag">
-                    <el-tag type="danger">文书</el-tag>
-                    <el-tag type="info">同城</el-tag>
-                    <el-tag type="warning">师资好</el-tag>
-                  </p>
-                </el-col>
-              </el-row>
-            </div>
-          </el-card>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="教师" name="third">
-        <!-- 教师 -->
-        <div class="find-list">
-          <el-row :gutter="20">
-            <el-col span="25" v-for="(o, index) in 16" :key="index">
-              <el-card :body-style="{ padding: '0px' }">
-                <el-image
-                    style="width: 214px; height: 214px;"
-                    src="sdsd"
-                    fit="cover">
-                    <div slot="placeholder" class="image-slot">
-                      加载中<span class="dot">...</span>
-                    </div>
-                  </el-image>
-                <div style="padding: 14px;">
-                  <p class="tit-teacher">XXX</p>
-                  <p class="desc-teacher">简单文案文案文案简单文案文案文案</p>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+                      style="width: 214px; height: 214px;"
+                      src="sdsd"
+                      fit="cover">
+                      <div slot="placeholder" class="image-slot">
+                        加载中<span class="dot">...</span>
+                      </div>
+                    </el-image>
+                  <div style="padding: 14px;">
+                    <p class="tit-teacher">XXX</p>
+                    <p class="desc-teacher">简单文案文案文案简单文案文案文案</p>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
 
-    
+      
+    </div>
+    <!-- 尾部 -->
+    <Footer></Footer>
   </div>
+  
 </template>
 
 <script>
-
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
 export default {
   name: 'find',
   data() {
@@ -159,6 +167,8 @@ export default {
   mounted(){
   },
   components: {
+    Header,
+    Footer
   },
   methods: {
     handleClick(tab, event) {

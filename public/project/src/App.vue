@@ -1,17 +1,8 @@
 <template>
-  <div id="app" 
-    :class="{ 
-      'bg1': ($route.name != 'find'), 
-      'bg2': ($route.name == 'find')
-    }">
-    <!-- 头部 -->
-    <Header></Header>
-    <!-- banner -->
+  <div id="app">
     <el-container>
     </el-container>
     <router-view/>
-    <!-- 尾部 -->
-    <Footer></Footer>
   </div>
 </template>
 

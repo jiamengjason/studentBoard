@@ -66,7 +66,12 @@
           </el-col>
           <el-col :span="2" class="tr">
             <!-- 头像 -->
-            <div @click="drawer = true" style="height:100px">
+            <div v-if="GLOBAL.userid" class="nologin" >
+              <router-link to="login">注册</router-link>|
+              <router-link to="register">登录</router-link>
+            </div>
+
+            <div v-if="!GLOBAL.userid" @click="drawer = true" style="height:100px">
               <el-avatar class="mt-30" :size="30" icon="el-icon-user-solid">
               </el-avatar>
             </div>
@@ -189,7 +194,17 @@ export default {
     }
   }
 }
-
+.nologin{
+  line-height: 120px;
+  color: #fff;
+  a{
+    &:first-child{
+      padding-right: 5px;
+    }
+    color: #fff;
+    font-size: 14px;
+  }
+}
 
 // 右侧展开导航
 .headerDrawer{

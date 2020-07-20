@@ -1,14 +1,13 @@
 <template>
-  <div class="login container containerBgColor">
-    dddd
-    <img src="../assets/img/logo1.png" alt="">
+  <div class="register container containerBgColor">
+    <img src="logo.png" alt="">
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'login',
+  name: 'register',
   data() {
     return {
     }

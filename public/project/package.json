@@ -30,6 +30,7 @@
     "px2rem-loader": "^0.1.9",
     "sass-loader": "^9.0.2",
     "vue-cli-plugin-element": "^1.0.1",
+    "vue-cookies": "^1.7.2",
     "vue-directive-image-previewer": "^2.2.2",
     "vue-template-compiler": "^2.6.10"
   }
