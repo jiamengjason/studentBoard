@@ -5,6 +5,8 @@ import Find from './views/Find.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import ComingSoon from './views/ComingSoon.vue'
+import Activity from './views/Activity.vue'
+import Studycircle from './views/Studycircle.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -19,13 +21,13 @@ export default new Router({
         },
         // 登录
         {
-            path: '/',
+            path: '/login',
             name: 'login',
             component: Login
         },
         // 注册
         {
-            path: '/',
+            path: '/register',
             name: 'register',
             component: Register
         },
@@ -39,6 +41,14 @@ export default new Router({
             path: '/home',
             name: 'home',
             component: Home
+        },{
+            path: '/activity',
+            name: 'activity',
+            component: Activity
+        },{
+            path: '/studycircle',
+            name: 'studycircle',
+            component: Studycircle
         },
         // 网站建设中ing
         {
