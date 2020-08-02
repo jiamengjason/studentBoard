@@ -125,7 +125,7 @@
         <el-tab-pane label="同学" name="third">
           <!-- 同学 -->
           <div class="find-list">
-            <el-card class="box-card" v-for="o in 14" :key="o">
+            <el-card class="box-card" v-for="o in list" :key="o">
               <div class="find-list-item">
                 <el-row :gutter="20">
                   <el-col :span="3">
@@ -144,14 +144,26 @@
                             小XXXX明 
                             <span class="f12 pl20">波士顿大学</span>
                         </p>
-                        <p>
-                        <span class="el-icon-location-outline"></span>
-                        波士顿，北京
-                        </p>
-                        <p class="desc">
-                            <span class="el-icon-reading"></span>
-                            经济学
-                        </p>
+                        <div class="student-desc">
+                            <el-row :gutter="10">
+                            <el-col :span="4">
+                                <p style="margin-top:14px;">
+                                    <span class="el-icon-location-outline"></span>
+                                    波士顿，北京
+                                </p>
+                                <p class="desc">
+                                    <span class="el-icon-reading"></span>
+                                    经济学
+                                </p>
+                            </el-col>
+                            <el-col :span="20">
+                                <div class="q-desc">
+                                    <el-input type="textarea" v-model="o.desc" readonly="true"></el-input>
+                                </div>
+                            </el-col>
+                            </el-row>
+                            
+                        </div>
                     </div>
                   </el-col>
                   <el-col :span="3">
@@ -374,6 +386,7 @@ export default {
     margin-top: 10px;
     .el-textarea__inner{
         height: 68px;
+        resize: none;
     }
 }
 </style>

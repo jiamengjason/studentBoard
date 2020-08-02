@@ -14,10 +14,10 @@
             <!-- pc菜单 -->
             <div class="pcMenu">
               <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="1"><router-link to="home" active-class="activeClass">首页</router-link></el-menu-item>
-              <el-menu-item index="2"><router-link to="find" active-class="activeClass">找一找</router-link></el-menu-item>
-              <el-menu-item index="3"><router-link to="comingSoon" active-class="activeClass">活动</router-link></el-menu-item>
-              <el-menu-item index="4"><router-link to="studycircle" active-class="activeClass">留学圈</router-link></el-menu-item>
+                <el-menu-item index="1"><router-link to="home" active-class="activeClass">首页</router-link></el-menu-item>
+                <el-menu-item index="2"><router-link to="find" active-class="activeClass">找一找</router-link></el-menu-item>
+                <el-menu-item index="3"><router-link to="activity" active-class="activeClass">活动</router-link></el-menu-item>
+                <el-menu-item index="4"><router-link to="studycircle" active-class="activeClass">留学圈</router-link></el-menu-item>
               </el-menu>
             </div>
             <div class="appMenu"  @click="drawer1 = true">
@@ -66,12 +66,12 @@
           </el-col>
           <el-col :span="2" class="tr">
             <!-- 头像 -->
-            <div v-if="GLOBAL.userid" class="nologin" >
+            <div v-if="!GLOBAL.userid" class="nologin" >
               <router-link to="login">注册</router-link>|
               <router-link to="register">登录</router-link>
             </div>
 
-            <div v-if="!GLOBAL.userid" @click="drawer = true" style="height:100px">
+            <div v-if="GLOBAL.userid" @click="drawer = true" style="height:100px">
               <el-avatar class="mt-30" :size="30" icon="el-icon-user-solid">
               </el-avatar>
             </div>
