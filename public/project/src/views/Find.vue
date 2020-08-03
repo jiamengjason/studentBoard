@@ -202,6 +202,16 @@ export default {
 }
 .find-tab{
   padding: 40px 0 0 0;
+  .el-tabs__nav-wrap{
+    padding: 0!important;
+  }
+  .el-tabs__header{
+    .el-tabs__nav-prev,
+    .el-tabs__nav-next{
+      display: none;
+    }
+  }
+  
 }
 // 选项卡
 .el-tabs{

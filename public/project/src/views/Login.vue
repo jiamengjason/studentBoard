@@ -2,11 +2,17 @@
   <div class="login container containerBgColor">
     <!-- 头部 -->
     <!-- <Header></Header> -->
+    <router-link to="home" active-class="activeClass">
+      <div class="back el-icon-arrow-left">
+      </div>
+    </router-link>
     <div class="loginbox">
       <el-row :gutter="20">
         <el-col :span="8" :offset="8">
           <div class="login_logo">
-            <img src="../assets/img/logo.png" alt="">
+            <router-link to="home" active-class="activeClass">
+              <img src="../assets/img/logo.png" alt="">
+            </router-link>
           </div>
           <el-input
             class="userinput"
@@ -63,6 +69,9 @@ export default {
 <style lang="scss" scoped>
 .login{
   min-height: 100%;
+  .back{
+    margin: 60px 0 0 50px;
+  }
 }
 .loginbox{
   height: 500px;

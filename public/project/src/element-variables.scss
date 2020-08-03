@@ -91,3 +91,18 @@ li{
     }
 }
 
+// 返回按钮
+.back{
+    width: 30px;
+    height: 30px;
+    background: #999999;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    &::before{
+        line-height: 30px;
+    }
+}

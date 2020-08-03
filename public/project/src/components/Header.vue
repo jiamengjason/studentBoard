@@ -34,8 +34,8 @@
                 class="headerDrawer">
                 <p class="appnav"><router-link to="comingSoon">我的</router-link></p>
                 <p class="appnav"><router-link to="comingSoon">收藏</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">关注</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">历史</router-link></p>
+                <!-- <p class="appnav"><router-link to="comingSoon">关注</router-link></p> -->
+                <!-- <p class="appnav"><router-link to="comingSoon">历史</router-link></p> -->
                 <p class="appnav"><router-link to="comingSoon">评论</router-link></p>
                 <p class="appnav"><router-link to="comingSoon">登出</router-link></p>
 
@@ -51,10 +51,10 @@
                 :direction="direction1"
                 size="150px"
                 class="headerDrawer">
-                <p class="appnav"><router-link to="comingSoon">首页</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">找一找</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">活动</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">留学圈</router-link></p>
+                <p class="appnav"><router-link to="home">首页</router-link></p>
+                <p class="appnav"><router-link to="find">找一找</router-link></p>
+                <p class="appnav"><router-link to="activity">活动</router-link></p>
+                <p class="appnav"><router-link to="studycircle">留学圈</router-link></p>
                 </el-drawer>
             </div>
           </el-col>
@@ -105,6 +105,10 @@ export default {
         this.activeIndex = '1'
       }else if(this.$route.name == 'find'){
         this.activeIndex = '2'
+      }else if(this.$route.name == 'activity' || this.$route.name == 'activityinfo'){
+        this.activeIndex = '3'
+      }else if(this.$route.name == 'studycircle' || this.$route.name == 'studycircleinfo'){
+        this.activeIndex = '4'
       }
     },
     handleSelect(v){
@@ -214,7 +218,7 @@ export default {
   .appnav{
     padding: 0 0 0 30px;
     color: #333;
-    line-height: 30px;
+    line-height: 35px;
     font-size: 14px;
     a{
       color: #333;

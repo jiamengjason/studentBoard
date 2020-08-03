@@ -34,14 +34,16 @@
               <el-card :body-style="{ padding: '0px'}">
                   <div class="activity-item" @mouseover="o.show = false" @mouseleave="o.show = true">
                     <div class="activity-item-desc"  v-show="!o.show" >
-                      <p class="tit-name">XXXX活动/比赛</p>
-                      <p class="tit-juban">举办方：XXX</p>
-                      <p class="tit-time">时间：2020年07月31号</p>
-                      <p class="tit-addres">地点：XXX</p>
-                      <p class="desc-teacher">简介：简单文案文案文案简单文案文案文案XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX s</p>
-                      <div class="status">
-                        <el-button type="danger" plain>进行中</el-button>
-                      </div>
+                      <router-link to="activityinfo" active-class="activeClass">
+                        <p class="tit-name">XXXX活动/比赛</p>
+                        <p class="tit-juban">举办方：XXX</p>
+                        <p class="tit-time">时间：2020年07月31号</p>
+                        <p class="tit-addres">地点：XXX</p>
+                        <p class="desc-teacher">简介：简单文案文案文案简单文案文案文案XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX s</p>
+                        <div class="status">
+                          <el-button type="danger" plain>进行中</el-button>
+                        </div>
+                      </router-link>
                     </div>
                     <!-- banner 淡入淡出效果 -->
                     <transition name="el-zoom-in-top">
@@ -118,16 +120,6 @@ export default {
 </script>
 
 <style lang="scss">
-.el-col.el-col-25{
-  width: 20%;
-  margin-bottom: 20px;
-  &:last-child{
-    margin-bottom: 0;
-  }
-  img{
-    max-height: 235px;
-  }
-}
 // 列表内容
 .activity-list{
   padding: 20px 100px;
@@ -164,6 +156,9 @@ export default {
     position: relative;
     width: 100%;
     height: 300px;
+    a{
+      color: #333333;
+    }
     .activity-item-banner{
       width: 100%;
       position:absolute;

@@ -6,6 +6,7 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import ComingSoon from './views/ComingSoon.vue'
 import Activity from './views/Activity.vue'
+import ActivityInfo from './views/ActivityInfo.vue'
 import Studycircle from './views/Studycircle.vue'
 Vue.use(Router)
 
@@ -45,6 +46,10 @@ export default new Router({
             path: '/activity',
             name: 'activity',
             component: Activity
+        },{
+            path: '/activityinfo',
+            name: 'activityinfo',
+            component: ActivityInfo
         },{
             path: '/studycircle',
             name: 'studycircle',
