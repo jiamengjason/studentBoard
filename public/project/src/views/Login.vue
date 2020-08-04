@@ -31,10 +31,14 @@
             <span style="float:right; color:#666666;">忘记密码</span>
           </p>
           <p class="loginbtn">
-            <el-button type="primary" round>登录</el-button>
+            <el-button type="primary" round>
+              登录
+            </el-button>
           </p>
           <p class="registbtn">
-            <el-button round>注册</el-button>
+            <router-link to="register" active-class="activeClass">
+              <el-button round>注册</el-button>
+            </router-link>
           </p>
         </el-col>
       </el-row>
