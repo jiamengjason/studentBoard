@@ -1,44 +1,29 @@
 <template>
-  <div class="container containerBgColor register">
+  <div class="bg1">
     <!-- 头部 -->
-    <!-- <Header></Header> -->
-    <router-link to="home" active-class="activeClass">
-      <div class="back el-icon-arrow-left">
-      </div>
-    </router-link>
-    <div class="registerBox">
-      <div class="register_logo">
-        <router-link to="home" active-class="activeClass">
-          <img src="../assets/img/logo.png" alt="">
-        </router-link>
-      </div>
-      <div class="register-type">
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="学生" name="first">
-            <!-- 学生注册  srart-->
-            <regitsterS></regitsterS>
-            <!-- 学生注册 start-->
-          </el-tab-pane>
-          <el-tab-pane label="家长" name="second">
-            <!-- 家长注册  srart-->
-            <regitsterP></regitsterP>
-            <!-- 家长注册 start-->
-          </el-tab-pane>
-          <el-tab-pane label="机构" name="third">
-            <!-- 机构注册  srart-->
-            <regitsterI></regitsterI>
-            <!-- 机构注册 start-->
-          </el-tab-pane>
-          <el-tab-pane label="教师" name="fourth">
-            <!-- 家长注册  srart-->
-            <regitsterT></regitsterT>
-            <!-- 家长注册 start-->
-          </el-tab-pane>
-        </el-tabs>
+    <Header></Header>
+    <div class="container containerBgColor register">
+      <router-link to="identity" active-class="activeClass">
+        <div class="back el-icon-arrow-left">
+        </div>
+      </router-link>
+      <div class="registerBox">
+        <!-- <div class="register_logo">
+          <router-link to="home" active-class="activeClass">
+            <img src="../assets/img/logo.png" alt="">
+          </router-link>
+        </div> -->
+        <div class="register-type">
+          <!-- 学生注册 -->
+          <regitsterS v-if="type == 'student'"></regitsterS>
+          <regitsterT v-if="type == 'teacher'"></regitsterT>
+          <regitsterP v-if="type == 'parent'"></regitsterP>
+          <regitsterO v-if="type == 'organization'"></regitsterO>
+        </div>
       </div>
     </div>
-
-    <!-- <Footer></Footer> -->
+    <!-- 尾部 -->
+    <Footer></Footer>
   </div>
 </template>
 
@@ -47,7 +32,7 @@
   import Footer from '../components/Footer.vue'
   import regitsterS from '../components/regitsterS'
   import regitsterP from '../components/regitsterP'
-  import regitsterI from '../components/regitsterI'
+  import regitsterO from '../components/regitsterO'
   import regitsterT from '../components/regitsterT'
   export default {
     name: 'login',
@@ -56,20 +41,25 @@
         activeName: 'first',
         name: '',
         pwd: '',
-        radio:''
+        radio:'',
+        type: this.$route.query.type
       }
     },
     mounted(){
+      this.onSubmit()
     },
     components: {
       Header,
       Footer,
       regitsterS,
-      regitsterI,
+      regitsterO,
       regitsterT,
       regitsterP
     },
     methods: {
+      onSubmit() {
+        console.log('submit!', this.$route.query.type);
+      }
     }
   }
 </script>

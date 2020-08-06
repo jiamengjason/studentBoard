@@ -8,6 +8,9 @@ import ComingSoon from './views/ComingSoon.vue'
 import Activity from './views/Activity.vue'
 import ActivityInfo from './views/ActivityInfo.vue'
 import Studycircle from './views/Studycircle.vue'
+import UserCenter from './views/UserCenter.vue'
+import Identity from "./views/Identity";
+
 Vue.use(Router)
 
 export default new Router({
@@ -26,11 +29,23 @@ export default new Router({
             name: 'login',
             component: Login
         },
+        // 角色选择
+        {
+            path: "/identity",
+            name: "identity",
+            component: Identity
+        },
         // 注册
         {
             path: '/register',
             name: 'register',
             component: Register
+        },
+        // 用户中心
+        {
+            path: '/usercenter',
+            name: 'usercenter',
+            component: UserCenter
         },
         // 找一找
         {

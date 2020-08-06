@@ -4,7 +4,7 @@
     <Header></Header>
     <div class="find container containerBgColor1">
 
-      <el-tabs class="find-tab" v-model="activeName" @tab-click="handleClick">
+      <el-tabs class="find-tab" stretch="true" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="综合" name="first">
           <!-- 综合 -->
           <div class="find-list">
@@ -264,36 +264,7 @@ export default {
 .find-tab{
   padding: 40px 0 0 0;
 }
-// 选项卡
-.el-tabs{
-  .el-tabs__header{
-      width: 287px;
-      padding: 5px 8px;
-      border-radius: 30px;
-      background: #ffffff!important;
-      margin: 0 auto 10px auto;
-      .el-tabs__nav-wrap::after{
-        display: none;
-      }
-      .el-tabs__active-bar{
-        display: none;
-      }
-      .el-tabs__item{
-        width: 80px;
-        margin: 0 5px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        padding: 0;
-      }
-      .is-active{
-        background: rgb(22, 47, 59);
-        border-radius: 30px;
-        color: #ffffff;
-      }
-  }
-  
-}
+
 
 .findTag{
   text-align: center;

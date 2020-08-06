@@ -1,8 +1,8 @@
 <template>
   <div class="registerTagBox">
     <div class="container">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="用户名">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="机构用户名">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="手机号">

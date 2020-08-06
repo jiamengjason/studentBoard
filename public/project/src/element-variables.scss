@@ -106,3 +106,93 @@ li{
         line-height: 30px;
     }
 }
+.pcMenu{
+    .el-menu{
+        background: none;
+    }
+    .el-menu--horizontal > .el-menu-item:not(.is-disabled):hover, .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus{
+        background: none;
+    }
+}
+
+// 页签重新定义
+.find{
+    // 选项卡
+    .el-tabs{
+        .el-tabs__nav-wrap{
+            padding: 0!important;
+        }
+        .el-tabs__header{
+            .el-tabs__nav-prev,
+            .el-tabs__nav-next{
+                display: none;
+            }
+        }
+        .el-tabs__header{
+            width: 287px;
+            padding: 5px 8px;
+            border-radius: 30px;
+            background: rgb(167, 190, 198);
+            margin: 0 auto 10px auto;
+            .el-tabs__nav-wrap::after{
+                display: none;
+            }
+            .is-active{
+                color: #ffffff;
+            }
+            .el-tabs__active-bar{
+                background: rgb(22, 47, 59);
+                height: 30px;
+                z-index: 0;
+                padding: 0 30px;
+                bottom: 5px;
+                border-radius: 30px;
+                color: #ffffff;
+            }
+        }
+    }
+}
+.containerBgColor1{
+    .el-tabs{
+        .el-tabs__header{
+            background: #ffffff;
+        }
+    }
+}
+//  个人中心页签重新定义
+.usercenter-tagcon{
+    .el-tabs--card > .el-tabs__header .el-tabs__nav,
+    .el-tabs--card > .el-tabs__header{
+        // border-color: rgba(55,16,14,1);
+        // border-color: #999;
+        border: none;
+        background: none;
+        margin: 0;
+    }
+    .el-tabs--card > .el-tabs__header .el-tabs__item{
+        // border-left-color: rgba(55,16,14,1);
+        // border-left-color: #999;
+        height: 50px;
+        border: none;
+        background: #dae2f8;
+        color: #666;
+        padding: 5px 20px;
+        &.is-active{
+            background: #e0e6f0;
+            color: #162f3b;
+        }
+        &:first-child{
+            border-top-left-radius: 20px;
+        }
+        &:last-child{
+            border-top-right-radius: 20px;
+        }
+    }
+    .el-tabs__nav-wrap::after{
+        background-color: #999;;
+    }
+    .el-tabs__content{
+        background: #e0e6f0;
+        padding: 30px;
+    }
+}

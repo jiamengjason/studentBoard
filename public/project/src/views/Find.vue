@@ -4,7 +4,7 @@
     <Header></Header>
     <div class="find container containerBgColor">
 
-      <el-tabs class="find-tab" v-model="activeName" @tab-click="handleClick">
+      <el-tabs class="find-tab" stretch="true" v-model="activeName" @tab-click="handleClick">
         <div class="find-paixu">
           <span class="mlr">智能排序</span>
           <span class="mlr">评分</span>
@@ -202,48 +202,7 @@ export default {
 }
 .find-tab{
   padding: 40px 0 0 0;
-  .el-tabs__nav-wrap{
-    padding: 0!important;
-  }
-  .el-tabs__header{
-    .el-tabs__nav-prev,
-    .el-tabs__nav-next{
-      display: none;
-    }
-  }
-  
 }
-// 选项卡
-.el-tabs{
-  .el-tabs__header{
-      width: 287px;
-      padding: 5px 8px;
-      border-radius: 30px;
-      background: rgb(167, 190, 198);
-      margin: 0 auto 10px auto;
-      .el-tabs__nav-wrap::after{
-        display: none;
-      }
-      .el-tabs__active-bar{
-        display: none;
-      }
-      .el-tabs__item{
-        width: 80px;
-        margin: 0 5px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        padding: 0;
-      }
-      .is-active{
-        background: rgb(22, 47, 59);
-        border-radius: 30px;
-        color: #ffffff;
-      }
-  }
-  
-}
-
 .findTag{
   text-align: center;
   .el-tag{

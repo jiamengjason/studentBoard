@@ -36,7 +36,7 @@
             </el-button>
           </p>
           <p class="registbtn">
-            <router-link to="register" active-class="activeClass">
+            <router-link to="identity" active-class="activeClass">
               <el-button round>注册</el-button>
             </router-link>
           </p>

@@ -32,7 +32,7 @@
                 :direction="direction"
                 size="150px"
                 class="headerDrawer">
-                <p class="appnav"><router-link to="comingSoon">我的</router-link></p>
+                <p class="appnav"><router-link to="usercenter">我的</router-link></p>
                 <p class="appnav"><router-link to="comingSoon">收藏</router-link></p>
                 <!-- <p class="appnav"><router-link to="comingSoon">关注</router-link></p> -->
                 <!-- <p class="appnav"><router-link to="comingSoon">历史</router-link></p> -->
