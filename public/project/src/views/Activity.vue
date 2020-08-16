@@ -32,8 +32,8 @@
           <el-row :gutter="50">
             <el-col :span="8" v-for="(o, index) in list" :key="index">
               <el-card :body-style="{ padding: '0px'}">
-                  <div class="activity-item" @mouseover="o.show = false" @mouseleave="o.show = true">
-                    <div class="activity-item-desc"  v-show="!o.show" >
+                  <div class="activity-item" @mouseover="changeTransitionFlag(o,false)" @mouseleave="changeTransitionFlag(o,true)">
+                    <div class="activity-item-desc"  v-show="o.show1" >
                       <router-link to="activityinfo" active-class="activeClass">
                         <p class="tit-name">XXXX活动/比赛</p>
                         <p class="tit-juban">举办方：XXX</p>
@@ -46,11 +46,11 @@
                       </router-link>
                     </div>
                     <!-- banner 淡入淡出效果 -->
-                    <transition name="el-zoom-in-top">
-                      <div v-show="o.show" class="transition-box">
+                     <el-collapse-transition>
+                      <div v-show="o.show" style="position:relative">
                           <div class="activity-item-banner">
                             <el-image
-                                style="width: 100%; height: 300px;"
+                                style="width: 100%; height: 365px;"
                                 src="sdsd"
                                 fit="cover">
                                 <div slot="placeholder" class="image-slot">
@@ -63,7 +63,7 @@
                             </div>
                           </div>
                       </div>
-                      </transition>
+                    </el-collapse-transition>
                     
                   </div>
                   
@@ -91,6 +91,7 @@ export default {
                 type:'1',
                 key: i,
                 show: true,
+                show1: false,
                 desc: `简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介 ${ i }`,
             }
             list.push(item);
@@ -114,6 +115,17 @@ export default {
     },
     format(percentage) {
       return percentage === 100 ? '${percentage}分' : `${percentage}分`;
+    },
+    changeTransitionFlag(item, flag){
+      item.show = flag
+      if(flag){
+        item.show1 = !flag
+      }else{
+        setTimeout(function(){
+          item.show1 = !flag
+        }, 300)
+      }
+      
     }
   }
 }
@@ -153,18 +165,13 @@ export default {
 
     
   .activity-item{
-    position: relative;
     width: 100%;
-    height: 300px;
+    height: 365px;
     a{
       color: #333333;
     }
     .activity-item-banner{
       width: 100%;
-      position:absolute;
-      left: 0;
-      top: 0;
-      z-index: 0;
       .tag{
         position: absolute;
         bottom: 0;
@@ -179,6 +186,9 @@ export default {
     .activity-item-desc{
       font-size: 14px;
       padding: 20px;
+      position: relative;
+      height: 365px;
+      z-index: 0;
       .status{
         position: absolute;
         bottom: 10px;
