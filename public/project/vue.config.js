@@ -43,12 +43,12 @@ module.exports = {
     // proxy: 'http://localhost:4000' // 配置跨域处理,只有一个代理
     proxy: {
         //接口地址转发 
-        '/API': {
-            target: 'http://www.opvcruise.com/',
+        '/v1': {
+            target: 'http://39.99.179.76/',
             ws: true,
             changeOrigin: true,
             pathRewrite: {
-              '^/API': '/API'
+              "^/v1": "/v1"
             }
         }
     }

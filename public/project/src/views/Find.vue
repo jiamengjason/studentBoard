@@ -209,6 +209,11 @@ export default {
     line-height: 36px;
     margin: 0 20px;
     float: left;
+    cursor: pointer;
+  }
+  .hover{
+    color: chocolate;
+    border-bottom: 1px solid chocolate;
   }
 }
 .find-tab{
