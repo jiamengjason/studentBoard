@@ -66,7 +66,8 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="地址">
-                <el-input v-model="form.name"></el-input>
+                <!-- <el-input v-model="form.name"></el-input> -->
+                <treeselect v-model="value" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择地址"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -112,6 +113,10 @@
 
 </template>
 <script>
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import citys from '../assets/data/citys.js'
+
   export default {
     name: 'userinfo',
     mounted(){
@@ -121,8 +126,13 @@
         form: {
           name: 'XXXXXXX',
           textarea: ''
-        }
+        },
+        value:null,
+        cityData: citys.citys
       }
+    },
+    components: {
+      Treeselect
     },
     methods: {
       onSubmit() {

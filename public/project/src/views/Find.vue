@@ -4,11 +4,14 @@
     <Header></Header>
     <div class="find container containerBgColor">
 
-      <el-tabs class="find-tab" stretch="true" v-model="activeName" @tab-click="handleClick">
+      <el-tabs class="find-tab" :stretch="true" v-model="activeName" @tab-click="handleClick">
         <div class="find-paixu">
           <span class="mlr">智能排序</span>
           <span class="mlr">评分</span>
-          <el-dropdown :hide-on-click="false" class="mlr">
+          <div class="mlr" style="width:200px;display:inline-block;">
+            <treeselect v-model="value" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择地址"/>
+          </div>
+          <!-- <el-dropdown :hide-on-click="false" class="mlr">
             <span class="el-dropdown-link">
               位置<i class="el-icon-caret-bottom el-icon--right"></i>
             </span>
@@ -18,7 +21,7 @@
               <el-dropdown-item>位置3</el-dropdown-item>
               <el-dropdown-item>位置4</el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown>
+          </el-dropdown> -->
           <!-- 服务项目 -->
           <el-dropdown :hide-on-click="false" class="mlr">
             <span class="el-dropdown-link">
@@ -125,7 +128,7 @@
           <!-- 教师 -->
           <div class="find-list">
             <el-row :gutter="20">
-              <el-col span="25" v-for="(o, index) in 16" :key="index">
+              <el-col :span="25" v-for="(o, index) in 16" :key="index">
                 <el-card :body-style="{ padding: '0px' }">
                   <el-image
                       style="width: 214px; height: 214px;"
@@ -157,18 +160,28 @@
 <script>
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import citys from '../assets/data/citys.js'
+
 export default {
   name: 'find',
   data() {
     return {
-      activeName: 'first'
+      activeName: 'first',
+      value:null,
+      cityData: citys.citys
     }
+  },
+  created () {
+    console.log('this.cityData', this.cityData.citys)   // 得到daily里面的数据
   },
   mounted(){
   },
   components: {
     Header,
-    Footer
+    Footer,
+    Treeselect
   },
   methods: {
     handleClick(tab, event) {

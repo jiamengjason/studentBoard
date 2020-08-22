@@ -96,7 +96,7 @@ export default {
       direction:'rtl',
       direction1:'ltr',
       searchText: '',
-      activeIndex: 1
+      activeIndex: '1'
     }
   },
   methods: {

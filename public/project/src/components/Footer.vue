@@ -4,10 +4,10 @@
       <el-menu :default-active="activeIndex" class="footerMenu" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><router-link to="comingSoon">关于我们</router-link></el-menu-item>
         <el-menu-item index="2"><router-link to="comingSoon">商务合作</router-link></el-menu-item>
-        <el-menu-item index="3"><router-link to="comingSoon">广告服务</router-link></el-menu-item>
+        <!-- <el-menu-item index="3"><router-link to="comingSoon">广告服务</router-link></el-menu-item> -->
         <el-menu-item index="4"><router-link to="comingSoon">客服中心</router-link></el-menu-item>
         <el-menu-item index="5"><router-link to="comingSoon">在线留言</router-link></el-menu-item>
-        <el-menu-item index="6"><router-link to="comingSoon">合作伙伴</router-link></el-menu-item>
+        <!-- <el-menu-item index="6"><router-link to="comingSoon">合作伙伴</router-link></el-menu-item> -->
         <el-menu-item index="7"><router-link to="comingSoon">联系我们</router-link></el-menu-item>
       </el-menu>
       <p style="margin-top:10px">

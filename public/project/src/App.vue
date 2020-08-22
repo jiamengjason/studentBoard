@@ -7,14 +7,15 @@
 </template>
 
 <script>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+// import Header from './components/Header.vue'
+// import Footer from './components/Footer.vue'
+// import citys from ''
 
 export default {
   name: 'app',
   components: {
-    Header,
-    Footer
+    // Header,
+    // Footer
   }
 }
 </script>
