@@ -9,18 +9,12 @@
           <div class="find-paixu">
             <span class="mlr">智能排序</span>
             <span class="mlr">评分</span>
-            <el-dropdown :hide-on-click="false" class="mlr">
-              <span class="el-dropdown-link">
-                位置<i class="el-icon-caret-bottom el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>位置1</el-dropdown-item>
-                <el-dropdown-item>位置2</el-dropdown-item>
-                <el-dropdown-item>位置3</el-dropdown-item>
-                <el-dropdown-item>位置4</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+            <!-- 位置 -->
+            <div class="mlr" style="width:200px;display:inline-block;">
+              <treeselect v-model="value" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择位置"/>
+            </div>
           </div>
+          <div style="clear:both"></div>
           <div class="findTag">
             <el-tag type="success">辩论赛<span class="el-icon-plus"></span></el-tag>
             <el-tag type="info">商赛<span class="el-icon-plus"></span></el-tag>

@@ -67,8 +67,8 @@
           <el-col :span="2" class="tr">
             <!-- 头像 -->
             <div v-if="!GLOBAL.userid" class="nologin" >
-              <router-link to="login">注册</router-link>|
-              <router-link to="register">登录</router-link>
+              <router-link to="identity">注册</router-link>|
+              <router-link to="login">登录</router-link>
             </div>
 
             <div v-if="GLOBAL.userid" @click="drawer = true" style="height:100px">

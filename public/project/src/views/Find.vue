@@ -8,20 +8,6 @@
         <div class="find-paixu">
           <span class="mlr">智能排序</span>
           <span class="mlr">评分</span>
-          <div class="mlr" style="width:200px;display:inline-block;">
-            <treeselect v-model="value" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择地址"/>
-          </div>
-          <!-- <el-dropdown :hide-on-click="false" class="mlr">
-            <span class="el-dropdown-link">
-              位置<i class="el-icon-caret-bottom el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>位置1</el-dropdown-item>
-              <el-dropdown-item>位置2</el-dropdown-item>
-              <el-dropdown-item>位置3</el-dropdown-item>
-              <el-dropdown-item>位置4</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown> -->
           <!-- 服务项目 -->
           <el-dropdown :hide-on-click="false" class="mlr">
             <span class="el-dropdown-link">
@@ -34,7 +20,13 @@
               <el-dropdown-item>服务项目4</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          <!-- 位置 -->
+          <div class="mlr" style="width:200px;display:inline-block;">
+            <treeselect v-model="value" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择位置"/>
+          </div>
+          
         </div>
+        <div style="clear:both"></div>
         <div class="findTag">
           <el-tag type="success">多好评<span class="el-icon-plus"></span></el-tag>
           <el-tag type="info">优惠<span class="el-icon-plus"></span></el-tag>
@@ -209,8 +201,14 @@ export default {
   text-align: center;
   color: #606266;
   font-size: 14px;
+  width: 520px;
+  margin: 0 auto;
   .mlr{
-    margin: 10px 20px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    margin: 0 20px;
+    float: left;
   }
 }
 .find-tab{
