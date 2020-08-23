@@ -30,15 +30,18 @@
               <el-card :body-style="{ padding: '0px'}">
                   <div class="activity-item" @mouseover="changeTransitionFlag(index,false)" @mouseleave="changeTransitionFlag(index,true)">
                     <div class="activity-item-desc"  v-show="o.show1" key="box1">
-                      <router-link to="activityinfo" active-class="activeClass">
+                      <router-link :to="{name:'activityinfo',query: { 'active_id': o.active_id }}" active-class="activeClass">
                         <p class="tit-name">{{o.title}}</p>
                         <p class="tit-juban">举办方：{{o.organization_name}}</p>
-                        <p class="tit-time">时间：{{o.start_time}}</p>
-                        <p class="tit-time"><span style="width:3em; display: inline-block;"></span>{{o.end_time}}</p>
+                        <p class="tit-time">开始时间：{{o.start_time}}</p>
+                        <p class="tit-time">结束时间：{{o.end_time}}</p>
                         <p class="tit-addres">地点：{{o.addr}}</p>
                         <p class="desc-teacher">简介：{{o.desc}}</p>
                         <div class="status">
-                          <el-button type="danger" plain>进行中</el-button>
+                          <!-- <span>进行中</span> -->
+                          <el-button v-if="o.status == 1" class="danger">进行中</el-button>
+                          <el-button v-if="o.status == 2" class="success">未开始</el-button>
+                          <el-button v-if="o.status == 3" class="info">已结束</el-button>
                         </div>
                       </router-link>
                     </div>
@@ -55,7 +58,7 @@
                                 </div>
                             </el-image>
                             <div class="tag">
-                              <el-tag type="success">辩论赛</span></el-tag>
+                              <el-tag type="success">辩论赛</el-tag>
                               <el-tag type="info">商赛</el-tag>
                             </div>
                           </div>
@@ -240,6 +243,8 @@ export default {
         position: absolute;
         bottom: 10px;
         right: 20px;
+        width: 100%;
+        text-align: right;
       }
     }
     .el-card{

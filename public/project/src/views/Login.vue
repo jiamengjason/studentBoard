@@ -16,22 +16,23 @@
           </div>
           <el-input
             class="userinput"
-            placeholder="账号"
+            placeholder="请输入手机号码/邮箱"
             prefix-icon="el-icon-user-solid"
-            v-model="name">
+            v-model="loginInput">
           </el-input>
           <el-input
+            type="password"
             class="userpwd"
-            placeholder="密码"
+            placeholder="请输入密码"
             prefix-icon="el-icon-lock"
-            v-model="pwd">
+            v-model="loginPwd">
           </el-input>
           <p class="wjmm">
             <el-radio v-model="radio" label="1">记住密码</el-radio>
             <span style="float:right; color:#666666;">忘记密码</span>
           </p>
           <p class="loginbtn">
-            <el-button type="primary" round>
+            <el-button type="primary" round @click="toLoginFn">
               登录
             </el-button>
           </p>
@@ -50,12 +51,13 @@
 <script>
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import {apiLoginDoPost} from '../api'
 export default {
   name: 'login',
   data() {
     return {
-      name: '',
-      pwd: '',
+      loginInput: '',
+      loginPwd: '',
       radio:''
     }
   },
@@ -66,6 +68,28 @@ export default {
     Footer
   },
   methods: {
+    toLoginFn() {
+      if (this.loginInput && this.loginPwd) {
+        let params = {
+          mobile: this.loginInput,
+          password: this.loginPwd
+        };
+        apiLoginDoPost(params).then(res => {
+         if(res.data.code == 200){
+            this.$message.success("登录成功");
+            this.$cookies.set('token', res.data.data.token) 
+            this.$cookies.set('userId', res.data.data.user_id) 
+            this.$cookies.set('roleId', res.data.data.role_id) 
+            this.$router.push({name: 'index'})
+            this.$router.go(0)
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        });
+      }else{
+        this.$message.error('请输入手机号/邮箱或者密码');
+      }
+    }
   }
 }
 </script>

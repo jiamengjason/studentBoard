@@ -18,10 +18,17 @@ Vue.use(VueCookies)
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
-let userid = Vue.$cookies.get('userid')
-// userid="111"
+let userId = Vue.$cookies.get('userId')
+let token = Vue.$cookies.get('token')
 Vue.prototype.GLOBAL = {
-  'userid': userid
+  'userId': userId,
+  'token': token
+}
+
+Vue.prototype.clearCookies = function(){
+  Vue.$cookies.remove('userId')
+  Vue.$cookies.remove('userId')
+  Vue.$cookies.remove('roleId')
 }
 
 new Vue({

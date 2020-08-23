@@ -12,28 +12,31 @@
             </router-link>
             <el-image
               style="width: 100%; height: 300px;"
-              src="sdsd"
+              :src="activityInfo.title_img"
               fit="cover">
               <div slot="placeholder" class="image-slot">
               加载中<span class="dot">...</span>
               </div>
             </el-image>
             <div class="tag">
-              <el-tag type="success">辩论赛</span></el-tag>
+              <el-tag type="success">辩论赛</el-tag>
               <el-tag type="info">商赛</el-tag>
             </div>
           </div>
         </el-col>
         <el-col :span="9">
           <div class="activityInfo-con">
-            <p class="tit-name">XXXX活动/比赛</p>
-            <p class="tit-juban">举办方：XXX</p>
-            <p class="tit-time">时间：2020年07月31号</p>
-            <p class="tit-addres">地点：XXX</p>
+            <p class="tit-name">{{activityInfo.title}}</p>
+            <p class="tit-juban">举办方：{{activityInfo.organization_name}}</p>
+            <p class="tit-time">开始时间：{{activityInfo.start_time}}</p>
+            <p class="tit-time">结束时间：{{activityInfo.end_time}}</p>
+            <p class="tit-addres">地点：{{activityInfo.addr}}</p>
             <p class="tit-people">报名人数：XXX 人</p>
-            <p class="desc-teacher">简介：简单文案文案文案简单文案文案文案XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX s</p>
+            <p class="desc-teacher">简介：{{activityInfo.desc}}</p>
             <div class="status">
-              <el-button type="danger" plain>进行中</el-button>
+              <el-button v-if="activityInfo.status == 1" class="danger">进行中</el-button>
+              <el-button v-if="activityInfo.status == 2" class="success">未开始</el-button>
+              <el-button v-if="activityInfo.status == 3" class="info">已结束</el-button>
             </div>
           </div>
         </el-col>
@@ -43,7 +46,11 @@
           </div>
           <div class="btns">
             <el-button round>官网</el-button>
-            <el-button round>报名</el-button>
+            <div v-if="activityInfo.status != 3">
+              <el-button round v-if="!activityInfo.is_attend">报名</el-button>
+              <el-button round v-if="activityInfo.is_attend">已报名</el-button>
+              <el-button round v-if="activityInfo.is_attend">取消</el-button>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -57,28 +64,18 @@
 <script>
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { apiGetActiveInfo } from "../api";
 export default {
   name: 'find',
   data() {
-    const generateData = _ => {
-        const list = [];
-        for (let i = 1; i <= 15; i++) {
-            var item = {
-                type:'1',
-                key: i,
-                show: true,
-                desc: `简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介 ${ i }`,
-            }
-            list.push(item);
-        }
-        return list;
-    };
     return {
       activeName: 'first',
-      list: generateData()
+      activityInfo: {}
     }
   },
   mounted(){
+    // 获取活动详情
+    this.getActiveInfo()
   },
   components: {
     Header,
@@ -90,6 +87,19 @@ export default {
     },
     format(percentage) {
       return percentage === 100 ? '${percentage}分' : `${percentage}分`;
+    },
+    getActiveInfo(){
+      apiGetActiveInfo({
+        active_id: this.$route.query.active_id,
+        userId: this.GLOBAL.userId,
+        token: localStorage.getItem('board_token')
+      }).then( res => {
+        if(res.data.code==200){
+          this.activityInfo = res.data.data
+        }else{
+          this.activityInfo = {}
+        }
+      })
     }
   }
 }

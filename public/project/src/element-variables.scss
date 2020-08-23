@@ -196,3 +196,36 @@ li{
         padding: 30px;
     }
 }
+
+// el-checkbox-group
+.el-checkbox-group{
+    line-height: 32px;
+    .el-checkbox-button{
+      .el-checkbox-button__inner{
+        margin: 5px 20px 10px 0;
+        height:32px;
+        line-height: 32px;
+        padding: 0 20px;
+        border: none;
+        background:rgba(204,204,204,1);
+        border-radius:5px;
+        color: #ffffff;
+        &:hover{
+          color: rgba(171,191,203,1);
+        }
+      }
+    }
+    .is-checked{
+      .el-checkbox-button__inner{
+        background: rgba(171,191,203,1);
+        box-shadow: none;
+        &:hover{
+          color: #ffffff;
+        }
+      }
+    }
+    
+  }
+  .el-form-item__content{
+      line-height: 38px;
+  }

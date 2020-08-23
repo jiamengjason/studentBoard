@@ -37,11 +37,11 @@
                 <!-- <p class="appnav"><router-link to="comingSoon">关注</router-link></p> -->
                 <!-- <p class="appnav"><router-link to="comingSoon">历史</router-link></p> -->
                 <p class="appnav"><router-link to="comingSoon">评论</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">登出</router-link></p>
+                <p class="appnav" @click="logout()">登出</p>
 
                 <p class="appnav mt-30"><router-link to="comingSoon">设置</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">关于</router-link></p>
-                <p class="appnav"><router-link to="comingSoon">反馈</router-link></p>
+                <!-- <p class="appnav"><router-link to="comingSoon">关于</router-link></p> -->
+                <!-- <p class="appnav"><router-link to="comingSoon">反馈</router-link></p> -->
                 </el-drawer>
             </div>
 
@@ -66,12 +66,12 @@
           </el-col>
           <el-col :span="2" class="tr">
             <!-- 头像 -->
-            <div v-if="!GLOBAL.userid" class="nologin" >
+            <div v-if="!GLOBAL.userId" class="nologin" >
               <router-link to="identity">注册</router-link>|
               <router-link to="login">登录</router-link>
             </div>
 
-            <div v-if="GLOBAL.userid" @click="drawer = true" style="height:100px">
+            <div v-if="GLOBAL.userId" @click="drawer = true" style="height:100px">
               <el-avatar class="mt-30" :size="30" icon="el-icon-user-solid">
               </el-avatar>
             </div>
@@ -82,6 +82,7 @@
      
 </template>
 <script>
+import {apiLoginOutPost} from '../api'
 export default {
   name: 'home',
   mounted(){
@@ -113,6 +114,21 @@ export default {
     },
     handleSelect(v){
       this.activeIndex = v
+    },
+    logout(){
+      this.clearCookies();
+      apiLoginOutPost({
+        userId: this.GLOBAL.userId,
+        token: this.GLOBAL.token
+      }).then(res=>{          
+          if(res.data.code === 200){
+          this.$router.go(0)
+          this.$router.push({name: 'index'})
+        }else{
+          this.$router.go(0)
+          this.$router.push({name: 'index'})
+        }
+      })
     }
   }
 }

@@ -8,12 +8,23 @@
                 <el-row>
                     <el-col :span="4">
                         <div class="top-head-img">
-                            <el-avatar :size="120" icon="el-icon-user-solid"></el-avatar>
+                            <el-avatar :size="120" icon="el-icon-user-solid" :src="ruleForm.headImg">
+                            </el-avatar>
+                            <el-upload
+                              action="''"
+                              class="content-first-btn"
+                              accept="image/jpeg,image/png,image/jpg"
+                              :show-file-list="false"
+                              :http-request="uploadHeadImg"
+                              :on-change="imageChange"
+                            >
+                              <span class="content-first-btn">{{ headUploadText }}</span>
+                            </el-upload>
                         </div>
                     </el-col>
                     <el-col :span="20">
-                        <p class="top-name">用户名XXXXX</p>
-                        <p class="top-mobile">XXXXX@XXXXX</p>
+                        <p class="top-name">{{ ruleForm.userName }}</p>
+                        <p class="top-mobile">{{ ruleForm.email }}</p>
                         <el-button type="warning" icon="el-icon-plus" circle class="addWord" title="发布文章"></el-button>
                     </el-col>
                 </el-row>
@@ -23,11 +34,17 @@
         <div class="usercenter-tagcon">
             <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="个人中心" name="first">
-                    <UserInfo></UserInfo>
+                    <UserInfoOrg :userInfo="ruleForm" v-if="ruleForm.roleId==1"></UserInfoOrg>
+                    <UserInfoTeacher :userInfo="ruleForm" v-if="ruleForm.roleId==2"></UserInfoTeacher>
+                    <UserInfoParent :userInfo="ruleForm" v-if="ruleForm.roleId==3"></UserInfoParent>
+                    <UserInfoStudent :userInfo="ruleForm" v-if="ruleForm.roleId==4"></UserInfoStudent>
                 </el-tab-pane>
-                <el-tab-pane label="参加活动" name="second">参加活动</el-tab-pane>
-                <el-tab-pane label="我的评价" name="third">我的评价</el-tab-pane>
-                <el-tab-pane label="我的文章" name="four">我的文章</el-tab-pane>
+                <el-tab-pane label="参加活动" name="second" v-if="ruleForm.roleId!=1">参加活动</el-tab-pane>
+                <el-tab-pane label="我的评价" name="third" v-if="ruleForm.roleId!=1">我的评价</el-tab-pane>
+                <el-tab-pane label="我的文章" name="four" v-if="ruleForm.roleId==1">我的文章</el-tab-pane>
+                <el-tab-pane label="发布活动" name="five" v-if="ruleForm.roleId==1">
+                  <activityAdd/>
+                </el-tab-pane>
             </el-tabs>
         </div>
         
@@ -40,11 +57,34 @@
 <script>
   import Header from '../components/Header.vue'
   import Footer from '../components/Footer.vue'
-  import UserInfo from '../components/user_info.vue'
+  import UserInfoOrg from '../components/user_info_O.vue'
+  import UserInfoTeacher from '../components/user_info_T.vue'
+  import UserInfoParent from '../components/user_info_P.vue'
+  import UserInfoStudent from '../components/user_info_S.vue'
+  import activityAdd from '../components/activityAdd.vue'
+
+  import { 
+    apiGetSiteConfig,
+    apiGetUserInfo,
+    apiResetUserUpdate,
+    apiPostUploadFile 
+  } from "../api";
+const uploadParam = new FormData() // 创建form对象
+
   export default {
     name: 'usercenter',
     data() {
       return {
+        ruleForm: {
+          headImg:"",
+          organizationName: "" ,
+          organizationEmail: "" ,
+          organizationPhone: "",
+          organizationDesc: "" ,
+          mobile: "",
+          organizationWww: "",
+          identityImg: "",      
+        },
         activeName: 'first',
         name: '',
         pwd: '',
@@ -52,14 +92,94 @@
         userInfo: {}
       }
     },
+    computed: {
+      headUploadText(){
+        if(this.ruleForm.headImg){
+          return '修改头像'
+        }
+        return '选取文件'
+      }
+    },
     mounted(){
     },
     components: {
       Header,
       Footer,
-      UserInfo
+      UserInfoOrg,
+      UserInfoTeacher,
+      UserInfoStudent,
+      UserInfoParent,
+      activityAdd
+    },
+    created() {
+      this.getSiteConfig();
+      this.getUserInfo();
     },
     methods: {
+      // 获取网站配置
+      getSiteConfig(){
+        apiGetSiteConfig().then(res => {
+          if (res.data.code == 200) {
+            this.yewuList = res.data.data.organization_yewu;
+          }else{
+            this.$message.error(res.data.msg);
+            this.clearCookies();
+            this.$router.push({name: 'login'})
+            this.$router.go(0)
+          }
+        })
+      },
+      // 获取机构信息
+      getUserInfo(){
+        let params = {
+          userId: this.GLOBAL.userId,
+          token: this.GLOBAL.token
+        }
+        apiGetUserInfo(params).then(res=>{
+          if (res.data.code == 200) {      
+            this.ruleForm = res.data.data;
+            this.organizationYewu = res.data.data.organizationYewu;
+          }else{
+            this.$message.error(res.data.msg);
+            this.clearCookies();
+            this.$router.push({name: 'login'})
+            this.$router.go(0)
+          }
+        })
+      },
+      // 上传头像
+      uploadHeadImg(event){
+        this.uplaodFn(event)
+        if(this.checkImg){
+          apiPostUploadFile(uploadParam, this.uploadConfig).then(res => {
+            if (res.data.code == 200) {
+              this.ruleForm.headImg = res.data.data.file_path    
+            }else{
+              this.$message.error(res.data.msg);
+            }
+          })
+        }
+      },
+      // 上传共有的方法
+      uplaodFn(event){
+        const file = event.file
+        uploadParam.append('file', file) // 通过append向form对象添加数据
+        this.uploadConfig = {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }
+      },
+      imageChange(file) { 
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error("上传头像图片大小不能超过 2MB!");
+          this.checkImg = false
+        }else{
+          this.checkImg = true
+        } 
+      },
+      handleClick(){
+        
+      }
     }
   }
 </script>
