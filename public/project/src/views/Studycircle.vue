@@ -4,17 +4,17 @@
     <Header></Header>
     <div class="find container containerBgColor1">
 
-      <el-tabs class="find-tab" stretch="true" v-model="activeName" @tab-click="handleClick">
+      <el-tabs class="find-tab" :stretch="true" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="综合" name="first">
           <!-- 综合 -->
           <div class="find-list">
-            <el-card :class="{ 'box-card': true, 'qlbg1': o.type=='1', 'qlbg': o.type=='2' }" v-for="o in list" :key="o">
+            <el-card :class="{ 'box-card': true, 'qlbg1': o.type=='1', 'qlbg': o.type=='2' }" v-for="(o, index) in list" :key="index">
               <div class="find-list-item">
                 <el-row :gutter="20">
                   <el-col :span="3">
                     <el-image
                       style="width: 120px; height: 120px;"
-                      src="sdsd"
+                      src=""
                       fit="cover">
                       <div slot="placeholder" class="image-slot">
                         加载中<span class="dot">...</span>
@@ -41,7 +41,7 @@
                             </el-col>
                             <el-col :span="20">
                                 <div class="q-desc">
-                                    <el-input type="textarea" v-model="o.desc" readonly="true"></el-input>
+                                    <el-input type="textarea" v-model="o.desc" :readonly="true"></el-input>
                                 </div>
                             </el-col>
                             </el-row>
@@ -55,7 +55,7 @@
                             <span class="f12 pl20">纽约大学</span>
                         </p>
                         <div class="q-desc">
-                            <el-input type="textarea" v-model="o.desc" readonly="true"></el-input>
+                            <el-input type="textarea" v-model="o.desc" :readonly="true"></el-input>
                         </div>
                     </div>
                   </el-col>
@@ -80,7 +80,7 @@
         <el-tab-pane label="群聊" name="second">
           <!-- 群聊 -->
           <div class="find-list">
-            <el-card class="box-card qlbg" v-for="o in list" :key="o">
+            <el-card class="box-card qlbg" v-for="(o,index) in list" :key="index">
               <div class="find-list-item">
                 <el-row :gutter="20">
                   <el-col :span="3">
@@ -100,7 +100,7 @@
                             <span class="f12 pl20">纽约大学</span>
                         </p>
                         <div class="q-desc">
-                            <el-input type="textarea" v-model="o.desc" readonly="true"></el-input>
+                            <el-input type="textarea" v-model="o.desc" :readonly="true"></el-input>
                         </div>
                     </div>
                   </el-col>
@@ -125,7 +125,7 @@
         <el-tab-pane label="同学" name="third">
           <!-- 同学 -->
           <div class="find-list">
-            <el-card class="box-card" v-for="o in list" :key="o">
+            <el-card class="box-card" v-for="(o,index) in list" :key="index">
               <div class="find-list-item">
                 <el-row :gutter="20">
                   <el-col :span="3">
@@ -158,7 +158,7 @@
                             </el-col>
                             <el-col :span="20">
                                 <div class="q-desc">
-                                    <el-input type="textarea" v-model="o.desc" readonly="true"></el-input>
+                                    <el-input type="textarea" v-model="o.desc" :readonly="true"></el-input>
                                 </div>
                             </el-col>
                             </el-row>
