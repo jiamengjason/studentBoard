@@ -42,7 +42,7 @@ class UploadFileController extends FInterfaceBase
         //TODO: file_path上线后修改具体域名
         $fileInfo = [
             'doc_path'=>$file['savepath'],
-            'file_path'=>'http://118.190.25.177/'.$file['pathname'],
+            'file_path'=>'http://39.99.179.76/'.$file['pathname'],
             'file_ext' =>$file['extension'],
             'file_name'=>$file['savename'],
             'file_size'=>$file['size']
