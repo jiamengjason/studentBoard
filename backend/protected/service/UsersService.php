@@ -108,7 +108,11 @@ class UsersService
             $data['organizationPhone'] = $userInfo['organization_phone'];
             $data['organizationWww'] = $userInfo['organization_www'];
             $data['cityId'] = $userInfo['city_id'];
-            $data['organizationType'] = $userInfo['organization_type'];
+            $data['detailAddr'] = $userInfo['detail_addr'];
+            $data['isShowOnBoard'] = $userInfo['is_show_on_board'];
+            $data['isGroupChat'] = $userInfo['is_group_chat'];
+            $data['isShowQrCode'] = $userInfo['is_show_qrcode'];
+            $data['qrCodeImg'] = $userInfo['qrcode_img'];
         }
 
         return $data;
@@ -137,7 +141,12 @@ class UsersService
             'organizationWww'   => 'organization_www',
             'parentId'          => 'parent_id',
             'teacherCourse'     => 'teacher_course',
-            'cityId'            => 'city_id'
+            'cityId'            => 'city_id',
+            'detailAddr'        => 'detail_addr',
+            'isShowOnBoard'     => 'is_show_on_board',
+            'isGroupChat'     => 'is_group_chat',
+            'isShowQrCode'     => 'is_show_qrcode',
+            'qrCodeImg'     => 'qrcode_img',
         ];
 
         $data = [];
