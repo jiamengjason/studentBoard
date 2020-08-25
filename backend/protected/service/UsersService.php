@@ -107,6 +107,8 @@ class UsersService
             $data['teacherCourse'] = empty($userInfo['teacher_course']) ? [] : explode(',', $userInfo['teacher_course']);
             $data['organizationPhone'] = $userInfo['organization_phone'];
             $data['organizationWww'] = $userInfo['organization_www'];
+            $data['cityId'] = $userInfo['city_id'];
+            $data['organizationType'] = $userInfo['organization_type'];
         }
 
         return $data;
@@ -134,7 +136,8 @@ class UsersService
             'organizationPhone' => 'organization_phone',
             'organizationWww'   => 'organization_www',
             'parentId'          => 'parent_id',
-            'teacherCourse'     => 'teacher_course'
+            'teacherCourse'     => 'teacher_course',
+            'cityId'            => 'city_id'
         ];
 
         $data = [];
