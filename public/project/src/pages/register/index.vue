@@ -58,7 +58,6 @@ export default {
   },
   created() {
     this.activeName = this.$route.query.type
-    console.log(this.$route.query,'this.$route.query')
   },
   methods: {
     handleClick(tab) {
