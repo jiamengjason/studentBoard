@@ -162,6 +162,8 @@ class ActiveService
         $data['end_time'] = $activeInfo['end_time'];
         //活动是否开始：1进行中 2未开始 3已过期
         $data['status'] = $this->getActiveStatus($activeInfo['start_time'], $activeInfo['end_time']);
+        //报名人数
+        $data['attend_users'] = $this->countAttendUsersByActiveId($activeInfo['id']);
 
         return $data;
     }
@@ -185,5 +187,14 @@ class ActiveService
      */
     public function isUserAttendActive($userId, $activeId){
         return ActiveUser::model()->findByAttributes(['user_id'=>$userId, 'active_id'=>$activeId]);
+    }
+
+    /**
+     * 统计活动下有多少人报名
+     * @param $activeId
+     * @return string
+     */
+    public function countAttendUsersByActiveId($activeId){
+        return ActiveUser::model()->countByAttributes(['active_id'=>$activeId]);
     }
 }
