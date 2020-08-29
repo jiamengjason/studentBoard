@@ -18,7 +18,8 @@
             class="userinput"
             placeholder="请输入手机号码/邮箱"
             prefix-icon="el-icon-user-solid"
-            v-model="loginInput">
+            v-model="loginInput"
+            type="text">
           </el-input>
           <el-input
             type="password"

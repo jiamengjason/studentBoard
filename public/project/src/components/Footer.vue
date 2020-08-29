@@ -46,6 +46,7 @@ export default {
     background: none;
     display: inline-table;
     .el-menu-item{
+      // padding: 0 10px;
       &:hover,&:focus{
         background: none!important;
         a{
@@ -58,6 +59,15 @@ export default {
       display: inline-block;
       width: 100%;
       height: 100%;
+    }
+  }
+}
+
+
+@media screen and (max-width: 750px) {
+ .footerMenu{
+    .el-menu-item{
+      padding: 0 10px;
     }
   }
 }

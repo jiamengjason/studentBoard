@@ -7,7 +7,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@riophae/vue-treeselect": "^0.4.0",
     "autoprefixer": "^9.8.5",
+    "axios": "^0.20.0",
     "browserslist": "^4.13.0",
     "caniuse-lite": "^1.0.30001097",
     "element-ui": "^2.4.5",

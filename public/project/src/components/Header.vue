@@ -58,13 +58,13 @@
                 </el-drawer>
             </div>
           </el-col>
-          <el-col :span="8" :offset="2" class="tr">
+          <el-col :span="4" :offset="2" class="tr">
             <!-- 搜索 -->
             <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select" id="SearchBox">
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </el-col>
-          <el-col :span="2" class="tr">
+          <el-col :span="5" class="tr">
             <!-- 头像 -->
             <div v-if="!GLOBAL.userId" class="nologin" >
               <router-link to="identity">注册</router-link>|

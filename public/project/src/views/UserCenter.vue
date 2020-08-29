@@ -42,7 +42,10 @@
                 <el-tab-pane label="参加活动" name="second" v-if="ruleForm.roleId!=1">参加活动</el-tab-pane>
                 <el-tab-pane label="我的评价" name="third" v-if="ruleForm.roleId!=1">我的评价</el-tab-pane>
                 <el-tab-pane label="我的文章" name="four" v-if="ruleForm.roleId==1">我的文章</el-tab-pane>
-                <el-tab-pane label="发布活动" name="five" v-if="ruleForm.roleId==1">
+                <el-tab-pane label="活动列表" name="five" v-if="ruleForm.roleId==1">
+                  <activityList/>
+                </el-tab-pane>
+                <el-tab-pane label="发布活动" name="six" v-if="ruleForm.roleId==1">
                   <activityAdd/>
                 </el-tab-pane>
             </el-tabs>
@@ -62,6 +65,7 @@
   import UserInfoParent from '../components/user_info_P.vue'
   import UserInfoStudent from '../components/user_info_S.vue'
   import activityAdd from '../components/activityAdd.vue'
+  import activityList from '../components/activityList.vue'
 
   import { 
     apiGetSiteConfig,
@@ -109,7 +113,8 @@ const uploadParam = new FormData() // 创建form对象
       UserInfoTeacher,
       UserInfoStudent,
       UserInfoParent,
-      activityAdd
+      activityAdd,
+      activityList
     },
     created() {
       this.getSiteConfig();

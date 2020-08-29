@@ -5,19 +5,37 @@
         <span class="top-title-text">发布活动</span>
     </div>
     <el-card class="box-card">
-        <el-form ref="form" :model="ruleForm" label-width="100px">
+        <el-form ref="ruleForm" :model="ruleForm" label-width="100px">
           <el-row>
+
             <el-col :span="24">
-              <el-form-item label="活动名称" required>
+              <el-form-item label="活动图片" required>
+                <el-upload
+                  action="''"
+                  class="avatar-uploader"
+                  accept="image/jpeg,image/png,image/jpg"
+                  :show-file-list="false"
+                  :http-request="uploadTitleImg"
+                  :on-change="imageChange"
+                >
+                  <img v-if="ruleForm.headImg" :src="ruleForm.headImg" class="avatar" />
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="24">
+              <el-form-item label="活动名称" prop="title" required>
                 <el-input v-model="ruleForm.title"></el-input>
               </el-form-item>
             </el-col>
-          
+
             <el-col :span="12">
               <el-form-item label="地址：" prop="addr" required>
-                  <treeselect v-model="ruleForm.addres" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择地址"/>
+                  <treeselect v-model="ruleForm.cityId" :disable-branch-nodes="true" :show-count="true" :options="cityData" placeholder="请选择地址"/>
               </el-form-item>
             </el-col>
+
             <el-col :span="12">
               <el-form-item label="详细地址" prop="addrinfo" required>
                 <el-input v-model="ruleForm.addrinfo"></el-input>
@@ -77,7 +95,8 @@ import citys from '../assets/data/citys.js'
 import { 
   apiGetOrganizationList,
   apiGetSiteConfig,
-  apiOrgPublish
+  apiOrgPublish,
+  apiPostUploadFile
 } from "../api";
 
   export default {
@@ -89,7 +108,7 @@ import {
     data() {
       return {
         ruleForm:{
-            titleImg: './update/xxx/xxxx/xxx/jpg',
+            headImg: '',
             title: '',
             startTime: '',
             endTime: '',
@@ -111,20 +130,63 @@ import {
         cityData: citys.citys
       }
     },
+    computed: {
+      uploadText(){
+        if(this.ruleForm.headImg){
+          return '重新上传'
+        }
+        return '选取文件'
+      }
+    },
     components: {
       Treeselect
     },
     methods: {
+      imageChange(file) { 
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error("上传活动图片大小不能超过 2MB!");
+          this.checkImg = false
+        } 
+      },
+      // 上传活动图片
+      uploadTitleImg(event) {
+        const file = event.file
+        const param = new FormData() // 创建form对象
+        param.append('file', file) // 通过append向form对象添加数据
+        const config = {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }
+        if(this.checkImg){
+          apiPostUploadFile(param, config).then(res => {
+            if (res.data.code == 200) {
+              this.ruleForm.headImg = res.data.data.file_path    
+            }else{
+              this.$message.error(res.data.msg);
+            }
+          })
+        }
+      },
       onSubmit(){
-            this.$refs['ruleForm'].validate((valid) => {
-                apiOrgPublish(params).then(res=>{
-                    if (res.data.code == 200) {
-                        this.$message.success('发布成功');
-                    }else{
-                        this.$message.error(res.data.msg);
-                    }
-                })
+        let params = {
+          userId: this.GLOBAL.userId,
+          token: this.GLOBAL.token,
+          headImg: this.ruleForm.headImg,
+          startTime: this.ruleForm.startTime,
+          endTime: this.ruleForm.endTime,
+          desc: this.ruleForm.desc,
+          cityId: this.ruleForm.cityId,
+          addr: this.ruleForm.addr
+        }
+        this.$refs['ruleForm'].validate((valid) => {
+            apiOrgPublish(params).then(res=>{
+                if (res.data.code == 200) {
+                    this.$message.success('发布成功');
+                }else{
+                    this.$message.error(res.data.msg);
+                }
             })
+        })
         
       }
     }

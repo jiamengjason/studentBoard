@@ -78,7 +78,7 @@ export default {
 <style lang="scss" scoped>
   /*幻灯片*/
   .home-silider{
-    padding: 10px 10px;
+    padding: 20px 10px 10px 10px;
     .el-carousel__item {
       border-radius: 10px;
       h3{
