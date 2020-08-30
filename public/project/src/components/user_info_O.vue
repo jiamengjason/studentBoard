@@ -31,8 +31,8 @@
           
             <el-col :span="12">
               <el-form-item label="类型" required>
-                <el-radio v-model="userInfo.organization_type" label="0">中介</el-radio>
-                <el-radio v-model="userInfo.organization_type" label="1">培训</el-radio>
+                <el-radio v-model="userInfo.organizationType" label="0">中介</el-radio>
+                <el-radio v-model="userInfo.organizationType" label="1">培训</el-radio>
               </el-form-item>
             </el-col>
           </el-row>
@@ -185,6 +185,7 @@ import {
           headImg: this.userInfo.headImg,
           organizationName: this.userInfo.organizationName,
           organizationEmail: this.userInfo.organizationEmail,
+          organizationType:this.userInfo.organizationType,
           organizationDesc: this.userInfo.organizationDesc,
           organizationYewu: this.organizationYewu,
           mobile: this.userInfo.mobile,
