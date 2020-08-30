@@ -4,8 +4,8 @@ src/.DS_Store
 ../../.DS_Store
 ../.DS_Store
 node_modules
-dist.zip
-dist/
+# dist.zip
+# dist/
 
 # local env files
 .env.local
